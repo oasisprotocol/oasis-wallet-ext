@@ -1,0 +1,95 @@
+@import "../../common.scss";
+.input-indicator {
+  height: 1px;
+}
+.input-indicator-common {
+  background-color: rgba(203, 203, 203, 1);
+}
+.input-wrapper {
+  width: 100%;
+}
+.input-wrapper-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px 0 6px;
+  position: relative;
+}
+.pwd-show-status {
+  position: absolute;
+  right: 0px;
+  width: 18px;
+  margin: 0 16px;
+}
+
+.pwd-lable {
+  font-size: $font-size-content;
+
+  font-weight: 400;
+  color: #7080b5;
+  line-height: 18px;
+}
+.create-input {
+  flex: 1;
+  height: 42px;
+  border: 1px solid #bfc7df;
+  font-size: $font-size-content;
+  color: #3a3a3a;
+
+  border-radius: 6px;
+  font-weight: 400;
+  color: #2c3451;
+  line-height: 21px;
+  outline: none;
+  padding: 0px 40px 0px 10px;
+
+  &:focus{
+    border: 1px solid #226DFF;
+  }
+
+}
+.create-input::-webkit-input-placeholder {
+  color: rgba(191, 199, 223, 1);
+}
+.error-tip {
+  margin: 0;
+  margin-left: 4px;
+  padding: 2px;
+
+  font-size: $font-size-desc;
+
+  font-weight: 400;
+  line-height: 17px;
+}
+.error-tip-error {
+  color: #ff297f;
+}
+.error-tip-text {
+  color: #30db3c;
+}
+.error-tip-img {
+  width: 10px;
+}
+
+.error-tip-container-show {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  -webkit-transition: height 0.6s;
+  -moz-transition: height 0.6s;
+  -o-transition: height 0.6s;
+  transition: height 0.6s;
+}
+
+.error-tip-container-hide {
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  -webkit-transition: 0 0.6s;
+  -moz-transition: 0 0.6s;
+  -o-transition: 0 0.6s;
+  transition: 0 0.6s;
+}
+.error-tip-container-none {
+  display: none;
+}

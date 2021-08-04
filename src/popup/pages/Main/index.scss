@@ -1,0 +1,258 @@
+@import "../../common.scss";
+
+$top-bar-height: 50px;
+
+.wallet-page-container {
+  height: $app-height;
+  overflow: scroll;
+  padding-bottom: 50px;
+  background: rgba(243, 246, 255, 1);
+}
+.wallet-home-wallet {
+  position: absolute;
+  right: 10px;
+}
+p {
+  margin: 0;
+}
+.account-address-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 2px;
+}
+.account-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size:$font-size-title-small;
+  font-weight: bold;
+  color: #243f5f;
+  line-height: 24px;
+  margin-top: 12px;
+}
+
+.account-address {
+  font-size: $font-size-content;
+
+  font-weight: 400;
+  color: #7080b5;
+  line-height: 20px;
+  margin-top: 2px;
+  margin-bottom: 12px;
+}
+.account-manager {
+  width: 39px;
+  height: 39px;
+  background-size: contain;
+  border-radius: 8px;
+  background-image:url("../../../assets/images/accountEnter_normal.svg");
+  &:hover{
+    background-image:url("../../../assets/images/accountEnter_hover.svg");
+  }
+}
+.dapp-disconnect-button-icon{
+  width: 39px;
+  height: 39px;
+  border-radius: 8px;
+  content:url("../../../assets/images/dapp_disconnect_normal.svg");
+  &:hover{
+    content:url("../../../assets/images/dapp_disconnect_hover.svg");
+  }
+}
+.dapp-connect-button-icon{
+  width: 39px;
+  height: 39px;
+  border-radius: 8px;
+  content:url("../../../assets/images/dapp_connect_normal.svg");
+  &:hover{
+    content:url("../../../assets/images/dapp_connect_hover.svg");
+  }
+}
+.wallet-balance-container {
+  margin-top: 15px;
+}
+.account-container {
+  position: relative;
+}
+
+.home-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.tx-item-container {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+
+  height: 69px;
+  background: #ffffff;
+  border-radius: 10px;
+}
+.tx-item-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tx-item-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.tx-item-type {
+  width: 14px;
+}
+.tx-item-address {
+  font-size:$font-size-content;
+
+  font-weight: 400;
+  color: #2c3451;
+  line-height: 21px;
+}
+.tx-item-time {
+  font-size: $font-size-desc;
+
+  font-weight: 400;
+  color: #7080b5;
+  line-height: 16px;
+  margin-left: 4px;
+}
+.tx-item-amount {
+  font-size: $font-size-content;
+
+  font-weight: 500;
+  color: #2c3451;
+  line-height: 21px;
+}
+.tx-item-status {
+  font-size: $font-size-desc;
+
+  font-weight: 400;
+  color: #ff9200;
+  line-height: 17px;
+}
+.tx-item-arrow {
+  width: 5.3px;
+  height: 10.7px;
+}
+.tx-title {
+  font-size: $font-size-content;
+  font-weight: 500;
+  color: #2c3451;
+  line-height: 17px;
+}
+@keyframes  refreshAni {
+  0%{
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.refresh-icon-con{
+    float: right;
+    cursor: pointer;
+    &.loading {
+      animation: refreshAni .8s infinite linear;
+      transform-origin: 10px 10px;
+    }
+    img {
+      fill: #00af88;
+      width: 20px;
+    }
+  }
+.tx-title-desc {
+  font-size: $font-size-desc;
+
+  font-weight: 400;
+  color: #7080b5;
+  line-height: 17px;
+}
+.tx-container {
+  padding: 0px 12px;
+  margin-top: 20px;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+.tx-top-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 12px;
+  margin-bottom: 7px;
+}
+.tx-bottom-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.tx-detail-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+.wallet-top-container {
+  height: $top-bar-height;
+  background: #ffffff;
+  border-radius: 0px 0px 10px 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+.home-wallet-top-container{
+  height: $top-bar-height;
+}
+.wallet-net-select-container {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-divided {
+  height: 1px;
+  background: #eff2fd;
+  border-radius: 10px;
+}
+.wallt-info-title {
+  font-size: $font-size-content;
+
+  font-weight: 400;
+  color: #2c3451;
+  line-height: 20px;
+}
+.wallt-info-content {
+  font-size: $font-size-content;
+  font-weight: 500;
+  color: #2c3451;
+  line-height: 14px;
+}
+
+.tx-row-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.tx-bottom-time-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

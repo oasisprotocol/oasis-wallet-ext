@@ -1,0 +1,73 @@
+@import "../../common.scss";
+.receive-container {
+    text-align: center;
+    margin-top: 25px;
+}
+.qr-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.receive-address-container {
+    text-align: center;
+    background: #e8f0ff;
+    border-radius: 3px;
+    margin: 0px 55px;
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.receive-address-detail {
+    margin: 0;
+
+    font-size: $font-size-content;
+
+    font-weight: 400;
+    color: #226dff;
+    line-height: 21px;
+    margin-left: 16px;
+    word-wrap: break-word;
+    text-align: left;
+}
+.receive-copy-address {
+    width: 13px;
+    margin-left: 10px;
+    margin-right: 16px;
+}
+.receive-bottom-container {
+    margin-top: 32px;
+}
+.receive-home-logo {
+    width: 59px;
+}
+
+.receive-background {
+    background: url("../../../assets/images/recevie_bg.png");
+    background-size: 100% 100%;
+}
+.receive-qr-tip {
+    font-size: $font-size-content;
+
+    font-weight: 400;
+    color: #7080b5;
+    line-height: 17px;
+}
+
+.receive-address-tip {
+    font-size: $font-size-content;
+
+    font-weight: 400;
+    color: #bfc7df;
+    line-height: 17px;
+}
+.qr-tip-margin {
+    text-align: center;
+    margin: 24px 0px 10px;
+}
+.address-tip-margin {
+    text-align: center;
+    margin: 10px 0px 10.5px;
+}

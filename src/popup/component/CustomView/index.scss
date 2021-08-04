@@ -1,0 +1,61 @@
+@import "../../common.scss";
+
+.custom-container {
+  height: $app-height;
+  margin-top: 0px;
+  position: relative;
+}
+
+.top-bar-container {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  position: relative;
+}
+.back-img {
+  width: 16px;
+}
+.back-img-hide {
+  visibility: hidden;
+}
+.back-img-container {
+  margin-left: 10px;
+  padding: 5px 10px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1000000;
+}
+.custom-header-title {
+
+  font-size: $font-size-title-small;
+
+  font-weight: 500;
+  color: #2c3451;
+  line-height: 24px;
+}
+.custom-header-title-bg {
+  color: rgba(255, 255, 255, 1);
+}
+.custom-right-container {
+  padding: 5px 10px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+
+  position: absolute;
+  right: 0;
+}
+.custom-right-container-none {
+  display: none;
+}
+.custom-header-center{
+  position: absolute;
+  width: 100%;
+  padding: 0px 100px;
+  height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

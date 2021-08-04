@@ -1,0 +1,47 @@
+@import "../../common.scss";
+
+.welcome_container {
+  margin: 0;
+  height: 100%;
+  background: url("../../../assets/images/welcome_bg.png");
+  background-size: 100% 100%;
+}
+.welcome-tip-container {
+  position: absolute;
+  bottom: 27px;
+  margin: auto;
+  width: 100%;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+.bottomTip {
+  font-size: $font-size-desc;
+
+  font-weight: 400;
+  color: #7080b5;
+  line-height: 17px;
+}
+
+.welcome-button-container {
+  margin-top: 200px;
+  width: 100%;
+  text-align: center;
+}
+.welcome-logo {
+  width: 100px;
+}
+.welcome-wallet-name {
+  font-size: $font-size-middle-title;
+  color: #2c3451;
+  line-height: 24px;
+  margin-top: 6px;
+  margin-bottom: 15px;
+}
+.welcome-top-container {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  margin-top: 50px;
+  align-items: center;
+}

@@ -1,0 +1,70 @@
+@import "../../common.scss";
+.wallet-tip-description {
+    font-size: $font-size-content;
+    color: #333333;
+    letter-spacing: 0;
+    margin: 0;
+    hyphens: auto;
+}
+
+.wallet-show-title {
+    margin: 0;
+
+    font-size: $font-size-content;
+    font-weight: 400;
+    color: #7080b5;
+    line-height: 17px;
+}
+
+.wallet-show-address {
+    margin: 0;
+    word-wrap: break-word;
+
+    font-size: $font-size-content;
+
+    font-weight: 400;
+    color: #2c3451;
+    line-height: 21px;
+}
+.wallet-show-prikey {
+    background: rgba(191, 199, 223, 0.1);
+    border-radius: 10px;
+
+    word-wrap: break-word;
+    padding: 12px 15px;
+    margin-top: 25px;
+
+    font-size: $font-size-content;
+
+    font-weight: 400;
+    color: #7080b5;
+    line-height: 21px;
+}
+
+.copy-to-clip {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+.copy-to-icon {
+    width: 14.7px;
+    height: 16px;
+}
+.copy-to-desc {
+    margin: 0;
+    font-size: $font-size-content;
+
+    font-weight: 400;
+    color: #7080b5;
+    line-height: 17px;
+}
+
+.wallet-pri-address-container{
+    background: rgba(191, 199, 223, 0.1);
+    border-radius: 10px;
+    border: 1px solid #BFC7DF;
+    padding: 6px 15px;
+    margin-top: 10px;
+}

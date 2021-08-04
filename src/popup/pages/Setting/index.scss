@@ -1,0 +1,69 @@
+@import "../../common.scss";
+.setting-config-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 14px 18px 20px;
+    box-shadow: 0 12px 30px 0 rgba(37, 34, 117, 0.08);
+}
+
+.config-name {
+    margin: 0;
+    margin-left: 12px;
+
+    font-size: $font-size-content;
+
+    font-weight: 400;
+    color: #2c3451;
+    line-height: 20px;
+}
+
+.tab-common-title {
+    margin: 0px;
+
+    font-size: $font-size-title-small;
+    font-weight: 500;
+    color: #2c3451;
+    line-height: 24px;
+}
+.setting-config-item-left {
+    display: flex;
+    align-items: center;
+}
+.setting-config-about {
+    margin: 30px 30px;
+}
+.config-arrow {
+    width: 7px;
+}
+.config-icon {
+    width: 30px;
+}
+
+.setting-outter-container {
+    background: #f3f6ff;
+    height: 550px;
+    width: 100%;
+}
+
+.setting-title-container {
+    height: 44px;
+    background: #feffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.setting-item-container {
+    background: #feffff;
+    border-radius: 10px;
+    height: 60px;
+
+    margin: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 14px 18px 20px;
+    box-shadow: 0 12px 30px 0 rgba(37, 34, 117, 0.08);
+}

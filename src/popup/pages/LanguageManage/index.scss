@@ -1,0 +1,36 @@
+@import "../../common.scss";
+
+.lang-option-container {
+    padding: 0 30px;
+}
+
+.lang-option-item {
+    display: flex;
+    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1px;
+    width: 100%;
+    padding: 10px 15px;
+    background: #ffffff;
+    position: relative;
+}
+.lang-option-title {
+    margin: 0;
+    font-size: $font-size-content;
+    color: #01000d;
+    line-height: 20px;
+}
+.lang-option-img {
+    width: 16px;
+    height: 16px;
+}
+
+.lang-out-container {
+    background: #f3f6ff;
+    width: 100%;
+    padding-top: 10px;
+    height: $app-height;
+    overflow: scroll;
+}

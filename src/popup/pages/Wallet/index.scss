@@ -1,0 +1,223 @@
+@import "../../common.scss";
+
+.wallet-home-logo {
+    height: 30px;
+}
+
+.home-bottom-explorer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+}
+.history-img {
+    width: 14px;
+    height: 14px;
+}
+.history-content {
+    margin: 0px;
+    font-size: $font-size-content;
+    color: #7055ff;
+    margin-right: 4px;
+}
+
+.loading-img {
+    width: 30px;
+    height: 30px;
+}
+
+.wallet-top-background {
+    height: 220px;
+}
+
+.wallet-info {
+    width: 351px;
+    height: 286px;
+    background: #ffffff;
+    border-radius: 10px;
+
+    margin: 12px 12px 0px 12px;
+    padding: 0px 12px 15px;
+    position: relative;
+}
+.account-info-item-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.account-container-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+.account-container-top-right {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.no-tx-img {
+    width: 40px;
+    margin-bottom: 10px;
+}
+.no-tx-container {
+    text-align: center;
+}
+.no-tx-content {
+    font-size: $font-size-desc;
+
+    font-weight: 400;
+    color: #bfc7df;
+    line-height: 17px;
+}
+.history-to-explorer {
+    font-size: $font-size-desc;
+
+    font-weight: 400;
+    color: #bfc7df;
+    line-height: 17px;
+}
+.home-loading-container {
+    text-align: center;
+    margin-top: 60px;
+}
+.dapp-connect-button {
+    position: absolute;
+    bottom: -18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.dapp-connect-con {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+}
+.dapp-connect-content {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 4px;
+    color: white;
+}
+.dapp-connect-arrow {
+    width: 0;
+    height: 0;
+    border: 6px solid rgba(0, 0, 0, 0.7);
+    border-color: transparent transparent rgba(0, 0, 0, 0.7) transparent;
+}
+.dapp-modal-title {
+    font-size: $font-size-title-small;
+    font-weight: 500;
+    color: #2c3451;
+    line-height: 24px;
+
+    word-break: break-all;
+    text-align: left;
+    margin-right: 20px;
+}
+
+.account-disconnect-button {
+    width: 14px;
+    height: 14px;
+}
+.wallet-connect-container {
+    min-height: 100px;
+    width: $modal-width;
+    background: #feffff;
+    border-radius: 10px;
+    padding: 20px 20px 30px;
+    width: 340px;
+}
+.wallet-connect-item-container{
+    max-height: 200px;
+    overflow-y: scroll;
+}
+.wallet-connect-disconnect {
+    margin-top: 20px;
+}
+.wallet-connect-disconnect-content {
+    font-size: $font-size-content;
+    color: #7080b5;
+    line-height: 20px;
+}
+.wallet-connect-connect {
+    margin-top: 10px;
+}
+.account-connect-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.account-connect-row-left {
+    font-size: $font-size-content;
+    color: #333333;
+    line-height: 20px;
+}
+.dapp-connect-item-container{
+    margin-top: 10px;
+    .dapp-connect-item-top{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .dapp-connect-item-top-inner{
+        display: flex;
+        align-items: center;
+    }
+    .dapp-connect-item-name{
+        font-size: $font-size-content;
+        color: #333333;
+        line-height: 20px
+    }
+    .dapp-connect-item-address{
+        font-size: $font-size-content;
+        font-weight: 400;
+        color: #999999;
+        line-height: 20px;
+    }
+    .dapp-connect-account-container{
+        background: #009D40;
+        border-radius: 4px;
+        padding: 2px 2px;
+    }
+    .dapp-connect-item-account{
+        font-size: $font-size-desc;
+        color: #FFFFFF;
+        line-height: 16px;
+    }
+    .dapp-connect-item-status{
+        font-size: $font-size-desc;
+        color: #226DFF;
+        line-height: 16px;
+    }
+
+    .dapp-connect-current{
+        font-size: $font-size-desc;
+        color: #333333;
+        line-height: 16px;
+    }
+    .dapp-connect-dis-content{
+        font-size: $font-size-desc;
+        color: #FFFFFF;
+        line-height: 16px;
+    }
+    .dapp-connect-current-dis{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #999999;
+        border-radius: 7px;
+        padding: 2px 4px;
+        width:fit-content;
+    }
+    .dapp-connect-item-change{
+        font-size: $font-size-desc;
+        color: #226DFF;
+        line-height: 16px;
+    }
+
+}

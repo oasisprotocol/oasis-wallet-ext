@@ -1,0 +1,139 @@
+@import "../../common.scss";
+
+.record-detail-container {
+    overflow-y: scroll;
+    height: 390px;
+    padding-top: 10px;
+}
+.record-detail-item {
+    display: flex;
+    margin: 15px;
+}
+.record-detail-title {
+    margin: 0;
+    width: 80px;
+
+    font-size: $font-size-content;
+    font-weight: 400;
+    color: #7080b5;
+    line-height: 20px;
+    text-align: left;
+}
+.record-detail-content {
+    margin: 0;
+    word-break: break-all;
+    text-align: left;
+    margin-left: 20px;
+
+    font-size: $font-size-content;
+    font-weight: 400;
+    color: #2c3451;
+    line-height: 20px;
+    width: 220px;
+}
+
+.record-explorer-inner-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 10px 10px 0px;
+}
+.record-explorer-title {
+    margin: 0px;
+
+    font-size: $font-size-desc;
+
+    font-weight: 400;
+    color: #7080b5;
+    line-height: 17px;
+}
+.record-arrow {
+    width: 4px;
+    margin-left: 5px;
+}
+.record-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background: #e2e2f1;
+    border-radius: 0px 0px 20px 20px;
+}
+.tx-common-title {
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+    font-size: $font-size-title-small;
+
+    font-weight: 500;
+    color: #2c3451;
+    line-height: 24px;
+}
+.tx-pending-title {
+    color: #ff9200;
+}
+.tx-success-title {
+    color: #3FA900;
+}
+.tx-failed-title {
+    color: #e84335;
+}
+.record-background {
+    background-color: #f3f6ff;
+}
+.record-status-img {
+    width: 64px;
+}
+
+.record-container {
+    margin-top: 10px;
+    background: #f3f6ff;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.record-content {
+    width: 325px;
+    height: 494px;
+    background: #ffffff;
+    border-radius: 20px;
+
+    position: relative;
+}
+.record-status-container {
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    top: -32px;
+    display: flex;
+    z-index: 10;
+}
+.divided-line-container {
+    display: flex;
+}
+.record-status-dividedline {
+    margin-top: 10px;
+
+    border: 0.5px dashed #f3f6ff;
+    height: 0.5px;
+    width: 100%;
+}
+.record-circile {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: #f3f6ff;
+}
+.record-left-circle {
+    position: absolute;
+    left: -10px;
+    top: 83px;
+}
+.record-right-circle {
+    position: absolute;
+    right: -10px;
+    top: 83px;
+}

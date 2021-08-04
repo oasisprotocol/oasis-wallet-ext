@@ -1,0 +1,90 @@
+@import "../../common.scss";
+.ledger-container {
+    background: #f3f6ff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.ledger-steps-logo-container {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.ledger-wallet-logo {
+    width: 54px;
+    margin-top: 64px;
+    margin-bottom: 22px;
+}
+.ledger-step-container {
+    margin-top: 77px;
+}
+.ledger-item-container {
+    display: flex;
+    flex-direction: row;
+    background: #ffffff;
+    box-shadow: 0 12px 30px 0 rgba(37, 34, 117, 0.08);
+    border-radius: 10px;
+    padding: 15px 20px 6px 15px;
+    position: relative;
+    margin: 10px 28px 10px 28px;
+    width: 315px;
+    min-height: 60px;
+}
+.ledger-item-container-success {
+    background-color: rgba(34, 109, 255, 0.1);
+    border: 1px solid #226dff;
+}
+.ledger-item-container-open {
+    background-color: white;
+}
+
+.ledger-step-content {
+    color: #333;
+    font-size: $font-size-content;
+    margin: 0;
+    letter-spacing: 1px;
+    margin-top: 2px;
+    hyphens: auto;
+}
+.ledger-wallet-title {
+    width: 79px;
+}
+.ledger-item-left {
+    background: rgba(34, 109, 255, 0.1);
+    border-radius: 5px;
+
+    width: 54px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #7080b5;
+}
+.ledger-item-left-success {
+    background: #226dff;
+    color: #ffffff;
+}
+
+.ledger-step-title {
+    margin: 0;
+    padding: 0;
+    font-size: $font-size-desc;
+    font-weight: 400;
+}
+.ledger-step-container-item {
+    display: flex;
+    flex-direction: row;
+}
+.ledger-item-right {
+    margin-left: 10px;
+    width: 230px;
+}
+.ledger-little-icon {
+    position: absolute;
+    width: 60px;
+    right: 13px;
+    bottom: 0px;
+}

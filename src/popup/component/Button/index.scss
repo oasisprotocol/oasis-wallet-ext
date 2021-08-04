@@ -1,0 +1,84 @@
+@import "../../common.scss";
+
+$common-btn-width: 120px;
+
+.common-button {
+  width: $bigger-btn-width;
+  height: 44px;
+  background: #226dff;
+  border-radius: 10px;
+
+  border: 0px;
+
+  font-size: $font-size-content;
+  font-weight: 500;
+  color: #feffff;
+  line-height: 20px;
+
+
+  &:disabled {
+    background: #e8f0ff;
+    color: #bfc7df;
+  }
+}
+.wallet-common {
+  width: 158px;
+  height: 39px;
+  border-radius: 10px;
+
+
+  font-size: $font-size-content;
+
+  font-weight: 500;
+  line-height: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home-send-btn {
+  background: rgba(34, 109, 255, 0.2);
+  color: #226dff;
+  position: relative;
+}
+.home-receive-btn {
+  background:   rgba(10, 199, 255, 0.2);
+  color: #0AC7FF;
+  position: relative;
+}
+
+.welcome-create-button {
+  width: 295px;
+  height: 44px;
+  background: #226dff;
+  border-radius: 10px;
+  border: 1px solid #226dff;
+
+  font-size: $font-size-content;
+
+  font-weight: 500;
+  color: #feffff;
+  line-height: 21px;
+}
+.welcome-restore-button {
+  width: 295px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid #226dff;
+  background: #fff;
+
+  font-size: $font-size-content;
+
+  font-weight: 500;
+  color: #226dff;
+  line-height: 20px;
+
+  margin-top: 20px;
+}
+
+.wallet-button-img{
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  text-align: center;
+}

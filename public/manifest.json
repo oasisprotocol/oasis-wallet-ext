@@ -1,0 +1,43 @@
+{
+  "name": "__MSG_appName__",
+  "short_name": "__MSG_appName__",
+  "description": "__MSG_appDescription__",
+  "manifest_version": 2,
+  "version": "0.1.0",
+  "default_locale": "en",
+  "icons": {
+    "16": "img/oasis.png",
+    "19": "img/oasis.png",
+    "32": "img/oasis.png",
+    "38": "img/oasis.png",
+    "64": "img/oasis.png",
+    "128": "img/oasis.png",
+    "512": "img/oasis.png"
+	},
+  "browser_action": {
+    "default_icon": {
+      "16": "img/oasis.png",
+      "19": "img/oasis.png",
+      "32": "img/oasis.png",
+      "38": "img/oasis.png",
+      "64": "img/oasis.png",
+      "128": "img/oasis.png",
+      "512": "img/oasis.png"
+		},
+    "default_title": "Oasis Wallet",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "storage",
+    "notifications",
+    "tabs"
+  ],
+  "content_security_policy": "script-src 'self' 'wasm-eval'; object-src 'self'",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "web_accessible_resources": [
+    "oasis-xu-frame.html"
+    ]
+}

@@ -1,0 +1,49 @@
+@import "../../common.scss";
+.security-content-container {
+    display: flex;
+    flex-direction: row;
+    padding: 16px 0px;
+    margin: 0px 30px;
+    justify-content: space-between;
+    border-bottom: 1px solid #edf1f7;
+    align-items: center;
+}
+
+.security-content-title {
+    margin: 0;
+
+    font-size: $font-size-content;
+    font-weight: 400;
+    color: #2c3451;
+    line-height: 21px;
+}
+.sec-arrow {
+    width: 7px;
+}
+.security-item-container{
+    background: #FEFFFF;
+    border-radius: 10px;
+}
+.security-body-container{
+    display: flex;
+    flex-direction: row;
+    padding: 16px 0px;
+    margin: 0px 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+.security-body-container-divided{
+    border-bottom: 1px solid #edf1f7;
+}
+.security-body-title{
+    font-size: $font-size-content;
+    font-weight: 400;
+    color: #2C3451;
+    line-height: 20px;
+}
+.security-page-container{
+    width: 100%;
+    height: 100%;
+    background-color: #f3f6ff;
+    padding: 12px 15px;
+}

@@ -1,0 +1,154 @@
+@import "../../common.scss";
+
+.account-info-container {
+    padding: 0px 30px;
+}
+
+.account-info-item {
+    min-height: 60px;
+    border-bottom: 1px solid #eeeeee;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 10px 0px;
+}
+.account-info-item-inner {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.account-info-arrow {
+    width: 7.7px;
+    height: 13px;
+
+    position: absolute;
+    right: 0;
+}
+.account-info-arrow-hide {
+    display: none;
+}
+.account-info-btn-container {
+    padding: 0 20px 20px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+.modal-close {
+    width: 16px;
+    height: 16px;
+
+    position: absolute;
+    top: 21px;
+    right: 21px;
+}
+
+.account-info-content-container {
+    border-radius: 10px;
+    border: 1px solid #bfc7df;
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 18px;
+    background: rgba(255, 255, 255, 1);
+    position: relative;
+}
+.account-info-common {
+    background: rgba(191, 199, 223, 0.1);
+}
+.account-info-content {
+    font-size: $font-size-content;
+    font-weight: 400;
+    color: #7080b5;
+    line-height: 20px;
+}
+
+.account-info-title {
+    font-size: $font-size-content;
+    font-weight: 400;
+    color: #7080b5;
+    line-height: 18px;
+}
+.account-info-img-container {
+    position: absolute;
+    right: 12px;
+    top: 0px;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.account-info-img {
+    width: 16px;
+}
+
+.account-private-export {
+    width: 15px;
+}
+.account-private-text {
+    margin-left: 7px;
+    font-size: $font-size-content;
+    font-weight: 500;
+    color: #2c3451;
+    line-height: 21px;
+}
+
+.account-info-export {
+    background: rgba(34, 109, 255, 0.2);
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+.account-info-delete-container {
+    border-radius: 4px;
+    border: 1px solid #ff2a7f;
+    padding: 7px 32px;
+}
+.account-info-delete-content {
+    font-size: $font-size-content;
+
+    font-weight: 400;
+    color: #ff2a7f;
+    line-height: 20px;
+}
+
+.account-bottom-container {
+    display: flex;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 30px;
+}
+.account-change-name-container {
+    width: $modal-width;
+    background: #feffff;
+    border-radius: 10px;
+}
+
+.account-change-title-container {
+    width: 100%;
+    text-align: center;
+}
+.account-change-name-title {
+    font-size: $font-size-title-small;
+
+    font-weight: 500;
+    color: #2c3451;
+    line-height: 23px;
+    padding: 20px 0px 5px;
+}
+.account-common-btn {
+    height: 44px;
+    width: 115px;
+}
+.account-common-btn-cancel {
+    background: #e8f0ff;
+    color: #7080b5;
+}

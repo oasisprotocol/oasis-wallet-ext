@@ -1,0 +1,64 @@
+[<actor>user]
+
+[oasis-ui|
+   [tools|
+     react
+     redux
+     thunk
+   ]
+   [pages|
+     create-wallet
+     restore-wallet
+     wallet-page
+     stake-page
+     setting-page
+     ...
+   ]
+   [reducers|
+     app
+     account
+     cache
+     ...
+   ]
+   [actions|
+     update-account
+     update-route
+     ...
+   ]
+   [pages]:->[actions]
+   [actions]:->[reducers]
+   [reducers]:->[pages]
+]
+[user]<->[oasis-ui]
+
+
+[oasis-background|
+
+  [id store]
+
+  [config manager|
+    [service-data config]
+    [encrypted keys]
+  ]
+
+  [id store]<->[config manager]
+]
+
+[service-data |
+  [oasis-interface |
+    balance
+   	transactions
+    delegations
+   	validator-info
+    debond-info
+    ...
+  ]
+  [oasis-grpc |
+  	txFee
+    genesis
+    submit
+  ]
+]
+
+[oasis-background]<->[oasis-ui]
+[oasis-background]<->[service-data]

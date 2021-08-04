@@ -1,0 +1,108 @@
+@import "../../common.scss";
+
+.network-item-container {
+    display: flex;
+    flex-direction: row;
+    padding: 15px 15px;
+    justify-content: space-between;
+    background-color: white;
+    margin-bottom: 2px;
+}
+.network-item-container-left{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 280px;
+}
+.network-name-container {
+    border-radius: 10px;
+    padding: 2px 10px;
+    background: rgba(34, 109, 255, 0.1);
+    border: 1px solid #226dff;
+    color: #226dff;
+
+}
+.network-name-container-custom{
+    border: 1px solid #7080B5;
+    background: rgba(112, 128, 181, 0.1);
+    color: #7080B5;
+}
+.network-delete-container {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 20px;
+    width: 20px;
+    border-top-right-radius: 10px;
+}
+.network-delete-container-none {
+    display: none;
+}
+
+.network-item-img-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.network-container {
+    height: 550px;
+    overflow-y: scroll;
+    padding-bottom: 90px;
+    background-color: #f3f6ff;
+}
+.network-item-content {
+    margin: 0;
+    word-break: break-all;
+
+    font-size: $font-size-content;
+    font-weight: 400;
+    color: #2c3451;
+    margin-left: 12px;
+}
+.network-item-content-common{
+    color: #7080B5;
+}
+.network-right-delete {
+    font-size: $font-size-small;
+    font-weight: 400;
+    color: #bfc7df;
+    padding: 2px 4px;
+    &:hover{
+        color: #a8a1aa;
+    }
+}
+.network-title {
+    font-size: $font-size-content;
+    color: #333333;
+    letter-spacing: 0;
+    line-height: $font-size-content;
+    margin-bottom: 10px;
+    padding: 0px 15px;
+    margin-top: 10px;
+}
+
+.network-item-name {
+    font-size: $font-size-small;
+    font-weight: 400;
+
+    line-height: 14px;
+}
+.network-top-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.network-option-img {
+    width: 16px;
+    height: 16px;
+}
+.net-divided-line {
+    height: 1px;
+    background: #bfc7df;
+    border-radius: 4px;
+    width: 100%;
+}

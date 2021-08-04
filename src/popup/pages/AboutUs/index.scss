@@ -1,0 +1,82 @@
+@import "../../common.scss";
+
+.about-container {
+    padding: 0px 15px;
+    margin-top: 10px;
+    position: relative;
+    flex-direction: column;
+}
+.about-top-container {
+    text-align: center;
+}
+.about-home-logo {
+    width: 100px;
+}
+.about-wallet-name {
+    margin: 6px 0px;
+    font-size: $font-size-middle-title;
+    font-weight: 500;
+    color: #2c3451;
+    line-height: 28px;
+}
+.about-wallet-version {
+    margin: 0;
+    font-size: $font-size-content;
+    color: #999999;
+    margin-top: 4px;
+}
+
+.about-item-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+.about-item-title {
+    margin: 0;
+    color: #999999;
+    font-size: $font-size-content;
+}
+.about-item-content {
+    margin: 0;
+    color: #000000;
+    font-size: $font-size-content;
+}
+.about-follow-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+}
+
+.about-follow-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.about-outer-container {
+    background: url("../../../assets/images/about_bg.png");
+    background-size: 100% 70%;
+    background-repeat: no-repeat;
+}
+.wallet-item-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    padding: 7px 0px;
+    margin: 8px 0px;
+}
+.wallet-item-title {
+    font-size: $font-size-content;
+    font-weight: 400;
+    color: #2c3451;
+    line-height: 20px;
+    margin-right: 18px;
+    width: 70px;
+    text-align: center;
+}
+
+.wallet-detail-container {
+    margin-top: 60px;
+}

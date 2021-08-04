@@ -1,0 +1,131 @@
+@import "../../common.scss";
+.ledger-address-container {
+    background-color: #f3f6ff;
+    width: 100%;
+    height: 100%;
+    padding: 0px 15px;
+    .ledger-wallet-logo-connect {
+        width: 54px;
+        margin-top: 24px;
+        margin-bottom: 22px;
+    }
+    .ledger-wallet-title {
+        width: 79px;
+    }
+    .content-container {
+        margin-top: 35px;
+    }
+    .content-title {
+        font-size: $font-size-title-small;
+        font-weight: 500;
+        color: #666666;
+        line-height: 18px;
+        margin-bottom: 12px;
+    }
+    .content-inner-outer {
+        height: 240px;
+        position: relative;
+        border-radius: 14px;
+    }
+    .content-inner {
+        background: #ffffff;
+        height: 100%;
+        padding: 12px 20px;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 14px;
+    }
+    .option-img {
+        width: 16px;
+    }
+
+    .address-page-button-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    .address-page-button {
+        font-size: $font-size-desc;
+        color: #226dff;
+        line-height: 16px;
+        margin: 0px 10px;
+        padding: 4px 4px;
+    }
+    .address-page-button-unable {
+        font-size: $font-size-desc;
+        color: #666;
+        line-height: 16px;
+        margin: 0px 10px;
+        padding: 4px 4px;
+    }
+    .bottom-button-container {
+        margin-top: 34px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .address-loading-container {
+        position: absolute;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.4);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .address-loading-img {
+        height: 60px;
+    }
+}
+
+.address-row-outer {
+    padding: 4px 0px;
+    width: 100%;
+}
+.address-row-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.address-row-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.address-row-index {
+    font-size: $font-size-desc;
+    color: #666666;
+    line-height: 18px;
+
+    margin-left: 10px;
+}
+.address-row-address {
+    font-size: $font-size-desc;
+    color: #666666;
+    line-height: 18px;
+    margin-left: 10px;
+}
+.address-row-balance {
+    font-size: $font-size-desc;
+    color: #666666;
+    line-height: 18px;
+    margin-left: 10px;
+}
+.address-row-line {
+    width: 100%;
+    border: 0.5px solid #eeeeee;
+}
+.ledger-address-common-btn {
+    height: 44px;
+    width: 170px;
+}

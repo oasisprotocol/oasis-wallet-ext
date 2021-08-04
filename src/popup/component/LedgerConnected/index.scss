@@ -1,0 +1,49 @@
+@import "../../common.scss";
+.ledger-connected-container {
+  margin-top: 20px;
+  .ledger-status-logo-con {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .ledger-status-logo {
+      width: 156px;
+    }
+    .ledger-connected-status {
+      margin-top: 35px;
+      display: flex;
+
+      font-size:$font-size-title-small;
+      color: #333;
+      letter-spacing: 0;
+      text-align: center;
+
+      .connected-status {
+        background: #00c89c;
+        border-radius: 4px;
+        font-size: $font-size-desc;
+        color: #ffffff;
+        letter-spacing: 0;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2px 7px;
+        margin-right: 4px;
+        .ledger-connected-icon {
+          width: 14px;
+          height: 14px;
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+  .ledger-connect-tip-container {
+    margin-top: 35px;
+    text-align: center;
+  }
+  .ledger-wallet-logo-connect {
+    width: 54px;
+    margin-top: 24px;
+    margin-bottom: 22px;
+}
+}

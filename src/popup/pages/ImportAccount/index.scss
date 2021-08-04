@@ -1,0 +1,60 @@
+@import "../../common.scss";
+
+.import-container {
+    margin: 10px 30px;
+}
+.import-title {
+    font-size: $font-size-content;
+
+    font-weight: 400;
+    color: #7080b5;
+    line-height: 19px;
+    hyphens: auto;
+}
+.text-area-input {
+    margin: 0;
+    width: 100%;
+    resize: none;
+    margin-top: 8px;
+    min-height: 100px;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+    border: 1px solid #bfc7df;
+
+    font-size: $font-size-content;
+    font-weight: 400;
+    color: #2c3451;
+    line-height: 20px;
+    outline: none;
+    &:focus {
+        border: 1px solid #226dff;
+    }
+    .text-area-input::placeholder {
+        font-size: $font-size-content;
+        font-weight: 400;
+        color: #bfc7df;
+        line-height: 21px;
+    }
+}
+
+
+.import-input-container{
+    margin: 0px 30px;
+}
+.import-input-container-desc{
+    margin: 20px 30px 0px;
+}
+.import-account-container {
+    margin-top: 10px;
+    padding: 0;
+    border: 0;
+}
+.import-title-account{
+    margin: 0;
+    font-size: $font-size-content;
+    color: #b9b9b9;
+    letter-spacing: 0;
+    hyphens: auto;
+}

@@ -1,0 +1,53 @@
+@import "../../common.scss";
+
+.create-route-container {
+  background: url("../../../assets/images/create_bg.png");
+  background-size: 100% 100%;
+}
+.create_container {
+  margin: 0;
+  height: 100%;
+  background-color: white;
+  position: relative;
+  margin-top: 40px;
+}
+
+.bottom-container {
+  position: absolute;
+  bottom: 20px;
+  text-align: center;
+  margin-left: 0px;
+  width: 100%;
+}
+.create-desc {
+  font-size: $font-size-desc;
+  font-weight: 400;
+  color: #bfc7df;
+  line-height: 17px;
+}
+
+.desc-title {
+  font-size: $font-size-title-big;
+  font-weight: 500;
+  color: #2c3451;
+  line-height: 34px;
+}
+.common-container {
+  padding: 0px 30px;
+}
+
+.create-select-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: $bigger-btn-width;
+  margin: auto;
+  margin-bottom: 13px;
+}
+.create-select-content {
+  font-size: $font-size-desc;
+  color: #bfc7df;
+  line-height: 18px;
+  margin-left: 12px;
+  text-align: left;
+}

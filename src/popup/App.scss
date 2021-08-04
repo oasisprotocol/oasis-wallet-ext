@@ -1,0 +1,40 @@
+@import "./common.scss";
+
+.App {
+  user-select: none;
+  -webkit-user-drag: none;
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  width: $app-width;
+  height:$app-height;
+}
+body {
+  margin: 0;
+}
+p {
+  margin: 0;
+  padding: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -ms-user-select: none;
+}
+
+input,
+button,
+select,
+optgroup,
+textarea {
+  margin: 0;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+}

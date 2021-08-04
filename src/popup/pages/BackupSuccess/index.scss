@@ -1,0 +1,30 @@
+@import "../../common.scss";
+
+.backup-success-container {
+    padding: 0px 27px;
+    margin-top: 100px;
+    text-align: center;
+}
+
+.backup-top-container {
+    text-align: center;
+}
+.backup-success-img {
+    width: 71px;
+    height: 71px;
+}
+
+.backup-success-tips {
+    margin-top: 36px;
+
+    hyphens: auto;
+
+    font-size: $font-size-content;
+
+    font-weight: 400;
+    color: #2c3451;
+    line-height: 20px;
+}
+.small-btn {
+    width: 315px;
+}

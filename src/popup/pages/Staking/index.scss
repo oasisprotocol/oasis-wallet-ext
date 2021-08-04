@@ -1,0 +1,390 @@
+@import "../../common.scss";
+.staking-root-common {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.staking-root-pad {
+  padding: 0px 12px 10px 12px;
+  overflow-y: scroll;
+  height: 520px;
+}
+.stake-top-info {
+  background: #feffff;
+  border-radius: 10px;
+  margin-top: 15px;
+
+  padding: 15px 12px;
+}
+.top-info-contet {
+  width: 50%;
+}
+.staking-list-info {
+  margin-top: 20px;
+}
+.stake-list-empty {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.node-top-detail {
+  background: #ffffff;
+  box-shadow: 0 12px 30px 0 rgba(37, 34, 117, 0.08);
+  border-radius: 20px;
+  width: 319px;
+  height: 120px;
+  padding: 16px 20px;
+  position: relative;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  margin-top: 20px;
+}
+.stake-item-container {
+  background: #feffff;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  padding: 17px 12px 12px 12px;
+}
+.node-list-container {
+  overflow-y: scroll;
+  height: 100%;
+  padding: 0 12px;
+}
+.stake-page-container {
+  width: 100%;
+  height: 100%;
+  background: #f3f6ff;
+}
+
+.stake-total-title {
+  font-size: $font-size-desc;
+  font-weight: 500;
+  color: #bfc7df;
+  line-height: 17px;
+}
+.stake-total-count {
+  font-size: $font-size-title-small;
+  font-weight: 400;
+  color: #2c3451;
+}
+.stake-percent-container {
+  margin: 16px 0px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.stake-percent-progress {
+  width: 100%;
+  height: 7px;
+  background: #edf1f7;
+  border-radius: 3px;
+  position: relative;
+}
+.stake-percent-progress-actual {
+  background: #226dff;
+  border-radius: 3px;
+  height: 7px;
+  position: absolute;
+  z-index: 10;
+}
+.stake-user-detail-total {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.stake-user-detail-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.stake-user-detail-title {
+  font-size: $font-size-content;
+  font-weight: 400;
+  color: #7080b5;
+  line-height: 20px;
+  white-space: pre-wrap;
+}
+.stake-user-detail-content {
+  font-size: $font-size-content;
+  font-weight: 400;
+  color: #2c3451;
+  line-height: 20px;
+}
+.stake-list-title {
+  font-size: $font-size-content;
+  font-weight: 400;
+  color: #7080b5;
+  line-height: 17px;
+  margin-bottom: 12px;
+}
+.no-tx-container-stake {
+  text-align: center;
+  margin-top: 70px;
+}
+.no-tx-img-stake {
+  width: 40px;
+  margin-bottom: 16px;
+}
+
+.node-icon {
+  width: 44px;
+}
+.stake-validator-name {
+  margin: 0px;
+  padding: 0px;
+  font-size: $font-size-content;
+  font-weight: 500;
+  color: #2c3451;
+}
+.stake-validator-address {
+  margin: 0px;
+  padding: 0px;
+  margin-top: 4px;
+  font-size: $font-size-content;
+  color: #7080b5;
+  line-height: 20px;
+}
+.stake-validator-status-container {
+  border-radius: 12px;
+  margin-left: 15px;
+  padding: 2px 15px;
+}
+.stake-validator-active {
+  background: rgba(34, 109, 255, 0.1);
+  border: 1px solid #226dff;
+}
+.stake-validator-inactive {
+  background: rgba(255, 146, 0, 0.1);
+  border: 1px solid #ff9200;
+}
+.stake-validator-status-text {
+  font-size: $font-size-desc;
+  font-weight: 400;
+}
+.stake-validator-status-text-active {
+  color: #226dff;
+}
+.stake-validator-status-text-inactive {
+  color: rgba(255, 146, 0, 1);
+}
+.stake-valitor-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.tx-item-top-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.stake-valitor-info-container {
+  margin-left: 12px;
+  width: 100%;
+}
+.stake-info-divided {
+  width: 100%;
+  height: 1px;
+  background: #edf1f7;
+  margin-top: 17px;
+  margin-bottom: 12px;
+}
+.stake-item-user-title {
+  font-size: $font-size-desc;
+  font-weight: 400;
+  color: #7080b5;
+  line-height: 20px;
+  white-space: pre-wrap;
+}
+.stake-item-user-content {
+  font-size: $font-size-desc;
+
+  font-weight: 400;
+  color: #2c3451;
+  line-height: 19px;
+}
+.stake-item-user-container-outer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.stake-item-user-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.stake-item-stake-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.node-button-group-outer {
+  background-color: white;
+  width: 100%;
+  height: 58px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 12px;
+}
+.node-button-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #edf1f7;
+  border-radius: 10px;
+  margin-top: 12px;
+  height: 34px;
+  width: 100%;
+  margin: 0px 12px;
+  padding: 0px 2px;
+}
+.node-button-active {
+  width: 174px;
+  height: 30px;
+  background: #feffff;
+  border-radius: 10px;
+
+  border: 0px;
+
+  font-size: $font-size-content;
+  font-weight: 500;
+  color: #2c3451;
+  line-height: 20px;
+}
+.node-button-unactive {
+  width: 174px;
+  height: 30px;
+  border-radius: 10px;
+
+  border: 0px;
+
+  font-size: $font-size-content;
+  font-weight: 400;
+  color: #7080b5;
+  line-height: 20px;
+}
+.stake-top-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.stake-total-title-right {
+  font-size: $font-size-desc;
+  font-weight: 500;
+  color: #bfc7df;
+  line-height: 17px;
+  text-align: right;
+}
+
+.stake-node-button-click {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+
+  background: #7080b5;
+  border-radius: 15px;
+  padding: 2px 12px;
+
+  font-size: $font-size-desc;
+  color: #ffffff;
+  margin-right: 10px;
+}
+.stake-node-button-common {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+
+  border-radius: 15px;
+  border: 1px solid #7080b5;
+  padding: 2px 12px;
+
+  font-size: $font-size-desc;
+  color: #7080b5;
+  margin-right: 10px;
+}
+
+.staking-title-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.stake-item-container-2 {
+  background: #feffff;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  padding: 10px 15px;
+}
+.stake-item-button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+.stake-item-content-shares {
+  font-size: $font-size-desc;
+  font-weight: 400;
+  color: #2c3451;
+  line-height: 18px;
+}
+.stake-item-escrow {
+  background: #226dff;
+  border-radius: 4px;
+  padding: 2px 13px;
+
+  font-size: $font-size-desc;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 18px;
+}
+.stake-item-reclaim {
+  background: #ff7878;
+  border-radius: 4px;
+  padding: 2px 13px;
+
+  font-size: $font-size-desc;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 18px;
+
+  margin-left: 10px;
+}
+.stake-item-user-debond{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 4px;
+  justify-content: space-between;
+
+}
+.stake-item-user-title-2 {
+  font-size: $font-size-desc;
+
+  font-weight: 400;
+  color: #7080b5;
+  line-height: 20px;
+}
+.stake-item-debond-right{
+  display: flex;
+  flex-direction: column;
+}
