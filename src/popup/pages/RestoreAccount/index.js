@@ -53,7 +53,6 @@ class RestoreAccount extends React.Component {
     sendMsg({
       action: WALLET_NEW_HD_ACCOUNT,
       payload: {
-        pwd: this.state.password,
         mne: mnemonic
       }
     },
