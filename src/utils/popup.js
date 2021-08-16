@@ -126,7 +126,6 @@ export async function openPopupWindow(
     } catch (e) {
     }
   }
-  window.lastWindowIds = lastWindowIds
   return lastWindowIds[channel];
 }
 
