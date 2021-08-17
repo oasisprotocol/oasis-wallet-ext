@@ -66,7 +66,13 @@ Extension's build output is placed in `/dist`, and you can check out [this page]
 * open [oasis-test-dapp](https://bitcat365.github.io/oasis-test-dapp)
 * click connect and other button to communicate with wallet
 
-## CI pipelines (Comming soon)
+## CI pipelines (Coming soon)
+
+```sh
+yarn install --frozen-lockfile
+yarn test
+yarn buildProd
+```
 
 ## LICENSE
 
