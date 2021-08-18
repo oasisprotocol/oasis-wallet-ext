@@ -216,6 +216,9 @@
     "sendShares":"Shares",
     "all":"ALL",
     "txType":"Type",
+    "chainLabel":"Network",
+    "unknownChain":"Unknown",
+    "chainContext":"Chain Context",
 
     "txCancel":"Canceled transaction",
     "txError":"Abnormal transaction",

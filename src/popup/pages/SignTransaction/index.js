@@ -233,12 +233,30 @@ class SignTransaction extends React.Component {
       </div>
     )
   }
+  chainLabel = (chainContext) => {
+    switch (chainContext) {
+      case '53852332637bacb61b91b6411ab4095168ba02a50be4c3f82448438826f23898':
+        return 'Oasis Protocol Foundation Mainnet - Cobalt'
+      case '5ba68bc5e01e06f755c4c044dd11ec508e4c17f1faf40c0e67874388437a9e55':
+        return 'Oasis Protocol Foundation Testnet - 2021-04-13'
+      default:
+        return getLanguage('unknownChain')
+    }
+  }
   renderSendContent = () => {
     let { params } = this.state
     let txNonce = params.nonce
     let currentSymbol = this.props.netConfig.currentSymbol;
     let toTitle = this.state.sendAction === oasis.staking.METHOD_ADD_ESCROW ? getLanguage('stakeNodeName') : getLanguage('toAddress')
     let itemList = [
+      {
+        title: getLanguage('chainLabel'),
+        content: this.chainLabel(params.chainContext),
+      },
+      {
+        title: getLanguage('chainContext'),
+        content: params.chainContext,
+      },
       {
         title: getLanguage('txType'),
         content: params.method
