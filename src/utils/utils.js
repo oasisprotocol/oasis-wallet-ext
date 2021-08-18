@@ -108,7 +108,7 @@ export function urlValid(url) {
  * @param includeE Whether to include scientific notation
  */
 export function isNumber(n, includeE = false) {
-    let isNum = !!String(n).match(/^\d+\.?(?:\.\d+)?$/);
+    let isNum = !!String(n).match(/^\d+(?:\.\d*)?$/);
     if (!isNum && includeE) {
         return !!String(n).match(/^\d+e(-)?\d+$/);
     }
