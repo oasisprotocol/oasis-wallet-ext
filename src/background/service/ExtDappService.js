@@ -103,9 +103,9 @@ class ExtDappService {
         isUnlocked = isUnlocked ? 1 : 0
         let siteUrl = origin
         let icon = await this.getWebIcon(origin)
-        this.popupId = await this.dappOpenPopWindow('./popup.html#/approve_page?isUnlocked=' + isUnlocked
-          + "&siteUrl=" + siteUrl
-          + "&siteIcon=" + icon,
+        this.popupId = await this.dappOpenPopWindow('./popup.html#/approve_page?isUnlocked=' + encodeURIComponent(isUnlocked)
+          + "&siteUrl=" + encodeURIComponent(siteUrl)
+          + "&siteIcon=" + encodeURIComponent(icon),
           windowId.approve_page, "dapp")
         this.setBadgeContent("approve_page", BADGE_ADD)
       } catch (error) {
@@ -199,10 +199,10 @@ class ExtDappService {
         let message = params.message
         let address = params.address
 
-        await this.dappOpenPopWindow('./popup.html#/request_sign?isUnlocked=' + isUnlocked
-          + "&siteUrl=" + siteUrl
-          + "&context=" + context + "&message=" + message + "&address=" + address
-          + "&siteIcon=" + icon,
+        await this.dappOpenPopWindow('./popup.html#/request_sign?isUnlocked=' + encodeURIComponent(isUnlocked)
+          + "&siteUrl=" + encodeURIComponent(siteUrl)
+          + "&context=" + encodeURIComponent(context) + "&message=" + encodeURIComponent(message) + "&address=" + encodeURIComponent(address)
+          + "&siteIcon=" + encodeURIComponent(icon),
           windowId.request_sign, "dapp")
         this.setBadgeContent("request_sign", BADGE_ADD)
       } catch (error) {
