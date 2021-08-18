@@ -193,7 +193,7 @@ oasisExt.ext.ready({
                             resolve({ approved: true, signature });
                         }
                     } else {
-                        reject({ approved: false });
+                        resolve({ approved: false });
                     }
                 })
         })
