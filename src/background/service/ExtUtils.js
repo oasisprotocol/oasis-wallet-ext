@@ -67,12 +67,13 @@ oasisExt.ext.ready({
             },
                 (account) => {
                     if (Array.isArray(account)) {
-                        let public_key = ''
                         if (account.length > 0) {
-                            public_key = account[0]
+                            let public_key = account[0]
                             public_key = hex2uint(public_key)
+                            resolve({ public_key })
+                        } else {
+                            reject({ error: "invalid account" })
                         }
-                        resolve({ public_key })
                     } else {
                         reject(account)
                     }
