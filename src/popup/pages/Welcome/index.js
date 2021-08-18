@@ -12,7 +12,7 @@ import {
 } from "../../../i18n";
 import { setLanguage } from "../../../reducers/appReducer";
 import { setWelcomeNextRoute } from "../../../reducers/cache";
-import { openCurrentRouteInPersistentPopup } from '../../../utils/popup';
+import { openCurrentRouteInPersistentTab } from '../../../utils/popup';
 import Button from "../../component/Button";
 import Select from "../../component/Select";
 import "./index.scss";
@@ -27,7 +27,7 @@ class Welcome extends React.Component {
   }
 
   componentDidMount() {
-    openCurrentRouteInPersistentPopup();
+    openCurrentRouteInPersistentTab();
     this.initLocal()
   }
   componentWillUnmount() {
