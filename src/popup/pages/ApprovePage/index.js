@@ -101,8 +101,9 @@ class ApprovePage extends React.Component {
               action: DAPP_ACTION_GET_ACCOUNT,
               payload:{
                 selectAccount:[],
-                currentAddress:currentAccount.address
-              }
+                currentAddress:currentAccount.address,
+                resultOrigin: this.getParams().siteUrl,
+              },
             }, async (params) => {
               this.goToHome()
              })
@@ -118,7 +119,8 @@ class ApprovePage extends React.Component {
                 action: DAPP_ACTION_GET_ACCOUNT,
                 payload: {
                   selectAccount,
-                  currentAddress:currentAccount.address
+                  currentAddress:currentAccount.address,
+                  resultOrigin: this.getParams().siteUrl,
                  },
               }, (params) => {
                 this.goToHome()
@@ -150,7 +152,8 @@ class ApprovePage extends React.Component {
           action: DAPP_ACTION_CLOSE_WINDOW,
           payload: {
             page: "approve_page",
-            account: approveAccount
+            account: approveAccount,
+            resultOrigin: this.getParams().siteUrl,
           },
         }, (params) => { })
       } else {
