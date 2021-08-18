@@ -1,6 +1,6 @@
 import extension from 'extensionizer'
 import { QUERY_TAB_TYPE } from '../constant/specifyType';
-import { getActiveTab, openTab } from './commonMsg';
+import { getActiveTab } from './commonMsg';
 
 const PopupSize = {
   width: 375,
@@ -163,13 +163,16 @@ export function fitPopupWindow() {
   window.resizeTo(PopupSize.width + gap.width, PopupSize.height + gap.height);
 }
 
-// Opens current page in a tab, so that it doesn't close when switching
+// Opens current page in a popup window, so that it doesn't close when switching
 // to other windows (e.g. password manager).
-export function openCurrentRouteInPersistentTab() {
+export async function openCurrentRouteInPersistentPopup() {
   const url = new URL(window.location);
-  if (!url.searchParams.has('persistentTab')) {
-    url.searchParams.set('persistentTab', '1');
-    openTab(url.href);
+  if (!url.searchParams.has('persistentPopup')) {
+    url.searchParams.set('persistentPopup', '1');
+    await openPopupWindow(url.href, 'persistentPopup', undefined, {
+      left: window.screenLeft,
+      top: window.screenTop,
+    });
     window.close();
   }
 }
