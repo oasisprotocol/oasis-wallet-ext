@@ -1,6 +1,7 @@
 import extension from 'extensionizer'
 import { QUERY_TAB_TYPE } from '../constant/specifyType';
-import { getActiveTab } from './commonMsg';
+import { sendMsg, getActiveTab } from './commonMsg';
+import { WALLET_OPEN_ROUTE_IN_PERSISTENT_POPUP } from "../constant/types";
 
 const PopupSize = {
   width: 375,
@@ -165,14 +166,21 @@ export function fitPopupWindow() {
 
 // Opens current page in a popup window, so that it doesn't close when switching
 // to other windows (e.g. password manager).
-export async function openCurrentRouteInPersistentPopup() {
+export function openCurrentRouteInPersistentPopup() {
   const url = new URL(window.location);
   if (!url.searchParams.has('persistentPopup')) {
     url.searchParams.set('persistentPopup', '1');
-    await openPopupWindow(url.href, 'persistentPopup', undefined, {
-      left: window.screenLeft,
-      top: window.screenTop,
-    });
+
+    // Call openPopupWindow through background script, so lastWindowIds isn't
+    // lost, and popup is reused if called multiple times.
+    sendMsg({
+      action: WALLET_OPEN_ROUTE_IN_PERSISTENT_POPUP,
+      payload: {
+        left: window.screenLeft,
+        top: window.screenTop,
+        route: url.pathname + url.search + url.hash,
+      },
+    }, () => {});
     window.close();
   }
 }
