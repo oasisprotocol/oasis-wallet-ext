@@ -197,14 +197,12 @@ class SignTransaction extends React.Component {
   };
   renderAccountInfo = () => {
     let showAddress = addressSlice(this.state.currentAccount.address, 6)
-    let netName = this.props.netConfig.currentNetType
     return (
       <div className={'sign-page-top-con'}>
         <div className={"sign-page-top-left"}>
           {this.renderMyIcon()}
           <p className={"sign-page-top-address"}>{showAddress}</p>
         </div>
-        <p className={"sign-page-top-netName"}>{netName}</p>
       </div>
     )
   }
