@@ -175,6 +175,7 @@ class ExtDappService {
         async function onMessage(message, sender, sendResponse) {
           const { action, payload } = message;
           if (action === DAPP_ACTION_SEND_TRANSACTION) {
+            if (payload.resultOrigin !== site) return;
             extension.runtime.onMessage.removeListener(onMessage)
             that.setBadgeContent("request_sign", BADGE_MINUS)
             await closePopupWindow(windowId.request_sign)
