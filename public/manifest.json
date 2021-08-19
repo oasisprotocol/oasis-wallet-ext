@@ -3,7 +3,7 @@
   "short_name": "__MSG_appName__",
   "description": "__MSG_appDescription__",
   "manifest_version": 2,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "default_locale": "en",
   "icons": {
     "16": "img/oasis.png",
@@ -32,7 +32,7 @@
     "notifications",
     "tabs"
   ],
-  "content_security_policy": "default-src 'self'; frame-ancestors 'none';",
+  "content_security_policy": "script-src 'self';",
   "background": {
     "scripts": ["background.js"],
     "persistent": true
