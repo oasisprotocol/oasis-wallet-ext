@@ -66,10 +66,7 @@ module.exports = (env, argv) => {
             {
               loader: "url-loader",
               options: {
-                // Removed `limit: 8192,` because images were disappearing after
-                // opening Welcome page popup twice, after window.close() in
-                // openCurrentRouteInPersistentPopup. Without limit, all images
-                // are inlined as base64 data URLs.
+                limit: 8192,
               },
             },
           ],

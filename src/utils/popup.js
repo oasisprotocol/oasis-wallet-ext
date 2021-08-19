@@ -171,6 +171,10 @@ export function openCurrentRouteInPersistentPopup() {
   if (!url.searchParams.has('persistentPopup')) {
     url.searchParams.set('persistentPopup', '1');
 
+    // Added random number because images were disappearing after
+    // opening Welcome page popup twice, after window.close().
+    url.searchParams.set('fixImagesDisappearing', '' + Math.random());
+
     // Call openPopupWindow through background script, so lastWindowIds isn't
     // lost, and popup is reused if called multiple times.
     sendMsg({
