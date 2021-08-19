@@ -218,7 +218,7 @@
     "txType":"Type",
     "chainLabel":"Network",
     "unknownChain":"Unknown",
-    "chainContext":"Chain Context",
+    "chainContext":"Genesis Hash",
 
     "txCancel":"Canceled transaction",
     "txError":"Abnormal transaction",

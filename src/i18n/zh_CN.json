@@ -217,7 +217,7 @@
   "all":"全部",
   "txType":"交易类型",
   "chainLabel":"Network",
-  "chainContext":"Chain Context",
+  "chainContext":"Genesis Hash",
   "unknownChain":"Unknown",
   "txCancel":"交易取消",
   "txError":"交易异常",
