@@ -110,6 +110,11 @@ export const WALLET_GET_CREATE_MNEMONIC = "WALLET_GET_CREATE_MNEMONIC"
  */
 export const WALLET_RESET_LAST_ACTIVE_TIME = "WALLET_RESET_LAST_ACTIVE_TIME"
 
+/**
+ * Open route in persistent popup
+ */
+export const WALLET_OPEN_ROUTE_IN_PERSISTENT_POPUP = "WALLET_OPEN_ROUTE_IN_PERSISTENT_POPUP"
+
 // ====================================================================================bottom back to popup
 
 /**
