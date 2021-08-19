@@ -21,7 +21,6 @@ import ResetPassword from '../pages/ResetPassword';
 import RestoreAccount from '../pages/RestoreAccount';
 import RevealSeedPage from '../pages/RevealSeed';
 import SecurityPage from '../pages/Security';
-import SecurityPwdPage from '../pages/SecurityPwdPage';
 import SendPage from '../pages/Send';
 import ShowMnemonic from '../pages/ShowMnemonic';
 import ShowPrivateKeyPage from '../pages/ShowPrivateKey';
@@ -63,7 +62,6 @@ export function getAllRouter() {
         <Route path="/language_management_page" component={LanguageManagement} />
         <Route path="/reveal_seed_page" component={RevealSeedPage} />
         <Route path="/show_privatekey_page" component={ShowPrivateKeyPage} />
-        <Route path="/security_pwd_page" component={SecurityPwdPage} />
 
         <Route path="/lock_page" component={LockPage} />
         <Route path="/info_page" component={InfoPage} />
