@@ -10,8 +10,8 @@ import CustomView from "../../component/CustomView";
 import TextInput from "../../component/TextInput";
 import "./index.scss";
 
-import select_account_no from "../../../assets/images/select_account_no.png";
-import select_account_ok from "../../../assets/images/select_account_ok.png";
+import select_account_no from "../../../assets/images/select_account_no.svg";
+import select_account_ok from "../../../assets/images/select_account_ok.svg";
 class CreatePassword extends React.Component {
   constructor(props) {
     super(props);
@@ -92,28 +92,31 @@ class CreatePassword extends React.Component {
           return v;
         })
       }, () => {
-        this.setBtnStatus()
+        this.checkConfirmStatus()
       })
     })
+  }
+  checkConfirmStatus=()=>{
+    if (this.state.confirmPwd.length > 0 && this.state.inputPwd !== this.state.confirmPwd) {
+      this.callSetState({
+        errorTip: getLanguage('passwordDifferent')
+      }, () => {
+        this.setBtnStatus()
+      })
+    } else {
+      this.callSetState({
+        errorTip: ""
+      }, () => {
+        this.setBtnStatus()
+      })
+    }
   }
   onPwdConfirmInput = (e) => {
     const { value } = e.target;
     this.callSetState({
       confirmPwd: value,
     }, () => {
-      if (this.state.confirmPwd.length > 0 && this.state.inputPwd !== this.state.confirmPwd) {
-        this.callSetState({
-          errorTip: getLanguage('passwordDifferent')
-        }, () => {
-          this.setBtnStatus()
-        })
-      } else {
-        this.callSetState({
-          errorTip: ""
-        }, () => {
-          this.setBtnStatus()
-        })
-      }
+      this.checkConfirmStatus()
     })
   }
   onSubmit = (event) => {
