@@ -20,10 +20,11 @@ export default class ConfirmModalContainer extends Component {
         this.onCancel = () => { }
         this.onConfirm = () => { }
         this.touchToClose = false
+        this.tipImgSrc = ""
     }
 
     show = (params) => {
-        let { title, content, onCancel, onConfirm, cancelText, confirmText, touchToClose, showClose } = params
+        let { title, content, onCancel, onConfirm, cancelText, confirmText, touchToClose, showClose,tipImgSrc } = params
         this.title = title
         this.content = content
         this.cancelText = cancelText
@@ -33,6 +34,7 @@ export default class ConfirmModalContainer extends Component {
         this.onCancel = onCancel
         this.onConfirm = onConfirm
         this.touchToClose = touchToClose
+        this.tipImgSrc = tipImgSrc
         this.setState({ showModal: true })
     }
     hide = () => {
@@ -75,7 +77,7 @@ export default class ConfirmModalContainer extends Component {
                     className="confirm-close click-cursor"
                     src={modalClose} />}
                 <div className={"confirm-img-container"}>
-                    <img className={"confirm-img"} src={confirm_tip} />
+                    <img className={"confirm-img"} src={this.tipImgSrc?this.tipImgSrc:confirm_tip} />
                 </div>
                 <p className={"confirm-title"}>{this.title}</p>
                 {Array.isArray(this.content) ?

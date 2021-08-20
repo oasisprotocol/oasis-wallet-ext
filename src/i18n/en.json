@@ -242,5 +242,15 @@
 
     "amendment":"amendment",
     "beneficiary":"beneficiary",
-    "amountChange":"amountChange"
+    "amountChange":"amountChange",
+
+    "restore_tip_1": "Are you sure you want to reset your wallet?",
+    "restore_tip_2": "After reset, all the data of the existing wallet will be lost and can only be restored using the mnemonic phrase.",
+    "confirm_restore_tip":"Please enter'delete' to confirm reset the wallet",
+
+    "confirmRestore":"Confirm Reset",
+    "cancelRestore":"Cancel Reset",
+
+    "deleteTag":"delete",
+    "resetWallet":"Reset Wallet"
 }

@@ -15,7 +15,6 @@ import select_account_ok from "../../../assets/images/select_account_ok.svg";
 class CreatePassword extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       inputPwd: "",
       confirmPwd: "",
@@ -28,6 +27,13 @@ class CreatePassword extends React.Component {
   }
   componentWillUnmount() {
     this.isUnMounted = true;
+    let newMatchlist =this.state.matchList
+    this.callSetState({
+      matchList: newMatchlist.map(v => {
+        v.bool = false;
+        return v;
+      })
+    })
   }
   callSetState = (data, callback) => {
     if (!this.isUnMounted) {
@@ -79,11 +85,12 @@ class CreatePassword extends React.Component {
   onPwdInput = (e) => {
     const { value } = e.target;
     let { matchList } = this.state
+    let newMatchlist = [...matchList]
     this.callSetState({
       inputPwd: value,
     }, () => {
       this.callSetState({
-        matchList: matchList.map(v => {
+        matchList: newMatchlist.map(v => {
           if (v.expression.test(value)) {
             v.bool = true;
           } else {
