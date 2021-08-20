@@ -22,6 +22,7 @@ import {
   WALLET_SEND_RECLAIM_TRANSTRACTION,
   WALLET_IMPORT_OBSERVE_ACCOUNT,
   WALLET_RESET_LAST_ACTIVE_TIME,
+  WALLET_OPEN_ROUTE_IN_PERSISTENT_POPUP,
   GET_SIGN_PARAMS,
   DAPP_GET_APPROVE_ACCOUNT,
   DAPP_GET_CONNECT_STATUS,
@@ -35,6 +36,7 @@ import {
 import extension from 'extensionizer'
 import apiService from "./service/APIService";
 import extDappService from "./service/ExtDappService";
+import { openPopupWindow } from '../utils/popup';
 
 function internalMessageListener(message, sender, sendResponse) {
   const { messageSource, action, payload } = message;
@@ -148,6 +150,14 @@ function internalMessageListener(message, sender, sendResponse) {
       break
     case WALLET_RESET_LAST_ACTIVE_TIME:
       sendResponse(apiService.setLastActiveTime())
+      break
+    case WALLET_OPEN_ROUTE_IN_PERSISTENT_POPUP:
+      openPopupWindow(extension.extension.getURL(payload.route), 'persistentPopup', undefined, {
+        left: payload.left,
+        top: payload.top,
+      }).then((result) => {
+        sendResponse(result);
+      });
       break
     case GET_APP_LOCK_STATUS:
       sendResponse(apiService.getLockStatus())
