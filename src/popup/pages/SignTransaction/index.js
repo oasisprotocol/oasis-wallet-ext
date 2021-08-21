@@ -2,6 +2,7 @@ import * as oasis from '@oasisprotocol/client';
 import BigNumber from "bignumber.js";
 import React from "react";
 import { connect } from "react-redux";
+import { KNOWN_NETWORK_CONTEXTS } from '../../../../config';
 import dapp_default_icon from "../../../assets/images/dapp_default_icon.svg";
 import { getLedgerSigner } from "../../../background/api/txHelper";
 import { DAPP_ACTION_SEND_TRANSACTION, DAPP_GET_APPROVE_ACCOUNT, GET_SIGN_PARAMS } from "../../../constant/types";
@@ -232,14 +233,10 @@ class SignTransaction extends React.Component {
     )
   }
   chainLabel = (chainContext) => {
-    switch (chainContext) {
-      case '53852332637bacb61b91b6411ab4095168ba02a50be4c3f82448438826f23898':
-        return 'Oasis Protocol Foundation Mainnet - Cobalt'
-      case '5ba68bc5e01e06f755c4c044dd11ec508e4c17f1faf40c0e67874388437a9e55':
-        return 'Oasis Protocol Foundation Testnet - 2021-04-13'
-      default:
-        return getLanguage('unknownChain')
+    if (KNOWN_NETWORK_CONTEXTS.hasOwnProperty(chainContext)) {
+      return KNOWN_NETWORK_CONTEXTS[chainContext]
     }
+    return getLanguage('unknownChain')
   }
   renderSendContent = () => {
     let { params } = this.state
