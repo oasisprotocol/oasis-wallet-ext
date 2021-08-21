@@ -216,6 +216,9 @@
     "sendShares":"Shares",
     "all":"ALL",
     "txType":"Type",
+    "chainLabel":"Network",
+    "unknownChain":"Unknown",
+    "chainContext":"Genesis Hash",
 
     "txCancel":"Canceled transaction",
     "txError":"Abnormal transaction",

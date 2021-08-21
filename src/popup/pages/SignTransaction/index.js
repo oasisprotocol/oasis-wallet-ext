@@ -2,6 +2,7 @@ import * as oasis from '@oasisprotocol/client';
 import BigNumber from "bignumber.js";
 import React from "react";
 import { connect } from "react-redux";
+import { KNOWN_NETWORK_CONTEXTS } from '../../../../config';
 import dapp_default_icon from "../../../assets/images/dapp_default_icon.svg";
 import { getLedgerSigner } from "../../../background/api/txHelper";
 import { DAPP_ACTION_SEND_TRANSACTION, DAPP_GET_APPROVE_ACCOUNT, GET_SIGN_PARAMS } from "../../../constant/types";
@@ -197,14 +198,12 @@ class SignTransaction extends React.Component {
   };
   renderAccountInfo = () => {
     let showAddress = addressSlice(this.state.currentAccount.address, 6)
-    let netName = this.props.netConfig.currentNetType
     return (
       <div className={'sign-page-top-con'}>
         <div className={"sign-page-top-left"}>
           {this.renderMyIcon()}
           <p className={"sign-page-top-address"}>{showAddress}</p>
         </div>
-        <p className={"sign-page-top-netName"}>{netName}</p>
       </div>
     )
   }
@@ -233,12 +232,26 @@ class SignTransaction extends React.Component {
       </div>
     )
   }
+  chainLabel = (chainContext) => {
+    if (KNOWN_NETWORK_CONTEXTS.hasOwnProperty(chainContext)) {
+      return KNOWN_NETWORK_CONTEXTS[chainContext]
+    }
+    return getLanguage('unknownChain')
+  }
   renderSendContent = () => {
     let { params } = this.state
     let txNonce = params.nonce
     let currentSymbol = this.props.netConfig.currentSymbol;
     let toTitle = this.state.sendAction === oasis.staking.METHOD_ADD_ESCROW ? getLanguage('stakeNodeName') : getLanguage('toAddress')
     let itemList = [
+      {
+        title: getLanguage('chainLabel'),
+        content: this.chainLabel(params.chainContext),
+      },
+      {
+        title: getLanguage('chainContext'),
+        content: params.chainContext,
+      },
       {
         title: getLanguage('txType'),
         content: params.method
