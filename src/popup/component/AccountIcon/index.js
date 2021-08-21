@@ -1,4 +1,5 @@
 import jazzicon from '@metamask/jazzicon'
+import * as oasis from '@oasisprotocol/client'
 import React, { createRef, PureComponent } from 'react'
 
 export default class AccountIcon extends PureComponent {
@@ -16,20 +17,15 @@ export default class AccountIcon extends PureComponent {
         const identicon = jazzicon(diameter, numericRepresentation)
         return identicon
     }
-    str2hex = (str) => {
-        if (str === "") {
-            return "";
-        }
-        var arr = [];
-        arr.push("0x");
-        for (var i = 0; i < str.length; i++) {
-            arr.push(str.charCodeAt(i).toString(16));
-        }
-        return arr.join('');
-    }
     addressToNumber = (address) => {
-        const addr = address.slice(7, 16)
-        const seed = parseInt(this.str2hex(addr), 16)
+        const addressU8 = oasis.staking.addressFromBech32(address)
+        // Use bytes from the end for a seed.
+        // jazzicon internally uses mersenne-twister, which accepts a 32-bit seed.
+        const seed =
+            addressU8[20] |
+            addressU8[19] << 8 |
+            addressU8[18] << 16 |
+            addressU8[17] << 24
         return seed
     }
 
