@@ -7,12 +7,6 @@ export const ACCOUNT_TYPE = {
   WALLET_LEDGER: "WALLET_LEDGER",
   WALLET_OBSERVE: "WALLET_OBSERVE",
 };
-/**
- * Type of error
- */
-export const ERROR_TYPE = {
-  CanceRequest: "Cancel Request",
-};
 
 /**
  * type on the account management page
