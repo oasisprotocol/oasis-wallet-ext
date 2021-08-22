@@ -523,9 +523,9 @@ class APIService {
             return { error: 'passwordError', type: "local" }
         }
     }
-    updateSecPassword = async (oldPwd, pwd, type) => {
+    updateSecPassword = async (oldPwd, pwd) => {
         try {
-            let isCorrect = this.checkPassword(oldPwd, type)
+            let isCorrect = this.checkPassword(oldPwd)
             if (isCorrect) {
                 let data = this.getStore().data
 
