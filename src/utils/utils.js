@@ -270,6 +270,9 @@ export function connectAccountDataFilter(account){
     let endStr = "]]"
     let list = []
     var index = str.indexOf(startStr); 
+    if(index === -1){
+        return str
+    }
     let lastIndex = -endStr.length
     let specialIndex = -1
     while (index !== -1) {

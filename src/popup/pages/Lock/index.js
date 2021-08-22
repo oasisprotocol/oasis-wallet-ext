@@ -144,7 +144,7 @@ class LockPage extends React.Component {
             <div className={"account-info-btn-container"}>
                 <Button
                     content={getLanguage('confirm')}
-                    onClick={this.onConfirmRestore}
+                    onClick={this.onConfirmReset}
                     propsClass={"account-common-btn"}
                     disabled={!this.state.deleteTagStatus}
                 />
@@ -178,7 +178,7 @@ class LockPage extends React.Component {
             deleteTagStatus: checkStatus
         })
     }
-    onConfirmRestore = () => {
+    onConfirmReset = () => {
         if (this.state.deleteTagStatus) {
             //1, delete extension storage
             clearStorage()
@@ -208,7 +208,7 @@ class LockPage extends React.Component {
     onClickRestore = () => {
         let title = getLanguage('prompt')
         let content = ""
-        let cancelText = getLanguage('confirmRestore')
+        let cancelText = getLanguage('confirmReset')
         let confirmText = getLanguage('cancelRestore')
         let tipImgSrc = txFailed
         content = [
@@ -235,8 +235,8 @@ class LockPage extends React.Component {
                 </div>
                 {this.renderPwdInput()}
             </div>
-            <div className={"restore-bottom-container"} onClick={this.onClickRestore}>
-                <p className="restore-bottom">{getLanguage('resetWallet')}</p>
+            <div className={"restore-bottom-container"}>
+                <p className="restore-bottom"  onClick={this.onClickRestore}>{getLanguage('resetWallet')}</p>
             </div>
             <div className={"lock-bottom-container"}>
                 <p className="lock-bottom" >Powered by Bit Cat</p>

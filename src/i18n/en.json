@@ -248,7 +248,7 @@
     "restore_tip_2": "After reset, all the data of the existing wallet will be lost and can only be restored using the mnemonic phrase.",
     "confirm_restore_tip":"Please enter'delete' to confirm reset the wallet",
 
-    "confirmRestore":"Confirm Reset",
+    "confirmReset":"Confirm Reset",
     "cancelRestore":"Cancel Reset",
 
     "deleteTag":"delete",

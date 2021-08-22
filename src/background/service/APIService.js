@@ -22,13 +22,7 @@ const RETRY_TIME = 4
 const default_account_name = "Account 1"
 class APIService {
     constructor() {
-        this.memStore = new ObservableStore({
-            isUnlocked: false,
-            data: '',
-            password: '',
-            currentAccount: {},
-            mne: ""
-        })
+        this.memStore = new ObservableStore(this.initLockedState())
         this.statusTimer = {}
         this.encryptor = encryptUtils
     }
