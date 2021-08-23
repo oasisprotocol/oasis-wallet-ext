@@ -271,7 +271,11 @@ export function connectAccountDataFilter(account){
     let list = []
     var index = str.indexOf(startStr); 
     if(index === -1){
-        return str
+        list.push({
+            type:"common",
+            showStr : str
+        })
+        return list
     }
     let lastIndex = -endStr.length
     let specialIndex = -1

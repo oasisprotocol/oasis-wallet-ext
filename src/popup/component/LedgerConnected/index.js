@@ -36,11 +36,11 @@ export class LedgerConnected extends React.Component {
     return (
       <p className={"wallet-tip-description"} key={outerIndex+""}>
         {
-          list.map((item, index) => {
-            if (item.type === "common") {
-              return (<span key={index + ""}>{item.showStr}</span>)
-            } else {
+          list.map((item, index) => { 
+            if (item.type === "special") {
               return (<span key={index + ""} className={"tips-spical"}>{item.showStr}</span>)
+            } else {
+              return (<span key={index + ""}>{item.showStr}</span>)
             }
           })
         }
