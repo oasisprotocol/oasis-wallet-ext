@@ -4,14 +4,16 @@ import { connect } from "react-redux";
 import export_icon from "../../../assets/images/export_icon.png";
 import input_edit from "../../../assets/images/input_edit.png";
 import txArrow from "../../../assets/images/txArrow.png";
-import { WALLET_CHANGE_ACCOUNT_NAME } from "../../../constant/types";
-import { ACCOUNT_TYPE, SEC_DELETE_ACCOUNT, SEC_SHOW_PRIVATE_KEY } from "../../../constant/walletType";
+import { DAPP_DELETE_ACCOUNT_CONNECT_HIS, WALLET_CHANGE_ACCOUNT_NAME, WALLET_CHANGE_DELETE_ACCOUNT } from "../../../constant/types";
+import { ACCOUNT_TYPE, SEC_DELETE_ACCOUNT } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
+import { updateCurrentAccount } from "../../../reducers/accountReducer";
 import { sendMsg } from "../../../utils/commonMsg";
 import { copyText, getPrettyAddress, nameLengthCheck } from "../../../utils/utils";
 import Button from "../../component/Button";
 import CustomInput from "../../component/CustomInput";
 import CustomView from "../../component/CustomView";
+import SecurityPwd from "../../component/SecurityPwd";
 import TestModal from "../../component/TestModal";
 import Toast from "../../component/Toast";
 import "./index.scss";
@@ -27,7 +29,8 @@ class AccountInfo extends React.Component {
       accountName: account.accountName,
       inputAccountName: "",
       errorTipShow: false,
-      btnClick: false
+      btnClick: false,
+      showSecurity: false
     };
     this.modal = React.createRef();
     this.isUnMounted = false;
@@ -78,30 +81,14 @@ class AccountInfo extends React.Component {
   }
   showPrivateKey = () => {
     this.props.history.push({
-      pathname: "/security_pwd_page",
+      pathname: "/show_privatekey_page",
       params: {
-        nextRoute: "/show_privatekey_page",
-        action: SEC_SHOW_PRIVATE_KEY,
         address: this.state.account.address,
       }
     }
     )
   }
-  deleteAccount = () => {
-    this.props.history.push({
-      pathname: "/security_pwd_page",
-      params: {
-        action: SEC_DELETE_ACCOUNT,
-        nextRoute: "/account_manage",
-        address: this.state.account.address,
-        nextParams: {
-          title: getLanguage('backup_success_title'),
-          content: getLanguage('deleteAccountSuccess')
-        }
-      }
-    }
-    )
-  }
+
   onChangeAccountName = () => {
     if (this.state.inputAccountName.length <= 0) {
       Toast.info(getLanguage('inputAccountName'))
@@ -232,23 +219,62 @@ class AccountInfo extends React.Component {
       </div>
     </div>)
   }
+  deleteAccount = () => {
+    this.callSetState({
+      showSecurity: true
+    })
+  }
+  onClickCheck = (password) => {
+    sendMsg({
+      action: WALLET_CHANGE_DELETE_ACCOUNT,
+      payload: {
+        address: this.state.account.address,
+        password: password
+      }
+    },
+      async (currentAccount) => {
+        if (currentAccount.error) {
+          if (currentAccount.type === "local") {
+            Toast.info(getLanguage(currentAccount.error))
+          } else {
+            Toast.info(currentAccount.error)
+          }
+        } else {
+          sendMsg({
+            action: DAPP_DELETE_ACCOUNT_CONNECT_HIS,
+            payload: {
+              address: this.state.account.address,
+              currentAddress: currentAccount.address
+            }
+          }, (status) => { })
+          Toast.info(getLanguage("deleteSuccess"))
+          this.props.updateCurrentAccount(currentAccount)
+          this.props.history.goBack()
+        }
+      })
+  }
   render() {
+    const { showSecurity } = this.state
     let showDelete = this.state.account.type !== ACCOUNT_TYPE.WALLET_INSIDE
     let showAddress = getPrettyAddress(this.state.account.address)
+    let title = showSecurity ? getLanguage('securityPassword') : getLanguage('accountInfo')
     return (
       <CustomView
-        title={getLanguage('accountInfo')}
+        title={title}
         history={this.props.history}>
-        <div className="account-info-container">
-          {this.renderCommonShowItem(getLanguage("accountAddress"), showAddress, this.copyAddress)}
-          {this.renderCommonShowItem(getLanguage("accountName"), this.state.account.accountName, this.changeAccountName, true)}
+        {showSecurity ? <SecurityPwd onClickCheck={this.onClickCheck} action={SEC_DELETE_ACCOUNT} /> :
+          <>
+            <div className="account-info-container">
+              {this.renderCommonShowItem(getLanguage("accountAddress"), showAddress, this.copyAddress)}
+              {this.renderCommonShowItem(getLanguage("accountName"), this.state.account.accountName, this.changeAccountName, true)}
 
-          {this.renderExportPrivateKey()}
-        </div>
-        {showDelete && this.renderDeleteAccount()}
-        <form onSubmit={this.onSubmit}>
-          {this.renderChangeModal()}
-        </form>
+              {this.renderExportPrivateKey()}
+            </div>
+            {showDelete && this.renderDeleteAccount()}
+            <form onSubmit={this.onSubmit}>
+              {this.renderChangeModal()}
+            </form>
+          </>}
       </CustomView>)
   }
 }
@@ -259,6 +285,9 @@ const mapStateToProps = (state) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
+    updateCurrentAccount: (account) => {
+      dispatch(updateCurrentAccount(account))
+    }
   };
 }
 
