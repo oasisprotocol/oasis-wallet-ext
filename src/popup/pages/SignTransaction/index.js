@@ -123,7 +123,8 @@ class SignTransaction extends React.Component {
           payload: {
             isConfirmed: true,
             ledgerSignatureHex: signatureHex,
-            ledgerWallet: true
+            ledgerWallet: true,
+            resultOrigin: winParams.siteUrl,
           },
         }, async (params) => {
           this.goToHome()
@@ -135,7 +136,8 @@ class SignTransaction extends React.Component {
           payload: {
             isConfirmed: true,
             ledgerWallet: true,
-            ledgerError: error
+            ledgerError: error,
+            resultOrigin: this.getParams().siteUrl,
           },
         }, async (params) => {
           this.goToHome()
@@ -144,7 +146,10 @@ class SignTransaction extends React.Component {
     } else {
       sendMsg({
         action: DAPP_ACTION_SEND_TRANSACTION,
-        payload: { isConfirmed: true },
+        payload: {
+          isConfirmed: true,
+          resultOrigin: this.getParams().siteUrl,
+        },
       }, async (params) => {
         this.goToHome()
       })
@@ -166,7 +171,10 @@ class SignTransaction extends React.Component {
           onClick={() => {
             sendMsg({
               action: DAPP_ACTION_SEND_TRANSACTION,
-              payload: { isConfirmed: false },
+              payload: {
+                isConfirmed: false,
+                resultOrigin: this.getParams().siteUrl,
+              },
             }, async (params) => {
               this.goToHome()
             })

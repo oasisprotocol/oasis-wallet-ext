@@ -57,6 +57,7 @@ class ExtDappService {
           const { action, payload } = message;
           switch (action) {
             case DAPP_ACTION_GET_ACCOUNT:
+              if (payload.resultOrigin !== origin) break;
               extension.runtime.onMessage.removeListener(onMessage)
               await closePopupWindow(windowId.approve_page)
               that.setBadgeContent("approve_page", BADGE_MINUS)
@@ -88,6 +89,7 @@ class ExtDappService {
               sendResponse()
               break;
             case DAPP_ACTION_CLOSE_WINDOW:
+              if (payload.resultOrigin !== origin) break;
               extension.runtime.onMessage.removeListener(onMessage)
               resolve(payload.account)
               await closePopupWindow(payload.page)
@@ -173,6 +175,7 @@ class ExtDappService {
         async function onMessage(message, sender, sendResponse) {
           const { action, payload } = message;
           if (action === DAPP_ACTION_SEND_TRANSACTION) {
+            if (payload.resultOrigin !== site) return;
             extension.runtime.onMessage.removeListener(onMessage)
             that.setBadgeContent("request_sign", BADGE_MINUS)
             await closePopupWindow(windowId.request_sign)
