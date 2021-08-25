@@ -1,8 +1,6 @@
 import cx from "classnames";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import select_account_no from "../../../assets/images/select_account_no.png";
-import select_account_ok from "../../../assets/images/select_account_ok.png";
 import { getBalance } from "../../../background/api";
 import { updateLedgerBalanceList } from "../../../reducers/cache";
 import { addressSlice } from "../../../utils/utils";
