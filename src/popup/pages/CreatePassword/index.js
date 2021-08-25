@@ -92,28 +92,31 @@ class CreatePassword extends React.Component {
           return v;
         })
       }, () => {
-        this.setBtnStatus()
+        this.checkConfirmStatus()
       })
     })
+  }
+  checkConfirmStatus=()=>{
+    if (this.state.confirmPwd.length > 0 && this.state.inputPwd !== this.state.confirmPwd) {
+      this.callSetState({
+        errorTip: getLanguage('passwordDifferent')
+      }, () => {
+        this.setBtnStatus()
+      })
+    } else {
+      this.callSetState({
+        errorTip: ""
+      }, () => {
+        this.setBtnStatus()
+      })
+    }
   }
   onPwdConfirmInput = (e) => {
     const { value } = e.target;
     this.callSetState({
       confirmPwd: value,
     }, () => {
-      if (this.state.confirmPwd.length > 0 && this.state.inputPwd !== this.state.confirmPwd) {
-        this.callSetState({
-          errorTip: getLanguage('passwordDifferent')
-        }, () => {
-          this.setBtnStatus()
-        })
-      } else {
-        this.callSetState({
-          errorTip: ""
-        }, () => {
-          this.setBtnStatus()
-        })
-      }
+      this.checkConfirmStatus()
     })
   }
   onSubmit = (event) => {
