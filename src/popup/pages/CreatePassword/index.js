@@ -10,8 +10,8 @@ import CustomView from "../../component/CustomView";
 import TextInput from "../../component/TextInput";
 import "./index.scss";
 
-import select_account_no from "../../../assets/images/select_account_no.png";
-import select_account_ok from "../../../assets/images/select_account_ok.png";
+import select_account_no from "../../../assets/images/select_account_no.svg";
+import select_account_ok from "../../../assets/images/select_account_ok.svg";
 class CreatePassword extends React.Component {
   constructor(props) {
     super(props);
