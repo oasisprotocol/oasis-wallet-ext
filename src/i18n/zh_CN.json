@@ -121,7 +121,7 @@
   "secondStep":"第二步",
   "pleaseConnectLedger":"将Ledger连接到电脑",
   "back2extension": "请返回钱包应用中继续操作。",
-  "dontclose": "在此之前<b>请勿关闭</b>此窗口。",
+  "dontclose": "在此之前[[请勿关闭]]此窗口。",
   "confirmInfoLedger":"请在Ledger钱包中进行确认",
   "ledgerConnect":"连接 Ledger",
   "inputFeeError":"请输入有效的矿工费",
