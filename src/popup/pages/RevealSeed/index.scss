@@ -1,0 +1,18 @@
+@import "../../common.scss";
+.reveal-text{
+    margin: 0;
+    margin-top: 8px;
+
+    padding: 10px 15px;
+
+    width: 100%;
+    min-height: 100px;
+
+    border-radius: 10px;
+    border: 1px solid #bfc7df;
+
+    font-size: $font-size-content;
+    font-weight: 400;
+    color: #2c3451;
+    line-height: 20px;
+}
