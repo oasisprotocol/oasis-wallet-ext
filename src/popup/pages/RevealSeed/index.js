@@ -7,6 +7,7 @@ import { sendMsg } from "../../../utils/commonMsg";
 import CustomView from "../../component/CustomView";
 import SecurityPwd from "../../component/SecurityPwd";
 import Toast from "../../component/Toast";
+import "./index.scss"
 
 class RevealSeedPage extends React.Component {
   constructor(props) {
@@ -31,12 +32,7 @@ class RevealSeedPage extends React.Component {
   }
 
   renderInput = () => {
-    return (
-      <textarea
-        className={"text-area-input"}
-        value={this.state.mnemonic}
-        readOnly="readOnly" />
-    )
+    return(<p className={"reveal-text"}>{this.state.mnemonic}</p>)
   }
 
   onClickCheck = (password) => {
