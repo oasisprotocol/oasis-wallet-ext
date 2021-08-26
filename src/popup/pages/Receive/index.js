@@ -23,12 +23,7 @@ class ReceivePage extends React.Component {
     qrImage.addData(address)
     qrImage.make()
     return (
-      <div
-        className="qr-image"
-        dangerouslySetInnerHTML={{
-          __html: qrImage.createTableTag(4),
-        }}
-      />
+      <img src={qrImage.createDataURL(4)} alt="QR code"></img>
     )
   }
   onCopy = () => {
