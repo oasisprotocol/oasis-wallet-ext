@@ -151,6 +151,7 @@ class SignTransaction extends React.Component {
           resultOrigin: this.getParams().siteUrl,
         },
       }, async (params) => {
+        Loading.hide()
         this.goToHome()
       })
     }
