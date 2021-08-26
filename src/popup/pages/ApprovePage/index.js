@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import dapp_default_icon from "../../../assets/images/dapp_default_icon.svg";
 import { getBalance } from "../../../background/api";
 import { DAPP_ACTION_CLOSE_WINDOW, DAPP_ACTION_GET_ACCOUNT, DAPP_GET_APPROVE_ACCOUNT, WALLET_GET_ALL_ACCOUNT } from "../../../constant/types";
-import { ERROR_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { updateAccountList, updateNetAccount } from "../../../reducers/accountReducer";
 import { updateDAppOpenWindow, updateDappSelectList } from "../../../reducers/cache";
@@ -61,7 +60,7 @@ class ApprovePage extends React.Component {
   }
   fetchData = (address) => {
     getBalance(address).then((account) => {
-      if (account.error && account.error !== ERROR_TYPE.CanceRequest) {
+      if (account.error) {
         Toast.info(getLanguage('nodeError'))
       } else if (account && account.address) {
         this.firstRequest = false

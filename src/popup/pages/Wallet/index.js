@@ -11,7 +11,7 @@ import wallet_receive from "../../../assets/images/wallet_receive.png";
 import wallet_send from "../../../assets/images/wallet_send.png";
 import { getBalance, getRpcNonce, getTransactionList } from "../../../background/api";
 import { DAPP_ACCOUNT_CONNECT_SITE, DAPP_CHANGE_CONNECTING_ADDRESS, DAPP_DISCONNECT_SITE, DAPP_GET_ALL_APPROVE_ACCOUNT, SEND_PAGE_TYPE_SEND, WALLET_CHANGE_CURRENT_ACCOUNT } from "../../../constant/types";
-import { ACCOUNT_TYPE, ERROR_TYPE, TRANSACTION_TYPE } from '../../../constant/walletType';
+import { ACCOUNT_TYPE, TRANSACTION_TYPE } from '../../../constant/walletType';
 import { getLanguage } from "../../../i18n";
 import { updateAccountTx, updateCurrentAccount, updateNetAccount, updateRpcNonce } from "../../../reducers/accountReducer";
 import { setAccountInfo, updateDappConnectList, updateNetConfigRequest, updateSendPageType } from "../../../reducers/cache";
@@ -109,7 +109,7 @@ class Wallet extends React.Component {
     await Promise.all([balanceRequest, txRequest]).then((data) => {
       let account = data[0]
       let txList = data[1]
-      if (account.error && account.error !== ERROR_TYPE.CanceRequest) {
+      if (account.error) {
         Toast.info(getLanguage('nodeError'))
       } else if (account && account.address) {
         this.props.updateNetAccount(account)
