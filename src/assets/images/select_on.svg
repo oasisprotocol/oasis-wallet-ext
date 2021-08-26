@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>编组 3</title>
-    <g id="v2-更新" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="地址选中状态，3为已经添加的地址" transform="translate(-45.000000, -594.000000)">
-            <g id="编组-5" transform="translate(45.000000, 586.000000)">
-                <g id="编组-3" transform="translate(0.000000, 8.000000)">
-                    <rect id="矩形" fill="#78C06E" x="0" y="0" width="24" height="24" rx="4"></rect>
-                    <g id="编组" transform="translate(4.000000, 6.666667)" fill="#FEFFFF" fill-rule="nonzero">
-                        <path d="M16,1.41818181 C16,1.41818181 13.44,2.29090908 10.4533333,5.78181817 C7.68,8.94545454 7.04,10.2545454 5.97333334,12 C5.86666667,11.8909091 4.26666666,8.72727273 0,6.43636364 L2.24,4.25454545 C2.24,4.25454545 4.26666666,5.67272728 5.65333333,8.2909091 C5.65333333,8.2909091 9.17333333,2.72727273 16,0 L16,1.41818181 L16,1.41818181 Z" id="路径"></path>
-                    </g>
-                </g>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><rect fill="#78C06E" width="24" height="24" rx="4"/><path d="M20 8.085s-2.56.873-5.547 4.363c-2.773 3.164-3.413 4.473-4.48 6.219-.106-.11-1.706-3.273-5.973-5.564l2.24-2.182s2.027 1.418 3.413 4.037c0 0 3.52-5.564 10.347-8.291v1.418z" fill="#FEFFFF" fill-rule="nonzero"/></g></svg>

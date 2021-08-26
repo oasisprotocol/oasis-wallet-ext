@@ -1,14 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>编组 3</title>
-    <g id="v2-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="输入安全密码（密码状态检测:通过）" transform="translate(-72.000000, -996.000000)">
-            <g id="编组-3" transform="translate(72.000000, 996.000000)">
-                <circle id="椭圆形" fill="#78C06E" cx="18" cy="18" r="18"></circle>
-                <g id="编组" transform="translate(9.000000, 12.000000)" fill="#FEFFFF" fill-rule="nonzero">
-                    <path d="M20,1.77272726 C20,1.77272726 16.8,2.86363635 13.0666667,7.22727272 C9.6,11.1818182 8.8,12.8181818 7.46666667,15 C7.33333334,14.8636364 5.33333333,10.9090909 0,8.04545454 L2.8,5.31818182 C2.8,5.31818182 5.33333333,7.09090909 7.06666667,10.3636364 C7.06666667,10.3636364 11.4666667,3.40909092 20,0 L20,1.77272726 L20,1.77272726 Z" id="路径"></path>
-                </g>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="36" height="36" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle fill="#78C06E" cx="18" cy="18" r="18"/><path d="M29 13.773s-3.2 1.09-6.933 5.454C18.6 23.182 17.8 24.818 16.467 27c-.134-.136-2.134-4.09-7.467-6.955l2.8-2.727s2.533 1.773 4.267 5.046c0 0 4.4-6.955 12.933-10.364v1.773z" fill="#FEFFFF" fill-rule="nonzero"/></g></svg>
