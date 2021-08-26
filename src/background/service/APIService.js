@@ -281,8 +281,8 @@ class APIService {
      * @returns
      */
     importWalletByPrivateKey = async (privateBase64) => {
-        let privateKey = this.parseKey(privateBase64)
-        const publicKeyBytes = nacl.sign.keyPair.fromSecretKey(hex2uint(privateKey)).publicKey
+        let secretKey = this.parseKey(privateBase64)
+        const publicKeyBytes = nacl.sign.keyPair.fromSecretKey(secretKey).publicKey
         let walletAddress = await publicKeyToAddress(publicKeyBytes)
         const publicKey = uint2hex(publicKeyBytes)
         let privateHex = Buffer.from(privateBase64, 'base64').toString('hex')
