@@ -6,7 +6,21 @@ import entryRouteReducer from './entryRouteReducer';
 import network from './network';
 import tabRouteConfig from './tabRouteReducer';
 
-const rootReducer = combineReducers({
+
+export const RESET_DATA = "RESET_DATA"
+
+/**
+ * Change network configuration
+ * @param {*} data
+ */
+export function resetWallet() {
+    return {
+        type: RESET_DATA,
+    };
+}
+
+
+const appRootReducer = combineReducers({
   entryRouteReducer: entryRouteReducer,
   appReducer: appReducer,
   tabRouteConfig,
@@ -15,4 +29,10 @@ const rootReducer = combineReducers({
   cache: cacheReducer,
 });
 
+const rootReducer = (state, action) => {
+  if (action.type === RESET_DATA) {
+    return appRootReducer(undefined, action)
+  }
+  return appRootReducer(state, action)
+}
 export default rootReducer;
