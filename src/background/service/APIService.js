@@ -22,13 +22,7 @@ const RETRY_TIME = 4
 const default_account_name = "Account 1"
 class APIService {
     constructor() {
-        this.memStore = new ObservableStore({
-            isUnlocked: false,
-            data: '',
-            password: '',
-            currentAccount: {},
-            mne: ""
-        })
+        this.memStore = new ObservableStore(this.initLockedState())
         this.statusTimer = {}
         this.encryptor = encryptUtils
     }
@@ -97,19 +91,26 @@ class APIService {
         }
 
     }
+    initLockedState=()=>{
+        return {
+          isUnlocked: false,
+          data: '',
+          password: '',
+          currentAccount: {},
+          mne: ""
+        };
+      }
+      
     setUnlockedStatus(status) {
         if (!status) {
-            this.memStore.updateState({
-                data: '',
-                currentAccount: {},
-                password: ""
-            })
+            this.memStore.putState(this.initLockedState())
             extension.runtime.sendMessage({
                 type: FROM_BACK_TO_RECORD,
                 action: SET_LOCK,
             });
+        }else{
+            this.memStore.updateState({ isUnlocked: status })
         }
-        this.memStore.updateState({ isUnlocked: status })
     };
     getCurrentAccount = async () => {
         let localAccount = await get("keyringData")
