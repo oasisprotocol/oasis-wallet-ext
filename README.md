@@ -1,27 +1,48 @@
-# Oasis extension wallet
+# Oasis Wallet - Browser Extension
 
-Oasis Protocol extension wallet.
+[![CI lint status][github-ci-lint-badge]][github-ci-lint-link]
+
+[github-ci-lint-badge]: https://github.com/oasisprotocol/oasis-wallet-ext/workflows/ci-lint/badge.svg
+[github-ci-lint-link]: https://github.com/oasisprotocol/oasis-wallet-ext/actions?query=workflow:ci-lint+branch:master
+
+The official non-custodial browser extension wallet for the [Oasis Network].
+
+[Oasis Network]: https://docs.oasis.dev/general/oasis-network/overview
 
 ## Introduction
 
-Oasis Wallet provide one-stop management for oasis assets, convenient staking, and the private key is self-owned.
+Oasis Wallet - Browser Extension provides a complete solution for managing your
+ROSE tokens, including everything for convenient staking of your ROSE tokens.
 
+## Features
 
-Oasis Wallet is aiming to provide a more convenient entrance of the oasis network.
+### Wallet and Accounts
 
-### Current Features
+- Create/Restore wallets using standard [BIP-0039] mnemonic phrases
+- Multiple accounts within the same wallet
+- Import accounts from your [Ledger] hardware wallet
+- Import accounts directly from their private keys
+- Watch 3rd-party accounts
+- Addressbook of your saved accounts
+- Easily switch between different Oasis Wallets that use the same [ADR 0008]
+  standard account key generation process.
 
-- Wallet
-    - create & restore wallet
-    - ledger support
-    - watch wallet support
-- Feature
-    - Transfer
-    - Add-Escrow
-    - Reclaim-Escrow
-- DApp
-    - connect wallet
-    - sign build tx
+### Transactions
+
+- Send tokens
+- Delegate/Undelegate tokens
+- View transaction history
+- View staking/delegation
+- Connect your wallet to dApps and sign their transactions.
+
+### Accessibility
+
+- Available in multiple languages (currently, English and Chinese)
+
+[BIP-0039]: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
+[Ledger]: https://www.ledger.com/
+[ADR 0008]:
+  https://github.com/oasisprotocol/oasis-core/blob/master/docs/adr/0008-standard-account-key-generation.md
 
 ## Architecture
 
