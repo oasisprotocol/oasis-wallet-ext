@@ -93,24 +93,6 @@ export async function getSubmitStatus(txhash) {
 }
 
 /**
- * rpc get avaliable balance
- * @param {*} address
- * @returns
- */
-export async function getRpcBalance(address) {
-  const oasisClient = getOasisClient()
-  let shortKey = await oasis.staking.addressFromBech32(address)
-  let height = oasis.consensus.HEIGHT_LATEST
-  let account = await oasisClient.stakingAccount({ height: height, owner: shortKey, }).catch((err) => err)
-  if (account && account.code && account.code !== 0) {
-    return { err: account }
-  }
-  let balance = account?.general?.balance || 0
-  balance = oasis.quantity.toBigInt(balance).toString()
-  let nonce = account?.general?.nonce || 0
-  return { balance, nonce }
-}
-/**
  * rpc  get nonce
  * @param {*} address
  * @returns
