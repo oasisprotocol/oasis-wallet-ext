@@ -194,13 +194,6 @@ class APIService {
         })
         return [...createList, ...importList, ...ledgerList, ...observeList]
     }
-    getHDpath = (index = 0) => {
-        let purpse = 44
-        let account = 0
-        let charge = 0
-        let hdpath = purpse + "'/" + cointypes.coinType + "'/" + account + "'/" + charge + "'/" + index + "'"
-        return hdpath
-    }
     importWalletByMnemonicHDkey = async (mnemonic, index = 0) => {
         const keyPair = await oasis.hdkey.HDKey.getAccountSigner(
             mnemonic,
