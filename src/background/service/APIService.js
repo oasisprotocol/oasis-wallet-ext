@@ -500,7 +500,7 @@ class APIService {
                 data[0].currentAddress = currentAccount.address
             }
             data[0].accounts = accounts
-            let encryptData = await this.encryptor.encrypt(this.getStore().password, data)
+            let encryptData = await this.encryptor.encrypt(password, data)
             this.memStore.updateState({ data: data, currentAccount })
             save({ keyringData: encryptData })
             return this.getAccountWithoutPrivate(currentAccount)
@@ -513,7 +513,7 @@ class APIService {
         if (isCorrect) {
             let data = this.getStore().data
             let mnemonicEn = data[0].mnemonic
-            let mnemonic = await this.encryptor.decrypt(this.getStore().password, mnemonicEn)
+            let mnemonic = await this.encryptor.decrypt(pwd, mnemonicEn)
             return mnemonic
         } else {
             return { error: 'passwordError', type: "local" }
