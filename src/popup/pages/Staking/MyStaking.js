@@ -120,7 +120,7 @@ class MyStaking extends React.Component {
             </div>
             <div className={"stake-user-detail-total"}>
                 <div className={"stake-user-detail-container"}>
-                    <p className={"stake-user-detail-title"}>{getLanguage("stakeVaildator")+":  "}</p>
+                    <p className={"stake-user-detail-title"}>{getLanguage("stakeValidator")+":  "}</p>
                     <p className={"stake-user-detail-content"}>{delegationList.length}</p>
                 </div>
                 <div className={"stake-user-detail-container"}>
@@ -165,7 +165,7 @@ class MyStaking extends React.Component {
             className={cx("stake-item-container-2 ", {
                 "click-cursor": showBtn
             })} >
-            <div className={"stake-valitor-container"}>
+            <div className={"stake-validator-container"}>
                 <p className={"stake-validator-name"}>{validatorName}</p>
                 {showBtn && <p className={cx("stake-validator-status-text", {
                     "stake-validator-status-text-active": nodeActive,

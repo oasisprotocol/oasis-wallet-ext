@@ -122,7 +122,7 @@
 .node-bottom-container-two {
   justify-content: space-between;
 }
-.vailidator-node-detail-container {
+.validator-node-detail-container {
   background: #feffff;
   border-radius: 10px;
   padding: 20px 20px 20px 20px;
@@ -140,21 +140,21 @@
   width: 120px;
   height: 120px;
 }
-.vailidator-node-total {
+.validator-node-total {
   font-size: $font-size-desc;
   font-weight: 400;
   color: #2c3451;
   line-height: 10px;
   margin-top: 4px;
 }
-.vailidator-node-total-title {
+.validator-node-total-title {
   font-size: $font-size-desc;
   font-weight: 400;
   color: #7080b5;
   line-height: 17px;
   margin-top: 7px;
 }
-.vailidator-node-container {
+.validator-node-container {
   display: flex;
   justify-content: center;
   align-items: center;
