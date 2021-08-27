@@ -61,8 +61,8 @@ The extension is rougly laid out this way:
     - actions (reducer action)
     - reducer
 
-- xu-frame - a page that handles communication with DApps
-    - File is in background/ExtUtils.js, but it is actually loaded in this frame
+- xu-frame - a page that DApps can load in an iframe to communicate with this extension
+    - code for this page is in background/ExtUtils.js
     - Oasis SDK ext-utils handlers
 
 [![Architecture Diagram](./docs/oasis-nomnoml.png)][1]
