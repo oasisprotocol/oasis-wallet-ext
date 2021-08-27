@@ -50,5 +50,5 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
         # Run this step even if the previous one fails so that all linting
-        # errors can be seen at once.
+        # errors can be seen at once. BLA
         if: always() && github.event_name == 'pull_request'
