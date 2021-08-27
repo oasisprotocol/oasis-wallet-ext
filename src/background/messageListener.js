@@ -14,12 +14,12 @@ import {
   WALLET_GET_MNE,
   WALLET_GET_PRIVATE_KEY,
   WALLET_CHANGE_SEC_PASSWORD,
-  WALLET_SEND_TRANSTRACTION,
-  WALLET_SEND_STAKE_TRANSTRACTION,
+  WALLET_SEND_TRANSACTION,
+  WALLET_SEND_STAKE_TRANSACTION,
   WALLET_CHECK_TX_STATUS,
   WALLET_IMPORT_LEDGER,
   WALLET_GET_CREATE_MNEMONIC,
-  WALLET_SEND_RECLAIM_TRANSTRACTION,
+  WALLET_SEND_RECLAIM_TRANSACTION,
   WALLET_IMPORT_OBSERVE_ACCOUNT,
   WALLET_RESET_LAST_ACTIVE_TIME,
   WALLET_OPEN_ROUTE_IN_PERSISTENT_POPUP,
@@ -111,21 +111,21 @@ function internalMessageListener(message, sender, sendResponse) {
         sendResponse(account);
       })
       break;
-    case WALLET_SEND_TRANSTRACTION:
+    case WALLET_SEND_TRANSACTION:
       apiService.sendTransaction(payload).then((result) => {
         sendResponse(result);
       }).catch((err) => {
         sendResponse(err);
       })
       break;
-    case WALLET_SEND_STAKE_TRANSTRACTION:
+    case WALLET_SEND_STAKE_TRANSACTION:
       apiService.sendStakeTransaction(payload).then((result) => {
         sendResponse(result);
       }).catch((err) => {
         sendResponse(err);
       })
       break;
-    case WALLET_SEND_RECLAIM_TRANSTRACTION:
+    case WALLET_SEND_RECLAIM_TRANSACTION:
       apiService.sendReclaimTransaction(payload).then((result) => {
         sendResponse(result);
       }).catch((err) => {

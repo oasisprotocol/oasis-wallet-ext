@@ -10,7 +10,7 @@ import { getBalance, getRpcNonce } from "../../../background/api";
 import { saveLocal } from "../../../background/storage/localStorage";
 import { sendReclaimTransaction, sendStakeTransaction, sendTransaction } from "../../../background/api/txHelper";
 import { NET_WORK_CONFIG } from "../../../constant/storageKey";
-import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSTRACTION, WALLET_SEND_STAKE_TRANSTRACTION, WALLET_SEND_TRANSTRACTION } from "../../../constant/types";
+import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSACTION, WALLET_SEND_STAKE_TRANSACTION, WALLET_SEND_TRANSACTION } from "../../../constant/types";
 import { ACCOUNT_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { updateNetAccount, updateRpcNonce, updateSendRefresh } from "../../../reducers/accountReducer";
@@ -420,7 +420,7 @@ class SendPage extends React.Component {
 
     if (this.state.stakeType === SEND_PAGE_TYPE_STAKE) {
       sendMsg({
-        action: WALLET_SEND_STAKE_TRANSTRACTION,
+        action: WALLET_SEND_STAKE_TRANSACTION,
         payload
       }, (data) => {
         Loading.hide()
@@ -428,7 +428,7 @@ class SendPage extends React.Component {
       })
     } else if (this.state.stakeType === SEND_PAGE_TYPE_SEND) {
       sendMsg({
-        action: WALLET_SEND_TRANSTRACTION,
+        action: WALLET_SEND_TRANSACTION,
         payload
       }, (data) => {
         Loading.hide()
@@ -436,7 +436,7 @@ class SendPage extends React.Component {
       })
     } else {
       sendMsg({
-        action: WALLET_SEND_RECLAIM_TRANSTRACTION,
+        action: WALLET_SEND_RECLAIM_TRANSACTION,
         payload
       }, (data) => {
         Loading.hide()
