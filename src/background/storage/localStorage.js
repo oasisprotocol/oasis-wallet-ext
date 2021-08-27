@@ -29,3 +29,30 @@ export function removeLocal(key) {
 export function clearLocal() {
     localStorage.clear();
 }
+
+/**
+ * get all local storage
+ */
+ export function getAllLocal() {
+    return localStorage.valueOf();
+}
+
+
+/**
+ * delete all local storage except 
+ */
+ export function clearLocalExcept(targetKey) {
+     if(targetKey){
+        let data = getAllLocal()
+        let keys = Object.keys(data)
+        for (let index = 0; index < keys.length; index++) {
+            const key = keys[index];
+            if(key!== targetKey ){
+                removeLocal(key)
+            }
+        }
+     }else{
+        clearLocal()
+     }
+}
+

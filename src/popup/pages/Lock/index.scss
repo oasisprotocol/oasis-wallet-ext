@@ -48,3 +48,16 @@
     margin-top: 20px;
     margin-bottom: 30px;
 }
+
+.restore-bottom-container{
+    margin-top: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.restore-bottom{
+    font-size: $font-size-content;
+    color: #226DFF;
+    padding: 4px;
+    cursor: pointer;
+}

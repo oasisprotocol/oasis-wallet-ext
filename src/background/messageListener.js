@@ -31,7 +31,7 @@ import {
   DAPP_ACCOUNT_CONNECT_SITE,
   DAPP_DELETE_ACCOUNT_CONNECT_HIS,
   DAPP_CHANGE_CONNECTING_ADDRESS, DAPP_GET_CURRENT_OPEN_WINDOW, GET_APP_LOCK_STATUS,
-  FRAME_GET_APPROVE_ACCOUNT, FRAME_GET_ACCOUNT_PUBLIC_KEY, FRAME_GET_ACCOUNT_SIGNER, FRAME_SEND_TRANSFER
+  FRAME_GET_APPROVE_ACCOUNT, FRAME_GET_ACCOUNT_PUBLIC_KEY, FRAME_GET_ACCOUNT_SIGNER, FRAME_SEND_TRANSFER, RESET_WALLET
 } from "../constant/types";
 import extension from 'extensionizer'
 import apiService from "./service/APIService";
@@ -217,6 +217,10 @@ function internalMessageListener(message, sender, sendResponse) {
       break
     case DAPP_GET_CURRENT_OPEN_WINDOW:
       sendResponse(extDappService.getCurrentOpenWindow())
+      break
+    case RESET_WALLET:
+      sendResponse(apiService.resetWallet())
+      break
     default:
       break;
   }

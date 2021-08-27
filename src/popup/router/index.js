@@ -39,6 +39,7 @@ import SignTransaction from "../pages/SignTransaction";
 import LedgerAddresses from '../pages/LedgerAddresses';
 
 import ApprovePage from '../pages/ApprovePage';
+
 export function getAllRouter() {
   return (
     <HashRouter useHistory={useHistory} >

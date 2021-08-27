@@ -101,6 +101,10 @@ class APIService {
         };
       }
       
+    resetWallet=()=>{
+      this.memStore.putState(this.initLockedState())
+      return
+    }
     setUnlockedStatus(status) {
         if (!status) {
             this.memStore.putState(this.initLockedState())
