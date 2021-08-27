@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { ACCOUNT_NAME_FROM_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
-import { updateAccoutType } from "../../../reducers/cache";
+import { updateAccountType } from "../../../reducers/cache";
 import CustomList from "../../component/CustomList";
 import CustomView from "../../component/CustomView";
 import "./index.scss";
@@ -27,13 +27,13 @@ class ImportPage extends React.Component {
     ]
   }
   importPrivateKey = () => {
-    this.props.updateAccoutType(ACCOUNT_NAME_FROM_TYPE.OUTSIDE)
+    this.props.updateAccountType(ACCOUNT_NAME_FROM_TYPE.OUTSIDE)
     this.props.history.push({
       pathname: "/account_name",
     });
   }
   importObserve = () => {
-    this.props.updateAccoutType(ACCOUNT_NAME_FROM_TYPE.OBSERVE)
+    this.props.updateAccountType(ACCOUNT_NAME_FROM_TYPE.OBSERVE)
     this.props.history.push({
       pathname: "/account_name",
     });
@@ -44,7 +44,7 @@ class ImportPage extends React.Component {
   render() {
     return (
       <CustomView
-        title={getLanguage('importAccont')}
+        title={getLanguage('importAccount')}
         history={this.props.history}>
         <div className={"security-page-container"}>
           {this.renderImportOption()}
@@ -57,8 +57,8 @@ const mapStateToProps = (state) => ({});
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateAccoutType: (type) => {
-      dispatch(updateAccoutType(type));
+    updateAccountType: (type) => {
+      dispatch(updateAccountType(type));
     }
   };
 }

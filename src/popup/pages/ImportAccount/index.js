@@ -125,7 +125,7 @@ class ImportAccount extends React.Component {
   render() {
     return (
       <CustomView
-        title={getLanguage('importAccount')}
+        title={getLanguage('importAccount_1')}
         history={this.props.history}>
         <div className="import-account-container">
           {this.renderInput()}

@@ -144,7 +144,7 @@ class Wallet extends React.Component {
 
   }
 
-  renderAcountItemInfo = (title, content) => {
+  renderAccountItemInfo = (title, content) => {
     return (<div className={"account-info-item-container"}>
       <p className={"wallt-info-title"}>{title}</p>
       <p className={"wallt-info-content"}>{content}</p>
@@ -379,10 +379,10 @@ class Wallet extends React.Component {
 
         <p className={"account-divided"} />
         <div className={'wallet-balance-container'}>
-          {this.renderAcountItemInfo(getLanguage('balance'), total_balance_display)}
-          {this.renderAcountItemInfo(getLanguage('amountCanUse'), liquid_balance_display)}
-          {this.renderAcountItemInfo(getLanguage('escrow'), delegations_balance_display)}
-          {this.renderAcountItemInfo(getLanguage('unbounding2'), debonding_delegations_balance_display)}
+          {this.renderAccountItemInfo(getLanguage('balance'), total_balance_display)}
+          {this.renderAccountItemInfo(getLanguage('amountCanUse'), liquid_balance_display)}
+          {this.renderAccountItemInfo(getLanguage('escrow'), delegations_balance_display)}
+          {this.renderAccountItemInfo(getLanguage('unbounding2'), debonding_delegations_balance_display)}
         </div>
       </div>)
   }

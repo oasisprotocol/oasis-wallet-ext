@@ -43,7 +43,7 @@ class LedgerImport extends React.Component {
     return (
       <div className="bottom-container">
         <Button
-          content={getLanguage('importAccont')}
+          content={getLanguage('importAccount')}
           onClick={this.goToNext}
         />
       </div>)

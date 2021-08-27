@@ -4,7 +4,7 @@ import { WALLET_CREATE_HD_ACCOUNT } from "../../../constant/types";
 import { ACCOUNT_NAME_FROM_TYPE, ACCOUNT_TYPE_FROM } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { updateCurrentAccount } from "../../../reducers/accountReducer";
-import { updateAccoutType } from "../../../reducers/cache";
+import { updateAccountType } from "../../../reducers/cache";
 import { sendMsg } from "../../../utils/commonMsg";
 import { checkLedgerConnect } from "../../../utils/ledger";
 import { nameLengthCheck } from "../../../utils/utils";
@@ -180,8 +180,8 @@ function mapDispatchToProps(dispatch) {
     updateCurrentAccount: (account) => {
       dispatch(updateCurrentAccount(account))
     },
-    updateAccoutType: (type) => {
-      dispatch(updateAccoutType(type));
+    updateAccountType: (type) => {
+      dispatch(updateAccountType(type));
     }
   };
 }
