@@ -5,7 +5,7 @@ import { getLanguage } from "../../../i18n";
 import ledgerWallet from "../../../assets/images/ledger_logo.png";
 import ledger_title from "../../../assets/images/ledger_title.png";
 import './index.scss';
-import { specialSplit } from '../../../utils/utils';
+import { Trans } from 'react-i18next';
 export class LedgerConnected extends React.Component {
   static propTypes = {
     tips: PropTypes.array
@@ -32,28 +32,16 @@ export class LedgerConnected extends React.Component {
     )
   }
 
-  renderSpicalStyle = (list,outerIndex) => {
-    return (
-      <p className={"wallet-tip-description"} key={outerIndex+""}>
-        {
-          list.map((item, index) => { 
-            if (item.type === "special") {
-              return (<span key={index + ""} className={"tips-spical"}>{item.showStr}</span>)
-            } else {
-              return (<span key={index + ""}>{item.showStr}</span>)
-            }
-          })
-        }
-      </p>
-    )
-  }
   renderTips = () => {
     return (<div className={'ledger-connect-tip-container'}>
       {
-        this.props.tips.map((tip,index) => {
-          let realTip = getLanguage(tip)
-          let list = specialSplit(realTip)
-          return this.renderSpicalStyle(list,index)
+        this.props.tips.map((tip, index) => {
+          return <div key={index + ""} className={"wallet-tip-description"}>
+            <Trans
+              i18nKey={tip}
+              components={{ bold: <strong /> }}
+            />
+          </div>
         })
       }
     </div>)
