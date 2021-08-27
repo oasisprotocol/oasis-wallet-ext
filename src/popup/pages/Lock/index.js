@@ -200,10 +200,10 @@ class LockPage extends React.Component {
         }
     }
     showConfirmModal = () => {
-        this.modal.current.setModalVisable(true)
+        this.modal.current.setModalVisible(true)
     }
     onCloseModal = () => {
-        this.modal.current.setModalVisable(false)
+        this.modal.current.setModalVisible(false)
     }
     onClickRestore = () => {
         let title = getLanguage('prompt')

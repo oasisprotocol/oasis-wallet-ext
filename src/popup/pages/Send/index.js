@@ -355,10 +355,10 @@ class SendPage extends React.Component {
       return
     }
 
-    this.modal.current.setModalVisable(true)
+    this.modal.current.setModalVisible(true)
   }
   onCancel = () => {
-    this.modal.current.setModalVisable(false)
+    this.modal.current.setModalVisible(false)
   }
   ledgerTransfer = async (payload) => {
     try {
@@ -412,7 +412,7 @@ class SendPage extends React.Component {
     Loading.show()
 
 
-    this.modal.current.setModalVisable(false)
+    this.modal.current.setModalVisible(false)
 
     if (currentAccount.type === ACCOUNT_TYPE.WALLET_LEDGER) {
       return this.ledgerTransfer(payload)
@@ -517,7 +517,7 @@ class SendPage extends React.Component {
       </div>)
   }
   onCloseModal = () => {
-    this.modal.current.setModalVisable(false)
+    this.modal.current.setModalVisible(false)
   }
   renderConfirmModal = () => {
 

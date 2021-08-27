@@ -134,15 +134,15 @@ class AddressBook extends React.Component {
             </div>)
     }
     onCloseModal = () => {
-        this.modal.current.setModalVisable(false)
+        this.modal.current.setModalVisible(false)
         this.callSetState({
             address: "",
             addressName: "",
             currentClickIndex: -1
         })
     }
-    onSetModalVisable = (visable) => {
-        if(!visable){
+    onSetModalVisible = (visible) => {
+        if(!visible){
             this.callSetState({
                 address: "",
                 addressName: "",
@@ -152,7 +152,7 @@ class AddressBook extends React.Component {
 
     }
     onAddAddress = (e) => {
-        this.modal.current.setModalVisable(true)
+        this.modal.current.setModalVisible(true)
     }
     onConfirm = () => {
         let address = trimSpace(this.state.address)
@@ -266,7 +266,7 @@ class AddressBook extends React.Component {
         return (<TestModal
             ref={this.modal}
             showClose={true}
-            actionCallback={this.onSetModalVisable}
+            actionCallback={this.onSetModalVisible}
         >
             <div className={'account-change-name-container'}>
                 <div className={"account-change-title-container"}>

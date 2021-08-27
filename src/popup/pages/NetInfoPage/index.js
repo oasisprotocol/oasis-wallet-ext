@@ -120,8 +120,8 @@ class NetInfoPage extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
   }
-  onSetModalVisable = (visable) => {
-    if (!visable) {
+  onSetModalVisible = (visible) => {
+    if (!visible) {
       setTimeout(() => {
         this.callSetState({
           netUrl: "",
@@ -345,7 +345,7 @@ class NetInfoPage extends React.Component {
     return newList
   }
   onCloseModal = () => {
-    this.modal.current.setModalVisable(false)
+    this.modal.current.setModalVisible(false)
   }
   renderActionBtn = () => {
     return (
@@ -367,7 +367,7 @@ class NetInfoPage extends React.Component {
     return (<TestModal
       ref={this.modal}
       showClose={true}
-      actionCallback={this.onSetModalVisable}
+      actionCallback={this.onSetModalVisible}
     >
       <div className={'account-change-name-container'}>
         <div className={"account-change-title-container"}>
@@ -381,7 +381,7 @@ class NetInfoPage extends React.Component {
     </TestModal>)
   }
   onAdd = (e) => {
-    this.modal.current.setModalVisable(true)
+    this.modal.current.setModalVisible(true)
   }
   renderBottonBtn = () => {
     return (

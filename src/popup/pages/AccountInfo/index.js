@@ -74,10 +74,10 @@ class AccountInfo extends React.Component {
   }
 
   changeAccountName = (e) => {
-    this.modal.current.setModalVisable(true)
+    this.modal.current.setModalVisible(true)
   }
   onCloseModal = () => {
-    this.modal.current.setModalVisable(false)
+    this.modal.current.setModalVisible(false)
   }
   showPrivateKey = () => {
     this.props.history.push({

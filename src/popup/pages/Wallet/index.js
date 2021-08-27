@@ -315,10 +315,10 @@ class Wallet extends React.Component {
     </TestModal>)
   }
   onClickDappConnect = (e) => {
-    this.modal.current.setModalVisable(true)
+    this.modal.current.setModalVisible(true)
   }
   onCloseModal = () => {
-    this.modal.current.setModalVisable(false)
+    this.modal.current.setModalVisible(false)
   }
   renderAccount = () => {
     let { currentAccount, accountInfo, dappConnectAddressList } = this.props

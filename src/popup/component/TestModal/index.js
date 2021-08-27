@@ -10,18 +10,18 @@ export default class TestModal extends Component {
         };
     }
 
-    setModalVisable = (visable) => {
+    setModalVisible = (visible) => {
         const { actionCallback } = this.props
         this.setState({
-            confirmModal: visable
+            confirmModal: visible
         }, () => {
-            actionCallback && actionCallback(visable)
+            actionCallback && actionCallback(visible)
         })
     }
     onClickOuter = () => {
         let touchToClose = this.props.touchToClose
         if (touchToClose) {
-            this.setModalVisable(false)
+            this.setModalVisible(false)
         }
     }
     onClickInner = (e) => {
@@ -38,7 +38,7 @@ export default class TestModal extends Component {
                 <div onClick={this.onClickOuter} className={"testmodal-modal-inner"}>
                     <div onClick={this.onClickInner} className={cx({ "testmodal-modal": true })}>
                         {this.props.showClose && <img
-                            onClick={() => { this.setModalVisable(false) }}
+                            onClick={() => { this.setModalVisible(false) }}
                             className="testmodal-close click-cursor"
                             src={modalClose} />}
                         {this.props.children}
