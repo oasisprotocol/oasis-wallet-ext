@@ -5,6 +5,7 @@ import { getLanguage } from "../../../i18n";
 import ledgerWallet from "../../../assets/images/ledger_logo.png";
 import ledger_title from "../../../assets/images/ledger_title.png";
 import './index.scss';
+import { Trans } from 'react-i18next';
 export class LedgerConnected extends React.Component {
   static propTypes = {
     tips: PropTypes.array
@@ -30,11 +31,17 @@ export class LedgerConnected extends React.Component {
       </div>
     )
   }
+
   renderTips = () => {
     return (<div className={'ledger-connect-tip-container'}>
       {
-        this.props.tips.map((tip) => {
-          return <p className="wallet-tip-description" key={tip} dangerouslySetInnerHTML={{ __html: getLanguage(tip) }} />
+        this.props.tips.map((tip, index) => {
+          return <div key={index + ""} className={"wallet-tip-description"}>
+            <Trans
+              i18nKey={tip}
+              components={{ bold: <strong /> }}
+            />
+          </div>
         })
       }
     </div>)
