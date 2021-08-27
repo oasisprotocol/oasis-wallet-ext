@@ -46,20 +46,24 @@ ROSE tokens, including everything for convenient staking of your ROSE tokens.
 
 ## Architecture
 
-- Oasis-background
-    - ApiService  (wallet info storage and deal)
-    - ExtDAppService (wallet and dapp connet)
+The extension is rougly laid out this way:
 
-- Service-data
-    - oasis-interface (get balance tx-history and stake-info data from [oasisscan](https://api.oasisscan.com/mainnet))
-    - oasis-grpc (get nonce , feeGas ,context and submit with [oasisscan-grpc](https://grpc-mainnet.oasisscan.com))
+- background - the extension's background page
+    - APIService (wallet info storage, in-memory transaction signing, transaction submission)
+    - ExtDAppService (DApp interface, handles requests from xu-frame)
 
+- service-data - connections to the network and block explorer
+    - OASISSCAN (provided by [oasisscan](https://api.oasisscan.com/mainnet))
+    - Oasis gRPC-web (provided by [oasisscan-grpc](https://grpc-mainnet.oasisscan.com))
 
-- Oasis-ui
-    - page (all the page that you see)
+- popup - interactive parts
+    - pages (UI, Ledger transaction signing)
     - actions (reducer action)
     - reducer
 
+- xu-frame - a page that DApps can load in an iframe to communicate with this extension
+    - code for this page is in background/ExtUtils.js
+    - Oasis SDK ext-utils handlers
 
 [![Architecture Diagram](./docs/oasis-nomnoml.png)][1]
 
@@ -99,4 +103,4 @@ yarn buildProd
 
 [Apache License 2.0](LICENSE)
 
-[1]:https://www.nomnoml.com/#view/%5B%3Cactor%3Euser%5D%0A%0A%5Boasis-ui%7C%0A%20%20%20%5Btools%7C%0A%20%20%20%20%20react%0A%20%20%20%20%20redux%0A%20%20%20%20%20thunk%0A%20%20%20%5D%0A%20%20%20%5Bpages%7C%0A%20%20%20%20%20create-wallet%0A%20%20%20%20%20restore-wallet%0A%20%20%20%20%20wallet-page%0A%20%20%20%20%20stake-page%0A%20%20%20%20%20setting-page%0A%20%20%20%20%20...%0A%20%20%20%5D%0A%20%20%20%5Breducers%7C%0A%20%20%20%20%20app%0A%20%20%20%20%20account%0A%20%20%20%20%20cache%0A%20%20%20%20%20...%0A%20%20%20%5D%0A%20%20%20%5Bactions%7C%0A%20%20%20%20%20update-account%0A%20%20%20%20%20update-route%0A%20%20%20%20%20...%0A%20%20%20%5D%0A%20%20%20%5Bpages%5D%3A-%3E%5Bactions%5D%0A%20%20%20%5Bactions%5D%3A-%3E%5Breducers%5D%0A%20%20%20%5Breducers%5D%3A-%3E%5Bpages%5D%0A%5D%0A%5Buser%5D%3C-%3E%5Boasis-ui%5D%0A%0A%0A%5Boasis-background%7C%0A%20%20%0A%20%20%5Bid%20store%5D%0A%20%20%0A%20%20%5Bconfig%20manager%7C%0A%20%20%20%20%5Bservice-data%20config%5D%0A%20%20%20%20%5Bencrypted%20keys%5D%0A%20%20%5D%0A%20%20%0A%20%20%5Bid%20store%5D%3C-%3E%5Bconfig%20manager%5D%0A%5D%0A%0A%5Bservice-data%20%7C%0A%20%20%5Boasis-interface%20%7C%0A%20%20%20%20balance%0A%20%20%20%09transactions%0A%20%20%20%20delegations%0A%20%20%20%09validator-info%0A%20%20%20%20debond-info%0A%20%20%20%20...%0A%20%20%5D%0A%20%20%5Boasis-grpc%20%7C%0A%20%20%09txFee%0A%20%20%20%20genesis%0A%20%20%20%20submit%0A%20%20%5D%0A%5D%0A%0A%5Boasis-background%5D%3C-%3E%5Boasis-ui%5D%0A%5Boasis-background%5D%3C-%3E%5Bservice-data%5D%0A
+[1]:https://www.nomnoml.com/#view/%5B%3Cactor%3Euser%5D%0A%0A%5Bbackground%7C%0A%09%5BAPIService%5D%20%3C-%3E%20%5B%3Cdatabase%3Eencrypted%20store%5D%0A%20%20%20%20%5BAPIService%5D%20%3C-%3E%20%5BNaclSigner%5D%0A%09%5BExtDappService%5D%0A%5D%0A%0A%5Bbackground%5D%20%3C-%3E%20%5Bpopup%5D%0A%0A%5Bpopup%7C%0A%20%20%20%5Btools%7C%0A%20%20%20%20%20react%0A%20%20%20%20%20redux%0A%20%20%20%20%20thunk%0A%20%20%20%5D%0A%20%20%20%5Bpages%7C%0A%20%20%20%20%20create-wallet%0A%20%20%20%20%20restore-wallet%0A%20%20%20%20%20wallet-page%0A%20%20%20%20%20stake-page%0A%20%20%20%20%20setting-page%0A%20%20%20%20%20...%0A%20%20%20%5D%0A%20%20%20%5Bpages%5D%20%3C-%3E%20%5BLedgerSigner%5D%0A%20%20%20%5Breducers%7C%0A%20%20%20%20%20app%0A%20%20%20%20%20account%0A%20%20%20%20%20cache%0A%20%20%20%20%20...%0A%20%20%20%5D%0A%20%20%20%5Bactions%7C%0A%20%20%20%20%20update-account%0A%20%20%20%20%20update-route%0A%20%20%20%20%20...%0A%20%20%20%5D%0A%20%20%20%5Bpages%5D%3A-%3E%5Bactions%5D%0A%20%20%20%5Bactions%5D%3A-%3E%5Breducers%5D%0A%20%20%20%5Breducers%5D%3A-%3E%5Bpages%5D%0A%5D%0A%5Buser%5D%3C-%3E%5Bpopup%5D%0A%0A%5Bservice-data%20%7C%0A%20%20%5Boasis-interface%20%7C%0A%20%20%20%20balance%0A%20%20%20%09transactions%0A%20%20%20%20delegations%0A%20%20%20%09validator-info%0A%20%20%20%20debond-info%0A%20%20%20%20...%0A%20%20%5D%0A%20%20%5Boasis-grpc%20%7C%0A%20%20%09txFee%0A%20%20%20%20genesis%0A%20%20%20%20submit%0A%20%20%5D%0A%5D%0A%0A%5Bbackground%5D%3C-%3E%5Bservice-data%5D%0A%0A%5Bxu-frame%7C%0A%20%20%20%20%5BExtUtils%5D%0A%5D%0A%5Buser%5D%20%3C-%3E%20%5Bdapp%5D%0A%5Bdapp%5D%20%3C-%3E%20%5Bxu-frame%5D%0A%5Bxu-frame%5D%20%3C-%3E%20%5Bbackground%5D%0A%0A%0A%0A%0A%0A
