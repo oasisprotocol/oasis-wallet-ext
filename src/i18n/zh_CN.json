@@ -23,7 +23,7 @@
   "backup_success_restore": "恭喜你，已经成功导入钱包。",
   "backup_success_title": "成功",
   "inputSeed": "请按顺序输入12位助记词，每位单词使用空格隔开。",
-  "inputVaildSeed": "请输入有效的助记词",
+  "inputValidSeed": "请输入有效的助记词",
   "seedLengthError": "助记词长度不符合",
   "confirm": "确定",
   "wallet": "钱包",
