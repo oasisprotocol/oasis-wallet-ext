@@ -15,6 +15,11 @@ on:
       - master
       - stable/*
 
+# Limit GITHUB_TOKEN's permissions to:
+permissions:
+  # Read access to pull requests.
+  pull-requests: read
+
 jobs:
   lint:
     # NOTE: This name appears in GitHub's Checks API.
@@ -40,3 +45,10 @@ jobs:
       - name: Lint git commits
         run: |
           make lint-git
+      - name: Reject merge commits in pull requests
+        uses: Morishiri/block-merge-commits-action@v1.0.1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+        # Run this step even if the previous one fails so that all linting
+        # errors can be seen at once.
+        if: always() && github.event_name == 'pull_request'
