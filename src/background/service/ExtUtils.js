@@ -90,7 +90,9 @@ oasisExt.ext.ready({
                 nonce: "",
                 feeAmount: "",
                 feeGas: "",
-                method: ""
+                method: "",
+                recognizedContext: false,
+                recognizedConsensusTransactionMethod: false
             }
 
             try {
@@ -150,18 +152,14 @@ oasisExt.ext.ready({
 
                                     // 把消息传递到页面
                                     // 需要的数据有  from to nonce amount
-                                    if (!handled) {
-                                        throw new Error("pretty printing doesn't support this method")
-                                    }
+                                    signParams.recognizedConsensusTransactionMethod = handled
                                 },
                             }),
                     },
                     req.context,
                     req.message,
                 )
-                if (!handled) {
-                    throw new Error("pretty printing doesn't support this signature context")
-                }
+                signParams.recognizedContext = handled
             } catch (e) {
                 console.error('parsing signature request:', e)
                 reject(new Error("couldn't parse"))
