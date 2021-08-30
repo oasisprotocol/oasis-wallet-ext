@@ -163,6 +163,7 @@ oasisExt.ext.ready({
                     throw new Error("pretty printing doesn't support this signature context")
                 }
             } catch (e) {
+                console.error('parsing signature request:', e)
                 reject(new Error("couldn't parse"))
             }
 
