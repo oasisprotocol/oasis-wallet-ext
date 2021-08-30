@@ -107,40 +107,33 @@ oasisExt.ext.ready({
                                     signParams.nonce = tx.nonce
                                     signParams.feeAmount = oasis.quantity.toBigInt(tx.fee.amount).toString()
                                     signParams.feeGas = tx.fee.gas
+                                    signParams.method = tx.method
 
                                     const handled = oasis.consensus.visitTransaction(({
                                         [oasis.staking.METHOD_TRANSFER]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_TRANSFER
                                             signParams.to = oasis.staking.addressToBech32(body.to)
                                             signParams.amount = oasis.quantity.toBigInt(body.amount).toString()
                                         },
                                         [oasis.staking.METHOD_ADD_ESCROW]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_ADD_ESCROW
                                             signParams.to = oasis.staking.addressToBech32(body.account)
                                             signParams.amount = oasis.quantity.toBigInt(body.amount).toString()
                                         },
                                         [oasis.staking.METHOD_BURN]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_BURN
                                             signParams.amount = oasis.quantity.toBigInt(body.amount).toString()
                                         },
                                         [oasis.staking.METHOD_RECLAIM_ESCROW]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_RECLAIM_ESCROW
                                             signParams.account = oasis.staking.addressToBech32(body.account)
                                             signParams.shares = oasis.quantity.toBigInt(body.shares).toString()
                                         },
 
                                         [oasis.staking.METHOD_AMEND_COMMISSION_SCHEDULE]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_AMEND_COMMISSION_SCHEDULE
                                             signParams.amendment = JSON.stringify(body.amendment)
                                         },
                                         [oasis.staking.METHOD_ALLOW]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_ALLOW
                                             signParams.beneficiary = oasis.staking.addressToBech32(body.beneficiary)
                                             signParams.amountChange = `${body.negative ? '-' : '+'}${oasis.quantity.toBigInt(body.amount_change)} base units`
                                         },
                                         [oasis.staking.METHOD_WITHDRAW]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_WITHDRAW
-
                                             signParams.from = oasis.staking.addressToBech32(body.from)
                                             signParams.amount = oasis.quantity.toBigInt(body.amount)
                                         },
