@@ -96,13 +96,13 @@ oasisExt.ext.ready({
             }
 
             try {
+                signParams.from = req.which
                 const handled = oasis.signature.visitMessage(
                     {
                         withChainContext:
                             ({
                                 [oasis.consensus.TRANSACTION_SIGNATURE_CONTEXT]: (chainContext, tx) => {
 
-                                    signParams.from = req.which
                                     signParams.chainContext = chainContext
                                     signParams.nonce = tx.nonce
                                     signParams.feeAmount = oasis.quantity.toBigInt(tx.fee.amount).toString()
