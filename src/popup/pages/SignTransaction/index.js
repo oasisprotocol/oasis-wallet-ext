@@ -80,21 +80,23 @@ class SignTransaction extends React.Component {
       Toast.info(getLanguage('observeAccountTip'))
       return
     }
-    let toAddress = trimSpace(params.to)
-    if (!addressValid(toAddress)) {
-      Toast.info(getLanguage('sendAddressError'))
-      return
-    }
-    let amount = trimSpace(params.amount)
-    if (!isNumber(amount) || !new BigNumber(amount).gt(0)) {
-      Toast.info(getLanguage('amountError'))
-      return
-    }
-
-    if (this.state.sendAction === oasis.staking.METHOD_ADD_ESCROW) {
-      if (!isNumber(amount) || (parseInt(amount) < parseInt(STAKE_MIN_AMOUNT))) {
-        Toast.info(getLanguage('minStakeAmout') + " " + STAKE_MIN_AMOUNT)
+    if (params.recognizedConsensusTransactionMethod) {
+      let toAddress = trimSpace(params.to)
+      if (!addressValid(toAddress)) {
+        Toast.info(getLanguage('sendAddressError'))
         return
+      }
+      let amount = trimSpace(params.amount)
+      if (!isNumber(amount) || !new BigNumber(amount).gt(0)) {
+        Toast.info(getLanguage('amountError'))
+        return
+      }
+
+      if (this.state.sendAction === oasis.staking.METHOD_ADD_ESCROW) {
+        if (!isNumber(amount) || (parseInt(amount) < parseInt(STAKE_MIN_AMOUNT))) {
+          Toast.info(getLanguage('minStakeAmout') + " " + STAKE_MIN_AMOUNT)
+          return
+        }
       }
     }
     this.clickNextStep()

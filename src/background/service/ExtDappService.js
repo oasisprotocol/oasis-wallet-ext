@@ -163,13 +163,15 @@ class ExtDappService {
           reject({ error: "Please connect first" })
           return
         }
-        if (params.to.length <= 0 || !addressValid(params.to)) {
-          reject({ error: "Please enter a valid wallet address" })
-          return
-        }
-        if (!isNumber(params.amount)) {
-          reject({ error: "Amount error" })
-          return
+        if (params.recognizedConsensusTransactionMethod) {
+          if (params.to.length <= 0 || !addressValid(params.to)) {
+            reject({ error: "Please enter a valid wallet address" })
+            return
+          }
+          if (!isNumber(params.amount)) {
+            reject({ error: "Amount error" })
+            return
+          }
         }
         signRequests.push({ params, site })
         async function onMessage(message, sender, sendResponse) {
