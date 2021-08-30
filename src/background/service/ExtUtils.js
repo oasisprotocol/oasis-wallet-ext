@@ -192,6 +192,7 @@ oasisExt.ext.ready({
                             resolve({ approved: true, signature });
                         }
                     } else {
+                        console.error('FRAME_SEND_TRANSFER not confirmed', result);
                         resolve({ approved: false });
                     }
                 })
