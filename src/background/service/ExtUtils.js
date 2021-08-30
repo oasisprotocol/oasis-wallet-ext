@@ -91,6 +91,7 @@ oasisExt.ext.ready({
                 feeAmount: "",
                 feeGas: "",
                 method: "",
+                bodyCBORHex: "",
                 recognizedContext: false,
                 recognizedConsensusTransactionMethod: false
             }
@@ -108,6 +109,7 @@ oasisExt.ext.ready({
                                     signParams.feeAmount = oasis.quantity.toBigInt(tx.fee.amount).toString()
                                     signParams.feeGas = tx.fee.gas
                                     signParams.method = tx.method
+                                    signParams.bodyCBORHex = oasis.misc.toHex(oasis.misc.toCBOR(tx.body))
 
                                     const handled = oasis.consensus.visitTransaction(({
                                         [oasis.staking.METHOD_TRANSFER]: (body) => {
