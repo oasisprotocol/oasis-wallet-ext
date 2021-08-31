@@ -90,55 +90,52 @@ oasisExt.ext.ready({
                 nonce: "",
                 feeAmount: "",
                 feeGas: "",
-                method: ""
+                method: "",
+                bodyCBORHex: "",
+                recognizedContext: false,
+                recognizedConsensusTransactionMethod: false
             }
 
             try {
+                signParams.from = req.which
                 const handled = oasis.signature.visitMessage(
                     {
                         withChainContext:
                             ({
                                 [oasis.consensus.TRANSACTION_SIGNATURE_CONTEXT]: (chainContext, tx) => {
 
-                                    signParams.from = req.which
                                     signParams.chainContext = chainContext
                                     signParams.nonce = tx.nonce
                                     signParams.feeAmount = oasis.quantity.toBigInt(tx.fee.amount).toString()
                                     signParams.feeGas = tx.fee.gas
+                                    signParams.method = tx.method
+                                    signParams.bodyCBORHex = oasis.misc.toHex(oasis.misc.toCBOR(tx.body))
 
                                     const handled = oasis.consensus.visitTransaction(({
                                         [oasis.staking.METHOD_TRANSFER]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_TRANSFER
                                             signParams.to = oasis.staking.addressToBech32(body.to)
                                             signParams.amount = oasis.quantity.toBigInt(body.amount).toString()
                                         },
                                         [oasis.staking.METHOD_ADD_ESCROW]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_ADD_ESCROW
                                             signParams.to = oasis.staking.addressToBech32(body.account)
                                             signParams.amount = oasis.quantity.toBigInt(body.amount).toString()
                                         },
                                         [oasis.staking.METHOD_BURN]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_BURN
                                             signParams.amount = oasis.quantity.toBigInt(body.amount).toString()
                                         },
                                         [oasis.staking.METHOD_RECLAIM_ESCROW]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_RECLAIM_ESCROW
                                             signParams.account = oasis.staking.addressToBech32(body.account)
                                             signParams.shares = oasis.quantity.toBigInt(body.shares).toString()
                                         },
 
                                         [oasis.staking.METHOD_AMEND_COMMISSION_SCHEDULE]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_AMEND_COMMISSION_SCHEDULE
                                             signParams.amendment = JSON.stringify(body.amendment)
                                         },
                                         [oasis.staking.METHOD_ALLOW]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_ALLOW
                                             signParams.beneficiary = oasis.staking.addressToBech32(body.beneficiary)
                                             signParams.amountChange = `${body.negative ? '-' : '+'}${oasis.quantity.toBigInt(body.amount_change)} base units`
                                         },
                                         [oasis.staking.METHOD_WITHDRAW]: (body) => {
-                                            signParams.method = oasis.staking.METHOD_WITHDRAW
-
                                             signParams.from = oasis.staking.addressToBech32(body.from)
                                             signParams.amount = oasis.quantity.toBigInt(body.amount)
                                         },
@@ -150,20 +147,17 @@ oasisExt.ext.ready({
 
                                     // 把消息传递到页面
                                     // 需要的数据有  from to nonce amount
-                                    if (!handled) {
-                                        throw new Error("pretty printing doesn't support this method")
-                                    }
+                                    signParams.recognizedConsensusTransactionMethod = handled
                                 },
                             }),
                     },
                     req.context,
                     req.message,
                 )
-                if (!handled) {
-                    throw new Error("pretty printing doesn't support this signature context")
-                }
+                signParams.recognizedContext = handled
             } catch (e) {
-                throw new Error("couldn't parse")
+                console.error('parsing signature request:', e)
+                reject(new Error("couldn't parse"))
             }
 
             sendMsg({
@@ -193,6 +187,7 @@ oasisExt.ext.ready({
                             resolve({ approved: true, signature });
                         }
                     } else {
+                        console.error('FRAME_SEND_TRANSFER not confirmed', result);
                         resolve({ approved: false });
                     }
                 })

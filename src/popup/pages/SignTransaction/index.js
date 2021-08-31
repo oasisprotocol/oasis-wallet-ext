@@ -80,21 +80,23 @@ class SignTransaction extends React.Component {
       Toast.info(getLanguage('observeAccountTip'))
       return
     }
-    let toAddress = trimSpace(params.to)
-    if (!addressValid(toAddress)) {
-      Toast.info(getLanguage('sendAddressError'))
-      return
-    }
-    let amount = trimSpace(params.amount)
-    if (!isNumber(amount) || !new BigNumber(amount).gt(0)) {
-      Toast.info(getLanguage('amountError'))
-      return
-    }
-
-    if (this.state.sendAction === oasis.staking.METHOD_ADD_ESCROW) {
-      if (!isNumber(amount) || (parseInt(amount) < parseInt(STAKE_MIN_AMOUNT))) {
-        Toast.info(getLanguage('minStakeAmout') + " " + STAKE_MIN_AMOUNT)
+    if (params.recognizedConsensusTransactionMethod) {
+      let toAddress = trimSpace(params.to)
+      if (!addressValid(toAddress)) {
+        Toast.info(getLanguage('sendAddressError'))
         return
+      }
+      let amount = trimSpace(params.amount)
+      if (!isNumber(amount) || !new BigNumber(amount).gt(0)) {
+        Toast.info(getLanguage('amountError'))
+        return
+      }
+
+      if (this.state.sendAction === oasis.staking.METHOD_ADD_ESCROW) {
+        if (!isNumber(amount) || (parseInt(amount) < parseInt(STAKE_MIN_AMOUNT))) {
+          Toast.info(getLanguage('minStakeAmout') + " " + STAKE_MIN_AMOUNT)
+          return
+        }
       }
     }
     this.clickNextStep()
@@ -252,39 +254,76 @@ class SignTransaction extends React.Component {
     let txNonce = params.nonce
     let currentSymbol = this.props.netConfig.currentSymbol;
     let toTitle = this.state.sendAction === oasis.staking.METHOD_ADD_ESCROW ? getLanguage('stakeNodeName') : getLanguage('toAddress')
-    let itemList = [
-      {
-        title: getLanguage('chainLabel'),
-        content: this.chainLabel(params.chainContext),
-      },
-      {
-        title: getLanguage('chainContext'),
-        content: params.chainContext,
-      },
-      {
-        title: getLanguage('txType'),
-        content: params.method
-      },
-      {
-        title: toTitle,
-        content: params.to
-      },
-      {
+    let itemList = []
+    if (params.recognizedContext) {
+      itemList.push(
+        {
+          title: getLanguage('chainLabel'),
+          content: this.chainLabel(params.chainContext),
+        },
+        {
+          title: getLanguage('chainContext'),
+          content: params.chainContext,
+        }
+      )
+    } else {
+      itemList.push(
+        {
+          title: getLanguage('txType'),
+          content: getLanguage('unknownType')
+        },
+        {
+          title: getLanguage('unknownSignatureContext'),
+          content: params.context
+        },
+        {
+          title: getLanguage('unknownSignatureMessageHex'),
+          content: params.message
+        }
+      )
+    }
+    if (params.recognizedConsensusTransactionMethod) {
+      itemList.push(
+        {
+          title: getLanguage('txType'),
+          content: params.method
+        },
+        {
+          title: toTitle,
+          content: params.to
+        }
+      )
+    }
+    if (params.recognizedContext) {
+      itemList.push({
         title: "Nonce",
         content: txNonce
-      },
-    ]
-    if (isNumber(params.amount)) {
-      let amountShow = amountDecimals(params.amount)
-      itemList.push({
-        title: getLanguage('amount'),
-        content: amountShow + " " + currentSymbol
       })
-    } else {
-      itemList.push({
-        title: "Shares",
-        content: params.shares
-      })
+    }
+    if (params.recognizedConsensusTransactionMethod) {
+      if (isNumber(params.amount)) {
+        let amountShow = amountDecimals(params.amount)
+        itemList.push({
+          title: getLanguage('amount'),
+          content: amountShow + " " + currentSymbol
+        })
+      } else {
+        itemList.push({
+          title: "Shares",
+          content: params.shares
+        })
+      }
+    } else if (params.recognizedContext) {
+      itemList.push(
+        {
+          title: getLanguage('unknownConsensusTransactionMethod'),
+          content: params.method
+        },
+        {
+          title: getLanguage('unknownConsensusTransactionBodyCBORHex'),
+          content: params.bodyCBORHex
+        }
+      )
     }
     if (params.amendment) {
       itemList.push({
