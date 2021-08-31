@@ -4,6 +4,7 @@ import extension from 'extensionizer';
 import { BACKGROUND_KEYS_CHANGED, FRAME_GET_ACCOUNT_SIGNER, FRAME_GET_APPROVE_ACCOUNT, FRAME_SEND_TRANSFER } from '../../constant/types';
 import { sendMsg } from '../../utils/commonMsg';
 import { hex2uint, uint2hex } from '../../utils/utils';
+import { dump } from '../../utils/dump';
 
 async function getSigner(req) {
     return new Promise((resolve, reject) => {
@@ -91,7 +92,7 @@ oasisExt.ext.ready({
                 feeAmount: "",
                 feeGas: "",
                 method: "",
-                bodyCBORHex: "",
+                bodyDump: "",
                 recognizedContext: false,
                 recognizedConsensusTransactionMethod: false
             }
@@ -109,7 +110,7 @@ oasisExt.ext.ready({
                                     signParams.feeAmount = oasis.quantity.toBigInt(tx.fee.amount).toString()
                                     signParams.feeGas = tx.fee.gas
                                     signParams.method = tx.method
-                                    signParams.bodyCBORHex = oasis.misc.toHex(oasis.misc.toCBOR(tx.body))
+                                    signParams.bodyDump = dump(tx.body)
 
                                     const handled = oasis.consensus.visitTransaction(({
                                         [oasis.staking.METHOD_TRANSFER]: (body) => {

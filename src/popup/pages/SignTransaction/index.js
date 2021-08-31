@@ -13,6 +13,7 @@ import { updateDAppOpenWindow } from "../../../reducers/cache";
 import { ENTRY_WITCH_ROUTE, updateEntryWitchRoute } from "../../../reducers/entryRouteReducer";
 import { sendMsg } from "../../../utils/commonMsg";
 import { checkLedgerConnect } from "../../../utils/ledger";
+import { dump } from "../../../utils/dump";
 import { addressSlice, amountDecimals, getQueryStringArgs, hex2uint, isNumber, trimSpace, uint2hex } from "../../../utils/utils";
 import { addressValid } from "../../../utils/validator";
 import AccountIcon from "../../component/AccountIcon";
@@ -275,12 +276,41 @@ class SignTransaction extends React.Component {
         {
           title: getLanguage('unknownSignatureContext'),
           content: params.context
-        },
-        {
-          title: getLanguage('unknownSignatureMessageHex'),
-          content: params.message
         }
       )
+      if (params.message) {
+        const messageU8 = oasis.misc.fromHex(params.message)
+        let parseOk = false
+        let messageParsed = null
+        try {
+          messageParsed = oasis.misc.fromCBOR(messageU8)
+          parseOk = true
+        } catch (e) {
+          console.error('parsing message as CBOR', e)
+        }
+        if (parseOk) {
+          itemList.push(
+            {
+              title: getLanguage('unknownSignatureMessageDump'),
+              content: dump(messageParsed)
+            }
+          )
+        } else {
+          itemList.push(
+            {
+              title: getLanguage('unknownSignatureMessageHex'),
+              content: params.message
+            }
+          )
+        }
+      } else {
+        itemList.push(
+          {
+            title: getLanguage('unknownSignatureMessageDump'),
+            content: ''
+          }
+        )
+      }
     }
     if (params.recognizedConsensusTransactionMethod) {
       itemList.push(
@@ -320,8 +350,8 @@ class SignTransaction extends React.Component {
           content: params.method
         },
         {
-          title: getLanguage('unknownConsensusTransactionBodyCBORHex'),
-          content: params.bodyCBORHex
+          title: getLanguage('unknownConsensusTransactionBodyDump'),
+          content: params.bodyDump
         }
       )
     }
