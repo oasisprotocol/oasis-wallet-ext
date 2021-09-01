@@ -222,8 +222,9 @@
     "chainContext":"Genesis Hash",
     "unknownSignatureContext":"Signature Context",
     "unknownSignatureMessageHex":"Message (Hex)",
+    "unknownSignatureMessageDump":"Message",
     "unknownConsensusTransactionMethod":"Method",
-    "unknownConsensusTransactionBodyCBORHex":"Body (Hex CBOR)",
+    "unknownConsensusTransactionBodyDump":"Body",
 
     "txCancel":"Canceled transaction",
     "txError":"Abnormal transaction",
