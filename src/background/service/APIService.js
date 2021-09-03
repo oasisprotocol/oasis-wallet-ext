@@ -100,7 +100,7 @@ class APIService {
           mne: ""
         };
       }
-      
+
     resetWallet=()=>{
       this.memStore.putState(this.initLockedState())
       return
@@ -304,7 +304,7 @@ class APIService {
             for (let index = 0; index < accounts.length; index++) {
                 const account = accounts[index];
                 if (account.address === wallet.address) {
-                    error = { "error": 'improtRepeat', type: "local" }
+                    error = { "error": 'importRepeat', type: "local" }
                     break
                 }
             }
@@ -407,7 +407,7 @@ class APIService {
             for (let index = 0; index < accounts.length; index++) {
                 const account = accounts[index];
                 if (account.address === address) {
-                    error = { "error": 'improtRepeat', type: "local" }
+                    error = { "error": 'importRepeat', type: "local" }
                     break
                 }
             }

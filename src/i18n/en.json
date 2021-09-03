@@ -95,7 +95,7 @@
     "startHome": "Start",
     "walletName": "Oasis Wallet",
     "privateError": "Wrong private key",
-    "improtRepeat": "Do not import repeatedly",
+    "importRepeat": "Do not import repeatedly",
     "confirmDeleteNode": "Delete confirmation",
     "deleteSuccess": "Successfully Deleted",
     "backupSuccess": "Success",

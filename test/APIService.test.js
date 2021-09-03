@@ -187,7 +187,7 @@ describe('APIService Util Test', function () {
     describe('Import Wallet', function () {
         it('Import Wallet by PivateKey when repeat', async function () {
             let importWallet = await apiService.addImportAccount(wallet_2.privateKey_base64)
-            assert.strictEqual(importWallet.error, "improtRepeat")
+            assert.strictEqual(importWallet.error, "importRepeat")
         })
 
         it('Import Wallet by wrong PivateKey', async function () {

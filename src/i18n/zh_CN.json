@@ -95,7 +95,7 @@
   "startHome": "开始",
   "walletName": "Oasis 钱包",
   "privateError": "私钥错误",
-  "improtRepeat": "请勿重复导入",
+  "importRepeat": "请勿重复导入",
   "confirmDeleteNode": "确认删除节点",
   "deleteSuccess": "删除成功",
   "backupSuccess": "成功",
