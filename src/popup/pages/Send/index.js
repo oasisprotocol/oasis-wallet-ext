@@ -498,7 +498,7 @@ class SendPage extends React.Component {
     let currentSymbol = this.props.netConfig.currentSymbol
     return (
       <div className={"confirm-modal-container"}>
-        <div className={"testModa-title-container"}><p className={"testModa-title"}>{getLanguage(title)}</p></div>
+        <div className={"test-modal-title-container"}><p className={"test-modal-title"}>{getLanguage(title)}</p></div>
         {this.renderConfirmItem(getLanguage('amount'), this.state.amount + " " + currentSymbol, true)}
         {this.renderConfirmItem(toTitle, this.state.toAddress)}
         {this.renderConfirmItem(getLanguage('fromAddress'), this.state.fromAddress)}
