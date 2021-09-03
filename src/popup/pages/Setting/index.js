@@ -78,7 +78,7 @@ class Setting extends React.Component {
     }
 
     render() {
-        return (<div className="setting-outter-container">
+        return (<div className="setting-outer-container">
             <div className={"setting-title-container"}>
                 <p className={"tab-common-title"}>{getLanguage('setting')}</p>
             </div>
