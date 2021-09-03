@@ -35,7 +35,7 @@ class ExtDappService {
     })
   }
 
-  async getFormatPublickey(key) {
+  async getFormatPublicKey(key) {
     return [key]
   }
 
@@ -81,7 +81,7 @@ class ExtDappService {
                   return item.isConnecting
                 })
                 let resultAccount = siteApproveAccount[0]
-                let res = await that.getFormatPublickey(resultAccount.publicKey)
+                let res = await that.getFormatPublicKey(resultAccount.publicKey)
                 resolve(res)
               } else {
                 reject({ error: "User Reject" })
@@ -352,7 +352,7 @@ class ExtDappService {
         accountList = accountList.filter((item) => {
           return item.isConnecting
         })
-        let res = await this.getFormatPublickey(accountList[0].publicKey)
+        let res = await this.getFormatPublicKey(accountList[0].publicKey)
         return res
       }
     }
