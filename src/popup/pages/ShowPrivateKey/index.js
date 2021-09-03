@@ -53,7 +53,7 @@ class ShowPrivateKeyPage extends React.Component {
     </div>)
   }
   renderKey = () => {
-    return (<p className="wallet-show-privkey">{this.state.privKey}</p>)
+    return (<p className="wallet-show-private-key">{this.state.privKey}</p>)
   }
   onCopy = () => {
     let title = getLanguage('prompt')
