@@ -24,7 +24,7 @@ class MyStaking extends React.Component {
                     callback: () => { }
                 },
                 {
-                    title: getLanguage("unbounding"),
+                    title: getLanguage("debonding"),
                     tabIndex: 1,
                     callback: () => { }
                 }
@@ -124,7 +124,7 @@ class MyStaking extends React.Component {
                     <p className={"stake-user-detail-content"}>{delegationList.length}</p>
                 </div>
                 <div className={"stake-user-detail-container"}>
-                    <p className={"stake-user-detail-title"}>{getLanguage('unbounding')+":  "}</p>
+                    <p className={"stake-user-detail-title"}>{getLanguage('debonding')+":  "}</p>
                     <p className={"stake-user-detail-content"}>{getDisplayAmount(debonding_delegations_balance)}</p>
                 </div>
             </div>
@@ -153,7 +153,7 @@ class MyStaking extends React.Component {
         } else {
             let debondAmount = item.shares || 0
             totalSupply = debondAmount + " " + symbol
-            supplyTitle = getLanguage('unbounding')
+            supplyTitle = getLanguage('debonding')
         }
 
         let nodeActive = item.active

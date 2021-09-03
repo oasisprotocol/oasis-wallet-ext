@@ -382,7 +382,7 @@ class Wallet extends React.Component {
           {this.renderAccountItemInfo(getLanguage('balance'), total_balance_display)}
           {this.renderAccountItemInfo(getLanguage('amountCanUse'), liquid_balance_display)}
           {this.renderAccountItemInfo(getLanguage('escrow'), delegations_balance_display)}
-          {this.renderAccountItemInfo(getLanguage('unbounding2'), debonding_delegations_balance_display)}
+          {this.renderAccountItemInfo(getLanguage('debonding2'), debonding_delegations_balance_display)}
         </div>
       </div>)
   }
