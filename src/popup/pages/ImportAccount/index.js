@@ -32,7 +32,7 @@ class ImportAccount extends React.Component {
       })
     }
   }
-  onPriKeyInput = (e) => {
+  onPrivKeyInput = (e) => {
     let privateKey = e.target.value;
     if (privateKey.length >= 0) {
       this.callSetState({

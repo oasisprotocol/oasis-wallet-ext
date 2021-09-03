@@ -15,7 +15,7 @@ class ShowPrivateKeyPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      priKey: "",
+      privKey: "",
       showSecurity:true
     };
     this.address = props.location.params?.address ?? ""
@@ -53,7 +53,7 @@ class ShowPrivateKeyPage extends React.Component {
     </div>)
   }
   renderKey = () => {
-    return (<p className="wallet-show-prikey">{this.state.priKey}</p>)
+    return (<p className="wallet-show-privkey">{this.state.privKey}</p>)
   }
   onCopy = () => {
     let title = getLanguage('prompt')
@@ -73,7 +73,7 @@ class ShowPrivateKeyPage extends React.Component {
   onClickRight = () => {
   }
   onClickLeft = () => {
-    copyText(this.state.priKey).then(() => {
+    copyText(this.state.privKey).then(() => {
       Toast.info(getLanguage('copySuccess'))
     })
   }
@@ -104,7 +104,7 @@ class ShowPrivateKeyPage extends React.Component {
           }
         } else {
           this.callSetState({
-            priKey:privateKey,
+            privKey:privateKey,
             showSecurity:false
           },()=>{
             Toast.info(getLanguage("securitySuccess"))
