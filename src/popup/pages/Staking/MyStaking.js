@@ -24,7 +24,7 @@ class MyStaking extends React.Component {
                     callback: () => { }
                 },
                 {
-                    title: getLanguage("unbounding"),
+                    title: getLanguage("debonding"),
                     tabIndex: 1,
                     callback: () => { }
                 }
@@ -76,7 +76,7 @@ class MyStaking extends React.Component {
     }
     renderTopInfoItem = (title, content) => {
         return (
-            <div className={"top-info-contet"}>
+            <div className={"top-info-content"}>
                 <p>{title} : {content}</p>
             </div>
         )
@@ -120,11 +120,11 @@ class MyStaking extends React.Component {
             </div>
             <div className={"stake-user-detail-total"}>
                 <div className={"stake-user-detail-container"}>
-                    <p className={"stake-user-detail-title"}>{getLanguage("stakeVaildator")+":  "}</p>
+                    <p className={"stake-user-detail-title"}>{getLanguage("stakeValidator")+":  "}</p>
                     <p className={"stake-user-detail-content"}>{delegationList.length}</p>
                 </div>
                 <div className={"stake-user-detail-container"}>
-                    <p className={"stake-user-detail-title"}>{getLanguage('unbounding')+":  "}</p>
+                    <p className={"stake-user-detail-title"}>{getLanguage('debonding')+":  "}</p>
                     <p className={"stake-user-detail-content"}>{getDisplayAmount(debonding_delegations_balance)}</p>
                 </div>
             </div>
@@ -145,15 +145,15 @@ class MyStaking extends React.Component {
         let totalSupply = ""
         let supplyTitle = ""
         if (showBtn) {
-            let stakeAmout = item.amount || 0
+            let stakeAmount = item.amount || 0
             let stakeShare = item.shares || 0
-            totalSupply = stakeAmout + " " + symbol
+            totalSupply = stakeAmount + " " + symbol
 
             supplyTitle = getLanguage('stakingStatus_1')
         } else {
             let debondAmount = item.shares || 0
             totalSupply = debondAmount + " " + symbol
-            supplyTitle = getLanguage('unbounding')
+            supplyTitle = getLanguage('debonding')
         }
 
         let nodeActive = item.active
@@ -165,7 +165,7 @@ class MyStaking extends React.Component {
             className={cx("stake-item-container-2 ", {
                 "click-cursor": showBtn
             })} >
-            <div className={"stake-valitor-container"}>
+            <div className={"stake-validator-container"}>
                 <p className={"stake-validator-name"}>{validatorName}</p>
                 {showBtn && <p className={cx("stake-validator-status-text", {
                     "stake-validator-status-text-active": nodeActive,

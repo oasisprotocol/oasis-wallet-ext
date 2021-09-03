@@ -48,10 +48,10 @@ class ShowMnemonic extends React.Component {
   };
   goToNext = () => {
     this.props.history.push({
-      pathname: "/backupmnemonic",
+      pathname: "/backup_mnemonic",
     })
   };
-  renderBottonBtn = () => {
+  renderBottomBtn = () => {
     return (
       <div className="bottom-container">
         <Button
@@ -70,7 +70,7 @@ class ShowMnemonic extends React.Component {
           <p className={"mne-description"}>{getLanguage("show_seed_content")}</p>
           {this.showMne()}
         </div>
-        {this.renderBottonBtn()}
+        {this.renderBottomBtn()}
       </CustomView>
     )
   }

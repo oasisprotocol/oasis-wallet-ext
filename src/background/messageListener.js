@@ -14,12 +14,12 @@ import {
   WALLET_GET_MNE,
   WALLET_GET_PRIVATE_KEY,
   WALLET_CHANGE_SEC_PASSWORD,
-  WALLET_SEND_TRANSTRACTION,
-  WALLET_SEND_STAKE_TRANSTRACTION,
+  WALLET_SEND_TRANSACTION,
+  WALLET_SEND_STAKE_TRANSACTION,
   WALLET_CHECK_TX_STATUS,
   WALLET_IMPORT_LEDGER,
   WALLET_GET_CREATE_MNEMONIC,
-  WALLET_SEND_RECLAIM_TRANSTRACTION,
+  WALLET_SEND_RECLAIM_TRANSACTION,
   WALLET_IMPORT_OBSERVE_ACCOUNT,
   WALLET_RESET_LAST_ACTIVE_TIME,
   WALLET_OPEN_ROUTE_IN_PERSISTENT_POPUP,
@@ -111,22 +111,22 @@ function internalMessageListener(message, sender, sendResponse) {
         sendResponse(account);
       })
       break;
-    case WALLET_SEND_TRANSTRACTION:
+    case WALLET_SEND_TRANSACTION:
       apiService.sendTransaction(payload).then((result) => {
         sendResponse(result);
       }).catch((err) => {
         sendResponse(err);
       })
       break;
-    case WALLET_SEND_STAKE_TRANSTRACTION:
-      apiService.sendStakeTransaction(payload).then((result) => {
+    case WALLET_SEND_STAKE_TRANSACTION:
+      apiService.delegateTransaction(payload).then((result) => {
         sendResponse(result);
       }).catch((err) => {
         sendResponse(err);
       })
       break;
-    case WALLET_SEND_RECLAIM_TRANSTRACTION:
-      apiService.sendReclaimTransaction(payload).then((result) => {
+    case WALLET_SEND_RECLAIM_TRANSACTION:
+      apiService.undelegateTransaction(payload).then((result) => {
         sendResponse(result);
       }).catch((err) => {
         sendResponse(err);
@@ -179,7 +179,7 @@ function internalMessageListener(message, sender, sendResponse) {
           break
 
     case FRAME_GET_ACCOUNT_SIGNER:
-        extDappService.getApproveAccountSinger(payload).then((account) => {
+        extDappService.getApproveAccountSigner(payload).then((account) => {
           sendResponse(account);
         }).catch((err)=>sendResponse(err))
           break
@@ -200,7 +200,7 @@ function internalMessageListener(message, sender, sendResponse) {
       sendResponse(extDappService.getAllApproveAccount(payload.siteUrl))
       break
     case DAPP_GET_CONNECT_STATUS:
-      sendResponse(extDappService.getConncetStatus(payload.siteUrl,payload.address))
+      sendResponse(extDappService.getConnectedStatus(payload.siteUrl,payload.address))
       break
     case DAPP_DISCONNECT_SITE:
       sendResponse(extDappService.disconnectDapp(payload.siteUrl,payload.address,payload.currentAddress))

@@ -28,9 +28,9 @@ class CreatePassword extends React.Component {
   }
   componentWillUnmount() {
     this.isUnMounted = true;
-    let newMatchlist =this.state.matchList
+    let newMatchList =this.state.matchList
     this.callSetState({
-      matchList: newMatchlist.map(v => {
+      matchList: newMatchList.map(v => {
         v.bool = false;
         return v;
       })

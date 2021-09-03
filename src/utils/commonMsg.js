@@ -56,7 +56,7 @@ export function getActiveTab(type, params) {
           queryParams.url = params.origin + "/*"
         }
         break
-      case QUERY_TAB_TYPE.GET_TAB_BY_WINDOWID:
+      case QUERY_TAB_TYPE.GET_TAB_BY_WINDOW_ID:
         queryParams.windowId = params.windowId
         break
       default:

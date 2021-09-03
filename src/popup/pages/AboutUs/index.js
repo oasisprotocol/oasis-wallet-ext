@@ -14,8 +14,8 @@ class AboutUs extends React.Component {
     super(props);
     this.state = {
       changelog: "",
-      followus: [],
-      gitReponame: ""
+      followUs: [],
+      gitRepoName: ""
     };
     this.isUnMounted = false;
   }

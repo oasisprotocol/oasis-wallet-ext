@@ -131,7 +131,7 @@ class StakeNodeDetail extends React.Component {
     renderNodeTokenDetail = () => {
         const percent = new BigNumber(this.state.nodeSelfSupply).dividedBy(this.state.nodeTotalSupply).multipliedBy(100).toNumber()
         return (
-            <div className={"vailidator-node-detail-container"}>
+            <div className={"validator-node-detail-container"}>
                 <div className={'circle-con'}>
                     <CircularProgressbarWithChildren styles={buildStyles({
                         textSize: '18px',
@@ -139,15 +139,15 @@ class StakeNodeDetail extends React.Component {
                         trailColor: `#73A0FA`,
                         strokeLinecap: 'butt',
                     })} strokeWidth={10} value={percent}>
-                        <div className={"vailidator-node-container"}>
-                            <p className={'vailidator-node-total-title'}>{getLanguage('nodeTotalStake')}</p>
-                            <p className={'vailidator-node-total'}>{this.state.nodeTotalSupply}</p>
+                        <div className={"validator-node-container"}>
+                            <p className={'validator-node-total-title'}>{getLanguage('nodeTotalStake')}</p>
+                            <p className={'validator-node-total'}>{this.state.nodeTotalSupply}</p>
                         </div>
                     </CircularProgressbarWithChildren>
                 </div>
 
                 <div className={"circle-right "}>
-                    {this.renderNodeTokenDetailItem("node-token-indicator-sele", getLanguage('nodeSelfStake'), this.state.nodeSelfSupply)}
+                    {this.renderNodeTokenDetailItem("node-token-indicator-self", getLanguage('nodeSelfStake'), this.state.nodeSelfSupply)}
                     {this.renderNodeTokenDetailItem("node-token-indicator-other", getLanguage('nodeOtherStake'), this.state.nodeOtherSupply)}
                     <div className={"stake-node-person-container"}>
                         <img src={node_stake_icon} className={"stake-node-icon-little"} />

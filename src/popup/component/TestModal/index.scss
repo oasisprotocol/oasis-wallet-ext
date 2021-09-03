@@ -1,16 +1,16 @@
 @import "../../common.scss";
 
-.testmodal-container {
+.test-modal-container {
     position: absolute;
     top: 0;
     width: 100%;
     height: 100%;
     z-index: 101;
 }
-.testmodal-container-none {
+.test-modal-container-none {
     display: none;
 }
-.testmodal-modal-inner {
+.test-modal-modal-inner {
     position: relative;
     width: 100%;
     height: 100%;
@@ -20,13 +20,13 @@
     align-items: center;
     justify-content: center;
 }
-.testmodal-modal {
+.test-modal-modal {
     background-color: transparent;
     margin: 0px 20px;
     position: relative;
 }
 
-.testmodal-title {
+.test-modal-title {
     margin: 0;
     font-size: $font-size-title;
     color: #090909;
@@ -36,7 +36,7 @@
     padding-top: 20px;
 }
 
-.testmodal-close {
+.test-modal-close {
     width: 14px;
 
     position: absolute;

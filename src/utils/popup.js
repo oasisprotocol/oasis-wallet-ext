@@ -58,7 +58,7 @@ export async function getDappWindowPosition(){
 
 async function getCurrentTab(windowId){
   return new Promise(async (resolve)=>{
-    let tabs = await getActiveTab(QUERY_TAB_TYPE.GET_TAB_BY_WINDOWID,{windowId})
+    let tabs = await getActiveTab(QUERY_TAB_TYPE.GET_TAB_BY_WINDOW_ID,{windowId})
     resolve(tabs)
   })
 }

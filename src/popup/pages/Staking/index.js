@@ -30,10 +30,10 @@ class Staking extends React.Component {
     return (
       <div className={"stake-page-container"}>
         <TabsTop currentActiveIndex={this.props.stakeRouteIndex} onChangeIndex={this.onChangeRouteIndex}>
-          <div lable={getLanguage('myStaking')}>
+          <div label={getLanguage('myStaking')}>
             <MyStaking params={this.props} />
           </div>
-          <div lable={getLanguage("vaildatorNode")}>
+          <div label={getLanguage("validatorNode")}>
             <StakeNode params={this.props} />
           </div>
         </TabsTop>

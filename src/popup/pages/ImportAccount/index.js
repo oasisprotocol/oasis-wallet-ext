@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { WALLET_IMPORT_HD_ACCOUNT } from "../../../constant/types";
 import { getLanguage } from "../../../i18n";
 import { updateCurrentAccount } from "../../../reducers/accountReducer";
-import { updateEntryWitchRoute } from "../../../reducers/entryRouteReducer";
+import { updateEntryWhichRoute } from "../../../reducers/entryRouteReducer";
 import { sendMsg } from "../../../utils/commonMsg";
 import Button from "../../component/Button";
 import CustomView from "../../component/CustomView";
@@ -32,7 +32,7 @@ class ImportAccount extends React.Component {
       })
     }
   }
-  onPriKeyInput = (e) => {
+  onPrivKeyInput = (e) => {
     let privateKey = e.target.value;
     if (privateKey.length >= 0) {
       this.callSetState({
@@ -106,7 +106,7 @@ class ImportAccount extends React.Component {
       <p className={"import-title-account"}>{content2}</p>
     </div>)
   }
-  renderBotton = () => {
+  renderBottom = () => {
     return (
       <div className="bottom-container">
         <Button
@@ -125,12 +125,12 @@ class ImportAccount extends React.Component {
   render() {
     return (
       <CustomView
-        title={getLanguage('importAccount')}
+        title={getLanguage('importAccount_1')}
         history={this.props.history}>
         <div className="import-account-container">
           {this.renderInput()}
         </div>
-        {this.renderBotton()}
+        {this.renderBottom()}
       </CustomView>
     )
   }
@@ -141,8 +141,8 @@ const mapStateToProps = (state) => ({});
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateEntryWitchRoute: (index) => {
-      dispatch(updateEntryWitchRoute(index));
+    updateEntryWhichRoute: (index) => {
+      dispatch(updateEntryWhichRoute(index));
     },
     updateCurrentAccount: (account) => {
       dispatch(updateCurrentAccount(account))

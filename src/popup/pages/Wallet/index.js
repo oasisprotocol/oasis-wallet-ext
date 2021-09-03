@@ -32,7 +32,7 @@ class Wallet extends React.Component {
       balance: "0.0000",
       txList: props.txList,
       refreshing: false,
-      showConncetHover: false,
+      showConnectedHover: false,
     }
     this.isUnMounted = false;
     this.currentNetConfig = {}
@@ -144,20 +144,20 @@ class Wallet extends React.Component {
 
   }
 
-  renderAcountItemInfo = (title, content) => {
+  renderAccountItemInfo = (title, content) => {
     return (<div className={"account-info-item-container"}>
-      <p className={"wallt-info-title"}>{title}</p>
-      <p className={"wallt-info-content"}>{content}</p>
+      <p className={"wallet-info-title"}>{title}</p>
+      <p className={"wallet-info-content"}>{content}</p>
     </div>)
   }
   onMouseEnter = (grpc) => {
     this.callSetState({
-      showConncetHover: true
+      showConnectedHover: true
     })
   }
   onMouseLeave = () => {
     this.callSetState({
-      showConncetHover: false
+      showConnectedHover: false
     })
   }
   renderModalTitle = () => {
@@ -315,10 +315,10 @@ class Wallet extends React.Component {
     </TestModal>)
   }
   onClickDappConnect = (e) => {
-    this.modal.current.setModalVisable(true)
+    this.modal.current.setModalVisible(true)
   }
   onCloseModal = () => {
-    this.modal.current.setModalVisable(false)
+    this.modal.current.setModalVisible(false)
   }
   renderAccount = () => {
     let { currentAccount, accountInfo, dappConnectAddressList } = this.props
@@ -358,7 +358,7 @@ class Wallet extends React.Component {
                 }}
               />
               {
-                this.state.showConncetHover
+                this.state.showConnectedHover
                 &&
                 <div className={"dapp-connect-button"}>
                   <div className={"dapp-connect-arrow"}></div>
@@ -379,10 +379,10 @@ class Wallet extends React.Component {
 
         <p className={"account-divided"} />
         <div className={'wallet-balance-container'}>
-          {this.renderAcountItemInfo(getLanguage('balance'), total_balance_display)}
-          {this.renderAcountItemInfo(getLanguage('amountCanUse'), liquid_balance_display)}
-          {this.renderAcountItemInfo(getLanguage('escrow'), delegations_balance_display)}
-          {this.renderAcountItemInfo(getLanguage('unbounding2'), debonding_delegations_balance_display)}
+          {this.renderAccountItemInfo(getLanguage('balance'), total_balance_display)}
+          {this.renderAccountItemInfo(getLanguage('amountCanUse'), liquid_balance_display)}
+          {this.renderAccountItemInfo(getLanguage('escrow'), delegations_balance_display)}
+          {this.renderAccountItemInfo(getLanguage('debonding2'), debonding_delegations_balance_display)}
         </div>
       </div>)
   }

@@ -8,9 +8,9 @@ import loadingCommon from "../../../assets/images/loadingCommon.gif";
 import record_arrow from "../../../assets/images/record_arrow.png";
 import { getBalance, getRpcNonce } from "../../../background/api";
 import { saveLocal } from "../../../background/storage/localStorage";
-import { sendReclaimTransaction, sendStakeTransaction, sendTransaction } from "../../../background/api/txHelper";
-import { NET_WORK_CONFIG } from "../../../constant/storageKey";
-import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSTRACTION, WALLET_SEND_STAKE_TRANSTRACTION, WALLET_SEND_TRANSTRACTION } from "../../../constant/types";
+import { undelegateTransaction, delegateTransaction, sendTransaction } from "../../../background/api/txHelper";
+import { NETWORK_CONFIG } from "../../../constant/storageKey";
+import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSACTION, WALLET_SEND_STAKE_TRANSACTION, WALLET_SEND_TRANSACTION } from "../../../constant/types";
 import { ACCOUNT_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { updateNetAccount, updateRpcNonce, updateSendRefresh } from "../../../reducers/accountReducer";
@@ -319,7 +319,7 @@ class SendPage extends React.Component {
 
     if (this.state.stakeType === SEND_PAGE_TYPE_STAKE) {
       if (!isNumber(amount) || (parseInt(amount) < parseInt(STAKE_MIN_AMOUNT))) {
-        Toast.info(getLanguage('minStakeAmout') + " " + STAKE_MIN_AMOUNT)
+        Toast.info(getLanguage('minStakeAmount') + " " + STAKE_MIN_AMOUNT)
         return
       }
       let totalStakeAmount = new BigNumber(amount).plus(payFee).toString()
@@ -355,10 +355,10 @@ class SendPage extends React.Component {
       return
     }
 
-    this.modal.current.setModalVisable(true)
+    this.modal.current.setModalVisible(true)
   }
   onCancel = () => {
-    this.modal.current.setModalVisable(false)
+    this.modal.current.setModalVisible(false)
   }
   ledgerTransfer = async (payload) => {
     try {
@@ -368,11 +368,11 @@ class SendPage extends React.Component {
       payload.ledgerApp = ledgerApp
       let sendResult
       if (this.state.stakeType === SEND_PAGE_TYPE_STAKE) {
-        sendResult = await sendStakeTransaction(payload)
+        sendResult = await delegateTransaction(payload)
       } else if (this.state.stakeType === SEND_PAGE_TYPE_SEND) {
         sendResult = await sendTransaction(payload)
       } else if (this.state.stakeType === SEND_PAGE_TYPE_RECLAIM) {
-        sendResult = await sendReclaimTransaction(payload)
+        sendResult = await undelegateTransaction(payload)
       }
       sendMsg({
         action: WALLET_CHECK_TX_STATUS,
@@ -412,7 +412,7 @@ class SendPage extends React.Component {
     Loading.show()
 
 
-    this.modal.current.setModalVisable(false)
+    this.modal.current.setModalVisible(false)
 
     if (currentAccount.type === ACCOUNT_TYPE.WALLET_LEDGER) {
       return this.ledgerTransfer(payload)
@@ -420,7 +420,7 @@ class SendPage extends React.Component {
 
     if (this.state.stakeType === SEND_PAGE_TYPE_STAKE) {
       sendMsg({
-        action: WALLET_SEND_STAKE_TRANSTRACTION,
+        action: WALLET_SEND_STAKE_TRANSACTION,
         payload
       }, (data) => {
         Loading.hide()
@@ -428,7 +428,7 @@ class SendPage extends React.Component {
       })
     } else if (this.state.stakeType === SEND_PAGE_TYPE_SEND) {
       sendMsg({
-        action: WALLET_SEND_TRANSTRACTION,
+        action: WALLET_SEND_TRANSACTION,
         payload
       }, (data) => {
         Loading.hide()
@@ -436,7 +436,7 @@ class SendPage extends React.Component {
       })
     } else {
       sendMsg({
-        action: WALLET_SEND_RECLAIM_TRANSTRACTION,
+        action: WALLET_SEND_RECLAIM_TRANSACTION,
         payload
       }, (data) => {
         Loading.hide()
@@ -498,7 +498,7 @@ class SendPage extends React.Component {
     let currentSymbol = this.props.netConfig.currentSymbol
     return (
       <div className={"confirm-modal-container"}>
-        <div className={"testModa-title-container"}><p className={"testModa-title"}>{getLanguage(title)}</p></div>
+        <div className={"test-modal-title-container"}><p className={"test-modal-title"}>{getLanguage(title)}</p></div>
         {this.renderConfirmItem(getLanguage('amount'), this.state.amount + " " + currentSymbol, true)}
         {this.renderConfirmItem(toTitle, this.state.toAddress)}
         {this.renderConfirmItem(getLanguage('fromAddress'), this.state.fromAddress)}
@@ -517,7 +517,7 @@ class SendPage extends React.Component {
       </div>)
   }
   onCloseModal = () => {
-    this.modal.current.setModalVisable(false)
+    this.modal.current.setModalVisible(false)
   }
   renderConfirmModal = () => {
 
@@ -658,7 +658,7 @@ class SendPage extends React.Component {
       totalNetList: totalNetList,
       currentNetList: currentList
     }
-    saveLocal(NET_WORK_CONFIG, JSON.stringify(config))
+    saveLocal(NETWORK_CONFIG, JSON.stringify(config))
     this.props.updateNetConfigList(config)
     this.props.updateNetConfigRequest(true)
   };

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { network_config } from '../../../../config';
 import home_logo from "../../../assets/images/home_logo.png";
 import { saveLocal } from "../../../background/storage/localStorage";
-import { NET_WORK_CONFIG } from "../../../constant/storageKey";
+import { NETWORK_CONFIG } from "../../../constant/storageKey";
 import { updateNetConfigRequest } from "../../../reducers/cache";
 import { updateNetConfigList } from "../../../reducers/network";
 import Select from '../../component/Select';
@@ -52,7 +52,7 @@ class WalletBar extends React.Component {
             totalNetList: totalNetList,
             currentNetList: currentList
         }
-        saveLocal(NET_WORK_CONFIG, JSON.stringify(config))
+        saveLocal(NETWORK_CONFIG, JSON.stringify(config))
         this.props.updateNetConfigList(config)
         this.props.updateNetConfigRequest(true)
     };

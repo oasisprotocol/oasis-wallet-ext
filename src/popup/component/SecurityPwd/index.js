@@ -18,7 +18,7 @@ export default class SecurityPwd extends React.Component {
     let action = this.props.action
     let title = getLanguage('prompt')
     let content = ""
-    let confirmText = getLanguage('isee')
+    let confirmText = getLanguage('confirmAction')
     switch (action) {
       case SEC_DELETE_ACCOUNT:
         content = getLanguage('deleteAccountTip')

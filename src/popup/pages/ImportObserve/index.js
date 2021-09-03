@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { WALLET_IMPORT_OBSERVE_ACCOUNT } from "../../../constant/types";
 import { getLanguage } from "../../../i18n";
 import { updateCurrentAccount } from "../../../reducers/accountReducer";
-import { updateEntryWitchRoute } from "../../../reducers/entryRouteReducer";
+import { updateEntryWhichRoute } from "../../../reducers/entryRouteReducer";
 import { sendMsg } from "../../../utils/commonMsg";
 import { trimSpace } from "../../../utils/utils";
 import { addressValid } from "../../../utils/validator";
@@ -97,7 +97,7 @@ class ImportObserve extends React.Component {
             <p className={"import-title-account"}>{content2}</p>
         </div>)
     }
-    renderBotton = () => {
+    renderBottom = () => {
         return (
             <div className="bottom-container">
                 <Button
@@ -122,7 +122,7 @@ class ImportObserve extends React.Component {
                     {this.renderContentContainer(getLanguage('inputObserveAddress'))}
                     {this.renderInput()}
                 </div>
-                {this.renderBotton()}
+                {this.renderBottom()}
             </CustomView>
         )
     }
@@ -133,8 +133,8 @@ const mapStateToProps = (state) => ({});
 
 function mapDispatchToProps(dispatch) {
     return {
-        updateEntryWitchRoute: (index) => {
-            dispatch(updateEntryWitchRoute(index));
+        updateEntryWhichRoute: (index) => {
+            dispatch(updateEntryWhichRoute(index));
         },
         updateCurrentAccount: (account) => {
             dispatch(updateCurrentAccount(account))

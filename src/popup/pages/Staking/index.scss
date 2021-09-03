@@ -19,7 +19,7 @@
 
   padding: 15px 12px;
 }
-.top-info-contet {
+.top-info-content {
   width: 50%;
 }
 .staking-list-info {
@@ -177,7 +177,7 @@
 .stake-validator-status-text-inactive {
   color: rgba(255, 146, 0, 1);
 }
-.stake-valitor-container {
+.stake-validator-container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -191,7 +191,7 @@
   align-items: center;
 }
 
-.stake-valitor-info-container {
+.stake-validator-info-container {
   margin-left: 12px;
   width: 100%;
 }
@@ -266,7 +266,7 @@
   color: #2c3451;
   line-height: 20px;
 }
-.node-button-unactive {
+.node-button-inactive {
   width: 174px;
   height: 30px;
   border-radius: 10px;

@@ -40,3 +40,26 @@ jobs:
       - name: Lint git commits
         run: |
           make lint-git
+      - name: Check spelling
+        # NOTE: Using the cspell-action GitHub Action will annotate all spelling
+        # errors inline while running 'make lint-spell' would only produce a
+        # single annotation of 'Process completed with exit code 2'.
+        uses: streetsidesoftware/cspell-action@v1.3.1
+        with:
+          # File patterns to check.
+          # NOTE: Keep this in-sync with the patterns in lint-spell Make target.
+          files: |
+            src/i18n/en.json
+            src/**/*.js
+            src/**/*.scss
+          # Notification level to use with inline reporting of spelling errors.
+          inline: warning
+          # Fail if any spelling issues are found.
+          strict: true
+          # Always check all files.
+          incremental_files_only: false
+          # cSpell configuration file.
+          config: cspell.yaml
+        # Run this step even if the previous one fails so that all linting
+        # errors can be seen at once.
+        if: always()

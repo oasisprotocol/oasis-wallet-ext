@@ -71,17 +71,17 @@ export const WALLET_CHANGE_SEC_PASSWORD = "WALLET_CHANGE_SEC_PASSWORD"
 /**
  * Send transaction
  */
-export const WALLET_SEND_TRANSTRACTION = "WALLET_SEND_TRANSTRACTION"
+export const WALLET_SEND_TRANSACTION = "WALLET_SEND_TRANSACTION"
 
 /**
  * Send pledge transaction
  */
-export const WALLET_SEND_STAKE_TRANSTRACTION = "WALLET_SEND_STAKE_TRANSTRACTION"
+export const WALLET_SEND_STAKE_TRANSACTION = "WALLET_SEND_STAKE_TRANSACTION"
 
 /**
  * Send withdrawal pledge transaction
  */
-export const WALLET_SEND_RECLAIM_TRANSTRACTION = "WALLET_SEND_RECLAIM_TRANSTRACTION"
+export const WALLET_SEND_RECLAIM_TRANSACTION = "WALLET_SEND_RECLAIM_TRANSACTION"
 
 /**
  * Check the pledge status
@@ -212,7 +212,7 @@ export const DAPP_ACCOUNT_CONNECT_SITE = "DAPP_ACCOUNT_CONNECT_SITE"
 
 
 /**
- * delect account all connect   / when delete account
+ * delete account all connect   / when delete account
  */
 export const DAPP_DELETE_ACCOUNT_CONNECT_HIS = "DAPP_DELETE_ACCOUNT_CONNECT_HIS"
 
@@ -244,7 +244,7 @@ export const GET_APP_LOCK_STATUS = "GET_APP_LOCK_STATUS"
 export const FRAME_GET_APPROVE_ACCOUNT = "FRAME_GET_APPROVE_ACCOUNT"
 
 /**
- * iframe get approve account publickkey
+ * iframe get approve account public key
  */
 export const FRAME_GET_ACCOUNT_PUBLIC_KEY = "FRAME_GET_ACCOUNT_PUBLIC_KEY"
 
@@ -266,6 +266,6 @@ export const FRAME_SEND_TRANSFER = "FRAME_SEND_TRANSFER"
  export const BACKGROUND_KEYS_CHANGED = "BACKGROUND_KEYS_CHANGED"
 
  /**
- * RESET WALLET WHEN USER CLICK RESET BUTTON 
+ * RESET WALLET WHEN USER CLICK RESET BUTTON
  */
 export const RESET_WALLET = "RESET_WALLET"

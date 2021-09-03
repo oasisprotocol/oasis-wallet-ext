@@ -8,12 +8,12 @@ import { DAPP_CHANGE_CONNECTING_ADDRESS, WALLET_CHANGE_CURRENT_ACCOUNT, WALLET_G
 import { ACCOUNT_NAME_FROM_TYPE, ACCOUNT_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { updateAccountList, updateCurrentAccount } from "../../../reducers/accountReducer";
-import { setAccountInfo, updateAccoutType } from "../../../reducers/cache";
-import { updateEntryWitchRoute } from "../../../reducers/entryRouteReducer";
+import { setAccountInfo, updateAccountType } from "../../../reducers/cache";
+import { updateEntryWhichRoute } from "../../../reducers/entryRouteReducer";
 import { sendMsg } from "../../../utils/commonMsg";
 import CustomView from "../../component/CustomView";
 import Toast from "../../component/Toast";
-import AccountItem from "./AccounItem";
+import AccountItem from "./AccountItem";
 import "./index.scss";
 
 class AccountManagePage extends React.Component {
@@ -61,7 +61,7 @@ class AccountManagePage extends React.Component {
     }
   }
   goToCreate = () => {
-    this.props.updateAccoutType(ACCOUNT_NAME_FROM_TYPE.INSIDE)
+    this.props.updateAccountType(ACCOUNT_NAME_FROM_TYPE.INSIDE)
     this.props.history.push({
       pathname: "/account_name",
     });
@@ -77,7 +77,7 @@ class AccountManagePage extends React.Component {
       Toast.info(getLanguage("ledgerNotSupport"))
       return
     }
-    this.props.updateAccoutType(ACCOUNT_NAME_FROM_TYPE.LEDGER)
+    this.props.updateAccountType(ACCOUNT_NAME_FROM_TYPE.LEDGER)
     this.props.history.push({
       pathname: "/account_name",
     });
@@ -129,7 +129,7 @@ class AccountManagePage extends React.Component {
     }
     return typeText
   }
-  renderAcountItem = (item, index) => {
+  renderAccountItem = (item, index) => {
     const { accountBalanceList } = this.props
     let showSelect = this.state.currentAddress === item.address
     let showImport = this.getAccountType(item)
@@ -148,7 +148,7 @@ class AccountManagePage extends React.Component {
     return (
       <div className={"account-list-container"}>
         {this.state.accountList.map((item, index) => {
-          return this.renderAcountItem(item, index)
+          return this.renderAccountItem(item, index)
         })}
       </div>
     )
@@ -164,11 +164,11 @@ class AccountManagePage extends React.Component {
       </div>)
   }
 
-  renderButtomButton = () => {
+  renderBottomBtn = () => {
     return (
       <div className={"account-btn-container"}>
         {this.renderImgBtn(getLanguage('createAccount'), create_wallet, this.goToCreate, "account-btn-item-create")}
-        {this.renderImgBtn(getLanguage('importAccont'), import_wallet, this.goImport, "account-btn-item-import")}
+        {this.renderImgBtn(getLanguage('importAccount'), import_wallet, this.goImport, "account-btn-item-import")}
         {this.renderImgBtn("Ledger", ledger_wallet, this.goAddLedger, "account-btn-item-ledger")}
       </div>
     )
@@ -194,7 +194,7 @@ class AccountManagePage extends React.Component {
       <div className={"account-manage-container"}>
         {this.renderAccountList()}
       </div>
-      {this.renderButtomButton()}
+      {this.renderBottomBtn()}
     </CustomView>)
   }
 }
@@ -213,11 +213,11 @@ function mapDispatchToProps(dispatch) {
     setAccountInfo: (account) => {
       dispatch(setAccountInfo(account))
     },
-    updateEntryWitchRoute: (index) => {
-      dispatch(updateEntryWitchRoute(index));
+    updateEntryWhichRoute: (index) => {
+      dispatch(updateEntryWhichRoute(index));
     },
-    updateAccoutType: (type) => {
-      dispatch(updateAccoutType(type));
+    updateAccountType: (type) => {
+      dispatch(updateAccountType(type));
     },
     updateAccountList: (list) => {
       dispatch(updateAccountList(list))

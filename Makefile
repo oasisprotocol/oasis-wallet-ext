@@ -9,7 +9,11 @@ build:
 	@yarn buildProd
 
 # Lint code, commits and documentation.
-lint-targets := lint-git
+lint-targets := lint-spell lint-git
+
+lint-spell:
+	@$(ECHO) "$(CYAN)*** Runnint cspell...$(OFF)"
+	@npx cspell "src/i18n/en.json" "src/**/*.js" "src/**/*.scss"
 
 lint-git:
 	@$(CHECK_GITLINT)

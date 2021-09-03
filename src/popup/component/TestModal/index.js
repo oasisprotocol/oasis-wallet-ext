@@ -10,18 +10,18 @@ export default class TestModal extends Component {
         };
     }
 
-    setModalVisable = (visable) => {
+    setModalVisible = (visible) => {
         const { actionCallback } = this.props
         this.setState({
-            confirmModal: visable
+            confirmModal: visible
         }, () => {
-            actionCallback && actionCallback(visable)
+            actionCallback && actionCallback(visible)
         })
     }
     onClickOuter = () => {
         let touchToClose = this.props.touchToClose
         if (touchToClose) {
-            this.setModalVisable(false)
+            this.setModalVisible(false)
         }
     }
     onClickInner = (e) => {
@@ -31,15 +31,15 @@ export default class TestModal extends Component {
         return (
             <div className={
                 cx({
-                    "testmodal-container": true,
-                    "testmodal-container-none": !this.state.confirmModal
+                    "test-modal-container": true,
+                    "test-modal-container-none": !this.state.confirmModal
                 })
             }>
-                <div onClick={this.onClickOuter} className={"testmodal-modal-inner"}>
-                    <div onClick={this.onClickInner} className={cx({ "testmodal-modal": true })}>
+                <div onClick={this.onClickOuter} className={"test-modal-modal-inner"}>
+                    <div onClick={this.onClickInner} className={cx({ "test-modal-modal": true })}>
                         {this.props.showClose && <img
-                            onClick={() => { this.setModalVisable(false) }}
-                            className="testmodal-close click-cursor"
+                            onClick={() => { this.setModalVisible(false) }}
+                            className="test-modal-close click-cursor"
                             src={modalClose} />}
                         {this.props.children}
                     </div>

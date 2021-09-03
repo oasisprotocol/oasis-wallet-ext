@@ -103,8 +103,8 @@ class StakeNode extends React.Component {
           <div className={"tx-item-left"}>
             <img className={"node-icon"} src={icon} />
           </div>
-          <div className={"stake-valitor-info-container"}>
-            <div className={"stake-valitor-container"}>
+          <div className={"stake-validator-info-container"}>
+            <div className={"stake-validator-container"}>
               <p className={"stake-validator-name"}>{validatorName}</p>
               <div className={"stake-item-user-container"}>
                 <p className={"stake-item-user-title"}>{getLanguage('stakeCommission')+":  "}</p>
@@ -156,7 +156,7 @@ class StakeNode extends React.Component {
   renderButton = (title, callback, type) => {
     return (
       <button
-        className={cx("node-button-unactive click-cursor", {
+        className={cx("node-button-inactive click-cursor", {
           "node-button-active": this.state.currentButtonType === type,
         })}
         onClick={() => {

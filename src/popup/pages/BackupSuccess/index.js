@@ -43,7 +43,7 @@ class BackupSuccess extends React.Component {
     }
 
   };
-  renderBottonBtn = () => {
+  renderBottomBtn = () => {
     return (
       <div className="bottom-container">
         <Button
@@ -63,7 +63,7 @@ class BackupSuccess extends React.Component {
           <img className={"backup-success-img"} src={walletSuccess}></img>
           {this.renderTip()}
         </div>
-        {this.renderBottonBtn()}
+        {this.renderBottomBtn()}
       </CustomView>
     )
   }

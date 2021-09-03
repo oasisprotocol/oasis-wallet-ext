@@ -4,7 +4,7 @@ import { WALLET_CREATE_HD_ACCOUNT } from "../../../constant/types";
 import { ACCOUNT_NAME_FROM_TYPE, ACCOUNT_TYPE_FROM } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { updateCurrentAccount } from "../../../reducers/accountReducer";
-import { updateAccoutType } from "../../../reducers/cache";
+import { updateAccountType } from "../../../reducers/cache";
 import { sendMsg } from "../../../utils/commonMsg";
 import { checkLedgerConnect } from "../../../utils/ledger";
 import { nameLengthCheck } from "../../../utils/utils";
@@ -134,7 +134,7 @@ class AccountName extends React.Component {
     }
     this.isClicked = false
   }
-  renderBottonBtn = () => {
+  renderBottomBtn = () => {
     let { fromType } = this.props.cache
     let buttonText = fromType === ACCOUNT_NAME_FROM_TYPE.INSIDE ? 'confirm_1' : 'next'
     return (
@@ -163,7 +163,7 @@ class AccountName extends React.Component {
               errorTipShow={this.state.errorTipShow}
               showTip={getLanguage("accountNameLimit")}
               onTextInput={this.onAccountInput} />
-            {this.renderBottonBtn()}
+            {this.renderBottomBtn()}
           </div>
         </form>
       </CustomView>)
@@ -180,8 +180,8 @@ function mapDispatchToProps(dispatch) {
     updateCurrentAccount: (account) => {
       dispatch(updateCurrentAccount(account))
     },
-    updateAccoutType: (type) => {
-      dispatch(updateAccoutType(type));
+    updateAccountType: (type) => {
+      dispatch(updateAccountType(type));
     }
   };
 }

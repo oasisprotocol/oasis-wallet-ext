@@ -1,11 +1,11 @@
 import * as oasis from '@oasisprotocol/client';
 import axios from "axios";
-import { NET_WORK_CONFIG } from "../../constant/storageKey";
+import { NETWORK_CONFIG } from "../../constant/storageKey";
 import "./axios";
 import { getLocal } from "../storage/localStorage";
 
 export function getNowUrl() {
-  let localNetConfig = getLocal(NET_WORK_CONFIG)
+  let localNetConfig = getLocal(NETWORK_CONFIG)
   let url = {}
   if (localNetConfig) {
     localNetConfig = JSON.parse(localNetConfig)

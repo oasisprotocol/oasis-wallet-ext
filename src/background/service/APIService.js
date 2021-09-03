@@ -100,7 +100,7 @@ class APIService {
           mne: ""
         };
       }
-      
+
     resetWallet=()=>{
       this.memStore.putState(this.initLockedState())
       return
@@ -134,10 +134,10 @@ class APIService {
     createAccount = async (mnemonic) => {
         this.memStore.updateState({ mne: "" })
         let wallet = await this.importWalletByMnemonicHDkey(mnemonic)
-        let priKeyEncrypt = await this.encryptor.encrypt(this.getStore().password, wallet.priKey_hex)
+        let privKeyEncrypt = await this.encryptor.encrypt(this.getStore().password, wallet.privKey_hex)
         const account = {
             address: wallet.address,
-            privateKey: priKeyEncrypt,
+            privateKey: privKeyEncrypt,
             publicKey: wallet.publicKey,
             type: ACCOUNT_TYPE.WALLET_INSIDE,
             hdPath: wallet.hdIndex,
@@ -207,7 +207,7 @@ class APIService {
         let publicKey = uint2hex(keyPair.publicKey)
         let address = await publicKeyToAddress(keyPair.publicKey)
         let wallet = {
-            priKey_hex: privateHex,
+            privKey_hex: privateHex,
             publicKey,
             address: address,
             hdIndex: index
@@ -230,10 +230,10 @@ class APIService {
             let mnemonicEn = data[0].mnemonic
             let mnemonic = await this.encryptor.decrypt(this.getStore().password, mnemonicEn)
             let wallet = await this.importWalletByMnemonicHDkey(mnemonic, lastHdIndex)
-            let priKeyEncrypt = await this.encryptor.encrypt(this.getStore().password, wallet.priKey_hex)
+            let privKeyEncrypt = await this.encryptor.encrypt(this.getStore().password, wallet.privKey_hex)
             const account = {
                 address: wallet.address,
-                privateKey: priKeyEncrypt,
+                privateKey: privKeyEncrypt,
                 publicKey: wallet.publicKey,
                 type: ACCOUNT_TYPE.WALLET_INSIDE,
                 hdPath: lastHdIndex,
@@ -285,8 +285,8 @@ class APIService {
         const publicKey = uint2hex(publicKeyBytes)
         let privateHex = Buffer.from(privateBase64, 'base64').toString('hex')
         return {
-            priKey_base64: privateBase64,
-            priKey_hex: privateHex,
+            privKey_base64: privateBase64,
+            privKey_hex: privateHex,
             publicKey,
             address: walletAddress,
         }
@@ -304,7 +304,7 @@ class APIService {
             for (let index = 0; index < accounts.length; index++) {
                 const account = accounts[index];
                 if (account.address === wallet.address) {
-                    error = { "error": 'improtRepeat', type: "local" }
+                    error = { "error": 'importRepeat', type: "local" }
                     break
                 }
             }
@@ -321,10 +321,10 @@ class APIService {
                 typeIndex = importList[importList.length - 1].typeIndex + 1
             }
 
-            let priKeyEncrypt = await this.encryptor.encrypt(this.getStore().password, wallet.priKey_hex)
+            let privKeyEncrypt = await this.encryptor.encrypt(this.getStore().password, wallet.privKey_hex)
             const account = {
                 address: wallet.address,
-                privateKey: priKeyEncrypt,
+                privateKey: privKeyEncrypt,
                 publicKey: wallet.publicKey,
                 type: ACCOUNT_TYPE.WALLET_OUTSIDE,
                 accountName,
@@ -407,7 +407,7 @@ class APIService {
             for (let index = 0; index < accounts.length; index++) {
                 const account = accounts[index];
                 if (account.address === address) {
-                    error = { "error": 'improtRepeat', type: "local" }
+                    error = { "error": 'importRepeat', type: "local" }
                     break
                 }
             }
@@ -576,8 +576,8 @@ class APIService {
             })
             let nowAccount = accounts[0]
             const privateKey = await this.encryptor.decrypt(pwd, nowAccount.privateKey)
-            let base64PriKey = this.hexToBase64(privateKey)
-            return base64PriKey
+            let base64PrivKey = this.hexToBase64(privateKey)
+            return base64PrivKey
         } else {
             return { error: 'passwordError', type: "local" }
         }
@@ -588,7 +588,7 @@ class APIService {
         const privateKey = await this.encryptor.decrypt(password, currentAccount.privateKey)
         return privateKey
     }
-    getCurrentSinger = async (address) => {
+    getCurrentSigner = async (address) => {
         return new Promise(async (resolve, reject) => {
             let currentAccount = this.getStore().currentAccount
             if (address === currentAccount.address) {
@@ -621,21 +621,21 @@ class APIService {
         return this.submitTxBody(params, tw)
     }
     /**
-     * commont stake  at least 100
+     * delegate stake
      * @param {*} params
      * @returns
      */
-    sendStakeTransaction = async (params) => {
+    delegateTransaction = async (params) => {
         const tw = oasis.staking.addEscrowWrapper()
         params.method = TRANSACTION_TYPE.AddEscrow
         return this.submitTxBody(params, tw)
     }
     /**
-    * reclaim  ledger lib ledger must user the api in the front page
+    * undelegate stake
     * @param {*} params
     * @returns
     */
-    sendReclaimTransaction = async (params) => {
+    undelegateTransaction = async (params) => {
         const tw = oasis.staking.reclaimEscrowWrapper()
         params.method = TRANSACTION_TYPE.ReclaimEscrow
         return this.submitTxBody(params, tw)

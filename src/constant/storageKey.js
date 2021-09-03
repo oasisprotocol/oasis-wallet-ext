@@ -1,7 +1,7 @@
 /**
  *  network configuration key
  */
-export const NET_WORK_CONFIG = "NET_WORK_CONFIG"
+export const NETWORK_CONFIG = "NETWORK_CONFIG"
 
 
 

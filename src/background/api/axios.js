@@ -19,12 +19,12 @@ function axiosRetryInterceptor(err) {
         return Promise.reject(new Error(message));
     }
     config.__retryCount += 1;
-    var backoff = new Promise(function (resolve) {
+    var backOff = new Promise(function (resolve) {
         setTimeout(function () {
             resolve();
         }, config.retryDelay || 1);
     });
-    return backoff.then(function () {
+    return backOff.then(function () {
         return axios(config);
     });
 }

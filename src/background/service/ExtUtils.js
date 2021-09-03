@@ -26,7 +26,7 @@ async function getSigner(req) {
     })
 }
 
-async function getFormatPublickey(publicKey) {
+async function getFormatPublicKey(publicKey) {
     return [
         {
             which: oasis.staking.addressToBech32(await oasis.staking.addressFromPublicKey(publicKey)),
@@ -48,7 +48,7 @@ oasisExt.ext.ready({
                         if (account.length > 0) {
                             let public_key = account[0]
                             public_key = hex2uint(public_key)
-                            resolve({ keys: await getFormatPublickey(public_key) })
+                            resolve({ keys: await getFormatPublicKey(public_key) })
                         } else {
                             resolve({ keys: [] })
                         }

@@ -5,7 +5,7 @@ import { mainnet_config, testnet_config } from "../../../../config";
 import select_account_no from "../../../assets/images/select_account_no.svg";
 import select_account_ok from "../../../assets/images/select_account_ok.svg";
 import { saveLocal } from "../../../background/storage/localStorage";
-import { NET_WORK_CONFIG } from "../../../constant/storageKey";
+import { NETWORK_CONFIG } from "../../../constant/storageKey";
 import { NET_CONFIG_ADD, NET_CONFIG_DEFAULT, NET_CONFIG_TYPE_MAIN } from "../../../constant/types";
 import { getLanguage } from "../../../i18n";
 import { updateNetConfigRequest } from "../../../reducers/cache";
@@ -103,7 +103,7 @@ class NetInfoPage extends React.Component {
       </div>
     )
   }
-  renderCustomeNode = () => {
+  renderCustomNode = () => {
     let list = this.state.netConfigList.filter((item) => item.nodeType !== NET_CONFIG_DEFAULT)
     if (list.length <= 0) {
       return <div />
@@ -120,8 +120,8 @@ class NetInfoPage extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
   }
-  onSetModalVisable = (visable) => {
-    if (!visable) {
+  onSetModalVisible = (visible) => {
+    if (!visible) {
       setTimeout(() => {
         this.callSetState({
           netUrl: "",
@@ -174,7 +174,7 @@ class NetInfoPage extends React.Component {
       if (this.globalNetType === netItem.netType) {
         this.props.updateNetConfigRequest(true)
       }
-      saveLocal(NET_WORK_CONFIG, JSON.stringify(config))
+      saveLocal(NETWORK_CONFIG, JSON.stringify(config))
     })
   }
   updateLocalConfig = (totalNetList, currentNetList) => {
@@ -183,7 +183,7 @@ class NetInfoPage extends React.Component {
       currentNetList: [...currentNetList],
     }
     this.props.updateNetConfigList(config)
-    saveLocal(NET_WORK_CONFIG, JSON.stringify(config))
+    saveLocal(NETWORK_CONFIG, JSON.stringify(config))
   }
   onConfirmDelete = (netItem) => {
     if (netItem.isSelect) {
@@ -345,7 +345,7 @@ class NetInfoPage extends React.Component {
     return newList
   }
   onCloseModal = () => {
-    this.modal.current.setModalVisable(false)
+    this.modal.current.setModalVisible(false)
   }
   renderActionBtn = () => {
     return (
@@ -367,7 +367,7 @@ class NetInfoPage extends React.Component {
     return (<TestModal
       ref={this.modal}
       showClose={true}
-      actionCallback={this.onSetModalVisable}
+      actionCallback={this.onSetModalVisible}
     >
       <div className={'account-change-name-container'}>
         <div className={"account-change-title-container"}>
@@ -381,9 +381,9 @@ class NetInfoPage extends React.Component {
     </TestModal>)
   }
   onAdd = (e) => {
-    this.modal.current.setModalVisable(true)
+    this.modal.current.setModalVisible(true)
   }
-  renderBottonBtn = () => {
+  renderBottomBtn = () => {
     return (
       <div className="bottom-container">
         <Button
@@ -400,8 +400,8 @@ class NetInfoPage extends React.Component {
         history={this.props.history}>
         <div className={"network-container"}>
           {this.renderDefaultNode()}
-          {this.renderCustomeNode()}
-          {this.renderBottonBtn()}
+          {this.renderCustomNode()}
+          {this.renderBottomBtn()}
         </div>
         <form onSubmit={this.onSubmit}>
           {this.renderChangeModal()}

@@ -9,13 +9,13 @@ export default class AccountIcon extends PureComponent {
     }
     appendJazzicon() {
         const { address, diameter } = this.props
-        const image = this.generateIdenticonSvg(address, diameter)
+        const image = this.generateJazziconSvg(address, diameter)
         this.iconContainer.current.appendChild(image)
     }
-    generateIdenticonSvg = (address, diameter) => {
+    generateJazziconSvg = (address, diameter) => {
         const numericRepresentation = this.addressToNumber(address)
-        const identicon = jazzicon(diameter, numericRepresentation)
-        return identicon
+        const jazzicon = jazzicon(diameter, numericRepresentation)
+        return jazzicon
     }
     addressToNumber = (address) => {
         const addressU8 = oasis.staking.addressFromBech32(address)

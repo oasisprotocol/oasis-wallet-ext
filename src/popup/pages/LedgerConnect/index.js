@@ -132,7 +132,7 @@ class LedgerConnect extends React.Component {
       </>
     )
   }
-  renderBottonBtn = () => {
+  renderBottomBtn = () => {
     return (
       <div className="bottom-container">
         <Button
@@ -152,11 +152,11 @@ class LedgerConnect extends React.Component {
         <div>
           {
             this.state.connectCompleted ?
-              <LedgerConnected tips={['back2extension', 'dontclose']} /> :
+              <LedgerConnected tips={['back2extension', 'dontCloseWindow']} /> :
               this.renderSteps()
           }
         </div>
-        {!this.state.connectCompleted && this.renderBottonBtn()}
+        {!this.state.connectCompleted && this.renderBottomBtn()}
       </div>)
   }
 }

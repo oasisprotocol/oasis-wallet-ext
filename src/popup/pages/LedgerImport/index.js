@@ -39,11 +39,11 @@ class LedgerImport extends React.Component {
       },
     })
   }
-  renderBottonBtn = () => {
+  renderBottomBtn = () => {
     return (
       <div className="bottom-container">
         <Button
-          content={getLanguage('importAccont')}
+          content={getLanguage('importAccount')}
           onClick={this.goToNext}
         />
       </div>)
@@ -54,7 +54,7 @@ class LedgerImport extends React.Component {
         title={getLanguage('walletName')}
         history={this.props.history}>
         <LedgerConnected tips={['ledgerImportTip']} />
-        {this.renderBottonBtn()}
+        {this.renderBottomBtn()}
       </CustomView>)
   }
 }

@@ -35,7 +35,7 @@ class ExtDappService {
     })
   }
 
-  async getFormatPublickey(key) {
+  async getFormatPublicKey(key) {
     return [key]
   }
 
@@ -81,7 +81,7 @@ class ExtDappService {
                   return item.isConnecting
                 })
                 let resultAccount = siteApproveAccount[0]
-                let res = await that.getFormatPublickey(resultAccount.publicKey)
+                let res = await that.getFormatPublicKey(resultAccount.publicKey)
                 resolve(res)
               } else {
                 reject({ error: "User Reject" })
@@ -230,7 +230,7 @@ class ExtDappService {
     }
     return []
   }
-  getConncetStatus(siteUrl, address) {
+  getConnectedStatus(siteUrl, address) {
     let approveList = this.getDappStore().approveList
     let accountList = approveList[siteUrl] || []
     let accountIndex = this.getAccountIndex(accountList, address)
@@ -239,10 +239,10 @@ class ExtDappService {
     }
     return false
   }
-  async getApproveAccountSinger(req) {
+  async getApproveAccountSigner(req) {
     return new Promise(async (resolve, reject) => {
       try {
-        let signer = await apiService.getCurrentSinger(req.address)
+        let signer = await apiService.getCurrentSigner(req.address)
         let context = req.context
         let message = hex2uint(req.message)
         const signature = await signer.sign(context, message);
@@ -352,7 +352,7 @@ class ExtDappService {
         accountList = accountList.filter((item) => {
           return item.isConnecting
         })
-        let res = await this.getFormatPublickey(accountList[0].publicKey)
+        let res = await this.getFormatPublicKey(accountList[0].publicKey)
         return res
       }
     }

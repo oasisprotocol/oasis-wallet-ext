@@ -100,7 +100,7 @@ export function setWelcomeNextRoute(nextRoute) {
  * @param {*} fromType
  * @returns
  */
-export function updateAccoutType(fromType) {
+export function updateAccountType(fromType) {
     return {
         type: UPDATE_ACCOUNT_TYPE_FROM,
         fromType
