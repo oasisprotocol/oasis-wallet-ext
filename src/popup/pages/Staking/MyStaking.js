@@ -76,7 +76,7 @@ class MyStaking extends React.Component {
     }
     renderTopInfoItem = (title, content) => {
         return (
-            <div className={"top-info-contet"}>
+            <div className={"top-info-content"}>
                 <p>{title} : {content}</p>
             </div>
         )
