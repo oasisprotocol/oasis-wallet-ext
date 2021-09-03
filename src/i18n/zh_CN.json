@@ -89,7 +89,7 @@
   "urlError_2": "地址已存在",
   "prompt": "提示",
   "deleteAccountTip": "删除的账户只能通过私记词或者私钥恢复，请确认你已经备份好助记词和私钥。",
-  "isee": "我知道了",
+  "confirmAction": "我知道了",
   "accountImport": "导入",
   "postSuccess": "发送成功",
   "startHome": "开始",

@@ -89,7 +89,7 @@
     "urlError_2": "Address already exists",
     "prompt": "Reminder",
     "deleteAccountTip": "The deleted account can only be restored by Mnemonic Phrase or Private Key.Please make sure you have backed up your mnemonic phrase and private key.",
-    "isee": "OK",
+    "confirmAction": "I understand",
     "accountImport": "Import",
     "postSuccess": "Successfully Transfer",
     "startHome": "Start",
