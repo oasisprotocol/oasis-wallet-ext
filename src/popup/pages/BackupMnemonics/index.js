@@ -73,7 +73,7 @@ class BackupMnemonics extends React.Component {
           this.props.updateCurrentAccount(currentAccount)
           this.props.updateEntryWitchRoute(ENTRY_WITCH_ROUTE.HOME_PAGE)
           this.props.history.push({
-            pathname: "/backupsuccess",
+            pathname: "/backup_success",
           })
         })
     } else {

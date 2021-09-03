@@ -21,7 +21,7 @@ class BackupTips extends React.Component {
   }
   goToCreate = () => {
     this.props.history.push({
-      pathname: "/showmnemonic",
+      pathname: "/show_mnemonic",
     }
     )
   }

@@ -48,7 +48,7 @@ class ShowMnemonic extends React.Component {
   };
   goToNext = () => {
     this.props.history.push({
-      pathname: "/backupmnemonic",
+      pathname: "/backup_mnemonic",
     })
   };
   renderBottonBtn = () => {

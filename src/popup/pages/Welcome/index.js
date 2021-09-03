@@ -76,7 +76,7 @@ class Welcome extends React.Component {
   goToPage = async (nextRoute) => {
     this.props.setWelcomeNextRoute(nextRoute)
     this.props.history.push({
-      pathname: "/createpassword",
+      pathname: "/create_password",
     })
   };
 
