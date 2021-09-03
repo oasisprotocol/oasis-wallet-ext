@@ -5,7 +5,7 @@ import { mainnet_config, testnet_config } from "../../../../config";
 import select_account_no from "../../../assets/images/select_account_no.svg";
 import select_account_ok from "../../../assets/images/select_account_ok.svg";
 import { saveLocal } from "../../../background/storage/localStorage";
-import { NET_WORK_CONFIG } from "../../../constant/storageKey";
+import { NETWORK_CONFIG } from "../../../constant/storageKey";
 import { NET_CONFIG_ADD, NET_CONFIG_DEFAULT, NET_CONFIG_TYPE_MAIN } from "../../../constant/types";
 import { getLanguage } from "../../../i18n";
 import { updateNetConfigRequest } from "../../../reducers/cache";
@@ -174,7 +174,7 @@ class NetInfoPage extends React.Component {
       if (this.globalNetType === netItem.netType) {
         this.props.updateNetConfigRequest(true)
       }
-      saveLocal(NET_WORK_CONFIG, JSON.stringify(config))
+      saveLocal(NETWORK_CONFIG, JSON.stringify(config))
     })
   }
   updateLocalConfig = (totalNetList, currentNetList) => {
@@ -183,7 +183,7 @@ class NetInfoPage extends React.Component {
       currentNetList: [...currentNetList],
     }
     this.props.updateNetConfigList(config)
-    saveLocal(NET_WORK_CONFIG, JSON.stringify(config))
+    saveLocal(NETWORK_CONFIG, JSON.stringify(config))
   }
   onConfirmDelete = (netItem) => {
     if (netItem.isSelect) {

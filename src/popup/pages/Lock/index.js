@@ -5,7 +5,7 @@ import home_logo from "../../../assets/images/home_logo.png";
 import txFailed from "../../../assets/images/txFailed.png";
 import { clearLocalExcept, getLocal } from "../../../background/storage/localStorage";
 import { clearStorage } from "../../../background/storage/storageService";
-import { NET_WORK_CONFIG } from "../../../constant/storageKey";
+import { NETWORK_CONFIG } from "../../../constant/storageKey";
 import { RESET_WALLET, WALLET_APP_SUBMIT_PWD } from "../../../constant/types";
 import { getLanguage } from "../../../i18n";
 import { resetWallet } from "../../../reducers";
@@ -186,11 +186,11 @@ class LockPage extends React.Component {
                 //1, delete extension storage
                 clearStorage()
                 //2, delete local storage except net-config
-                clearLocalExcept(NET_WORK_CONFIG)
+                clearLocalExcept(NETWORK_CONFIG)
                 //3, clear all redux
                 this.props.resetWallet()
-                //4, get netconfig and update net-reducer
-                let netConfig = getLocal(NET_WORK_CONFIG)
+                //4, get network config and update net-reducer
+                let netConfig = getLocal(NETWORK_CONFIG)
                 if (netConfig) {
                     netConfig = JSON.parse(netConfig)
                     this.props.updateNetConfigList(netConfig)

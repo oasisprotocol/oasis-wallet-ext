@@ -9,7 +9,7 @@ import record_arrow from "../../../assets/images/record_arrow.png";
 import { getBalance, getRpcNonce } from "../../../background/api";
 import { saveLocal } from "../../../background/storage/localStorage";
 import { undelegateTransaction, delegateTransaction, sendTransaction } from "../../../background/api/txHelper";
-import { NET_WORK_CONFIG } from "../../../constant/storageKey";
+import { NETWORK_CONFIG } from "../../../constant/storageKey";
 import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSACTION, WALLET_SEND_STAKE_TRANSACTION, WALLET_SEND_TRANSACTION } from "../../../constant/types";
 import { ACCOUNT_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
@@ -658,7 +658,7 @@ class SendPage extends React.Component {
       totalNetList: totalNetList,
       currentNetList: currentList
     }
-    saveLocal(NET_WORK_CONFIG, JSON.stringify(config))
+    saveLocal(NETWORK_CONFIG, JSON.stringify(config))
     this.props.updateNetConfigList(config)
     this.props.updateNetConfigRequest(true)
   };

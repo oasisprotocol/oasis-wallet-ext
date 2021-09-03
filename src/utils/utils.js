@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 import validUrl from 'valid-url';
 import { cointypes } from '../../config';
 import { getLocal } from "../background/storage/localStorage";
-import { NET_WORK_CONFIG } from "../constant/storageKey";
+import { NETWORK_CONFIG } from "../constant/storageKey";
 /**
  * Address interception
  * @param {*} address
@@ -178,7 +178,7 @@ export function getNumberDecimals(number) {
 }
 
 export function getExplorerUrl() {
-    let localNetConfig = getLocal(NET_WORK_CONFIG)
+    let localNetConfig = getLocal(NETWORK_CONFIG)
     let config = {}
     if (localNetConfig) {
         localNetConfig = JSON.parse(localNetConfig)

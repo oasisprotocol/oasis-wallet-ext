@@ -7,7 +7,7 @@ import { network_config } from "../config";
 import { windowId } from "./background/service/ExtDappService";
 import { getLocal, saveLocal } from "./background/storage/localStorage";
 import { QUERY_TAB_TYPE } from "./constant/specifyType";
-import { NET_WORK_CONFIG } from "./constant/storageKey";
+import { NETWORK_CONFIG } from "./constant/storageKey";
 import { DAPP_GET_CURRENT_OPEN_WINDOW, NET_CONFIG_TYPE_MAIN, NET_CONFIG_TYPE_TEST, WALLET_GET_CURRENT_ACCOUNT } from "./constant/types";
 import "./i18n";
 import App from "./popup/App";
@@ -24,7 +24,7 @@ import { getOriginFromUrl } from "./utils/utils";
  * @param {*} store
  */
 function getLocalNetConfig(store) {
-  let localNetConfig = getLocal(NET_WORK_CONFIG)
+  let localNetConfig = getLocal(NETWORK_CONFIG)
   let config
   if (!localNetConfig) {
     let testNetData = {}
@@ -54,7 +54,7 @@ function getLocalNetConfig(store) {
       currentNetList: currentList
     }
     store.dispatch(updateNetConfigList(config))
-    saveLocal(NET_WORK_CONFIG, JSON.stringify(config))
+    saveLocal(NETWORK_CONFIG, JSON.stringify(config))
   } else {
     store.dispatch(updateNetConfigList(JSON.parse(localNetConfig)))
   }
