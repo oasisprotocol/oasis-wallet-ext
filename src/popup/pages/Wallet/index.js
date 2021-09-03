@@ -146,8 +146,8 @@ class Wallet extends React.Component {
 
   renderAccountItemInfo = (title, content) => {
     return (<div className={"account-info-item-container"}>
-      <p className={"wallt-info-title"}>{title}</p>
-      <p className={"wallt-info-content"}>{content}</p>
+      <p className={"wallet-info-title"}>{title}</p>
+      <p className={"wallet-info-content"}>{content}</p>
     </div>)
   }
   onMouseEnter = (grpc) => {
