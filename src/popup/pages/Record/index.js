@@ -150,9 +150,9 @@ class Record extends React.Component {
               })
             }>{txStatusTitle}</p>
             <div className={'divided-line-container'}>
-              <div className={"record-circile record-left-circle"}></div>
+              <div className={"record-circle record-left-circle"}></div>
               <div className="record-status-dividedline"></div>
-              <div className={"record-circile record-right-circle"}></div>
+              <div className={"record-circle record-right-circle"}></div>
             </div>
             {this.renderDetail()}
             {this.renderDetailExplorer()}
