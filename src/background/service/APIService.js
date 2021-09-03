@@ -588,7 +588,7 @@ class APIService {
         const privateKey = await this.encryptor.decrypt(password, currentAccount.privateKey)
         return privateKey
     }
-    getCurrentSinger = async (address) => {
+    getCurrentSigner = async (address) => {
         return new Promise(async (resolve, reject) => {
             let currentAccount = this.getStore().currentAccount
             if (address === currentAccount.address) {

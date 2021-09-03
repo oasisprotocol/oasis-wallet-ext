@@ -179,7 +179,7 @@ function internalMessageListener(message, sender, sendResponse) {
           break
 
     case FRAME_GET_ACCOUNT_SIGNER:
-        extDappService.getApproveAccountSinger(payload).then((account) => {
+        extDappService.getApproveAccountSigner(payload).then((account) => {
           sendResponse(account);
         }).catch((err)=>sendResponse(err))
           break

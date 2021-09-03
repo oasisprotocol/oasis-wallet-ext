@@ -239,10 +239,10 @@ class ExtDappService {
     }
     return false
   }
-  async getApproveAccountSinger(req) {
+  async getApproveAccountSigner(req) {
     return new Promise(async (resolve, reject) => {
       try {
-        let signer = await apiService.getCurrentSinger(req.address)
+        let signer = await apiService.getCurrentSigner(req.address)
         let context = req.context
         let message = hex2uint(req.message)
         const signature = await signer.sign(context, message);
