@@ -156,7 +156,7 @@ class StakeNode extends React.Component {
   renderButton = (title, callback, type) => {
     return (
       <button
-        className={cx("node-button-unactive click-cursor", {
+        className={cx("node-button-inactive click-cursor", {
           "node-button-active": this.state.currentButtonType === type,
         })}
         onClick={() => {

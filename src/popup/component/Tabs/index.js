@@ -20,7 +20,7 @@ export default class Tabs extends React.Component {
     onChangeIndex(index)
   }
   check_title_index = (index) => {
-    return this.state.currentIndex === index ? "tab_title home-active click-cursor" : "tab_title home-unactive click-cursor";
+    return this.state.currentIndex === index ? "tab_title home-active click-cursor" : "tab_title home-inactive click-cursor";
   };
   check_item_index = (index) => {
     return this.state.currentIndex === index ? "show" : "hide";

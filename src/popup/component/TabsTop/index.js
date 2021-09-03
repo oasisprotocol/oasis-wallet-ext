@@ -21,7 +21,7 @@ export default class TabsTop extends React.Component {
     onChangeIndex(index)
   }
   check_title_index = (index) => {
-    return this.state.currentIndex === index ? "tab_title_top home-active_top click-cursor" : "tab_title_top home-unactive_top click-cursor";
+    return this.state.currentIndex === index ? "tab_title_top home-active_top click-cursor" : "tab_title_top home-inactive_top click-cursor";
   };
   check_item_index = (index) => {
     return this.state.currentIndex === index ? "show_top" : "hide_top";
