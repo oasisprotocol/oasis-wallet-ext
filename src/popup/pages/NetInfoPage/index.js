@@ -103,7 +103,7 @@ class NetInfoPage extends React.Component {
       </div>
     )
   }
-  renderCustomeNode = () => {
+  renderCustomNode = () => {
     let list = this.state.netConfigList.filter((item) => item.nodeType !== NET_CONFIG_DEFAULT)
     if (list.length <= 0) {
       return <div />
@@ -400,7 +400,7 @@ class NetInfoPage extends React.Component {
         history={this.props.history}>
         <div className={"network-container"}>
           {this.renderDefaultNode()}
-          {this.renderCustomeNode()}
+          {this.renderCustomNode()}
           {this.renderBottonBtn()}
         </div>
         <form onSubmit={this.onSubmit}>
