@@ -5,7 +5,7 @@ export const ENTRY_WHICH_ROUTE = {
   HOME_PAGE: 'ENTRY_WHICH_ROUTE_HOME_PAGE',
   WELCOME: 'ENTRY_WHICH_ROUTE_WELCOME',
   LOCK_PAGE: 'ENTRY_WHICH_LOCK_PAGE',
-  UPDATA_ENTRY_WHICH_ROUTE: "UPDATA_ENTRY_WHICH_ROUTE",
+  UPDATE_ENTRY_WHICH_ROUTE: "UPDATE_ENTRY_WHICH_ROUTE",
 
 
   DAPP_APPROVE_PAGE: 'DAPP_APPROVE_PAGE',
@@ -16,7 +16,7 @@ export const ENTRY_WHICH_ROUTE = {
 
 export function updateEntryWhichRoute(entryWhichRoute) {
   return {
-    type: ENTRY_WHICH_ROUTE.UPDATA_ENTRY_WHICH_ROUTE,
+    type: ENTRY_WHICH_ROUTE.UPDATE_ENTRY_WHICH_ROUTE,
     entryWhichRoute
   };
 }
@@ -28,7 +28,7 @@ const initState = {
 
 const entryRouteReducer = (state = initState, action) => {
   switch (action.type) {
-    case ENTRY_WHICH_ROUTE.UPDATA_ENTRY_WHICH_ROUTE:
+    case ENTRY_WHICH_ROUTE.UPDATE_ENTRY_WHICH_ROUTE:
       return {
         entryWhichRoute: action.entryWhichRoute,
       };
