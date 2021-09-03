@@ -319,7 +319,7 @@ class SendPage extends React.Component {
 
     if (this.state.stakeType === SEND_PAGE_TYPE_STAKE) {
       if (!isNumber(amount) || (parseInt(amount) < parseInt(STAKE_MIN_AMOUNT))) {
-        Toast.info(getLanguage('minStakeAmout') + " " + STAKE_MIN_AMOUNT)
+        Toast.info(getLanguage('minStakeAmount') + " " + STAKE_MIN_AMOUNT)
         return
       }
       let totalStakeAmount = new BigNumber(amount).plus(payFee).toString()

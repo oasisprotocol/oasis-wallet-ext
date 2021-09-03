@@ -166,7 +166,7 @@
     "inputToAddress":"Please enter receive address",
     "observeAccountTip":"Watch Address",
     "inputGasError":"Please enter valid Gas",
-    "minStakeAmout":"Min delegate amonut is",
+    "minStakeAmount":"Min delegate amount is",
     "canUseNotEnough":"Insufficient available balance",
     "maxWithdraw":"Max available balance",
     "stakeDetail":"Delegate Info",

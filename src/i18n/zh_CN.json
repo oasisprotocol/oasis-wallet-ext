@@ -166,7 +166,7 @@
   "inputToAddress":"请输入您的接收地址",
   "observeAccountTip":"该地址为观察地址",
   "inputGasError":"请输入有效的Gas",
-  "minStakeAmout":"最小质押金额为",
+  "minStakeAmount":"最小质押金额为",
   "canUseNotEnough":"可用余额不足",
   "maxWithdraw":"超过最大可提取金额",
   "stakeDetail":"委托详情",

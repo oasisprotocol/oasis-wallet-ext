@@ -95,7 +95,7 @@ class SignTransaction extends React.Component {
 
       if (this.state.sendAction === oasis.staking.METHOD_ADD_ESCROW) {
         if (!isNumber(amount) || (parseInt(amount) < parseInt(STAKE_MIN_AMOUNT))) {
-          Toast.info(getLanguage('minStakeAmout') + " " + STAKE_MIN_AMOUNT)
+          Toast.info(getLanguage('minStakeAmount') + " " + STAKE_MIN_AMOUNT)
           return
         }
       }
