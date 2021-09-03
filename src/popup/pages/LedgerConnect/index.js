@@ -152,7 +152,7 @@ class LedgerConnect extends React.Component {
         <div>
           {
             this.state.connectCompleted ?
-              <LedgerConnected tips={['back2extension', 'dontclose']} /> :
+              <LedgerConnected tips={['back2extension', 'dontCloseWindow']} /> :
               this.renderSteps()
           }
         </div>

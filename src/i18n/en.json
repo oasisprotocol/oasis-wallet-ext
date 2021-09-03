@@ -121,7 +121,7 @@
     "secondStep":"Step 2",
     "pleaseConnectLedger":"Connect your Ledger to the computer",
     "back2extension": "Please continue the operation in the wallet app.",
-    "dontclose": "And <bold>do not close</bold> this window.",
+    "dontCloseWindow": "And <bold>do not close</bold> this window.",
     "ledgerConnect":"Connect Ledger" ,
     "inputFeeError":"Please enter a valid fee",
     "inputNonceError":"Please enter a valid nonce",
