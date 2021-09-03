@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { DAPP_CLOSE_POPUP_WINDOW, FROM_BACK_TO_RECORD, SET_LOCK } from '../../constant/types';
 import { languageInit } from '../../i18n';
 import { setLanguage } from '../../reducers/appReducer';
-import { ENTRY_WITCH_ROUTE, updateEntryWitchRoute } from '../../reducers/entryRouteReducer';
+import { ENTRY_WHICH_ROUTE, updateEntryWhichRoute } from '../../reducers/entryRouteReducer';
 import { updateNetConfigList } from '../../reducers/network';
 import LockPage from './Lock';
 import HomePage from './Main';
@@ -25,16 +25,16 @@ class MainRouter extends React.Component {
       if (type === FROM_BACK_TO_RECORD) {
         switch (action) {
           case SET_LOCK:
-            this.props.updateEntryWitchRoute(ENTRY_WITCH_ROUTE.LOCK_PAGE)
+            this.props.updateEntryWhichRoute(ENTRY_WHICH_ROUTE.LOCK_PAGE)
             this.props.history.push({
               pathname: "/",
             });
             sendResponse();
             break;
           case DAPP_CLOSE_POPUP_WINDOW:
-            if(this.props.entryWitchRoute === ENTRY_WITCH_ROUTE.DAPP_APPROVE_PAGE
-              || this.props.entryWitchRoute === ENTRY_WITCH_ROUTE.DAPP_SIGN_PAGE){
-                this.props.updateEntryWitchRoute(ENTRY_WITCH_ROUTE.HOME_PAGE)
+            if(this.props.entryWhichRoute === ENTRY_WHICH_ROUTE.DAPP_APPROVE_PAGE
+              || this.props.entryWhichRoute === ENTRY_WHICH_ROUTE.DAPP_SIGN_PAGE){
+                this.props.updateEntryWhichRoute(ENTRY_WHICH_ROUTE.HOME_PAGE)
                 this.props.history.push({
                   pathname: "/",
                 });
@@ -49,16 +49,16 @@ class MainRouter extends React.Component {
     });
   }
   render() {
-    switch (this.props.entryWitchRoute) {
-      case ENTRY_WITCH_ROUTE.WELCOME:
+    switch (this.props.entryWhichRoute) {
+      case ENTRY_WHICH_ROUTE.WELCOME:
         return <Welcome history={this.props.history} />;
-      case ENTRY_WITCH_ROUTE.HOME_PAGE:
+      case ENTRY_WHICH_ROUTE.HOME_PAGE:
         return <HomePage history={this.props.history} />;
-      case ENTRY_WITCH_ROUTE.LOCK_PAGE:
+      case ENTRY_WHICH_ROUTE.LOCK_PAGE:
         return <LockPage history={this.props.history} />;
-      case ENTRY_WITCH_ROUTE.DAPP_APPROVE_PAGE:
+      case ENTRY_WHICH_ROUTE.DAPP_APPROVE_PAGE:
         return <ApprovePage history={this.props.history} />;
-      case ENTRY_WITCH_ROUTE.DAPP_SIGN_PAGE:
+      case ENTRY_WHICH_ROUTE.DAPP_SIGN_PAGE:
         return <SignTransaction history={this.props.history} />;
       default:
         return <></>
@@ -67,13 +67,13 @@ class MainRouter extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  entryWitchRoute: state.entryRouteReducer.entryWitchRoute,
+  entryWhichRoute: state.entryRouteReducer.entryWhichRoute,
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateEntryWitchRoute: (index) => {
-      dispatch(updateEntryWitchRoute(index));
+    updateEntryWhichRoute: (index) => {
+      dispatch(updateEntryWhichRoute(index));
     },
     updateNetConfigList: (config) => {
       dispatch(updateNetConfigList(config))

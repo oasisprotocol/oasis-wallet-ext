@@ -10,7 +10,7 @@ import { ACCOUNT_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { updateNetAccount, updateRpcNonce } from "../../../reducers/accountReducer";
 import { updateDAppOpenWindow } from "../../../reducers/cache";
-import { ENTRY_WITCH_ROUTE, updateEntryWitchRoute } from "../../../reducers/entryRouteReducer";
+import { ENTRY_WHICH_ROUTE, updateEntryWhichRoute } from "../../../reducers/entryRouteReducer";
 import { sendMsg } from "../../../utils/commonMsg";
 import { checkLedgerConnect } from "../../../utils/ledger";
 import { dump } from "../../../utils/dump";
@@ -162,7 +162,7 @@ class SignTransaction extends React.Component {
   goToHome = () => {
     let url = this.props.dappWindow?.url
     if (url) {
-      this.props.updateEntryWitchRoute(ENTRY_WITCH_ROUTE.HOME_PAGE)
+      this.props.updateEntryWhichRoute(ENTRY_WHICH_ROUTE.HOME_PAGE)
     }
     this.props.updateDAppOpenWindow({})
   }
@@ -421,8 +421,8 @@ function mapDispatchToProps(dispatch) {
     updateDAppOpenWindow: (window) => {
       dispatch(updateDAppOpenWindow(window))
     },
-    updateEntryWitchRoute: (route) => {
-      dispatch(updateEntryWitchRoute(route))
+    updateEntryWhichRoute: (route) => {
+      dispatch(updateEntryWhichRoute(route))
     },
   };
 }

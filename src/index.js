@@ -14,7 +14,7 @@ import App from "./popup/App";
 import rootReducer from "./reducers";
 import { updateCurrentAccount } from "./reducers/accountReducer";
 import { updateCurrentActiveTab, updateDAppOpenWindow } from "./reducers/cache";
-import { ENTRY_WITCH_ROUTE, updateEntryWitchRoute } from "./reducers/entryRouteReducer";
+import { ENTRY_WHICH_ROUTE, updateEntryWhichRoute } from "./reducers/entryRouteReducer";
 import { updateNetConfigList } from "./reducers/network";
 import { getActiveTab, sendMsg } from "./utils/commonMsg";
 import { getOriginFromUrl } from "./utils/utils";
@@ -74,19 +74,19 @@ async function getLocalStatus(store) {
               if(window && window.channel){
                 store.dispatch(updateDAppOpenWindow(window))
                 if(window.channel === windowId.request_sign){
-                  store.dispatch(updateEntryWitchRoute(ENTRY_WITCH_ROUTE.DAPP_SIGN_PAGE))
+                  store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.DAPP_SIGN_PAGE))
                 }else if(window.channel === windowId.approve_page){
-                  store.dispatch(updateEntryWitchRoute(ENTRY_WITCH_ROUTE.DAPP_APPROVE_PAGE))
+                  store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.DAPP_APPROVE_PAGE))
                 }
               }else{
-                store.dispatch(updateEntryWitchRoute(ENTRY_WITCH_ROUTE.HOME_PAGE))
+                store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.HOME_PAGE))
               }
             })
         } else {
-          store.dispatch(updateEntryWitchRoute(ENTRY_WITCH_ROUTE.LOCK_PAGE))
+          store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.LOCK_PAGE))
         }
       } else {
-        store.dispatch(updateEntryWitchRoute(ENTRY_WITCH_ROUTE.WELCOME))
+        store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.WELCOME))
       }
     })
 }

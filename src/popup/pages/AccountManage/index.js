@@ -9,7 +9,7 @@ import { ACCOUNT_NAME_FROM_TYPE, ACCOUNT_TYPE } from "../../../constant/walletTy
 import { getLanguage } from "../../../i18n";
 import { updateAccountList, updateCurrentAccount } from "../../../reducers/accountReducer";
 import { setAccountInfo, updateAccountType } from "../../../reducers/cache";
-import { updateEntryWitchRoute } from "../../../reducers/entryRouteReducer";
+import { updateEntryWhichRoute } from "../../../reducers/entryRouteReducer";
 import { sendMsg } from "../../../utils/commonMsg";
 import CustomView from "../../component/CustomView";
 import Toast from "../../component/Toast";
@@ -213,8 +213,8 @@ function mapDispatchToProps(dispatch) {
     setAccountInfo: (account) => {
       dispatch(setAccountInfo(account))
     },
-    updateEntryWitchRoute: (index) => {
-      dispatch(updateEntryWitchRoute(index));
+    updateEntryWhichRoute: (index) => {
+      dispatch(updateEntryWhichRoute(index));
     },
     updateAccountType: (type) => {
       dispatch(updateAccountType(type));

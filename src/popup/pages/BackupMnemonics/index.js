@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { WALLET_GET_CREATE_MNEMONIC, WALLET_NEW_HD_ACCOUNT } from "../../../constant/types";
 import { getLanguage } from "../../../i18n";
 import { updateCurrentAccount } from "../../../reducers/accountReducer";
-import { ENTRY_WITCH_ROUTE, updateEntryWitchRoute } from "../../../reducers/entryRouteReducer";
+import { ENTRY_WHICH_ROUTE, updateEntryWhichRoute } from "../../../reducers/entryRouteReducer";
 import { sendMsg } from "../../../utils/commonMsg";
 import Button from "../../component/Button";
 import CustomView from "../../component/CustomView";
@@ -71,7 +71,7 @@ class BackupMnemonics extends React.Component {
       },
         async (currentAccount) => {
           this.props.updateCurrentAccount(currentAccount)
-          this.props.updateEntryWitchRoute(ENTRY_WITCH_ROUTE.HOME_PAGE)
+          this.props.updateEntryWhichRoute(ENTRY_WHICH_ROUTE.HOME_PAGE)
           this.props.history.push({
             pathname: "/backup_success",
           })
@@ -171,8 +171,8 @@ const mapStateToProps = (state) => ({});
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateEntryWitchRoute: (index) => {
-      dispatch(updateEntryWitchRoute(index));
+    updateEntryWhichRoute: (index) => {
+      dispatch(updateEntryWhichRoute(index));
     },
     updateCurrentAccount: (account) => {
       dispatch(updateCurrentAccount(account))

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { WALLET_IMPORT_HD_ACCOUNT } from "../../../constant/types";
 import { getLanguage } from "../../../i18n";
 import { updateCurrentAccount } from "../../../reducers/accountReducer";
-import { updateEntryWitchRoute } from "../../../reducers/entryRouteReducer";
+import { updateEntryWhichRoute } from "../../../reducers/entryRouteReducer";
 import { sendMsg } from "../../../utils/commonMsg";
 import Button from "../../component/Button";
 import CustomView from "../../component/CustomView";
@@ -141,8 +141,8 @@ const mapStateToProps = (state) => ({});
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateEntryWitchRoute: (index) => {
-      dispatch(updateEntryWitchRoute(index));
+    updateEntryWhichRoute: (index) => {
+      dispatch(updateEntryWhichRoute(index));
     },
     updateCurrentAccount: (account) => {
       dispatch(updateCurrentAccount(account))

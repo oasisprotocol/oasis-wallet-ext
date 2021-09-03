@@ -6,7 +6,7 @@ import { DAPP_ACTION_CLOSE_WINDOW, DAPP_ACTION_GET_ACCOUNT, DAPP_GET_APPROVE_ACC
 import { getLanguage } from "../../../i18n";
 import { updateAccountList, updateNetAccount } from "../../../reducers/accountReducer";
 import { updateDAppOpenWindow, updateDappSelectList } from "../../../reducers/cache";
-import { ENTRY_WITCH_ROUTE, updateEntryWitchRoute } from "../../../reducers/entryRouteReducer";
+import { ENTRY_WHICH_ROUTE, updateEntryWhichRoute } from "../../../reducers/entryRouteReducer";
 import { sendMsg } from "../../../utils/commonMsg";
 import { getQueryStringArgs } from "../../../utils/utils";
 import Button from "../../component/Button";
@@ -135,7 +135,7 @@ class ApprovePage extends React.Component {
   goToHome=()=>{
       let url = this.props.dappWindow?.url
       if(url){
-        this.props.updateEntryWitchRoute(ENTRY_WITCH_ROUTE.HOME_PAGE)
+        this.props.updateEntryWhichRoute(ENTRY_WHICH_ROUTE.HOME_PAGE)
       }
       this.props.updateDAppOpenWindow({})
   }
@@ -253,8 +253,8 @@ function mapDispatchToProps(dispatch) {
     updateDAppOpenWindow: (window) => {
       dispatch(updateDAppOpenWindow(window))
     },
-    updateEntryWitchRoute: (route) => {
-      dispatch(updateEntryWitchRoute(route))
+    updateEntryWhichRoute: (route) => {
+      dispatch(updateEntryWhichRoute(route))
     },
 
   };

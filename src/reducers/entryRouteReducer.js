@@ -1,11 +1,11 @@
 /**
  * Update the entry interface
  */
-export const ENTRY_WITCH_ROUTE = {
-  HOME_PAGE: 'ENTRY_WITCH_ROUTE_HOME_PAGE',
-  WELCOME: 'ENTRY_WITCH_ROUTE_WELCOME',
-  LOCK_PAGE: 'ENTRY_WITCH_LOCK_PAGE',
-  UPDATA_ENTRY_WITCH_ROUTE: "UPDATA_ENTRY_WITCH_ROUTE",
+export const ENTRY_WHICH_ROUTE = {
+  HOME_PAGE: 'ENTRY_WHICH_ROUTE_HOME_PAGE',
+  WELCOME: 'ENTRY_WHICH_ROUTE_WELCOME',
+  LOCK_PAGE: 'ENTRY_WHICH_LOCK_PAGE',
+  UPDATA_ENTRY_WHICH_ROUTE: "UPDATA_ENTRY_WHICH_ROUTE",
 
 
   DAPP_APPROVE_PAGE: 'DAPP_APPROVE_PAGE',
@@ -14,23 +14,23 @@ export const ENTRY_WITCH_ROUTE = {
 
 
 
-export function updateEntryWitchRoute(entryWitchRoute) {
+export function updateEntryWhichRoute(entryWhichRoute) {
   return {
-    type: ENTRY_WITCH_ROUTE.UPDATA_ENTRY_WITCH_ROUTE,
-    entryWitchRoute
+    type: ENTRY_WHICH_ROUTE.UPDATA_ENTRY_WHICH_ROUTE,
+    entryWhichRoute
   };
 }
 
 const initState = {
-  entryWitchRoute: ""
+  entryWhichRoute: ""
 };
 
 
 const entryRouteReducer = (state = initState, action) => {
   switch (action.type) {
-    case ENTRY_WITCH_ROUTE.UPDATA_ENTRY_WITCH_ROUTE:
+    case ENTRY_WHICH_ROUTE.UPDATA_ENTRY_WHICH_ROUTE:
       return {
-        entryWitchRoute: action.entryWitchRoute,
+        entryWhichRoute: action.entryWhichRoute,
       };
     default:
       return state;
