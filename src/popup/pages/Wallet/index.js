@@ -32,7 +32,7 @@ class Wallet extends React.Component {
       balance: "0.0000",
       txList: props.txList,
       refreshing: false,
-      showConncetHover: false,
+      showConnectedHover: false,
     }
     this.isUnMounted = false;
     this.currentNetConfig = {}
@@ -152,12 +152,12 @@ class Wallet extends React.Component {
   }
   onMouseEnter = (grpc) => {
     this.callSetState({
-      showConncetHover: true
+      showConnectedHover: true
     })
   }
   onMouseLeave = () => {
     this.callSetState({
-      showConncetHover: false
+      showConnectedHover: false
     })
   }
   renderModalTitle = () => {
@@ -358,7 +358,7 @@ class Wallet extends React.Component {
                 }}
               />
               {
-                this.state.showConncetHover
+                this.state.showConnectedHover
                 &&
                 <div className={"dapp-connect-button"}>
                   <div className={"dapp-connect-arrow"}></div>

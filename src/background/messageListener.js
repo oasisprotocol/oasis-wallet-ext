@@ -200,7 +200,7 @@ function internalMessageListener(message, sender, sendResponse) {
       sendResponse(extDappService.getAllApproveAccount(payload.siteUrl))
       break
     case DAPP_GET_CONNECT_STATUS:
-      sendResponse(extDappService.getConncetStatus(payload.siteUrl,payload.address))
+      sendResponse(extDappService.getConnectedStatus(payload.siteUrl,payload.address))
       break
     case DAPP_DISCONNECT_SITE:
       sendResponse(extDappService.disconnectDapp(payload.siteUrl,payload.address,payload.currentAddress))

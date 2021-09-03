@@ -230,7 +230,7 @@ class ExtDappService {
     }
     return []
   }
-  getConncetStatus(siteUrl, address) {
+  getConnectedStatus(siteUrl, address) {
     let approveList = this.getDappStore().approveList
     let accountList = approveList[siteUrl] || []
     let accountIndex = this.getAccountIndex(accountList, address)
