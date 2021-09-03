@@ -16,7 +16,7 @@ class BackupMnemonics extends React.Component {
     this.state = {
       mnemonic: "",
       list: [],
-      selectlist: [],
+      selectList: [],
     };
     this.isUnMounted = false;
   }
@@ -55,9 +55,9 @@ class BackupMnemonics extends React.Component {
     }
   }
   compareList = () => {
-    const { selectlist, mnemonic } = this.state;
+    const { selectList, mnemonic } = this.state;
     let mneList = mnemonic.split(" ")
-    return selectlist.map((v) => v.name).join("") == mneList.join("");
+    return selectList.map((v) => v.name).join("") == mneList.join("");
   };
   goToNext = () => {
     const { list } = this.state;
@@ -79,7 +79,7 @@ class BackupMnemonics extends React.Component {
     } else {
       Toast.info(getLanguage("seed_error"))
       this.callSetState({
-        selectlist: [],
+        selectList: [],
         list: list.map(v => {
           v.selected = false;
           return v;
@@ -90,33 +90,33 @@ class BackupMnemonics extends React.Component {
 
   };
   onClickTopItem = (v, i) => {
-    const { list, selectlist } = this.state;
+    const { list, selectList } = this.state;
     const bool = v.selected;
     if (bool) {
       const index = list.findIndex((item) => item.name == v.name);
       list[index].selected = !bool;
-      selectlist.splice(i, 1);
+      selectList.splice(i, 1);
       this.callSetState({
         list,
-        selectlist,
+        selectList,
       })
     }
   };
   onClickBottomItem = (v, i) => {
-    const { list, selectlist } = this.state;
+    const { list, selectList } = this.state;
     const bool = v.selected;
     if (!bool) {
       list[i].selected = !bool;
-      selectlist.push(v);
+      selectList.push(v);
       this.callSetState({
         list,
-        selectlist,
+        selectList,
       })
     }
   };
   renderSelectedMne = () => {
     return (<div className="mne-container mne-select-container">
-      {this.state.selectlist.map((item, index) => {
+      {this.state.selectList.map((item, index) => {
         return (<p
           key={index + ""}
           onClick={() => this.onClickTopItem(item, index)}
@@ -146,7 +146,7 @@ class BackupMnemonics extends React.Component {
         <Button
           content={getLanguage('confirm')}
           onClick={this.goToNext}
-          disabled={this.state.selectlist.length !== 12}
+          disabled={this.state.selectList.length !== 12}
         />
       </div>
     )
