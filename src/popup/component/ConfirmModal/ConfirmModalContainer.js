@@ -87,7 +87,7 @@ export default class ConfirmModalContainer extends Component {
                 <div className={
                     cx({
                         "confirm-button-container": this.cancelText,
-                        "confirm-button-container-nocancel": !this.cancelText
+                        "confirm-button-container-no-cancel": !this.cancelText
                     })}>
                     {this.cancelText && this.renderCancelButton()}
                     {this.renderConfirmButton()}
