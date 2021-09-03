@@ -106,7 +106,7 @@ class ImportAccount extends React.Component {
       <p className={"import-title-account"}>{content2}</p>
     </div>)
   }
-  renderBotton = () => {
+  renderBottom = () => {
     return (
       <div className="bottom-container">
         <Button
@@ -130,7 +130,7 @@ class ImportAccount extends React.Component {
         <div className="import-account-container">
           {this.renderInput()}
         </div>
-        {this.renderBotton()}
+        {this.renderBottom()}
       </CustomView>
     )
   }

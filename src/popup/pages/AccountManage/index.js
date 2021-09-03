@@ -164,7 +164,7 @@ class AccountManagePage extends React.Component {
       </div>)
   }
 
-  renderButtomButton = () => {
+  renderBottomBtn = () => {
     return (
       <div className={"account-btn-container"}>
         {this.renderImgBtn(getLanguage('createAccount'), create_wallet, this.goToCreate, "account-btn-item-create")}
@@ -194,7 +194,7 @@ class AccountManagePage extends React.Component {
       <div className={"account-manage-container"}>
         {this.renderAccountList()}
       </div>
-      {this.renderButtomButton()}
+      {this.renderBottomBtn()}
     </CustomView>)
   }
 }

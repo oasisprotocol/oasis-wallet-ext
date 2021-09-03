@@ -134,7 +134,7 @@ class AccountName extends React.Component {
     }
     this.isClicked = false
   }
-  renderBottonBtn = () => {
+  renderBottomBtn = () => {
     let { fromType } = this.props.cache
     let buttonText = fromType === ACCOUNT_NAME_FROM_TYPE.INSIDE ? 'confirm_1' : 'next'
     return (
@@ -163,7 +163,7 @@ class AccountName extends React.Component {
               errorTipShow={this.state.errorTipShow}
               showTip={getLanguage("accountNameLimit")}
               onTextInput={this.onAccountInput} />
-            {this.renderBottonBtn()}
+            {this.renderBottomBtn()}
           </div>
         </form>
       </CustomView>)

@@ -132,7 +132,7 @@ class LedgerConnect extends React.Component {
       </>
     )
   }
-  renderBottonBtn = () => {
+  renderBottomBtn = () => {
     return (
       <div className="bottom-container">
         <Button
@@ -156,7 +156,7 @@ class LedgerConnect extends React.Component {
               this.renderSteps()
           }
         </div>
-        {!this.state.connectCompleted && this.renderBottonBtn()}
+        {!this.state.connectCompleted && this.renderBottomBtn()}
       </div>)
   }
 }

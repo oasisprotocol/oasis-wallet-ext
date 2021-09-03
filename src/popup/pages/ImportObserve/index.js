@@ -97,7 +97,7 @@ class ImportObserve extends React.Component {
             <p className={"import-title-account"}>{content2}</p>
         </div>)
     }
-    renderBotton = () => {
+    renderBottom = () => {
         return (
             <div className="bottom-container">
                 <Button
@@ -122,7 +122,7 @@ class ImportObserve extends React.Component {
                     {this.renderContentContainer(getLanguage('inputObserveAddress'))}
                     {this.renderInput()}
                 </div>
-                {this.renderBotton()}
+                {this.renderBottom()}
             </CustomView>
         )
     }

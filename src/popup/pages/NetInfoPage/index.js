@@ -383,7 +383,7 @@ class NetInfoPage extends React.Component {
   onAdd = (e) => {
     this.modal.current.setModalVisible(true)
   }
-  renderBottonBtn = () => {
+  renderBottomBtn = () => {
     return (
       <div className="bottom-container">
         <Button
@@ -401,7 +401,7 @@ class NetInfoPage extends React.Component {
         <div className={"network-container"}>
           {this.renderDefaultNode()}
           {this.renderCustomNode()}
-          {this.renderBottonBtn()}
+          {this.renderBottomBtn()}
         </div>
         <form onSubmit={this.onSubmit}>
           {this.renderChangeModal()}

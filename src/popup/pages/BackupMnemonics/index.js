@@ -140,7 +140,7 @@ class BackupMnemonics extends React.Component {
         }
       </div>)
   }
-  renderBottonBtn = () => {
+  renderBottomBtn = () => {
     return (
       <div className="bottom-container">
         <Button
@@ -161,7 +161,7 @@ class BackupMnemonics extends React.Component {
           {this.renderSelectedMne()}
           {this.renderMneList()}
         </div>
-        {this.renderBottonBtn()}
+        {this.renderBottomBtn()}
       </CustomView>
     )
   }

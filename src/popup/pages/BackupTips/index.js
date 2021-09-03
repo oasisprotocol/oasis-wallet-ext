@@ -25,7 +25,7 @@ class BackupTips extends React.Component {
     }
     )
   }
-  renderBotton = () => {
+  renderBottom = () => {
     return (
       <div className="bottom-container">
         <Button
@@ -49,7 +49,7 @@ class BackupTips extends React.Component {
           {this.renderTip(getLanguage("backTips_2"))}
           {this.renderTip(getLanguage("backTips_3"))}
         </div>
-        {this.renderBotton()}
+        {this.renderBottom()}
       </CustomView>)
   }
 }

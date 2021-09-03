@@ -92,7 +92,7 @@ class RestoreAccount extends React.Component {
         onChange={this.onMneInput} />
     )
   }
-  renderBotton = () => {
+  renderBottom = () => {
     return (
       <div className="bottom-container">
         <Button
@@ -113,7 +113,7 @@ class RestoreAccount extends React.Component {
           <p className={"import-title"}>{getLanguage("inputSeed")}</p>
           {this.renderInput()}
         </div>
-        {this.renderBotton()}
+        {this.renderBottom()}
       </CustomView>
     )
   }
