@@ -30,7 +30,7 @@ export default class Tabs extends React.Component {
       <div>
         <ul className="tab_content_wrap">
           {React.Children.map(this.props.children, (ele, index) => {
-            let key = ele.props.lable
+            let key = ele.props.label
             return (
               <li key={key} className={this.check_item_index(index)}>
                 {ele.props.children}
@@ -49,7 +49,7 @@ export default class Tabs extends React.Component {
                 className={this.check_title_index(index)}
                 onClick={this.detailClickHandler.bind(this, index)}>
                 <img className="home-tab-img" src={imgSource}></img>
-                {ele.props.lable}
+                {ele.props.label}
               </li>
             );
           })}

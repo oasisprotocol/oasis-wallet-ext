@@ -37,7 +37,7 @@ export default class TabsTop extends React.Component {
                 className={this.check_title_index(index)}
                 onClick={this.detailClickHandler.bind(this, index)}
               >
-                {ele.props.lable}
+                {ele.props.label}
                 <div className={
                   cx("tab-top-lab-indictor", {
                     "tab-top-lab-indictor-active": this.state.currentIndex === index
@@ -50,7 +50,7 @@ export default class TabsTop extends React.Component {
 
         <ul className="tab_content_wrap_top">
           {React.Children.map(this.props.children, (ele, index) => {
-            let key = ele.props.lable
+            let key = ele.props.label
             return (
               <li key={key} className={this.check_item_index(index)}>
                 {ele.props.children}

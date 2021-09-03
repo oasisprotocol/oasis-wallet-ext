@@ -55,9 +55,9 @@ export default class CustomInput extends Component {
                     [wrapPropClass]: !!wrapPropClass
                 })
             }>
-                <div className={"lable-container"}>
-                    <p className="pwd-lable-1">{this.props.label}</p>
-                    <p className="pwd-lable-desc-1">{this.props.descLabel}</p>
+                <div className={"label-container"}>
+                    <p className="pwd-label-1">{this.props.label}</p>
+                    <p className="pwd-label-desc-1">{this.props.descLabel}</p>
                     {this.props.rightComponent}
                 </div>
                 <div className={"input-wrapper-row-1"}>

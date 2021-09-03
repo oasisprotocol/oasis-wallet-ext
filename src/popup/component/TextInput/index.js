@@ -84,7 +84,7 @@ export default class TextInput extends Component {
         let imgSrc = this.state.pwdHide ? eyeClose : eyeOpen
         return (
             <div className='input-wrapper'>
-                <p className="pwd-lable">{this.props.label}</p>
+                <p className="pwd-label">{this.props.label}</p>
                 <div className="input-wrapper-row">
                     <input
                         className="create-input"

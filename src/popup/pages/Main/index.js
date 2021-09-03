@@ -42,20 +42,20 @@ class HomePage extends React.Component {
         }}
       >
         <Tabs currentActiveIndex={tabRoute.homePageRouteIndex} onChangeIndex={this.onChangeRouteIndex}>
-          <div lable={getLanguage('wallet')}
+          <div label={getLanguage('wallet')}
             activeSource={home_active}
             commonSource={home_common}
           >
             <Wallet params={this.props} />
           </div>
-          <div lable={getLanguage('staking')}
+          <div label={getLanguage('staking')}
             activeSource={staking_active}
             commonSource={staking_common}
           >
             <Staking params={this.props} />
           </div>
           <div
-            lable={getLanguage('setting')}
+            label={getLanguage('setting')}
             activeSource={setting_active}
             commonSource={setting_common}
           >
