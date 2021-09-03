@@ -621,21 +621,21 @@ class APIService {
         return this.submitTxBody(params, tw)
     }
     /**
-     * commont stake  at least 100
+     * delegate stake
      * @param {*} params
      * @returns
      */
-    sendStakeTransaction = async (params) => {
+    delegateTransaction = async (params) => {
         const tw = oasis.staking.addEscrowWrapper()
         params.method = TRANSACTION_TYPE.AddEscrow
         return this.submitTxBody(params, tw)
     }
     /**
-    * reclaim  ledger lib ledger must user the api in the front page
+    * undelegate stake
     * @param {*} params
     * @returns
     */
-    sendReclaimTransaction = async (params) => {
+    undelegateTransaction = async (params) => {
         const tw = oasis.staking.reclaimEscrowWrapper()
         params.method = TRANSACTION_TYPE.ReclaimEscrow
         return this.submitTxBody(params, tw)

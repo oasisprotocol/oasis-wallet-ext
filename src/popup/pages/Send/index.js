@@ -8,7 +8,7 @@ import loadingCommon from "../../../assets/images/loadingCommon.gif";
 import record_arrow from "../../../assets/images/record_arrow.png";
 import { getBalance, getRpcNonce } from "../../../background/api";
 import { saveLocal } from "../../../background/storage/localStorage";
-import { sendReclaimTransaction, sendStakeTransaction, sendTransaction } from "../../../background/api/txHelper";
+import { undelegateTransaction, delegateTransaction, sendTransaction } from "../../../background/api/txHelper";
 import { NET_WORK_CONFIG } from "../../../constant/storageKey";
 import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSACTION, WALLET_SEND_STAKE_TRANSACTION, WALLET_SEND_TRANSACTION } from "../../../constant/types";
 import { ACCOUNT_TYPE } from "../../../constant/walletType";
@@ -368,11 +368,11 @@ class SendPage extends React.Component {
       payload.ledgerApp = ledgerApp
       let sendResult
       if (this.state.stakeType === SEND_PAGE_TYPE_STAKE) {
-        sendResult = await sendStakeTransaction(payload)
+        sendResult = await delegateTransaction(payload)
       } else if (this.state.stakeType === SEND_PAGE_TYPE_SEND) {
         sendResult = await sendTransaction(payload)
       } else if (this.state.stakeType === SEND_PAGE_TYPE_RECLAIM) {
-        sendResult = await sendReclaimTransaction(payload)
+        sendResult = await undelegateTransaction(payload)
       }
       sendMsg({
         action: WALLET_CHECK_TX_STATUS,

@@ -23,22 +23,22 @@ export function sendTransaction(params) {
 }
 
 /**
- * reclaim Escrow  no amount limit
+ * undelegate stake, no amount limit
  * @param {*} params
  * @returns
  */
-export function sendReclaimTransaction(params) {
+export function undelegateTransaction(params) {
     const tw = oasis.staking.reclaimEscrowWrapper()
     params.method = TRANSACTION_TYPE.ReclaimEscrow
     return submitTxBody(params, tw)
 }
 
 /**
- * stake , the amount is 100
+ * delegate stake, minimum amount is 100
  * @param {*} params
  * @returns
  */
-export function sendStakeTransaction(params) {
+export function delegateTransaction(params) {
     const tw = oasis.staking.addEscrowWrapper()
     params.method = TRANSACTION_TYPE.AddEscrow
     return submitTxBody(params, tw)

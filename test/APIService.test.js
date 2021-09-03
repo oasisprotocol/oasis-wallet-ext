@@ -138,7 +138,7 @@ describe('APIService Util Test', function () {
                     toAddress: "oasis1qqv25adrld8jjquzxzg769689lgf9jxvwgjs8tha",
                     method: TRANSACTION_TYPE.AddEscrow
                 }
-                let res = await apiService.sendStakeTransaction(inputParams)
+                let res = await apiService.delegateTransaction(inputParams)
                 assert.strictEqual(res.hash, "e03e739ff0537e56e4b573b1311c68219e4a956204523de31fc844146c79f492")
             })
 
@@ -166,7 +166,7 @@ describe('APIService Util Test', function () {
                     method: TRANSACTION_TYPE.ReclaimEscrow
                 }
 
-                let res = await apiService.sendReclaimTransaction(inputParams)
+                let res = await apiService.undelegateTransaction(inputParams)
                 assert.strictEqual(res.hash, "0501d35b63c3812ecee6bc7f849216e780a92e28ae37ed007ea9fcb7ab3f9c75")
             })
         })

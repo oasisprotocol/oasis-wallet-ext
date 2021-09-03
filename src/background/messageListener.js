@@ -119,14 +119,14 @@ function internalMessageListener(message, sender, sendResponse) {
       })
       break;
     case WALLET_SEND_STAKE_TRANSACTION:
-      apiService.sendStakeTransaction(payload).then((result) => {
+      apiService.delegateTransaction(payload).then((result) => {
         sendResponse(result);
       }).catch((err) => {
         sendResponse(err);
       })
       break;
     case WALLET_SEND_RECLAIM_TRANSACTION:
-      apiService.sendReclaimTransaction(payload).then((result) => {
+      apiService.undelegateTransaction(payload).then((result) => {
         sendResponse(result);
       }).catch((err) => {
         sendResponse(err);
