@@ -102,7 +102,7 @@ class Reset extends React.Component {
     onSubmit = (event) => {
         event.preventDefault();
     }
-    renderPasswardContent = () => {
+    renderPasswordContent = () => {
         return (
             <div>
                 <TextInput
@@ -184,7 +184,7 @@ class Reset extends React.Component {
                 title={getLanguage('changeSecPassword')}
                 history={this.props.history}>
                 <div className="reset_container">
-                    {this.renderPasswardContent()}
+                    {this.renderPasswordContent()}
                 </div>
                 {this.renderBottomBtn()}
             </CustomView>
