@@ -147,7 +147,7 @@ class StakeNodeDetail extends React.Component {
                 </div>
 
                 <div className={"circle-right "}>
-                    {this.renderNodeTokenDetailItem("node-token-indicator-sele", getLanguage('nodeSelfStake'), this.state.nodeSelfSupply)}
+                    {this.renderNodeTokenDetailItem("node-token-indicator-self", getLanguage('nodeSelfStake'), this.state.nodeSelfSupply)}
                     {this.renderNodeTokenDetailItem("node-token-indicator-other", getLanguage('nodeOtherStake'), this.state.nodeOtherSupply)}
                     <div className={"stake-node-person-container"}>
                         <img src={node_stake_icon} className={"stake-node-icon-little"} />
