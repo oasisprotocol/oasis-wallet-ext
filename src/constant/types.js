@@ -212,7 +212,7 @@ export const DAPP_ACCOUNT_CONNECT_SITE = "DAPP_ACCOUNT_CONNECT_SITE"
 
 
 /**
- * delect account all connect   / when delete account
+ * delete account all connect   / when delete account
  */
 export const DAPP_DELETE_ACCOUNT_CONNECT_HIS = "DAPP_DELETE_ACCOUNT_CONNECT_HIS"
 
@@ -244,7 +244,7 @@ export const GET_APP_LOCK_STATUS = "GET_APP_LOCK_STATUS"
 export const FRAME_GET_APPROVE_ACCOUNT = "FRAME_GET_APPROVE_ACCOUNT"
 
 /**
- * iframe get approve account publickkey
+ * iframe get approve account public key
  */
 export const FRAME_GET_ACCOUNT_PUBLIC_KEY = "FRAME_GET_ACCOUNT_PUBLIC_KEY"
 
@@ -266,6 +266,6 @@ export const FRAME_SEND_TRANSFER = "FRAME_SEND_TRANSFER"
  export const BACKGROUND_KEYS_CHANGED = "BACKGROUND_KEYS_CHANGED"
 
  /**
- * RESET WALLET WHEN USER CLICK RESET BUTTON 
+ * RESET WALLET WHEN USER CLICK RESET BUTTON
  */
 export const RESET_WALLET = "RESET_WALLET"
