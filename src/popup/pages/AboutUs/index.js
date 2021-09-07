@@ -65,7 +65,7 @@ class AboutUs extends React.Component {
     return (<div className={"wallet-detail-container"}>
       {this.renderWalletItem(getLanguage("userPrivateProtocol"))}
       {this.renderWalletItem(getLanguage("userAgree"))}
-      {this.renderWalletItem("Github", this.onClickGithub)}
+      {this.renderWalletItem("GitHub", this.onClickGithub)}
       {this.renderWalletItem(getLanguage("contactUs"))}
     </div>)
   }
