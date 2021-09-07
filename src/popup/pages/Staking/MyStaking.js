@@ -19,12 +19,12 @@ class MyStaking extends React.Component {
         this.state = {
             currentTabList: [
                 {
-                    title: getLanguage("stakeNode"),
+                    title: getLanguage("activeDelegations"),
                     tabIndex: 0,
                     callback: () => { }
                 },
                 {
-                    title: getLanguage("debonding"),
+                    title: getLanguage("debondingDelegations"),
                     tabIndex: 1,
                     callback: () => { }
                 }

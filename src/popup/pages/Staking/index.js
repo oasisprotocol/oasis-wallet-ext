@@ -33,7 +33,7 @@ class Staking extends React.Component {
           <div label={getLanguage('myStaking')}>
             <MyStaking params={this.props} />
           </div>
-          <div label={getLanguage("validatorNode")}>
+          <div label={getLanguage("validators")}>
             <StakeNode params={this.props} />
           </div>
         </TabsTop>
