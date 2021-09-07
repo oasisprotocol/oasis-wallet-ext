@@ -7,7 +7,6 @@ import record_arrow from "../../../assets/images/record_arrow.png";
 import { getLanguage } from "../../../i18n";
 import { openTab } from "../../../utils/commonMsg";
 import CustomView from "../../component/CustomView";
-import Toast from "../../component/Toast";
 import "./index.scss";
 class AboutUs extends React.Component {
   constructor(props) {
@@ -58,15 +57,21 @@ class AboutUs extends React.Component {
       </div>
     )
   }
+  onClickPrivacyPolicy = () => {
+    openTab('https://oasisprotocol.org/privacy-policy')
+  }
   onClickGithub = () => {
-    Toast.info("Github")
+    openTab('https://github.com/oasisprotocol/oasis-wallet-ext/')
+  }
+  onClickContactUs = () => {
+    openTab('mailto:info@oasisprotocol.org')
   }
   renderWalletDetail = () => {
     return (<div className={"wallet-detail-container"}>
-      {this.renderWalletItem(getLanguage("userPrivateProtocol"))}
+      {this.renderWalletItem(getLanguage("userPrivateProtocol"), this.onClickPrivacyPolicy)}
       {this.renderWalletItem(getLanguage("userAgree"))}
       {this.renderWalletItem("GitHub", this.onClickGithub)}
-      {this.renderWalletItem(getLanguage("contactUs"))}
+      {this.renderWalletItem(getLanguage("contactUs"), this.onClickContactUs)}
     </div>)
   }
   render() {
