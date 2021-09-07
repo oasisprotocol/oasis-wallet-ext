@@ -14,8 +14,7 @@ export default class AccountIcon extends PureComponent {
     }
     generateJazziconSvg = (address, diameter) => {
         const numericRepresentation = this.addressToNumber(address)
-        const jazzicon = jazzicon(diameter, numericRepresentation)
-        return jazzicon
+        return jazzicon(diameter, numericRepresentation)
     }
     addressToNumber = (address) => {
         const addressU8 = oasis.staking.addressFromBech32(address)
