@@ -152,7 +152,7 @@
 
 
     "inputNetAddress":"Please enter validator node address",
-    "stakeCommission":"Rates",
+    "stakeCommission":"Commission",
     "nodeTotalStake":"Total Stake",
     "nodeOtherStake":"Other",
     "nodeSelfStake":"Self",
