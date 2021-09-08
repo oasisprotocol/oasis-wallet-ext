@@ -83,6 +83,9 @@ class AboutUs extends React.Component {
           {this.renderTopInfo()}
           {this.renderWalletDetail()}
         </div>
+        <div className="about-tip-container">
+          <p className="about-tip">Powered by Bit Cat and Simply VC</p>
+        </div>
       </CustomView>)
   }
 }

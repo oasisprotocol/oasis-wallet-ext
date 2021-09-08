@@ -102,9 +102,6 @@ class Welcome extends React.Component {
         >
         </Button>
       </div>
-      <div className={'welcome-tip-container'}>
-        <p className="bottomTip" >Powered by Bit Cat</p>
-      </div>
     </div>)
   }
 }

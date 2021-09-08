@@ -6,22 +6,6 @@
   background: url("../../../assets/images/welcome_bg.png");
   background-size: 100% 100%;
 }
-.welcome-tip-container {
-  position: absolute;
-  bottom: 27px;
-  margin: auto;
-  width: 100%;
-  left: 0;
-  right: 0;
-  text-align: center;
-}
-.bottomTip {
-  font-size: $font-size-desc;
-
-  font-weight: 400;
-  color: #7080b5;
-  line-height: 17px;
-}
 
 .welcome-button-container {
   margin-top: 200px;
