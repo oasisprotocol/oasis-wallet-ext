@@ -26,7 +26,5 @@ yarn-error.log*
 
 .eslintcache
 
-config.js
-
 # Ignore Python cache directories.
 __pycache__/
