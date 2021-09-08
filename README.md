@@ -99,6 +99,16 @@ yarn test
 yarn buildProd
 ```
 
+## Preparing a Release
+
+```sh
+VERSION=<VERSION>
+rm -rf dist/
+yarn install --frozen-lockfile
+yarn buildProd
+zip -r oasis-wallet-$VERSION-$(git rev-parse --short HEAD).zip dist/
+```
+
 ## LICENSE
 
 [Apache License 2.0](LICENSE)

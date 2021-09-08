@@ -28,3 +28,6 @@ yarn-error.log*
 
 # Ignore Python cache directories.
 __pycache__/
+
+# Ignore build releases.
+oasis-wallet-*.zip
