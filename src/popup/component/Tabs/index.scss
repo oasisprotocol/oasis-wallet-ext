@@ -10,10 +10,13 @@
 
   box-shadow: 0 -15px 25px 0 rgba(0, 0, 0, 0.05);
   justify-content: space-between;
+  position: fixed;
 }
 .tab_content_wrap {
   margin: 0;
   padding: 0;
+  height: 100%;
+  overflow-y: scroll;
 }
 .tab_title {
   height: 50px;
