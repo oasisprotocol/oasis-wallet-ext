@@ -148,18 +148,6 @@ export function fitPopupWindow() {
     height: window.outerHeight - window.innerHeight,
   };
 
-  if (extension.windows) {
-    extension.windows.getCurrent().then((window) => {
-      if (window?.id != null) {
-        extension.windows.update(window.id, {
-          width: PopupSize.width + gap.width,
-          height: PopupSize.height + gap.height,
-        });
-      }
-    });
-    return;
-  }
-
   window.resizeTo(PopupSize.width + gap.width, PopupSize.height + gap.height);
 }
 
@@ -185,5 +173,7 @@ export function openCurrentRouteInPersistentPopup() {
       },
     }, () => {});
     window.close();
+  } else {
+    fitPopupWindow();
   }
 }
