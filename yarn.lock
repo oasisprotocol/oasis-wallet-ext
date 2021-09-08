@@ -1605,6 +1605,11 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-5.50.0.tgz#29c6419e8379d496ab6d0426eadf3c4d100cd186"
   integrity sha512-swKHYCOZUGyVt4ge0u8a7AwNcA//h4nx5wIi0sruGye1IJ5Cva0GyK9L2/WdX+kWVTKp92ZiEo1df31lrWGPgA==
 
+"@metamask/browser-passworder@3.0.0":
+  version "3.0.0"
+  resolved "https://registry.nlark.com/@metamask/browser-passworder/download/@metamask/browser-passworder-3.0.0.tgz#c06744e66a968ffa13f70cc71a7d3b15d86b0ee7"
+  integrity sha1-wGdE5mqWj/oT9wzHGn07FdhrDuc=
+
 "@metamask/jazzicon@2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@metamask/jazzicon/-/jazzicon-2.0.0.tgz#5615528e91c0fc5c9d79202d1f0954a7922525a0"
@@ -3274,13 +3279,6 @@ brorand@^1.0.1, brorand@^1.1.0:
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
   integrity sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
 
-browser-passworder@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/browser-passworder/-/browser-passworder-2.0.3.tgz#6fdd2082e516a176edbcb3dcee0b7f9fce4f7917"
-  integrity sha1-b90gguUWoXbtvLPc7gt/n85PeRc=
-  dependencies:
-    browserify-unibabel "^3.0.0"
-
 browser-process-hrtime@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/browser-process-hrtime/-/browser-process-hrtime-1.0.0.tgz#3c9b4b7d782c8121e56f10106d84c0d0ffc94626"
@@ -3339,11 +3337,6 @@ browserify-sign@^4.0.0:
     parse-asn1 "^5.1.5"
     readable-stream "^3.6.0"
     safe-buffer "^5.2.0"
-
-browserify-unibabel@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/browserify-unibabel/-/browserify-unibabel-3.0.0.tgz#5a6b8f0f704ce388d3927df47337e25830f71dda"
-  integrity sha1-WmuPD3BM44jTkn30czfiWDD3Hdo=
 
 browserify-zlib@^0.2.0:
   version "0.2.0"

@@ -15,7 +15,7 @@ import { buildTxBody, getChainContext, submitTx } from '../api/txHelper';
 import { get, removeValue, save } from '../storage/storageService';
 
 const ObservableStore = require('obs-store')
-const encryptUtils = require('browser-passworder')
+const encryptUtils = require('@metamask/browser-passworder')
 const RETRY_TIME = 4
 
 
