@@ -238,9 +238,6 @@ class LockPage extends React.Component {
             <div className={"restore-bottom-container"}>
                 <p className="restore-bottom" onClick={this.onClickRestore}>{getLanguage('resetWallet')}</p>
             </div>
-            <div className={"lock-bottom-container"}>
-                <p className="lock-bottom" >Powered by Bit Cat</p>
-            </div>
             <form onSubmit={this.onSubmit}>
                 {this.renderChangeModal()}
             </form>

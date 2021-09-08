@@ -79,3 +79,15 @@
 .wallet-detail-container {
     margin-top: 60px;
 }
+
+.about-tip-container {
+    bottom: 20px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+
+.about-tip {
+    color: #7080b5;
+    font-size: $font-size-desc;
+}
