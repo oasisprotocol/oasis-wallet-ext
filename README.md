@@ -23,7 +23,7 @@ ROSE tokens, including everything for convenient staking of your ROSE tokens.
 - Import accounts from your [Ledger] hardware wallet
 - Import accounts directly from their private keys
 - Watch 3rd-party accounts
-- Addressbook of your saved accounts
+- Address book of your saved accounts
 - Easily switch between different Oasis Wallets that use the same [ADR 0008]
   standard account key generation process.
 
@@ -46,7 +46,7 @@ ROSE tokens, including everything for convenient staking of your ROSE tokens.
 
 ## Architecture
 
-The extension is rougly laid out this way:
+The extension is roughly laid out this way:
 
 - background - the extension's background page
     - APIService (wallet info storage, in-memory transaction signing, transaction submission)
@@ -72,7 +72,7 @@ The extension is rougly laid out this way:
 
 ## Getting started
 
-### build extensoion
+### build extension
 
 Oasis Wallet extension repo uses git-secret to encrypt the endpoints and the api keys. So, you can't build this without creating your own config file. You should create your own `config.js` file in the folder. Refer to the `config.example.js` sample file to create your own configuration.
 
@@ -81,7 +81,7 @@ yarn install
 yarn dev
 ```
 
-### Install and running extensoion
+### Install and running extension
 
 Extension's build output is placed in `/dist`, and you can check out [this page](https://developer.chrome.com/extensions/getstarted) for installing the developing extension.
 

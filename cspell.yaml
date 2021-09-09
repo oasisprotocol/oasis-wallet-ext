@@ -9,6 +9,7 @@ version: 0.2
 # List of words that are always considered correct.
 words:
   - oasisprotocol
+  - oasisscan
 
   # External packages.
   - bignumber
@@ -23,6 +24,12 @@ words:
   - ledgerhq
   - webusb
   - qrcode
+  - nomnoml
+  - getrandomvalues
+  - browserslist
+
+  # SVG terms.
+  - evenodd
 
   # Cryptocurrency-related terms.
   - encryptor
