@@ -291,7 +291,7 @@ class MyStaking extends React.Component {
     }
     render() {
         return (
-            <div className="staking-root staking-root-pad">
+            <div className="staking-root-pad">
                 {this.renderTopInfo()}
                 {this.renderStakingInfo()}
                 <Clock schemeEvent={() => { this.fetchData(this.props.currentAccount.address) }} />
