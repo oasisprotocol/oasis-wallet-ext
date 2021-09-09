@@ -24,6 +24,9 @@ words:
   - webusb
   - qrcode
 
+  # SVG terms.
+  - evenodd
+
   # Cryptocurrency-related terms.
   - encryptor
   - hdkey

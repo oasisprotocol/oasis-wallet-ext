@@ -13,7 +13,7 @@ lint-targets := lint-spell lint-git
 
 lint-spell:
 	@$(ECHO) "$(CYAN)*** Runnint cspell...$(OFF)"
-	@npx cspell "src/i18n/en.json" "src/**/*.js" "src/**/*.scss"
+	@npx cspell "src/**"
 
 lint-git:
 	@$(CHECK_GITLINT)

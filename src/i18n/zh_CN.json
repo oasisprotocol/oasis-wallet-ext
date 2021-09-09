@@ -229,7 +229,7 @@
   "txError":"交易异常",
   "userReject":"用户已拒绝",
   "webApprove":"授权",
-  "walletConnect":"使用OaisisWallet连接",
+  "walletConnect":"使用OasisWallet连接",
   "sign":"签名",
   "waitNonce":"nonce正在请求中，请稍后",
   "connectFirst":"请先连接钱包",
