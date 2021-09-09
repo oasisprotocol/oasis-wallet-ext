@@ -4,7 +4,7 @@
         "description": "The name of the application"
     },
     "appDescription": {
-        "message": "Oasis Protocol Browser Extension Wallet",
+        "message": "The official non-custodial browser extension wallet for the Oasis Network.",
         "description": "The description of the application"
     }
 }
