@@ -46,7 +46,7 @@
     "receiveTitle": "Receive",
     "walletAddress": "Wallet Address",
     "copyAddress": "Copy Address",
-    "copySuccess": "Copied",
+    "copySuccess": "Copied to Clipboard",
     "accountManage": "Account Management",
     "createAccount": "Create",
     "importAccount": "Import",
