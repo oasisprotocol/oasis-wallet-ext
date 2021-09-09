@@ -15,12 +15,10 @@ class ToastContainer extends Component {
     }
 
     pushToast = (toastProps) => {
-        const { type, text, duration, isShowMask = false } = toastProps;
+        const { text, duration, isShowMask = false } = toastProps;
         let lastDuration = duration || default_duration
         this.setState({
             currentToast: {
-                id: getUuid(),
-                type,
                 text,
                 duration: lastDuration,
                 isShowMask
@@ -37,7 +35,7 @@ class ToastContainer extends Component {
     }
 
     render() {
-        const { toastList, isShowMask, currentToast } = this.state;
+        const { isShowMask, currentToast } = this.state;
         return (
             <div className="toast-container">
                 {isShowMask && <div className="mask" />}
@@ -48,12 +46,5 @@ class ToastContainer extends Component {
         );
     }
 }
-
-let toastCount = 0;
-
-
-const getUuid = () => {
-    return 'toast-container' + new Date().getTime() + '-' + toastCount++;
-};
 
 export default ToastContainer;
