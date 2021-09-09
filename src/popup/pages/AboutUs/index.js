@@ -84,7 +84,11 @@ class AboutUs extends React.Component {
           {this.renderWalletDetail()}
         </div>
         <div className="about-tip-container">
-          <p className="about-tip">Powered by Bit Cat and Simply VC</p>
+          <p className="about-tip">Powered by{' '}
+            <a href="https://www.bitcat365.com/en/" target="_blank">Bit Cat</a>{' '}
+            and{' '}
+            <a href="https://simply-vc.com.mt/" target="_blank">Simply VC</a>
+          </p>
         </div>
       </CustomView>)
   }
