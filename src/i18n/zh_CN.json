@@ -91,7 +91,7 @@
   "deleteAccountTip": "删除的账户只能通过私记词或者私钥恢复，请确认你已经备份好助记词和私钥。",
   "confirmAction": "我知道了",
   "accountImport": "导入",
-  "postSuccess": "发送成功",
+  "postSuccess": "交易已提交",
   "startHome": "开始",
   "walletName": "Oasis 钱包",
   "privateError": "私钥错误",

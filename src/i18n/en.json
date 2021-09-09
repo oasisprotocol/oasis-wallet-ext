@@ -91,7 +91,7 @@
     "deleteAccountTip": "The deleted account can only be restored by Mnemonic Phrase or Private Key.Please make sure you have backed up your mnemonic phrase and private key.",
     "confirmAction": "I understand",
     "accountImport": "Import",
-    "postSuccess": "Successfully Transfer",
+    "postSuccess": "Transaction Submitted",
     "startHome": "Start",
     "walletName": "Oasis Wallet",
     "privateError": "Wrong private key",
