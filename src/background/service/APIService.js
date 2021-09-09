@@ -74,20 +74,19 @@ class APIService {
         return this.getStore().password === password
     }
     setLastActiveTime() {
-        const timeoutMinutes = LOCK_TIME
         let localData = this.getStore().data
         let isUnlocked = this.getStore().isUnlocked
         if (localData && isUnlocked) {
             if (this.activeTimer) {
                 clearTimeout(this.activeTimer)
             }
-            if (!timeoutMinutes) {
+            if (!LOCK_TIME) {
                 return
             }
 
             this.activeTimer = setTimeout(() => {
                 this.setUnlockedStatus(false)
-            }, timeoutMinutes * 60 * 1000)
+            }, LOCK_TIME * 1000)
         }
 
     }
