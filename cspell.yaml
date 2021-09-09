@@ -25,6 +25,8 @@ words:
   - webusb
   - qrcode
   - nomnoml
+  - getrandomvalues
+  - browserslist
 
   # SVG terms.
   - evenodd
