@@ -45,6 +45,7 @@ class RestoreAccount extends React.Component {
       Toast.info(getLanguage('seedLengthError'))
       return
     }
+    console.log(`mnemonic is "${mnemonic}"`)
     let mnemonicValid = bip39.validateMnemonic(mnemonic)
     if (!mnemonicValid) {
       Toast.info(getLanguage('inputValidSeed'))

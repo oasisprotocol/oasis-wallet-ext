@@ -75,9 +75,15 @@ module.exports = (env, argv) => {
     },
     plugins: getPlugins(isDev),
     performance: getPerformance(),
-    node: {
-      fs: 'empty',
-      'child_process': 'empty'
+    // h/t: https://github.com/webpack/webpack/issues/11649#issuecomment-751620869
+    resolve: {
+      fallback: {
+        fs: false,
+        'child_process': false
+      },
+      alias: {
+        buffer: 'buffer'
+      }
     },
     optimization: {
       splitChunks: {
@@ -125,9 +131,15 @@ function getPlugins(isDev) {
       React: "react",
     }),
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify(process.env.NODE_ENV),
+      'process.env': { 
+        ...JSON.stringify(process.env.NODE_ENV),
+        NODE_DEBUG: process.env.NODE_DEBUG
+      },
       IS_DEV: JSON.stringify(isDev),
-  }),
+    }),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer']
+    }),    
   );
   return plugins;
 }
