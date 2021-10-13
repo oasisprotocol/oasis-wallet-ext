@@ -79,7 +79,9 @@ module.exports = (env, argv) => {
     resolve: {
       fallback: {
         fs: false,
-        'child_process': false
+        'child_process': false,
+        crypto: false,
+        "crypto-browserify": require.resolve('crypto-browserify'),
       },
       alias: {
         buffer: 'buffer'

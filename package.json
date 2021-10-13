@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack --mode=development",
     "buildProd": "webpack --mode production",
     "dev": "webpack --mode development --progress --watch",
     "test": "jest"
@@ -23,6 +23,7 @@
     "bignumber.js": "9.0.1",
     "bip39": "3.0.4",
     "classnames": "2.3.1",
+    "crypto-browserify": "^3.12.0",
     "extensionizer": "1.0.1",
     "i18next": "20.6.1",
     "obs-store": "4.0.3",

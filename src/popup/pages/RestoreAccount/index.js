@@ -46,8 +46,11 @@ class RestoreAccount extends React.Component {
       return
     }
     console.log(`mnemonic is "${mnemonic}"`)
-    let mnemonicValid = bip39.validateMnemonic(mnemonic)
-    if (!mnemonicValid) {
+    try {
+      bip39.mnemonicToEntropy(mnemonic, bip39.wordlists.english)
+    } catch (error) {
+      console.error('mnemonicToEntropy failed',error);
+
       Toast.info(getLanguage('inputValidSeed'))
       return
     }
