@@ -9,14 +9,14 @@
     "test": "jest"
   },
   "dependencies": {
-    "@ledgerhq/hw-transport-webusb": "5.46.0",
+    "@ledgerhq/hw-transport-webusb": "6.11.2",
     "@metamask/browser-passworder": "3.0.0",
     "@metamask/jazzicon": "2.0.0",
     "@oasisprotocol/client": "0.1.0-alpha7",
     "@oasisprotocol/client-ext-utils": "0.1.0-alpha3",
     "@oasisprotocol/client-rt": "0.2.0-alpha10",
-    "@oasisprotocol/client-signer-ledger": "0.1.0-alpha2",
-    "@oasisprotocol/ledger": "0.1.0",
+    "@oasisprotocol/client-signer-ledger": "0.1.0-alpha3",
+    "@oasisprotocol/ledger": "0.2.1",
     "@reduxjs/toolkit": "1.4.0",
     "axios": "0.21.2",
     "base64-arraybuffer": "0.2.0",
