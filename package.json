@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "webpack --mode production",
-    "buildProd": "webpack --mode production",
-    "dev": "webpack --mode development --progress --watch",
+    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack --config webpack.dev.js",
+    "watch": "webpack -w --config webpack.dev.js",
     "test": "jest"
   },
   "dependencies": {
@@ -65,29 +65,30 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "7.12.1",
-    "@babel/plugin-transform-react-jsx": "7.12.12",
-    "@babel/plugin-transform-runtime": "7.12.1",
-    "@babel/preset-env": "7.12.7",
-    "@babel/preset-react": "7.12.7",
-    "@babel/runtime": "7.12.5",
+    "@types/chrome": "^0.0.60",
+    "@types/react": "^16.9.32",
+    "@types/react-dom": "^16.9.6",
     "assert": "2.0.0",
-    "babel-loader": "8.1.0",
-    "babel-plugin-import": "1.13.3",
-    "babel-plugin-transform-runtime": "6.23.0",
     "copy-webpack-plugin": "6.3.2",
     "crypto": "1.0.1",
     "cspell": "^5.9.0",
+    "css-loader": "^3.4.2",
     "jest": "^26.6.3",
     "jest-chrome": "0.7.1",
     "jsdom": "^8.1.0",
     "jsdom-global": "1.7.0",
-    "node-sass": "4.14.1",
+    "node-sass": "^4.13.1",
     "polyfill-crypto.getrandomvalues": "1.0.0",
     "react-scripts": "4.0.1",
+    "sass-loader": "^6.0.7",
     "sinon": "^11.1.1",
+    "style-loader": "^0.20.3",
+    "ts-loader": "^4.5.0",
+    "tsc-silent": "^1.2.1",
+    "typescript": "^4.4.4",
     "url-loader": "4.1.1",
-    "webpack": "4.44.2",
-    "webpack-cli": "4.2.0"
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-merge": "^4.2.2"
   }
 }
