@@ -261,5 +261,13 @@
     "cancelReset":"Cancel Reset",
 
     "deleteTag":"delete",
-    "resetWallet":"Reset Wallet"
+    "resetWallet":"Reset Wallet",
+
+    "paratime":"Paratime",
+    "sendIn":"Deposit",
+    "noRuntime":"No Runtime Found",
+    "depositTitle":"Deposit",
+    "depositToAddress":"Deposit To",
+    "depositInfo":"Deposit Info",
+    "ledgerNotSupportTip":"Ledger account is not supported"
 }

@@ -106,3 +106,52 @@ export async function getRpcNonce(address) {
   }) ?? 0;
   return nonce
 }
+/**
+ * get runtime list from RPC
+ * @returns 
+ */
+export async function getRpcRuntimeList(){
+  const oasisClient = getOasisClient()
+  let height = oasis.consensus.HEIGHT_LATEST
+  let include_suspended = false
+  let runtimeList = await oasisClient.registryGetRuntimes({ height: height, include_suspended }).catch((err) => err)
+  let list = []
+  for (let index = 0; index < runtimeList.length; index++) {
+    const runtime = runtimeList[index];
+    let id = runtime.id
+    let runtimeId = oasis.misc.toHex(id)
+    list.push({
+      name: "unknown",
+      runtimeId: runtimeId
+    })
+  }
+  return list
+}
+
+/**
+ * get runtimeList
+ */
+export async function getRuntimeNameList(){
+  let url = "/runtime/list"
+  let runtimeList = await commonFetch(url).catch(() => { })
+  if (runtimeList && runtimeList.code === 0) {
+    return runtimeList?.data?.list || []
+  } else {
+    return []
+  }
+}
+
+/**
+ * get runtime tx status
+ * @param {*} txHash
+ * @returns
+ */
+ export async function getRuntimeTxStatus(txhash,runtimeId) {
+  let url = `/runtime/transaction/info?id=${runtimeId}&hash=${txhash}`
+  let txStatus = await commonFetch(url).catch(() => { })
+  if (txStatus && txStatus.code === 0) {
+    return txStatus.data
+  } else {
+    return {}
+  }
+}

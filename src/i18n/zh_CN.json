@@ -259,5 +259,13 @@
   "confirm_reset_tip":"请输入\"删除\"确定重置钱包",
 
   "deleteTag":"删除",
-  "resetWallet":"重置钱包"
+  "resetWallet":"重置钱包",
+
+  "paratime":"Paratime",
+  "sendIn":"转入",
+  "noRuntime":"找不到 Runtime",
+  "depositTitle":"充值",
+  "depositToAddress":"充值地址",
+  "depositInfo":"充值信息",
+  "ledgerNotSupportTip":" 暂不支持Ledger账户"
 }

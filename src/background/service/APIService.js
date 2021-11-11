@@ -1,17 +1,19 @@
 import * as oasis from '@oasisprotocol/client';
+import * as oasisRT from '@oasisprotocol/client-rt';
 import { decode } from 'base64-arraybuffer';
 import * as bip39 from 'bip39';
 import extension from 'extensionizer';
 import { Buffer } from 'safe-buffer';
 import nacl from 'tweetnacl';
 import { cointypes, LOCK_TIME } from '../../../config';
+import { RUNTIME_ACCOUNT_TYPE } from '../../constant/paratimeConfig';
 import { FROM_BACK_TO_RECORD, SET_LOCK, TX_SUCCESS } from '../../constant/types';
 import { ACCOUNT_TYPE, TRANSACTION_TYPE } from "../../constant/walletType";
 import { getLanguage } from '../../i18n';
 import { openTab } from "../../utils/commonMsg";
-import { amountDecimals, getExplorerUrl, hex2uint, publicKeyToAddress, toNonExponential, trimSpace, uint2hex } from '../../utils/utils';
-import { getSubmitStatus } from '../api';
-import { buildTxBody, getChainContext, submitTx } from '../api/txHelper';
+import { amountDecimals, getExplorerUrl, getRuntimeConfig, hex2uint, publicKeyToAddress, toNonExponential, trimSpace, uint2hex } from '../../utils/utils';
+import { getRuntimeTxStatus, getSubmitStatus } from '../api';
+import { buildRuntimeTxBody, buildTxBody, getChainContext, submitTx } from '../api/txHelper';
 import { get, removeValue, save } from '../storage/storageService';
 
 const ObservableStore = require('obs-store')
@@ -24,6 +26,7 @@ class APIService {
     constructor() {
         this.memStore = new ObservableStore(this.initLockedState())
         this.statusTimer = {}
+        this.runtimeStatusTimer = {}
         this.encryptor = encryptUtils
     }
     getStore = () => {
@@ -640,12 +643,78 @@ class APIService {
         return this.submitTxBody(params, tw)
     }
     /**
+     * withdraw amount when set allowance
+     * @param {*} params 
+     * @returns 
+     */ 
+    setWithdraw = async (params) => {
+        const CONSENSUS_RT_ID = oasis.misc.fromHex(params.toAddress)
+        const consensusWrapper = new oasisRT.consensusAccounts.Wrapper(CONSENSUS_RT_ID);
+        const withdrawWrapper = consensusWrapper.callWithdraw()
+        return this.submitRuntimeBody(params, withdrawWrapper)
+    }
+    /**
+     * set deposit
+     * @param {*} params 
+     */
+    setDeposit= (params)=>{
+        return new Promise( async(resolve,reject)=>{
+            const tw = oasis.staking.allowWrapper()
+            params.method = TRANSACTION_TYPE.StakingAllow
+            params.toAddress = oasis.staking.addressToBech32(await oasis.staking.addressFromRuntimeID(oasis.misc.fromHex(params.runtimeId)))
+            let result = await this.submitTxBody(params, tw,true,()=>this.onBroadcastEnd(params,resolve,reject)).catch(err=>err)
+            if(result&&result.error){
+                reject({error:result.error})
+            }
+        })
+    }
+    onBroadcastEnd= async(params,resolve)=>{
+        const consensusWrapper = new oasisRT.consensusAccounts.Wrapper(oasis.misc.fromHex(params.runtimeId));
+        const depositWrapper = consensusWrapper.callDeposit()
+        let submitRuntime = await this.submitRuntimeBody(params, depositWrapper).catch(err=>err)
+        resolve(submitRuntime)
+    }
+    submitRuntimeBody= async(params, wrapper)=>{
+        try {
+            let buildResult = await buildRuntimeTxBody(params,wrapper)
+            let nonce = buildResult.nonce
+            let txWrapper = buildResult.txWrapper
+            let consensusChainContext = buildResult.consensusChainContext
+
+
+            const privateKey = await this.getCurrentPrivateKey()
+            const bytes = hex2uint(privateKey)
+            let signAccount = this.signerFromPrivateKey(bytes)
+            const signer = new oasis.signature.BlindContextSigner(signAccount)
+
+            const signerInfo = ({
+                address_spec: {signature: {ed25519: signer.public()}},
+                nonce: nonce,
+            });
+            txWrapper.setSignerInfo([signerInfo]);
+            await txWrapper.sign([signer], consensusChainContext);
+
+            await submitTx(txWrapper, RETRY_TIME)
+        
+            let u8Hash = await oasis.hash.hash(txWrapper.unverifiedTransaction[0])
+            let hash = oasis.misc.toHex(u8Hash)
+            let config =  getRuntimeConfig(params.runtimeId)
+            if (hash && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
+                this.checkRuntimeTxStatus(hash,params.runtimeId)
+            }
+            return {code:0}
+        } catch (error) {
+            throw error
+        }
+    }
+
+    /**
      * submit tx
      * @param {*} params
      * @param {*} tw
      * @returns
      */
-    submitTxBody = async (params, tw) => {
+    submitTxBody = async (params, tw,hideNotify,callback) => {
         try {
             let newTw = await buildTxBody(params, tw)
 
@@ -674,34 +743,52 @@ class APIService {
                 nonce: params.nonce
             }
             if (sendResult.hash) {
-                this.checkTxStatus(sendResult.hash)
+                this.checkTxStatus(sendResult.hash,hideNotify,callback)
             }
-            return sendResult
-        } catch (e) {
-            throw e
+            if(!callback){
+                return sendResult
+            }
+        } catch (error) {
+            throw {error}
         }
     }
-    notification = (hash) => {
-        let id = hash
+    notification = (hash,runtimeId) => {
+        let notifyId = runtimeId ?  hash +"?runtime="+runtimeId : hash
+        let myNotificationID
         extension.notifications &&
-            extension.notifications.onClicked.addListener(function (id) {
-                let url = getExplorerUrl() + "transactions/" + id
+        extension.notifications.onClicked.addListener(function (clickId) {
+            if(myNotificationID === clickId){ 
+                let url
+                if(runtimeId){
+                    url = getExplorerUrl() + "paratimes/transactions/" + clickId
+                }else{
+                    url = getExplorerUrl() + "transactions/" + clickId
+                }
                 openTab(url)
-            });
+            }
+        });
         let title = getLanguage('notificationTitle')
         let message = getLanguage('notificationContent')
-        extension.notifications.create(id, {
+        extension.notifications.create(notifyId, {
             title: title,
             message: message,
             iconUrl: '/img/oasis.png',
             type: 'basic'
+        },(notificationItem)=>{
+            myNotificationID = notificationItem
         });
         return
     }
-    checkTxStatus = (hash) => {
-        this.fetchTransactionStatus(hash)
+    checkTxStatus = (hash,hideNotify,callback) => {
+        this.fetchTransactionStatus(hash,hideNotify,callback)
     }
-    fetchTransactionStatus = (hash) => {
+    onSuccess=(hash,hideNotify,callback)=>{
+        if(!hideNotify){
+            this.notification(hash)
+        }
+        callback && callback()
+    }
+    fetchTransactionStatus = (hash,hideNotify,callback) => {
         getSubmitStatus(hash).then((data) => {
             if (data && data.txHash) {
                 extension.runtime.sendMessage({
@@ -709,19 +796,41 @@ class APIService {
                     action: TX_SUCCESS,
                     data
                 });
-                this.notification(hash)
+                this.onSuccess(hash,hideNotify,callback)
                 if (this.statusTimer[hash]) {
                     clearTimeout(this.statusTimer[hash]);
                     this.statusTimer[hash] = null;
                 }
             } else {
                 this.statusTimer[hash] = setTimeout(() => {
-                    this.fetchTransactionStatus(hash);
+                    this.fetchTransactionStatus(hash,hideNotify,callback);
                 }, 5000);
             }
         }).catch((error) => {
             this.statusTimer[hash] = setTimeout(() => {
-                this.fetchTransactionStatus(hash);
+                this.fetchTransactionStatus(hash,hideNotify,callback);
+            }, 5000);
+        })
+    }
+    checkRuntimeTxStatus = (hash,runtimeId) => {
+        this.fetchRuntimeTxStatus(hash,runtimeId)
+    }
+    fetchRuntimeTxStatus = (hash,runtimeId) => {
+        getRuntimeTxStatus(hash,runtimeId).then((data) => {
+            if (data && data.txHash) {
+                this.notification(hash,runtimeId)
+                if (this.runtimeStatusTimer[hash]) {
+                    clearTimeout(this.runtimeStatusTimer[hash]);
+                    this.runtimeStatusTimer[hash] = null;
+                }
+            } else {
+                this.runtimeStatusTimer[hash] = setTimeout(() => {
+                    this.fetchRuntimeTxStatus(hash,runtimeId);
+                }, 5000);
+            }
+        }).catch((error) => {
+            this.runtimeStatusTimer[hash] = setTimeout(() => {
+                this.fetchRuntimeTxStatus(hash,runtimeId);
             }, 5000);
         })
     }

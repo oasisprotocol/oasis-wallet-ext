@@ -24,8 +24,7 @@
 
   font-size: $font-size-content;
   -webkit-transform: scale(0.85);
-  width: 50px;
-  margin: 0 30px;
+  flex: 1;
 }
 .hide {
   display: none;

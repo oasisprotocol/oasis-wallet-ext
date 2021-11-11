@@ -1,4 +1,5 @@
 import { bech32 } from 'bech32'
+import { isAddress } from "web3-utils"
 
 export const matchList = [
   {
@@ -62,4 +63,12 @@ export function addressValid(address) {
   } catch (e) {}
 
   return valid
+}
+
+/**
+ * Verify eth address
+ * @param {*} address
+ */
+export function ethAddressValid(address){
+  return isAddress(address)
 }

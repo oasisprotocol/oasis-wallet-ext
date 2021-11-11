@@ -31,7 +31,7 @@ import {
   DAPP_ACCOUNT_CONNECT_SITE,
   DAPP_DELETE_ACCOUNT_CONNECT_HIS,
   DAPP_CHANGE_CONNECTING_ADDRESS, DAPP_GET_CURRENT_OPEN_WINDOW, GET_APP_LOCK_STATUS,
-  FRAME_GET_APPROVE_ACCOUNT, FRAME_GET_ACCOUNT_PUBLIC_KEY, FRAME_GET_ACCOUNT_SIGNER, FRAME_SEND_TRANSFER, RESET_WALLET
+  FRAME_GET_APPROVE_ACCOUNT, FRAME_GET_ACCOUNT_PUBLIC_KEY, FRAME_GET_ACCOUNT_SIGNER, FRAME_SEND_TRANSFER, RESET_WALLET, WALLET_SEND_RUNTIME_WITHDRAW, WALLET_SEND_RUNTIME_DEPOSIT
 } from "../constant/types";
 import extension from 'extensionizer'
 import apiService from "./service/APIService";
@@ -130,6 +130,20 @@ function internalMessageListener(message, sender, sendResponse) {
         sendResponse(result);
       }).catch((err) => {
         sendResponse(err);
+      })
+      break;
+    case WALLET_SEND_RUNTIME_WITHDRAW:
+      apiService.setWithdraw(payload).then((result) => {
+        sendResponse(result);
+      }).catch((err) => {
+        sendResponse(err);
+      })
+      break;
+    case WALLET_SEND_RUNTIME_DEPOSIT:
+      apiService.setDeposit(payload).then((result) => {
+        sendResponse(result);
+      }).catch((error) => {
+        sendResponse(error);
       })
       break;
     case WALLET_CHECK_TX_STATUS:

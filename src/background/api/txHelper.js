@@ -4,9 +4,10 @@ import * as oasisLedger from "@oasisprotocol/client-signer-ledger";
 import BigNumber from "bignumber.js";
 import { cointypes, TEST_NET_CONTEXT } from '../../../config';
 import { TRANSACTION_TYPE } from '../../constant/walletType';
-import { amountDecimals, hex2uint, toNonExponential } from '../../utils/utils';
+import { amountDecimals, getEthBech32Address, getRuntimeConfig, hex2uint, toNonExponential } from '../../utils/utils';
 import { getOasisClient } from './request';
-
+import * as oasisRT from '@oasisprotocol/client-rt';
+import { RUNTIME_ACCOUNT_TYPE } from '../../constant/paratimeConfig';
 
 const RETRY_TIME = 4
 const RETRY_DELAY = 1000
@@ -181,6 +182,12 @@ export async function buildTxBody(params, tw) {
                 account: toAddressPublicKey,
                 amount: bodyAmount,
             })
+        } else if (params.method === TRANSACTION_TYPE.StakingAllow) {
+            tw.setBody({
+                beneficiary: toAddressPublicKey,
+                negative:false,
+                amount_change: bodyAmount,
+            })
         }
 
         let currentAccount = params.currentAccount
@@ -231,4 +238,94 @@ export async function submitTxBody(params, tw) {
     } catch (error) {
         throw error
     }
+}
+
+/**
+ * get runtime nonce
+ * @param {*} accountsWrapper 
+ * @param {*} address 
+ * @param {*} retryTime 
+ * @returns 
+ */
+function getRuntimeNonce(accountsWrapper,address,retryTime){
+    return new Promise(async (resolve, reject) => {
+        retryTime = retryTime - 1
+        try {
+            const oasisClient = getOasisClient()
+            let nonceResult = await await accountsWrapper.queryNonce().setArgs({ address: address }).query(oasisClient);
+            resolve(nonceResult)
+        } catch (error) {
+            if (retryTime > 0) {
+                setTimeout(async () => {
+                    try {
+                        resolve(await getRuntimeNonce(accountsWrapper,address,retryTime))
+                    } catch (error) {
+                        reject(error)
+                    }
+                }, RETRY_DELAY);
+            } else {
+                reject(error)
+            }
+        }
+    })
+}
+
+
+/**
+ * build runtime tx body
+ * @param {*} params 
+ * @param {*} wrapper 
+ * @returns 
+ */
+export async function buildRuntimeTxBody(params, wrapper) {
+    const CONSENSUS_RT_ID = oasis.misc.fromHex(params.runtimeId)
+    const accountsWrapper = new oasisRT.accounts.Wrapper(CONSENSUS_RT_ID);
+   
+    let bech32Address = await oasis.staking.addressFromBech32(params.fromAddress)
+    const nonce = await getRuntimeNonce(accountsWrapper,bech32Address,RETRY_TIME)
+    
+    let decimal 
+    let runtimeConfig = getRuntimeConfig(params.runtimeId)
+    if(runtimeConfig.decimals){
+        decimal = new BigNumber(10).pow(runtimeConfig.decimals)
+    }else{
+        decimal = new BigNumber(10).pow(cointypes.decimals)
+    }
+  
+    let amount = new BigNumber(params.amount).multipliedBy(decimal).toString()
+    amount = BigInt(amount)
+    const DEPOSIT_AMOUNT = ([
+        oasis.quantity.fromBigInt(amount),
+        oasisRT.token.NATIVE_DENOMINATION
+    ]);
+
+    let feeAmount  = params.feeAmount||0
+    feeAmount = BigInt(feeAmount)
+    const FEE_FREE =([
+        oasis.quantity.fromBigInt(feeAmount),
+        oasisRT.token.NATIVE_DENOMINATION,
+    ]);
+    feeAmount  = FEE_FREE
+
+    let feeGas = params.feeGas||50000
+    feeGas = BigInt(feeGas)
+    let consensusChainContext = await getChainContext(RETRY_TIME)
+
+    let txWrapper
+
+    if(params.runtimeType === RUNTIME_ACCOUNT_TYPE.EVM){
+        txWrapper = wrapper.setBody({
+            amount: DEPOSIT_AMOUNT,
+            to: await oasis.staking.addressFromBech32(await getEthBech32Address(params.depositAddress))
+        })
+    }else{
+        txWrapper = wrapper.setBody({
+            amount: DEPOSIT_AMOUNT,
+        })
+    }
+    txWrapper.setFeeAmount(feeAmount)
+            .setFeeGas(feeGas)
+            .setFeeConsensusMessages(1)
+
+    return {txWrapper,nonce,consensusChainContext}
 }
