@@ -574,7 +574,7 @@ class SendPage extends React.Component {
         this.props.history.goBack()
       }, 100);
     }else{
-      let errMessage = data?.error?.metadata?.["grpc-message"] || getLanguage('postFailed')
+      let errMessage = data?.error?.metadata?.["grpc-message"] || data?.message || getLanguage('postFailed')
       Toast.info(errMessage)
     }
   }

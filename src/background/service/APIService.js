@@ -668,14 +668,18 @@ class APIService {
                 const tw = oasis.staking.allowWrapper()
                 params.method = TRANSACTION_TYPE.StakingAllow
                 params.toAddress = oasis.staking.addressToBech32(await oasis.staking.addressFromRuntimeID(oasis.misc.fromHex(params.runtimeId)))
-                let result = await this.submitTxBody(params, tw,true,()=>this.onBroadcastEnd(params,resolve,reject)).catch(err=>err)
+                let result = await this.submitTxBody(params, tw,true,(data)=>this.onBroadcastEnd(params,resolve,reject,data)).catch(err=>err)
                 if(result&&result.error){
                     reject({error:result.error})
                 }
             }
         })
     }
-    onBroadcastEnd= async(params,resolve)=>{
+    onBroadcastEnd= async(params,resolve,reject,data)=>{
+        if(data && data.code !== 0){
+            reject(data)
+            return 
+        }
         const consensusWrapper = new oasisRT.consensusAccounts.Wrapper(oasis.misc.fromHex(params.runtimeId));
         const depositWrapper = consensusWrapper.callDeposit()
         let submitRuntime = await this.submitRuntimeBody(params, depositWrapper).catch(err=>err)
@@ -789,11 +793,18 @@ class APIService {
     checkTxStatus = (hash,hideNotify,callback) => {
         this.fetchTransactionStatus(hash,hideNotify,callback)
     }
-    onSuccess=(hash,hideNotify,callback)=>{
+    onSuccess=(data,hash,hideNotify,callback)=>{
         if(!hideNotify){
             this.notification(hash)
         }
-        callback && callback()
+        if(callback){
+            try {
+                let rawData = JSON.parse(data.raw)
+                callback(rawData.error)
+            } catch (error) {
+                callback({error})
+            }
+        }
     }
     fetchTransactionStatus = (hash,hideNotify,callback) => {
         getSubmitStatus(hash).then((data) => {
@@ -803,7 +814,7 @@ class APIService {
                     action: TX_SUCCESS,
                     data
                 });
-                this.onSuccess(hash,hideNotify,callback)
+                this.onSuccess(data,hash,hideNotify,callback)
                 if (this.statusTimer[hash]) {
                     clearTimeout(this.statusTimer[hash]);
                     this.statusTimer[hash] = null;
