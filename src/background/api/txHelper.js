@@ -150,6 +150,8 @@ export async function buildTxBody(params, tw) {
         let amount
         if (params.method === TRANSACTION_TYPE.ReclaimEscrow) {
             amount = new BigNumber(params.shares).multipliedBy(decimal).toString()
+        } else if (params.method === TRANSACTION_TYPE.StakingAllow){
+            amount = new BigNumber(params.allowance).multipliedBy(decimal).toString()
         } else {
             amount = new BigNumber(params.amount).multipliedBy(decimal).toString()
         }

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import loadingCommon from "../../../assets/images/loadingCommon.gif";
 import noHistory from "../../../assets/images/noHistory.png";
 import whiteArrow from "../../../assets/images/whiteArrow.svg";
-import { getRpcRuntimeList, getRuntimeNameList } from "../../../background/api";
+import { getRpcBalance, getRpcRuntimeList, getRuntimeNameList } from "../../../background/api";
 import { SEND_PAGE_TYPE_RUNTIME_DEPOSIT } from "../../../constant/types";
 import { ACCOUNT_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
@@ -39,15 +39,28 @@ class Paratime extends React.Component {
             })
         }
     }
-
-    getRuntimeDetail = async (runtimeList) => {
+    getRuntimeAllowance = (allowanceList, runtimeAddress) => {
+        let runtimeAddressLow = runtimeAddress.toLowerCase()
+        let allowance = 0
+        for (let index = 0; index < allowanceList.length; index++) {
+            const allowanceItem = allowanceList[index];
+            if (allowanceItem.beneficiary === runtimeAddressLow) {
+                allowance = allowanceItem.allowance
+                break
+            }
+        }
+        return allowance
+    }
+    getRuntimeDetail = async (runtimeList, allowanceList) => {
         let newRuntimeList = []
         for (let index = 0; index < runtimeList.length; index++) {
             const runtime = runtimeList[index];
             let runtimeAddress = await getRuntimeAddress(runtime.runtimeId)
+            let allowance = this.getRuntimeAllowance(allowanceList, runtimeAddress)
             newRuntimeList.push({
                 ...runtime,
                 runtimeAddress,
+                allowance
             })
         }
         return newRuntimeList
@@ -57,12 +70,20 @@ class Paratime extends React.Component {
         if (this.isRequest) {
             return
         }
+        let { currentAccount } = this.props
+        let address = currentAccount.address
         this.isRequest = true
         getRuntimeNameList().then((data) => {
             this.props.updateRuntimeNameList(data)
         })
-        getRpcRuntimeList().then(async (runtimeList) => {
-            let newRuntimeList = await this.getRuntimeDetail(runtimeList)
+        let rpcBalance = getRpcBalance(address) 
+        let runtimeRequestList = getRpcRuntimeList()
+        Promise.all([rpcBalance, runtimeRequestList]).then(async (data) => {
+            let rpcAccount = data[0]
+            let allowanceList = rpcAccount.allowanceList
+
+            let runtimeList = data[1]
+            let newRuntimeList = await this.getRuntimeDetail(runtimeList, allowanceList)
             this.props.updateRuntimeList(newRuntimeList)
             this.callSetState({
                 refreshing: false,
@@ -107,6 +128,7 @@ class Paratime extends React.Component {
         this.props.updateSendPageType(SEND_PAGE_TYPE_RUNTIME_DEPOSIT)
         this.goToPage("/send_page", {
             runtimeId: item.runtimeId,
+            allowance:item.allowance,
             runtimeName:this.getRuntimeName(item)
         })
     }

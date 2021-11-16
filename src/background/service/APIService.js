@@ -1,6 +1,7 @@
 import * as oasis from '@oasisprotocol/client';
 import * as oasisRT from '@oasisprotocol/client-rt';
 import { decode } from 'base64-arraybuffer';
+import BigNumber from 'bignumber.js';
 import * as bip39 from 'bip39';
 import extension from 'extensionizer';
 import { Buffer } from 'safe-buffer';
@@ -658,13 +659,19 @@ class APIService {
      * @param {*} params 
      */
     setDeposit= (params)=>{
-        return new Promise( async(resolve,reject)=>{
-            const tw = oasis.staking.allowWrapper()
-            params.method = TRANSACTION_TYPE.StakingAllow
-            params.toAddress = oasis.staking.addressToBech32(await oasis.staking.addressFromRuntimeID(oasis.misc.fromHex(params.runtimeId)))
-            let result = await this.submitTxBody(params, tw,true,()=>this.onBroadcastEnd(params,resolve,reject)).catch(err=>err)
-            if(result&&result.error){
-                reject({error:result.error})
+        return new Promise( async (resolve,reject)=>{ 
+            let allowanceDifference = new BigNumber(params.amount).minus(params.allowance).toString()
+            if(BigNumber(allowanceDifference).lte(0)){
+                 return await this.onBroadcastEnd(params,resolve)
+            }else{ 
+                params.allowance = allowanceDifference
+                const tw = oasis.staking.allowWrapper()
+                params.method = TRANSACTION_TYPE.StakingAllow
+                params.toAddress = oasis.staking.addressToBech32(await oasis.staking.addressFromRuntimeID(oasis.misc.fromHex(params.runtimeId)))
+                let result = await this.submitTxBody(params, tw,true,()=>this.onBroadcastEnd(params,resolve,reject)).catch(err=>err)
+                if(result&&result.error){
+                    reject({error:result.error})
+                }
             }
         })
     }

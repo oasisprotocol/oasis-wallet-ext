@@ -85,6 +85,7 @@ class SendPage extends React.Component {
     
     let runtimeType = ""
     let runtimeId = params.runtimeId||""
+    let currentAllowance = params.allowance|| 0
 
     let confirmTitle = ""
     let confirmToAddressTitle = ""
@@ -182,6 +183,7 @@ class SendPage extends React.Component {
       confirmTitle,
       confirmToAddressTitle,
       sendAction,
+      currentAllowance
     }
   }
    
@@ -519,7 +521,7 @@ class SendPage extends React.Component {
     }
   }
   clickNextStep = async () => {
-    const { toAddressCanInput,toAddressValue,sendAction,runtimeId,runtimeType } = this.pageConfig
+    const { toAddressCanInput,toAddressValue,sendAction,runtimeId,runtimeType,currentAllowance } = this.pageConfig
     let currentAccount = this.props.currentAccount
     let accountInfo = this.props.accountInfo
 
@@ -545,9 +547,10 @@ class SendPage extends React.Component {
       depositAddress = toAddressValue
     }
 
+    let allowance = currentAllowance
     let payload = {
       fromAddress, toAddress, amount, nonce, feeAmount, feeGas, currentAccount,shares,
-      runtimeId,runtimeType,depositAddress
+      runtimeId,runtimeType,depositAddress,allowance
     }
     Loading.show()
 

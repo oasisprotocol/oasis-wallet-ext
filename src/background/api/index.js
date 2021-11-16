@@ -1,5 +1,6 @@
 import * as oasis from '@oasisprotocol/client';
 import { TX_LIST_LENGTH } from "../../../config";
+import { amountDecimals } from '../../utils/utils';
 import { commonFetch, getOasisClient } from "./request";
 const MAX_LENGTH = 500
 /**
@@ -154,4 +155,35 @@ export async function getRuntimeNameList(){
   } else {
     return {}
   }
+}
+
+/**
+ * rpc get available balance and allowance
+ * @param {*} address
+ * @returns
+ */
+ export async function getRpcBalance(address) {
+  const oasisClient = getOasisClient()
+  let shortKey = await oasis.staking.addressFromBech32(address)
+  let height = oasis.consensus.HEIGHT_LATEST
+  let account = await oasisClient.stakingAccount({ height: height, owner: shortKey, }).catch((err) => err)
+
+  let allowanceList = []
+  let netAllowanceList = account?.general?.allowances || []
+  for (const [beneficiary, amount] of netAllowanceList) {
+    allowanceList.push({
+      account:address,
+      beneficiary:oasis.staking.addressToBech32(beneficiary).toLowerCase(),
+      allowance:amountDecimals(oasis.quantity.toBigInt(amount).toString())
+    })
+  }
+  if (account && account.code && account.code !== 0) {
+    return { err: account }
+  }
+  let balance = account?.general?.balance || 0
+  if(balance){
+    balance = oasis.quantity.toBigInt(balance).toString()
+  }
+  let nonce = account?.general?.nonce || 0
+  return { balance, nonce,allowanceList }
 }
