@@ -83,6 +83,17 @@ export const WALLET_SEND_STAKE_TRANSACTION = "WALLET_SEND_STAKE_TRANSACTION"
  */
 export const WALLET_SEND_RECLAIM_TRANSACTION = "WALLET_SEND_RECLAIM_TRANSACTION"
 
+
+/**
+ *  runtime withdraw transfer token from runtime to consensus
+ */
+export const WALLET_SEND_RUNTIME_WITHDRAW = "WALLET_SEND_RUNTIME_WITHDRAW"
+
+/**
+ *  runtime deposit transfer token from consensus to runtime
+ */
+export const WALLET_SEND_RUNTIME_DEPOSIT = "WALLET_SEND_RUNTIME_DEPOSIT"
+
 /**
  * Check the pledge status
  */
@@ -147,14 +158,20 @@ export const NET_CONFIG_TYPE_MAIN = "Mainnet"
 
 export const NET_CONFIG_TYPE_TEST = "Testnet"
 
-
+/**send page type - send */
 export const SEND_PAGE_TYPE_SEND = "SEND_PAGE_TYPE_SEND"
 
-
+/**send page type - stake */
 export const SEND_PAGE_TYPE_STAKE = "SEND_PAGE_TYPE_STAKE"
 
-
+/**send page type - reclaim */
 export const SEND_PAGE_TYPE_RECLAIM = "SEND_PAGE_TYPE_RECLAIM"
+
+/**send page type - withdraw */
+export const SEND_PAGE_TYPE_RUNTIME_WITHDRAW = "SEND_PAGE_TYPE_RUNTIME_WITHDRAW"
+
+/**send page type - deposit*/
+export const SEND_PAGE_TYPE_RUNTIME_DEPOSIT = "SEND_PAGE_TYPE_RUNTIME_DEPOSIT"
 
 export const NET_CONFIG_DEFAULT = "DEFAULT"
 

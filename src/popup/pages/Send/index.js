@@ -8,9 +8,9 @@ import loadingCommon from "../../../assets/images/loadingCommon.gif";
 import record_arrow from "../../../assets/images/record_arrow.png";
 import { getBalance, getRpcNonce } from "../../../background/api";
 import { saveLocal } from "../../../background/storage/localStorage";
-import { undelegateTransaction, delegateTransaction, sendTransaction } from "../../../background/api/txHelper";
+import { undelegateTransaction, delegateTransaction, sendTransaction} from "../../../background/api/txHelper";
 import { NETWORK_CONFIG } from "../../../constant/storageKey";
-import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSACTION, WALLET_SEND_STAKE_TRANSACTION, WALLET_SEND_TRANSACTION } from "../../../constant/types";
+import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_RUNTIME_DEPOSIT, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, SEND_PAGE_TYPE_RUNTIME_WITHDRAW, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSACTION, WALLET_SEND_RUNTIME_DEPOSIT, WALLET_SEND_STAKE_TRANSACTION, WALLET_SEND_TRANSACTION, WALLET_SEND_RUNTIME_WITHDRAW } from "../../../constant/types";
 import { ACCOUNT_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { updateNetAccount, updateRpcNonce, updateSendRefresh } from "../../../reducers/accountReducer";
@@ -18,8 +18,8 @@ import { updateAddressBookFrom, updateNetConfigRequest } from "../../../reducers
 import { updateNetConfigList } from "../../../reducers/network";
 import { sendMsg } from "../../../utils/commonMsg";
 import { checkLedgerConnect } from "../../../utils/ledger";
-import { amountDecimals, getDisplayAmount, getNumberDecimals, isNumber, isTrueNumber, toNonExponential, trimSpace } from "../../../utils/utils";
-import { addressValid } from "../../../utils/validator";
+import { addressSlice, amountDecimals, getDisplayAmount, getNumberDecimals, getRuntimeConfig, isNumber, isTrueNumber, toNonExponential, trimSpace } from "../../../utils/utils";
+import { addressValid, ethAddressValid } from "../../../utils/validator";
 import AccountIcon from "../../component/AccountIcon";
 import Button from "../../component/Button";
 import CustomInput from "../../component/CustomInput";
@@ -29,25 +29,16 @@ import Select from "../../component/Select";
 import TestModal from "../../component/TestModal";
 import Toast from "../../component/Toast";
 import "./index.scss";
-
+import { PARATIME_CONFIG, RUNTIME_ACCOUNT_TYPE } from "../../../constant/paratimeConfig";
+ 
 const STAKE_MIN_AMOUNT = 100
 class SendPage extends React.Component {
   constructor(props) {
     super(props);
     let type = props.sendPageType
-    let addressDetail = props.addressDetail ?? {};
-    let toAddress = ""
-    if (type !== SEND_PAGE_TYPE_SEND) {
-      let stakeAddress = props.nodeDetail.validatorName || props.nodeDetail.name
-        || props.nodeDetail.validatorAddress || props.nodeDetail.entityAddress
-      toAddress = stakeAddress
-    } else {
-      if (addressDetail.address) {
-        toAddress = addressDetail.address
-      }
-    }
+    let pageConfig = this.getPageConfig(type)
     this.state = {
-      toAddress: toAddress,
+      toAddress: pageConfig.toAddressShowValue,
       amount: "",
       fee: "",
       addressErr: "",
@@ -63,16 +54,139 @@ class SendPage extends React.Component {
       feeGas: "",
       stakeType: type,
       netConfigList: [],
-      reclaimShare:""
+      reclaimShare:"",
+      pageTitle:pageConfig.pageTitle,
+      maxWithdrawAmount:0
     };
     this.modal = React.createRef();
     this.isUnMounted = false;
     this.currentNetConfig = {}
     this.isRequest = false
+    this.pageConfig = pageConfig
   }
   componentWillUnmount() {
     this.isUnMounted = true;
   }
+  getPageConfig=(type)=>{
+    const {nodeDetail,addressDetail,accountInfo,currentAccount,location} = this.props
+    let params = location?.params || {}
+
+    let pageTitle = ""
+
+    let maxCanUseAmount = accountInfo.liquid_balance
+    let isReclaim = false 
+
+    let toAddressTitle= ""
+    let toAddressCanInput = false
+    let toAddressPlaceHolder=""
+    let toAddressValue = ""
+    let toAddressShowValue= "" 
+    let showAddressBook = false
+    
+    let runtimeType = ""
+    let runtimeId = params.runtimeId||""
+    let currentAllowance = params.allowance|| 0
+
+    let confirmTitle = ""
+    let confirmToAddressTitle = ""
+
+    let sendAction = "" 
+
+
+    let stakeAddress =  nodeDetail.validatorAddress || nodeDetail.entityAddress
+    let stakeShowAddress = nodeDetail.validatorName || nodeDetail.name || nodeDetail.validatorAddress || nodeDetail.entityAddress
+
+    switch (type) {
+      case SEND_PAGE_TYPE_RUNTIME_DEPOSIT:
+        pageTitle = getLanguage("depositTitle")
+
+        toAddressTitle= getLanguage("depositToAddress")
+
+        if(runtimeId){
+          let runtimeConfig = getRuntimeConfig(runtimeId)
+          runtimeType = runtimeConfig.accountType
+          if(runtimeType === RUNTIME_ACCOUNT_TYPE.EVM){
+            toAddressPlaceHolder = "0x..."
+            toAddressCanInput = true
+          }else{
+            toAddressValue = currentAccount.address || ""
+            toAddressShowValue = toAddressValue
+          }
+        }
+        
+        sendAction = WALLET_SEND_RUNTIME_DEPOSIT
+
+        confirmTitle = getLanguage('depositInfo')
+        confirmToAddressTitle = getLanguage('depositToAddress')
+        break
+      case SEND_PAGE_TYPE_STAKE:
+        pageTitle = getLanguage('AddEscrow')
+
+        toAddressTitle=getLanguage('stakeNodeName')
+
+        toAddressValue = stakeAddress
+        toAddressShowValue = stakeShowAddress
+
+        sendAction = WALLET_SEND_STAKE_TRANSACTION
+
+        confirmTitle = getLanguage('stakeDetail')
+        confirmToAddressTitle = getLanguage('stakeNodeName')
+        break
+      case SEND_PAGE_TYPE_RECLAIM:
+        pageTitle = getLanguage('reclaim')
+        
+        let debondAmount = nodeDetail && nodeDetail.amount || "0"
+        maxCanUseAmount = new BigNumber(debondAmount).toNumber()
+        isReclaim = true
+
+        toAddressTitle=getLanguage('stakeNodeName')
+        toAddressValue = stakeAddress
+        toAddressShowValue = stakeShowAddress
+
+        sendAction = WALLET_SEND_RECLAIM_TRANSACTION
+
+        confirmTitle = getLanguage('stakeDetail')
+        confirmToAddressTitle = getLanguage('stakeNodeName')
+        break
+
+      case SEND_PAGE_TYPE_SEND:
+      default:
+        pageTitle = getLanguage('send')  
+
+        toAddressTitle=getLanguage('toAddress')
+        toAddressCanInput = true
+        toAddressPlaceHolder = getLanguage('inputToAddress')
+
+        toAddressValue = addressDetail.address || ""
+        toAddressShowValue = toAddressValue
+
+        showAddressBook = true
+
+        sendAction = WALLET_SEND_TRANSACTION
+
+        confirmTitle = getLanguage('sendDetail')
+        confirmToAddressTitle = getLanguage('toAddress')
+        break
+    }
+    return {
+      pageTitle,
+      maxCanUseAmount,
+      isReclaim,
+      toAddressTitle,
+      toAddressValue,
+      showAddressBook,
+      toAddressCanInput,
+      toAddressPlaceHolder,
+      toAddressShowValue,
+      runtimeType,
+      runtimeId,
+      confirmTitle,
+      confirmToAddressTitle,
+      sendAction,
+      currentAllowance
+    }
+  }
+   
   callSetState = (data, callback) => {
     if (!this.isUnMounted) {
       this.setState({
@@ -134,44 +248,61 @@ class SendPage extends React.Component {
     })
   }
   renderAddressBook = () => {
-    if (this.state.stakeType === SEND_PAGE_TYPE_SEND) {
       return (
         <div className={"send-address-book-container click-cursor"} onClick={this.onGotoAddressBook}>
           <img src={address_book} className={"send-address-book"} />
         </div>
       )
+  }
+  renderToAddressRightComponent=()=>{
+    const {runtimeId,showAddressBook} = this.pageConfig
+    if(runtimeId){
+      return this.renderRightRuntime()
+    }else if(showAddressBook){
+      return this.renderAddressBook()
     }
-    return (<></>)
+    return <></>
   }
   renderToAddress = () => {
-    if (this.state.stakeType === SEND_PAGE_TYPE_SEND) {
+    const {toAddressCanInput,toAddressTitle,toAddressPlaceHolder,toAddressShowValue} = this.pageConfig
+    if(toAddressCanInput){
       return (
         <div className={"send-address-container"}>
           <CustomInput
             value={this.state.toAddress}
-            label={getLanguage('toAddress')}
-            placeholder={getLanguage('inputToAddress')}
+            label={toAddressTitle}
+            placeholder={toAddressPlaceHolder}
             onTextInput={this.onToAddressInput}
-            rightComponent={this.renderAddressBook()}
+            rightComponent={this.renderToAddressRightComponent()}
           />
         </div>)
-    } else {
-      let toAddress = this.state.toAddress
+    }else{
       return (
         <div className={"send-address-container"}>
           <CustomInput
-            value={toAddress}
-            label={getLanguage('stakeNodeName')}
-            onTextInput={this.onToAddressInput}
+            value={toAddressShowValue}
+            label={toAddressTitle}
             readOnly={"readonly"}
+            rightComponent={this.renderToAddressRightComponent()}
           />
         </div>)
     }
-
+  }
+  renderRightRuntime=()=>{
+    if(this.state.stakeType !== SEND_PAGE_TYPE_RUNTIME_DEPOSIT){
+      return <></>
+    }
+    let params = this.props?.location?.params || {}
+    let runtimeName = params.runtimeName
+    let runtimeId = params.runtimeId
+    return(<p className={"runtimeName"}>{runtimeName}<span className={"runtimeId"}>{"("+addressSlice(runtimeId,6)+")"}</span></p>)
   }
   onAmountInput = (e) => {
     let amount = e.target.value;
-    let reclaimShare = this.getReclaimShare(amount)
+    let reclaimShare = ""
+    if(this.state.stakeType === SEND_PAGE_TYPE_RECLAIM){
+      reclaimShare = this.getReclaimShare(amount)
+    }
     this.callSetState({
       amount: amount,
       reclaimShare
@@ -208,6 +339,7 @@ class SendPage extends React.Component {
     })
   }
   renderAdvanceOption = () => {
+    const { runtimeId } = this.pageConfig
     let accountInfo = this.props.accountInfo
     let nonceHolder = isNumber(accountInfo.nonce) ? "Nonce " + accountInfo.nonce : "Nonce "
     return (
@@ -217,11 +349,11 @@ class SendPage extends React.Component {
           "advance-option-hide": !this.state.isOpenAdvance,
         })
       }>
-        <CustomInput
+        {!runtimeId && <CustomInput
           value={this.state.nonce}
           placeholder={nonceHolder}
           onTextInput={this.onNonceInput}
-        />
+        />}
         <CustomInput
           value={this.state.feeAmount}
           placeholder={"Fee Amount"}
@@ -274,19 +406,45 @@ class SendPage extends React.Component {
       </div>
     )
   }
+  checkBalanceEnough=(amount,payFee)=>{
+    const { maxCanUseAmount } = this.pageConfig
+    let checkStatus = true
+    let inputAmount = new BigNumber(amount).plus(payFee).toNumber()
+    
+    if(BigNumber(inputAmount).gt(maxCanUseAmount)){
+      Toast.info(getLanguage('canUseNotEnough'))
+      checkStatus = false
+      return 
+    }
+    if(this.state.stakeType === SEND_PAGE_TYPE_STAKE){
+      if(!BigNumber(amount).gte(STAKE_MIN_AMOUNT)){
+        Toast.info(getLanguage('minStakeAmount') + " " + STAKE_MIN_AMOUNT)
+        checkStatus = false
+        return 
+      }
+    }
+    return checkStatus
+  }
   onConfirm = async () => {
-    let { accountInfo, currentAccount, nodeDetail } = this.props
+    let { currentAccount } = this.props
+    const { toAddressCanInput,runtimeType } = this.pageConfig
     if (currentAccount.type === ACCOUNT_TYPE.WALLET_OBSERVE) {
       Toast.info(getLanguage('observeAccountTip'))
       return
     }
-    let balance = accountInfo.liquid_balance
-
-    if (this.state.stakeType === SEND_PAGE_TYPE_SEND) {
+    if(toAddressCanInput){
       let toAddress = trimSpace(this.state.toAddress)
-      if (!addressValid(toAddress)) {
-        Toast.info(getLanguage('sendAddressError'))
-        return
+
+      if(runtimeType ===RUNTIME_ACCOUNT_TYPE.EVM){
+        if(!ethAddressValid(toAddress)){
+          Toast.info(getLanguage('sendAddressError'))
+          return
+        }
+      }else{
+        if (!addressValid(toAddress)) {
+          Toast.info(getLanguage('sendAddressError'))
+          return
+        }
       }
     }
 
@@ -296,6 +454,11 @@ class SendPage extends React.Component {
       return
     }
 
+    let decimals = getNumberDecimals(amount)
+    if (decimals > cointypes.decimals) {
+      Toast.info(getLanguage('minAmount', { decimals: cointypes.decimals }))
+      return
+    }
     let feeAmount = trimSpace(this.state.feeAmount)
     if (feeAmount.length > 0 && !isTrueNumber(feeAmount)) {
       Toast.info(getLanguage('inputFeeError'))
@@ -311,44 +474,11 @@ class SendPage extends React.Component {
     feeGas = feeGas || 0
     let payFee = new BigNumber(amountDecimals(feeAmount)).multipliedBy(feeGas).toString()
 
-    let decimals = getNumberDecimals(amount)
-    if (decimals > cointypes.decimals) {
-      Toast.info(getLanguage('minAmount', { decimals: cointypes.decimals }))
+
+    let checkStatus = this.checkBalanceEnough(amount,payFee)
+    if(!checkStatus){
       return
     }
-
-    if (this.state.stakeType === SEND_PAGE_TYPE_STAKE) {
-      if (!isNumber(amount) || (parseInt(amount) < parseInt(STAKE_MIN_AMOUNT))) {
-        Toast.info(getLanguage('minStakeAmount') + " " + STAKE_MIN_AMOUNT)
-        return
-      }
-      let totalStakeAmount = new BigNumber(amount).plus(payFee).toString()
-      let restStakeBalance = new BigNumber(balance).minus(totalStakeAmount).toString()
-      if (!BigNumber(restStakeBalance).gte(0)) {
-        Toast.info(getLanguage('canUseNotEnough'))
-        return
-      }
-
-    } else if (this.state.stakeType === SEND_PAGE_TYPE_SEND) {
-      let totalSendAmount = new BigNumber(amount).plus(payFee).toString()
-      let restSendBalance = new BigNumber(balance).minus(totalSendAmount).toString()
-      if (!BigNumber(restSendBalance).gte(0)) {
-        Toast.info(getLanguage("canUseNotEnough"))
-        return
-      }
-    } else {
-      let debondAmount = nodeDetail && nodeDetail.amount || "0"
-      debondAmount = new BigNumber(debondAmount).toNumber()
-      if (!isNumber(amount) || new BigNumber(amount).gt(debondAmount)) {
-        Toast.info(getLanguage('maxWithdraw'))
-        return
-      }
-      if (!BigNumber(balance).gte(payFee)) {
-        Toast.info(getLanguage('canUseNotEnough'))
-        return
-      }
-    }
-
     let nonce = trimSpace(this.state.nonce)
     if (nonce.length > 0 && !isNumber(nonce)) {
       Toast.info(getLanguage('inputNonceError'))
@@ -372,7 +502,10 @@ class SendPage extends React.Component {
       } else if (this.state.stakeType === SEND_PAGE_TYPE_SEND) {
         sendResult = await sendTransaction(payload)
       } else if (this.state.stakeType === SEND_PAGE_TYPE_RECLAIM) {
-        sendResult = await undelegateTransaction(payload)
+        sendResult = await undelegateTransaction(payload) 
+      }else  if(this.state.stakeType === SEND_PAGE_TYPE_RUNTIME_DEPOSIT || this.state.stakeType === SEND_PAGE_TYPE_RUNTIME_WITHDRAW){
+        Toast.info(getLanguage("ledgerNotSupportTip"))
+        return 
       }
       sendMsg({
         action: WALLET_CHECK_TX_STATUS,
@@ -388,6 +521,7 @@ class SendPage extends React.Component {
     }
   }
   clickNextStep = async () => {
+    const { toAddressCanInput,toAddressValue,sendAction,runtimeId,runtimeType,currentAllowance } = this.pageConfig
     let currentAccount = this.props.currentAccount
     let accountInfo = this.props.accountInfo
 
@@ -395,10 +529,10 @@ class SendPage extends React.Component {
     let amount = new BigNumber(this.state.amount).toString()
     amount = toNonExponential(amount)
     let toAddress = ""
-    if (this.state.stakeType === SEND_PAGE_TYPE_SEND) {
+    if(toAddressCanInput){
       toAddress = trimSpace(this.state.toAddress)
     } else {
-      toAddress = this.props.nodeDetail.validatorAddress || this.props.nodeDetail.entityAddress
+      toAddress = toAddressValue
     }
     let nonce = trimSpace(this.state.nonce) || accountInfo.nonce
     let fromAddress = currentAccount.address
@@ -406,47 +540,50 @@ class SendPage extends React.Component {
     let feeAmount = trimSpace(this.state.feeAmount)
     let feeGas = trimSpace(this.state.feeGas)
 
+    let depositAddress = ""
+    if(runtimeType === RUNTIME_ACCOUNT_TYPE.EVM){
+      depositAddress = trimSpace(this.state.toAddress)
+    }else if(runtimeType === RUNTIME_ACCOUNT_TYPE.OASIS){
+      depositAddress = toAddressValue
+    }
+
+    let allowance = currentAllowance
     let payload = {
-      fromAddress, toAddress, amount, nonce, feeAmount, feeGas, currentAccount,shares
+      fromAddress, toAddress, amount, nonce, feeAmount, feeGas, currentAccount,shares,
+      runtimeId,runtimeType,depositAddress,allowance
     }
     Loading.show()
-
 
     this.modal.current.setModalVisible(false)
 
     if (currentAccount.type === ACCOUNT_TYPE.WALLET_LEDGER) {
       return this.ledgerTransfer(payload)
     }
-
-    if (this.state.stakeType === SEND_PAGE_TYPE_STAKE) {
-      sendMsg({
-        action: WALLET_SEND_STAKE_TRANSACTION,
-        payload
-      }, (data) => {
-        Loading.hide()
-        this.onSubmitSuccess(data)
-      })
-    } else if (this.state.stakeType === SEND_PAGE_TYPE_SEND) {
-      sendMsg({
-        action: WALLET_SEND_TRANSACTION,
-        payload
-      }, (data) => {
-        Loading.hide()
-        this.onSubmitSuccess(data)
-      })
-    } else {
-      sendMsg({
-        action: WALLET_SEND_RECLAIM_TRANSACTION,
-        payload
-      }, (data) => {
-        Loading.hide()
-        this.onSubmitSuccess(data)
-      })
+    sendMsg({
+      action: sendAction,
+      payload
+    }, (data) => {
+      Loading.hide()
+      this.onSubmitSuccess(data)
+    })
+  }
+  onSubmitRuntime=(data)=>{
+    if(data && data.code === 0){
+      Toast.info(getLanguage('postSuccess'))
+      setTimeout(() => {
+        this.props.history.goBack()
+      }, 100);
+    }else{
+      let errMessage = data?.error?.metadata?.["grpc-message"] || data?.message || getLanguage('postFailed')
+      Toast.info(errMessage)
     }
-
-
   }
   onSubmitSuccess = (data) => {
+    const { runtimeId } = this.pageConfig
+    if(runtimeId){
+        this.onSubmitRuntime(data)
+        return 
+    }
     if (data && data.hash) {
       Toast.info(getLanguage('postSuccess'))
       this.props.history.replace({
@@ -474,36 +611,31 @@ class SendPage extends React.Component {
     )
   }
   renderConfirmView = () => {
+    const {confirmTitle,confirmToAddressTitle,runtimeId} = this.pageConfig
     let accountInfo = this.props.accountInfo
     let netNonce = isNumber(accountInfo.nonce) ? accountInfo.nonce : ""
     let nonce = this.state.nonce ? this.state.nonce : netNonce
 
     let feeAmount = this.state.feeAmount ? this.state.feeAmount : 0
     feeAmount = toNonExponential(amountDecimals(feeAmount, cointypes.decimals))
-    let title = this.state.confirmModalLoading ? "waitLedgerConfirm" : "sendDetail"
-    if (this.state.stakeType !== SEND_PAGE_TYPE_SEND) {
-      title = getLanguage('stakeDetail')
+    let title = ""
+    let toTitle = ""
+    if(this.state.confirmModalLoading){
+      title = getLanguage("waitLedgerConfirm")
+    }else{
+      title = confirmTitle
+      toTitle = confirmToAddressTitle
     }
-    let amountTitle = ""
-    let toTitle = getLanguage('stakeNodeName')
 
-    if (this.state.stakeType === SEND_PAGE_TYPE_SEND) {
-      amountTitle = getLanguage('amount')
-      toTitle = getLanguage('toAddress')
-    } else if (this.state.stakeType === SEND_PAGE_TYPE_STAKE) {
-      amountTitle = getLanguage('stakeAmount')
-    } else {
-      amountTitle = getLanguage('reclaimAmount')
-    }
     let currentSymbol = this.props.netConfig.currentSymbol
     return (
       <div className={"confirm-modal-container"}>
-        <div className={"test-modal-title-container"}><p className={"test-modal-title"}>{getLanguage(title)}</p></div>
+        <div className={"test-modal-title-container"}><p className={"test-modal-title"}>{title}</p></div>
         {this.renderConfirmItem(getLanguage('amount'), this.state.amount + " " + currentSymbol, true)}
         {this.renderConfirmItem(toTitle, this.state.toAddress)}
         {this.renderConfirmItem(getLanguage('fromAddress'), this.state.fromAddress)}
         {this.renderConfirmItem(getLanguage('fee'), feeAmount + " " + currentSymbol)}
-        {isNumber(nonce) && this.renderConfirmItem("Nonce", nonce)}
+        {!runtimeId && isNumber(nonce) && this.renderConfirmItem("Nonce", nonce)}
         {this.renderConfirmButton()}
       </div>
     )
@@ -567,31 +699,28 @@ class SendPage extends React.Component {
     })
   }
   renderSendAmount = () => {
-    let { accountInfo, nodeDetail } = this.props
-    let amount = 0
+    const { maxCanUseAmount,isReclaim } = this.pageConfig
+    let amount = getDisplayAmount(maxCanUseAmount)
     let amountTitle = getLanguage('amount')
-    let amountDesc = getLanguage("canUseAmount") + ":"
+
     let bottomText = ""
     let showTip = false
-    if (this.state.stakeType === SEND_PAGE_TYPE_STAKE || this.state.stakeType === SEND_PAGE_TYPE_SEND) {
-      amount = accountInfo.liquid_balance
-    } else {
+    let sendAmountDesc = getLanguage("canUseAmount")  + ": " 
+
+    if(isReclaim ){
       showTip = true
-      amount = nodeDetail && nodeDetail.amount || "0"
-      amountDesc = getLanguage('canReclaimAmount') + ":"
-      bottomText = this.state.reclaimShare||"0"
-    }
-    amount = getDisplayAmount(amount)
+      bottomText = this.state.reclaimShare|| "0"
+      sendAmountDesc = getLanguage('canReclaimAmount') + ": "
+    } 
     return (
       <div>
         <div className={"send-amount-container"}>
           <div className={"send-amount-top"}>
             <p className={"send-amount-title"}>{amountTitle}</p>
             <div className={"send-amount-desc-container"}>
-              <p className={"send-amount-desc"}>{amountDesc}</p>
+              <p className={"send-amount-desc"}>{sendAmountDesc}</p>
               <p className={"send-amount-desc-amount"}>{amount}</p>
             </div>
-
           </div>
           <div className={"send-input-con"}>
           <input
@@ -604,7 +733,7 @@ class SendPage extends React.Component {
           {showTip && <p onClick={this.onClickAll} className={"send-amount-all click-cursor"}>{getLanguage('all')}</p>}
           </div>
         </div>
-       {showTip&& <div className={"send-amount-share"}>
+       {bottomText && <div className={"send-amount-share"}>
           <p className={"send-amount-share-content"}>{getLanguage('sendShares')+": "}{bottomText}</p>
         </div>}
       </div>
@@ -677,16 +806,8 @@ class SendPage extends React.Component {
     )
   }
   render() {
-    let title = ""
-    if (this.state.stakeType === SEND_PAGE_TYPE_STAKE) {
-      title = getLanguage('AddEscrow')
-    } else if (this.state.stakeType === SEND_PAGE_TYPE_RECLAIM) {
-      title = getLanguage('reclaim')
-    } else {
-      title = getLanguage('send')
-    }
     return (<CustomView
-      title={title}
+      title={this.state.pageTitle}
       middleComponent={this.renderNetMenu()}
       rightComponent={this.renderMyIcon()}
       disableAccountSelect={true}

@@ -1,9 +1,11 @@
-import { staking } from '@oasisprotocol/client';
 import BigNumber from "bignumber.js";
 import validUrl from 'valid-url';
 import { cointypes } from '../../config';
 import { getLocal } from "../background/storage/localStorage";
 import { NETWORK_CONFIG } from "../constant/storageKey";
+import { PARATIME_CONFIG } from "../constant/paratimeConfig";
+import * as oasis from '@oasisprotocol/client';
+import * as oasisRT from '@oasisprotocol/client-rt';
 /**
  * Address interception
  * @param {*} address
@@ -196,8 +198,8 @@ export const uint2hex = (uint) => Buffer.from(uint).toString('hex')
 export const hex2uint = (hex) => new Uint8Array(Buffer.from(hex, 'hex'))
 
 export const publicKeyToAddress = async (publicKey) => {
-    const data = await staking.addressFromPublicKey(publicKey)
-    return staking.addressToBech32(data)
+    const data = await oasis.staking.addressFromPublicKey(publicKey)
+    return oasis.staking.addressToBech32(data)
 }
 
 
@@ -259,4 +261,56 @@ export function connectAccountDataFilter(account){
         isConnected:account.isConnected,
         isConnecting:account.isConnecting,
     }
+}
+
+
+/**
+ * parse hex runtimeId to address
+ * @param {*} runtimeID 
+ * @returns 
+ */
+export async function getRuntimeAddress(runtimeID){
+    let address = await oasis.staking.addressFromRuntimeID(oasis.misc.fromHex(runtimeID))
+    let bech32Address =  oasis.staking.addressToBech32(address).toLowerCase()
+    return bech32Address
+}
+
+/**
+ * get eth bech32 address
+ * @param {*} ethAddress 
+ * @returns 
+ */
+export async function getEthBech32Address(ethAddress){
+    if(!ethAddress){
+        return ""
+    }
+    let newEthAddress = ethAddress
+    if (newEthAddress.indexOf('0x') === 0) {
+        newEthAddress = newEthAddress.substr(2);
+    }
+    const ethBytes = oasis.misc.fromHex(newEthAddress)
+    let address = await oasis.address.fromData(
+        oasisRT.address.V0_SECP256K1ETH_CONTEXT_IDENTIFIER,
+        oasisRT.address.V0_SECP256K1ETH_CONTEXT_VERSION,
+        ethBytes,
+    );
+    const bech32Address = oasisRT.address.toBech32(address)
+    return bech32Address
+}
+
+/**
+ * get runtime config by runtimeID 
+ * @param {*} runtimeId 
+ * @returns 
+ */
+export function getRuntimeConfig(runtimeId){
+    let runtimeConfig = {}
+    for (let index = 0; index < PARATIME_CONFIG.length; index++) {
+        const runtime = PARATIME_CONFIG[index];
+        if(runtimeId === runtime.runtimeId){
+            runtimeConfig = runtime
+            break
+        }
+    }
+    return runtimeConfig
 }

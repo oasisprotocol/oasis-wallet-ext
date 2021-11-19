@@ -16,6 +16,10 @@ const UPDATE_SEND_REFRESH = "UPDATE_SEND_REFRESH"
 
 const UPDATE_ACCOUNT_RPC_NONCE = "UPDATE_ACCOUNT_RPC_NONCE"
 
+const UPDATE_ACCOUNT_RUNTIME_LIST = "UPDATE_ACCOUNT_RUNTIME_LIST"
+
+const UPDATE_ACCOUNT_RUNTIME_NAME = "UPDATE_ACCOUNT_RUNTIME_NAME"
+
 /**
  * Update transaction records
  * @param {*} txList
@@ -86,6 +90,21 @@ export function updateRpcNonce(nonce) {
     };
 }
 
+export function updateRuntimeList(list) {
+    return {
+        type: UPDATE_ACCOUNT_RUNTIME_LIST,
+        list
+    };
+}
+
+
+export function updateRuntimeNameList(list) {
+    return {
+        type: UPDATE_ACCOUNT_RUNTIME_NAME,
+        list
+    };
+}
+
 const initState = {
     txList: [],
     currentAccount: {},
@@ -118,8 +137,23 @@ const initState = {
 
 
     stakeList: [],
-    debondList: []
+    debondList: [],
+
+    runtimeList:[],
+    runtimeNameData:{},
 };
+
+const setRuntimeName=(runtimeList,runtimeNameData)=>{
+    let newRuntimeList = []
+    for (let index = 0; index < runtimeList.length; index++) {
+        let runtime = runtimeList[index];
+        newRuntimeList.push({
+            ...runtime,
+            name:runtimeNameData[runtime.runtimeId]||runtime.name
+        })
+    }
+    return newRuntimeList
+}
 
 const accountInfo = (state = initState, action) => {
     switch (action.type) {
@@ -200,6 +234,23 @@ const accountInfo = (state = initState, action) => {
             return {
                 ...state,
                 nonce: action.nonce
+            }
+        case UPDATE_ACCOUNT_RUNTIME_LIST:
+            let runtime =  setRuntimeName(action.list,state.runtimeNameData)
+            return {
+                ...state,
+                runtimeList: runtime,
+            }
+        case UPDATE_ACCOUNT_RUNTIME_NAME:
+            let runtimeNameList = Array.isArray(action.list) ? action.list : []
+            let runtimeName = {}
+            runtimeNameList.map((item)=>{
+                runtimeName[item.runtimeId] = item.name
+            })
+            return{
+                ...state,
+                runtimeNameData:runtimeName,
+                runtimeList: setRuntimeName(state.runtimeList,runtimeName),
             }
         default:
             return state;

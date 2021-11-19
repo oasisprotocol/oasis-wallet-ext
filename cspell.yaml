@@ -38,12 +38,19 @@ words:
   - bech
   - jazzicon
   - mersenne
+  - secp
 
   # Staking-related terms.
   - debonding
   - debond
   - delegators
   - undelegate
+
+  # ParaTime-related terms.
+  - paratime
+  - paratimes
+  - runtimes
+  - emerald
 
 # List of words to be always considered incorrect.
 flagWords:

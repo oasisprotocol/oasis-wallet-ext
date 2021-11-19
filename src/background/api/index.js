@@ -1,5 +1,6 @@
 import * as oasis from '@oasisprotocol/client';
 import { TX_LIST_LENGTH } from "../../../config";
+import { amountDecimals } from '../../utils/utils';
 import { commonFetch, getOasisClient } from "./request";
 const MAX_LENGTH = 500
 /**
@@ -105,4 +106,84 @@ export async function getRpcNonce(address) {
     height: oasis.consensus.HEIGHT_LATEST
   }) ?? 0;
   return nonce
+}
+/**
+ * get runtime list from RPC
+ * @returns 
+ */
+export async function getRpcRuntimeList(){
+  const oasisClient = getOasisClient()
+  let height = oasis.consensus.HEIGHT_LATEST
+  let include_suspended = false
+  let runtimeList = await oasisClient.registryGetRuntimes({ height: height, include_suspended }).catch((err) => err)
+  let list = []
+  for (let index = 0; index < runtimeList.length; index++) {
+    const runtime = runtimeList[index];
+    let id = runtime.id
+    let runtimeId = oasis.misc.toHex(id)
+    list.push({
+      name: "unknown",
+      runtimeId: runtimeId
+    })
+  }
+  return list
+}
+
+/**
+ * get runtimeList
+ */
+export async function getRuntimeNameList(){
+  let url = "/runtime/list"
+  let runtimeList = await commonFetch(url).catch(() => { })
+  if (runtimeList && runtimeList.code === 0) {
+    return runtimeList?.data?.list || []
+  } else {
+    return []
+  }
+}
+
+/**
+ * get runtime tx status
+ * @param {*} txHash
+ * @returns
+ */
+ export async function getRuntimeTxStatus(txhash,runtimeId) {
+  let url = `/runtime/transaction/info?id=${runtimeId}&hash=${txhash}`
+  let txStatus = await commonFetch(url).catch(() => { })
+  if (txStatus && txStatus.code === 0) {
+    return txStatus.data
+  } else {
+    return {}
+  }
+}
+
+/**
+ * rpc get available balance and allowance
+ * @param {*} address
+ * @returns
+ */
+ export async function getRpcBalance(address) {
+  const oasisClient = getOasisClient()
+  let shortKey = await oasis.staking.addressFromBech32(address)
+  let height = oasis.consensus.HEIGHT_LATEST
+  let account = await oasisClient.stakingAccount({ height: height, owner: shortKey, }).catch((err) => err)
+
+  let allowanceList = []
+  let netAllowanceList = account?.general?.allowances || []
+  for (const [beneficiary, amount] of netAllowanceList) {
+    allowanceList.push({
+      account:address,
+      beneficiary:oasis.staking.addressToBech32(beneficiary).toLowerCase(),
+      allowance:amountDecimals(oasis.quantity.toBigInt(amount).toString())
+    })
+  }
+  if (account && account.code && account.code !== 0) {
+    return { err: account }
+  }
+  let balance = account?.general?.balance || 0
+  if(balance){
+    balance = oasis.quantity.toBigInt(balance).toString()
+  }
+  let nonce = account?.general?.nonce || 0
+  return { balance, nonce,allowanceList }
 }

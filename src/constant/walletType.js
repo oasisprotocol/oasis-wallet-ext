@@ -51,4 +51,5 @@ export const TRANSACTION_TYPE = {
   Transfer: "staking.Transfer",
   AddEscrow: "staking.AddEscrow",
   ReclaimEscrow: "staking.ReclaimEscrow",
+  StakingAllow:"staking.Allow"
 };
