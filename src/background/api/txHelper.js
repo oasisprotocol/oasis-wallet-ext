@@ -254,7 +254,7 @@ function getRuntimeNonce(accountsWrapper,address,retryTime){
         retryTime = retryTime - 1
         try {
             const oasisClient = getOasisClient()
-            let nonceResult = await await accountsWrapper.queryNonce().setArgs({ address: address }).query(oasisClient);
+            let nonceResult = await accountsWrapper.queryNonce().setArgs({ address: address }).query(oasisClient);
             resolve(nonceResult)
         } catch (error) {
             if (retryTime > 0) {
@@ -294,7 +294,7 @@ export async function buildRuntimeTxBody(params, wrapper) {
         decimal = new BigNumber(10).pow(cointypes.decimals)
     }
   
-    let amount = new BigNumber(params.amount).multipliedBy(decimal).toString()
+    let amount = new BigNumber(params.amount).multipliedBy(decimal).toFixed()
     amount = BigInt(amount)
     const DEPOSIT_AMOUNT = ([
         oasis.quantity.fromBigInt(amount),
