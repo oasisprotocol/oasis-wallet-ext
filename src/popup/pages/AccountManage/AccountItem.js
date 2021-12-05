@@ -13,13 +13,14 @@ class AccountItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            balance: "0"
+            balance: "0",
+            descAddress:""
         };
         this.isUnMounted = false;
     }
     componentDidMount() {
         const { item } = this.props
-        this.fetchBalance(item.address)
+        this.fetchBalance(item)
     }
     componentWillUnmount() {
         this.isUnMounted = true;
@@ -35,10 +36,14 @@ class AccountItem extends Component {
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.item.address !== this.props.item.address) {
-            this.fetchBalance(nextProps.item.address)
+            this.fetchBalance(nextProps.item)
         }
     }
-    fetchBalance = (address) => {
+    fetchBalance = (item) => {
+        if(item.evmAddress){
+            return
+        }
+        let address = item.address
         getBalance(address).then((account) => {
             if (account && account.address) {
                 this.callSetState({
@@ -66,13 +71,13 @@ class AccountItem extends Component {
                         <p className={cx({
                             "account-item-type-none": !showImport,
                             "account-item-type-base": showImport,
-                            "account-item-type-import": item.type === ACCOUNT_TYPE.WALLET_OUTSIDE,
+                            "account-item-type-import": item.type === ACCOUNT_TYPE.WALLET_OUTSIDE||item.type === ACCOUNT_TYPE.WALLET_OUTSIDE_SECP256K1,
                             "account-item-type-ledger": item.type === ACCOUNT_TYPE.WALLET_LEDGER,
                             "account-item-type-observe": item.type === ACCOUNT_TYPE.WALLET_OBSERVE,
                         })}>{showImport}</p>
                     </div>
                     <p className={"account-item-address"}>{addressSlice(item.address)}</p>
-                    <p className={"account-item-address account-item-balance"}>{showBalance}</p>
+                    {item.evmAddress ?<p className={'descAddress'}>{addressSlice(item.evmAddress)}</p>: <p className={"account-item-address account-item-balance"}>{showBalance}</p>}
                 </div>
                 <div className={"account-item-right"}>
                     <img

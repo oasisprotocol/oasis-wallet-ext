@@ -33,7 +33,6 @@
 
 .wallet-info {
     width: 351px;
-    height: 286px;
     background: #ffffff;
     border-radius: 10px;
 
@@ -220,4 +219,27 @@
         line-height: 16px;
     }
 
+}
+
+.account-info-title-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 15px;
+    align-items: center;
+}
+.evm-arrow-row{
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+.accountLogo{
+    height: 18px;
+    margin-left: 10px;
+}
+.account-evm-address{
+    margin: 0px 0px 10px ;
+    font-size: 14px;
+    color: #999999;
 }

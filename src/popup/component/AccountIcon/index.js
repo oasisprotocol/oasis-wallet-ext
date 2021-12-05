@@ -1,6 +1,7 @@
 import jazzicon from '@metamask/jazzicon'
 import * as oasis from '@oasisprotocol/client'
 import React, { createRef, PureComponent } from 'react'
+import { isEvmAddress } from '../../../utils/utils'
 
 export default class AccountIcon extends PureComponent {
     iconContainer = createRef()
@@ -13,8 +14,14 @@ export default class AccountIcon extends PureComponent {
         this.iconContainer.current.appendChild(image)
     }
     generateJazziconSvg = (address, diameter) => {
-        const numericRepresentation = this.addressToNumber(address)
+        const numericRepresentation = isEvmAddress(address) ? this.jsNumberForAddress(address):this.addressToNumber(address)
         return jazzicon(diameter, numericRepresentation)
+    }
+    // Compatible with https://github.com/MetaMask/metamask-extension/blob/v10.7.0/ui/helpers/utils/icon-factory.js#L84-L88
+    jsNumberForAddress(address) {
+        const addr = address.slice(2, 10);
+        const seed = parseInt(addr, 16);
+        return seed;
     }
     addressToNumber = (address) => {
         const addressU8 = oasis.staking.addressFromBech32(address)

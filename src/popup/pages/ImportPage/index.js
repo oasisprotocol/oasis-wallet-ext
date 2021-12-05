@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { ACCOUNT_NAME_FROM_TYPE } from "../../../constant/walletType";
+import { ACCOUNT_NAME_FROM_TYPE, ACCOUNT_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { updateAccountType } from "../../../reducers/cache";
 import CustomList from "../../component/CustomList";
@@ -17,8 +17,12 @@ class ImportPage extends React.Component {
       content
     };
     this.routeList=[{
-      name: getLanguage('privateKey'),
+      name: getLanguage('importOasisKey'),
       callback: this.importPrivateKey,
+    },
+    {
+      name: getLanguage('importOEvmKey'),
+      callback: ()=>this.importPrivateKey(ACCOUNT_TYPE.WALLET_OUTSIDE_SECP256K1),
     },
     {
       name: getLanguage('observeAccount'),
@@ -26,8 +30,8 @@ class ImportPage extends React.Component {
     }
     ]
   }
-  importPrivateKey = () => {
-    this.props.updateAccountType(ACCOUNT_NAME_FROM_TYPE.OUTSIDE)
+  importPrivateKey = (type) => {
+    this.props.updateAccountType(ACCOUNT_NAME_FROM_TYPE.OUTSIDE,type)
     this.props.history.push({
       pathname: "/account_name",
     });
@@ -57,8 +61,8 @@ const mapStateToProps = (state) => ({});
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateAccountType: (type) => {
-      dispatch(updateAccountType(type));
+    updateAccountType: (fromType,accountType) => {
+      dispatch(updateAccountType(fromType,accountType));
     }
   };
 }

@@ -10,7 +10,7 @@ import txSend from "../../../assets/images/txSend.svg";
 import wallet_receive from "../../../assets/images/wallet_receive.png";
 import wallet_send from "../../../assets/images/wallet_send.png";
 import { getBalance, getRpcNonce, getTransactionList } from "../../../background/api";
-import { DAPP_ACCOUNT_CONNECT_SITE, DAPP_CHANGE_CONNECTING_ADDRESS, DAPP_DISCONNECT_SITE, DAPP_GET_ALL_APPROVE_ACCOUNT, SEND_PAGE_TYPE_SEND, WALLET_CHANGE_CURRENT_ACCOUNT } from "../../../constant/types";
+import { DAPP_ACCOUNT_CONNECT_SITE, DAPP_CHANGE_CONNECTING_ADDRESS, DAPP_DISCONNECT_SITE, DAPP_GET_ALL_APPROVE_ACCOUNT, SEND_PAGE_TYPE_SEND, WALLET_CHANGE_CURRENT_ACCOUNT, WALLET_SEND_RUNTIME_EVM_WITHDRAW } from "../../../constant/types";
 import { ACCOUNT_TYPE, TRANSACTION_TYPE } from '../../../constant/walletType';
 import { getLanguage } from "../../../i18n";
 import { updateAccountTx, updateCurrentAccount, updateNetAccount, updateRpcNonce } from "../../../reducers/accountReducer";
@@ -24,7 +24,11 @@ import TestModal from "../../component/TestModal";
 import Toast from "../../component/Toast";
 import WalletBar from "../../component/WalletBar";
 import "./index.scss";
+import oasisIcon from "../../../assets/images/oasisIcon.svg";
+import evmIcon from "../../../assets/images/evmIcon.svg";
+import blueArrow from "../../../assets/images/blueArrow.svg";
 
+import { updateHomeIndex } from "../../../reducers/tabRouteReducer";
 class Wallet extends React.Component {
   constructor(props) {
     super(props);
@@ -55,7 +59,9 @@ class Wallet extends React.Component {
   async componentDidMount() {
     let { currentAccount } = this.props
     let address = currentAccount.address
-    this.fetchData(address, true)
+    if(!currentAccount.evmAddress){
+      this.fetchData(address, true)
+    }
     this.getDappConnect()
   }
   getDappConnect() {
@@ -136,9 +142,8 @@ class Wallet extends React.Component {
     })
   }
 
-  onClickAddress = () => {
-    let { currentAccount } = this.props
-    copyText(currentAccount.address).then(() => {
+  onClickAddress = (copyAddress) => {
+    copyText(copyAddress).then(() => {
       Toast.info(getLanguage('copySuccess'))
     })
 
@@ -320,6 +325,15 @@ class Wallet extends React.Component {
   onCloseModal = () => {
     this.modal.current.setModalVisible(false)
   }
+  renderAccountName=()=>{
+    let { currentAccount } = this.props
+    let accountName = currentAccount && currentAccount.accountName
+    let icon = currentAccount.evmAddress ? evmIcon:oasisIcon
+    return(<div className="account-address-container">
+    <p className="account-name">{accountName}</p>
+    <img className="accountLogo" src={icon} />
+  </div>)
+  }
   renderAccount = () => {
     let { currentAccount, accountInfo, dappConnectAddressList } = this.props
     let {
@@ -339,10 +353,8 @@ class Wallet extends React.Component {
       <div className="account-container">
         <div className={"account-container-top"}>
           <div>
-            <div className="account-address-container">
-              <p className="account-name">{currentAccount && currentAccount.accountName}</p>
-            </div>
-            <p className="account-address click-cursor" onClick={this.onClickAddress}>{addressSlice(currentAccount.address)}</p>
+            {this.renderAccountName()}
+            <p className="account-address account-address-margin click-cursor" onClick={()=>this.onClickAddress(currentAccount.address)}>{addressSlice(currentAccount.address)}</p>
           </div>
           <div className={'account-container-top-right'}>
             <div className={"dapp-connect-con"}>
@@ -383,6 +395,7 @@ class Wallet extends React.Component {
           {this.renderAccountItemInfo(getLanguage('availableBalance'), liquid_balance_display)}
           {this.renderAccountItemInfo(getLanguage('activeDelegationsBalance'), delegations_balance_display)}
           {this.renderAccountItemInfo(getLanguage('debonding'), debonding_delegations_balance_display)}
+          {this.renderParatimeRow()}
         </div>
       </div>)
   }
@@ -415,6 +428,46 @@ class Wallet extends React.Component {
       >
         <img className="wallet-button-img" src={wallet_receive} />
       </Button>
+    </div>)
+  }
+  goParatimePage=()=>{
+    this.props.updateHomeIndex(2)
+  }
+  renderParatimeRow=()=>{
+    let { currentAccount } = this.props
+    let isEvm = currentAccount.evmAddress
+    return(<div className={
+      cx("account-info-title-container click-cursor",{
+      "evm-arrow-row": isEvm,
+    })} onClick={this.goParatimePage}>
+    <p className={"wallet-info-title"}>{getLanguage('paratime')}</p>
+   <img src={blueArrow} className={"account-item-option"} />
+  </div>)
+  }
+  renderEvmWalletInfo =()=>{
+    let { currentAccount } = this.props
+    return (
+      <div className="wallet-info">
+      <div className="account-container">
+        <div className={"account-container-top"}>
+          <div>
+            {this.renderAccountName()}
+            <p className="account-address click-cursor" onClick={()=>this.onClickAddress(currentAccount.address)}>{addressSlice(currentAccount.address)}</p>
+            {currentAccount.evmAddress && <p className={"account-evm-address click-cursor"} onClick={()=>this.onClickAddress(currentAccount.evmAddress)}>{addressSlice(currentAccount.evmAddress)}</p>}
+          </div>
+          <div className={'account-container-top-right'}>
+            <div className="account-manager click-cursor"
+              onClick={() => {
+                let { currentAccount } = this.props
+                this.props.setAccountInfo(currentAccount)
+                this.goToPage("/account_info")
+              }}
+            />
+          </div>
+        </div>
+        <p className={"account-divided"} />
+        {this.renderParatimeRow()}
+      </div>
     </div>)
   }
   renderWalletInfo = () => {
@@ -534,13 +587,14 @@ class Wallet extends React.Component {
     }
   }
   render() {
+    let { currentAccount } = this.props
     return (
       <div className="wallet-page-container">
         <div className={"home-wallet-top-container"}>
           <WalletBar history={this.props.params.history} />
         </div>
-        {this.renderWalletInfo()}
-        {this.renderHistory()}
+        {currentAccount.evmAddress ? this.renderEvmWalletInfo() : this.renderWalletInfo()}
+        {!currentAccount.evmAddress && this.renderHistory()}
         {this.renderChangeModal()}
         <Clock schemeEvent={() => { this.fetchData(this.props.currentAccount.address) }} />
       </div>
@@ -590,6 +644,9 @@ function mapDispatchToProps(dispatch) {
     },
     updateCurrentAccount: (account) => {
       dispatch(updateCurrentAccount(account))
+    },
+    updateHomeIndex: (index) => {
+      dispatch(updateHomeIndex(index));
     },
   };
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="36px" viewBox="0 0 23 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ETH</title>
+    <g id="v4-paratime" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="显示eth地址，staking变灰" transform="translate(-215.000000, -142.000000)" fill="#999999" fill-rule="nonzero">
+            <g id="编组-6" transform="translate(48.000000, 136.000000)">
+                <g id="ETH" transform="translate(167.000000, 6.000000)">
+                    <polygon id="路径" points="11.1857143 25.3285714 0 18.6428571 11.1857143 0"></polygon>
+                    <polygon id="路径" points="11.1857143 36 0.257142857 20.3142857 11.1857143 26.8714286"></polygon>
+                    <polygon id="路径" points="11.5714286 25.3285714 22.7571429 18.6428571 11.5714286 0"></polygon>
+                    <polygon id="路径" points="11.7 36 22.7571429 20.3142857 11.7 26.8714286"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

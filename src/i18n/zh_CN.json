@@ -172,7 +172,7 @@
   "stakeNodeName":"节点名称",
   "stakeAmount":"委托数量",
   "reclaimAmount":"解委数量",
-  "canUseAmount":"可用余额",
+  "canUseAmount":"可用",
   "canReclaimShares":"可解除股份数",
   "myStaking":"我的委托",
   "validators":"验证节点",
@@ -261,11 +261,24 @@
   "deleteTag":"删除",
   "resetWallet":"重置钱包",
 
-  "paratime":"Paratime",
+  "paratime":"Paratimes",
   "sendIn":"转入",
   "noRuntime":"找不到 Runtime",
   "depositTitle":"充值",
   "depositToAddress":"充值地址",
   "depositInfo":"充值信息",
-  "ledgerNotSupportTip":" 暂不支持Ledger账户"
+  "ledgerNotSupportTip":" 暂不支持Ledger账户",
+  
+  "importOasisKey":"私钥(Oasis原生)",
+  "importOEvmKey":"私钥(兼容以太坊)",
+  "evmAccount":"兼容以太坊账户",
+  "oasisAccount":"Oasis原生账户",
+  "evmAddress":"兼容以太坊地址",
+  "toParatime":"发送到 ParaTime",
+  "toConsensus":"发送到 Consensus",
+
+  "withdrawTitle":"提现",
+  "withdrawToAddress":"提现地址",
+  "withdrawInfo":"提现信息"
+
 }

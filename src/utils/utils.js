@@ -276,23 +276,23 @@ export async function getRuntimeAddress(runtimeID){
 }
 
 /**
- * get eth bech32 address
- * @param {*} ethAddress 
+ * get evm bech32 address
+ * @param {*} evmAddress 
  * @returns 
  */
-export async function getEthBech32Address(ethAddress){
-    if(!ethAddress){
+export async function getEvmBech32Address(evmAddress){
+    if(!evmAddress){
         return ""
     }
-    let newEthAddress = ethAddress
-    if (newEthAddress.indexOf('0x') === 0) {
-        newEthAddress = newEthAddress.substr(2);
+    let newEvmAddress = evmAddress
+    if (newEvmAddress.indexOf('0x') === 0) {
+        newEvmAddress = newEvmAddress.substr(2);
     }
-    const ethBytes = oasis.misc.fromHex(newEthAddress)
+    const evmBytes = oasis.misc.fromHex(newEvmAddress)
     let address = await oasis.address.fromData(
         oasisRT.address.V0_SECP256K1ETH_CONTEXT_IDENTIFIER,
         oasisRT.address.V0_SECP256K1ETH_CONTEXT_VERSION,
-        ethBytes,
+        evmBytes,
     );
     const bech32Address = oasisRT.address.toBech32(address)
     return bech32Address
@@ -307,10 +307,25 @@ export function getRuntimeConfig(runtimeId){
     let runtimeConfig = {}
     for (let index = 0; index < PARATIME_CONFIG.length; index++) {
         const runtime = PARATIME_CONFIG[index];
-        if(runtimeId === runtime.runtimeId){
-            runtimeConfig = runtime
-            break
+        let runtimeIdList = runtime.runtimeIdList
+        for (let j = 0; j < runtimeIdList.length; j++) {
+            let config = runtimeIdList[j]
+            if(runtimeId === config.runtimeId){
+                runtimeConfig = runtime
+                return runtimeConfig
+            }
         }
     }
     return runtimeConfig
+}
+
+/**
+ * check address is evm address
+ * @param {*} address 
+ */
+export function isEvmAddress(address){
+    if (address.indexOf('0x') === 0) {
+        return true
+    }
+    return false
 }

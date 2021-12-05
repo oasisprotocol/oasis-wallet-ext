@@ -1,7 +1,6 @@
 import cx from "classnames";
 import React from "react";
 import { connect } from "react-redux";
-import { network_config } from '../../../../config';
 import home_logo from "../../../assets/images/home_logo.png";
 import { saveLocal } from "../../../background/storage/localStorage";
 import { NETWORK_CONFIG } from "../../../constant/storageKey";
@@ -13,12 +12,13 @@ import "./index.scss";
 class WalletBar extends React.Component {
     constructor(props) {
         super(props);
+        let newList = this.netConfigAction()
         this.state = {
-            netConfigList: [],
-            hideViewStatus: false
+            netConfigList: newList,
+            hideViewStatus: false,
+            page:props.page,
         };
         this.isUnMounted = false;
-        this.currentNetConfig = {}
     }
     componentWillUnmount() {
         this.isUnMounted = true;
@@ -34,7 +34,7 @@ class WalletBar extends React.Component {
     }
     handleChange = (item) => {
         const { totalNetList, currentNetList } = this.props.netConfig
-        if (this.currentNetConfig.url === item.url) {
+        if(item.isSelect){
             return
         }
         let currentList = []
@@ -42,7 +42,6 @@ class WalletBar extends React.Component {
             const netItem = { ...currentNetList[index] };
             if (item.url === netItem.url) {
                 netItem.isSelect = true
-                this.currentNetConfig = netItem
             } else {
                 netItem.isSelect = false
             }
@@ -55,29 +54,24 @@ class WalletBar extends React.Component {
         saveLocal(NETWORK_CONFIG, JSON.stringify(config))
         this.props.updateNetConfigList(config)
         this.props.updateNetConfigRequest(true)
+
+        this.callSetState({
+            netConfigList:this.netConfigAction(currentList)
+        })
     };
 
-    componentDidMount() {
-        this.netConfigAction()
-    }
-
-    netConfigAction = () => {
-        const { currentNetList } = this.props.netConfig
+    netConfigAction = (netList) => {
+        let currentNetList = netList ? netList:this.props.netConfig.currentNetList
         let newList = []
         for (let index = 0; index < currentNetList.length; index++) {
             const netItem = currentNetList[index];
-            if (netItem.isSelect) {
-                this.currentNetConfig = netItem
-            }
             newList.push({
                 value: netItem.netType,
                 key: netItem.url,
                 ...netItem
             })
         }
-        this.callSetState({
-            netConfigList: [...newList]
-        })
+        return newList
     }
 
     setViewStatus = () => {
@@ -86,11 +80,12 @@ class WalletBar extends React.Component {
         })
     }
     renderNetMenu = () => {
+        const { currentNetType }=this.props.netConfig
         return (
             <div className={"wallet-net-select-container"}>
                 <Select
                     options={this.state.netConfigList}
-                    defaultValue={this.currentNetConfig.netType || network_config[0].netType}
+                    defaultValue={currentNetType}
                     onChange={this.handleChange}
                     optionsProps={"select-net-options"}
                     itemProps={"select-net-item"}
@@ -109,7 +104,7 @@ class WalletBar extends React.Component {
     };
     renderMyIcon = () => {
         let { currentAccount } = this.props
-        let address = currentAccount.address
+        let address = currentAccount.evmAddress ||currentAccount.address
         return (
             <AccountIcon
                 address={address}

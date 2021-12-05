@@ -51,7 +51,8 @@ class ApproveAccountItem extends Component {
         })
     }
 
-    renderMyIcon = (address) => {
+    renderMyIcon = (account) => {
+        let address = account.evmAddress ||account.address
         if (!address) {
             return (<div />)
         }
@@ -69,7 +70,7 @@ class ApproveAccountItem extends Component {
                     }}
                     className={"approve-item-container click-cursor"}>
                     <div className={"approve-item-left"}>
-                        {this.renderMyIcon(account.address)}
+                        {this.renderMyIcon(account)}
                         <div className={"approve-item-left-con"}>
                             <div className={"approve-item-left-top-con"}>
                                 <p className={"approve-item-account-name"}>{account.accountName}</p>

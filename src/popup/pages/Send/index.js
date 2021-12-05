@@ -6,11 +6,11 @@ import { cointypes, network_config } from "../../../../config";
 import address_book from "../../../assets/images/address_book.png";
 import loadingCommon from "../../../assets/images/loadingCommon.gif";
 import record_arrow from "../../../assets/images/record_arrow.png";
-import { getBalance, getRpcNonce } from "../../../background/api";
+import { getBalance, getRpcNonce, getRuntimeBalance } from "../../../background/api";
 import { saveLocal } from "../../../background/storage/localStorage";
 import { undelegateTransaction, delegateTransaction, sendTransaction} from "../../../background/api/txHelper";
 import { NETWORK_CONFIG } from "../../../constant/storageKey";
-import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_RUNTIME_DEPOSIT, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, SEND_PAGE_TYPE_RUNTIME_WITHDRAW, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSACTION, WALLET_SEND_RUNTIME_DEPOSIT, WALLET_SEND_STAKE_TRANSACTION, WALLET_SEND_TRANSACTION, WALLET_SEND_RUNTIME_WITHDRAW } from "../../../constant/types";
+import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_RUNTIME_DEPOSIT, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, SEND_PAGE_TYPE_RUNTIME_WITHDRAW, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSACTION, WALLET_SEND_RUNTIME_DEPOSIT, WALLET_SEND_STAKE_TRANSACTION, WALLET_SEND_TRANSACTION, WALLET_SEND_RUNTIME_WITHDRAW, WALLET_SEND_RUNTIME_EVM_WITHDRAW } from "../../../constant/types";
 import { ACCOUNT_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { updateNetAccount, updateRpcNonce, updateSendRefresh } from "../../../reducers/accountReducer";
@@ -18,8 +18,8 @@ import { updateAddressBookFrom, updateNetConfigRequest } from "../../../reducers
 import { updateNetConfigList } from "../../../reducers/network";
 import { sendMsg } from "../../../utils/commonMsg";
 import { checkLedgerConnect } from "../../../utils/ledger";
-import { addressSlice, amountDecimals, getDisplayAmount, getNumberDecimals, getRuntimeConfig, isNumber, isTrueNumber, toNonExponential, trimSpace } from "../../../utils/utils";
-import { addressValid, ethAddressValid } from "../../../utils/validator";
+import { addressSlice, amountDecimals, getDisplayAmount, getNumberDecimals, isNumber, isTrueNumber, toNonExponential, trimSpace } from "../../../utils/utils";
+import { addressValid, evmAddressValid } from "../../../utils/validator";
 import AccountIcon from "../../component/AccountIcon";
 import Button from "../../component/Button";
 import CustomInput from "../../component/CustomInput";
@@ -29,7 +29,7 @@ import Select from "../../component/Select";
 import TestModal from "../../component/TestModal";
 import Toast from "../../component/Toast";
 import "./index.scss";
-import { PARATIME_CONFIG, RUNTIME_ACCOUNT_TYPE } from "../../../constant/paratimeConfig";
+import { RUNTIME_ACCOUNT_TYPE } from "../../../constant/paratimeConfig";
  
 const STAKE_MIN_AMOUNT = 100
 class SendPage extends React.Component {
@@ -82,10 +82,14 @@ class SendPage extends React.Component {
     let toAddressValue = ""
     let toAddressShowValue= "" 
     let showAddressBook = false
+    let toAddressCanInputDefaultValue = ""
     
-    let runtimeType = ""
     let runtimeId = params.runtimeId||""
     let currentAllowance = params.allowance|| 0
+    let runtimeType = params.accountType||""
+    let runtimeDecimals = params.decimals||cointypes.decimals
+    let isWithdraw = false
+    
 
     let confirmTitle = ""
     let confirmToAddressTitle = ""
@@ -95,29 +99,51 @@ class SendPage extends React.Component {
 
     let stakeAddress =  nodeDetail.validatorAddress || nodeDetail.entityAddress
     let stakeShowAddress = nodeDetail.validatorName || nodeDetail.name || nodeDetail.validatorAddress || nodeDetail.entityAddress
-
+    
     switch (type) {
       case SEND_PAGE_TYPE_RUNTIME_DEPOSIT:
-        pageTitle = getLanguage("depositTitle")
-
-        toAddressTitle= getLanguage("depositToAddress")
-
         if(runtimeId){
-          let runtimeConfig = getRuntimeConfig(runtimeId)
-          runtimeType = runtimeConfig.accountType
+
           if(runtimeType === RUNTIME_ACCOUNT_TYPE.EVM){
             toAddressPlaceHolder = "0x..."
             toAddressCanInput = true
           }else{
-            toAddressValue = currentAccount.address || ""
-            toAddressShowValue = toAddressValue
+            toAddressPlaceHolder = currentAccount.address || ""
+            toAddressCanInput = true
+            toAddressCanInputDefaultValue = currentAccount.address
           }
         }
         
         sendAction = WALLET_SEND_RUNTIME_DEPOSIT
 
-        confirmTitle = getLanguage('depositInfo')
-        confirmToAddressTitle = getLanguage('depositToAddress')
+
+        pageTitle = getLanguage('send')  
+        toAddressTitle=getLanguage('toAddress')
+        confirmTitle = getLanguage('sendDetail')
+        confirmToAddressTitle = getLanguage('toAddress')
+        break
+      case SEND_PAGE_TYPE_RUNTIME_WITHDRAW:
+        maxCanUseAmount = 0 
+        if(runtimeId){
+
+          if(runtimeType === RUNTIME_ACCOUNT_TYPE.EVM){
+            toAddressPlaceHolder = "oasis..."
+            toAddressCanInput = true
+            sendAction = WALLET_SEND_RUNTIME_EVM_WITHDRAW
+          }else{
+            toAddressPlaceHolder = currentAccount.address || ""
+            toAddressCanInput = true
+            toAddressCanInputDefaultValue = currentAccount.address
+            sendAction = WALLET_SEND_RUNTIME_WITHDRAW
+          }
+        }
+
+        pageTitle = getLanguage('send')  
+        toAddressTitle=getLanguage('toAddress')
+        confirmTitle = getLanguage('sendDetail')
+        confirmToAddressTitle = getLanguage('toAddress')
+
+        isWithdraw = true
         break
       case SEND_PAGE_TYPE_STAKE:
         pageTitle = getLanguage('AddEscrow')
@@ -183,7 +209,10 @@ class SendPage extends React.Component {
       confirmTitle,
       confirmToAddressTitle,
       sendAction,
-      currentAllowance
+      currentAllowance,
+      runtimeDecimals,
+      isWithdraw,
+      toAddressCanInputDefaultValue
     }
   }
    
@@ -197,12 +226,42 @@ class SendPage extends React.Component {
     }
   }
   async componentDidMount() {
-    this.fetchData()
+    let { isWithdraw } = this.pageConfig
     this.netConfigAction()
+    if(isWithdraw){
+      await this.fetchParatimeData()
+    }else{
+      await this.fetchData()
+    }
   }
-  fetchData = async () => {
+  fetchParatimeData= async(isSilent)=>{
     if (this.isRequest) {
       return
+    }
+    this.isRequest = true
+    if(!isSilent){
+      Loading.show()
+    }
+    let { currentAccount } = this.props
+    let { runtimeId,runtimeDecimals } = this.pageConfig
+    let address = currentAccount.address
+    let amount = await getRuntimeBalance(address,runtimeId,runtimeDecimals)
+    if(isNumber(amount)){
+      this.callSetState({
+        maxWithdrawAmount:amount
+      })
+    }
+    this.isRequest = false
+    if(!isSilent){
+      Loading.hide()
+    }
+  }
+  fetchData = async (isSilent) => {
+    if (this.isRequest) {
+      return
+    }
+    if(!isSilent){
+      Loading.show()
     }
     this.isRequest = true
     let { currentAccount } = this.props
@@ -217,16 +276,25 @@ class SendPage extends React.Component {
     if (account.address) {
       this.props.updateNetAccount(account)
     }
+    if(!isSilent){
+      Loading.hide()
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.refreshAccountCommon && !this.isRequest) {
-      let address = this.props.currentAccount.address
-      this.fetchData(address)
+      let { isWithdraw } = this.pageConfig
+      if(isWithdraw){
+        this.fetchParatimeData(true)
+      }else{
+        this.fetchData(true)
+      }
     }
   }
   setBtnStatus = () => {
-    if (this.state.toAddress.length > 0
+    const {toAddressCanInputDefaultValue} = this.pageConfig
+    let toAddress = this.state.toAddress || toAddressCanInputDefaultValue
+    if (toAddress.length > 0
       && this.state.amount.length > 0) {
       this.callSetState({
         btnClick: true
@@ -407,11 +475,13 @@ class SendPage extends React.Component {
     )
   }
   checkBalanceEnough=(amount,payFee)=>{
-    const { maxCanUseAmount } = this.pageConfig
+    const { maxCanUseAmount,isWithdraw } = this.pageConfig
+    let maxAmount = isWithdraw ? this.state.maxWithdrawAmount:maxCanUseAmount
+  
     let checkStatus = true
     let inputAmount = new BigNumber(amount).plus(payFee).toNumber()
     
-    if(BigNumber(inputAmount).gt(maxCanUseAmount)){
+    if(BigNumber(inputAmount).gt(maxAmount)){
       Toast.info(getLanguage('canUseNotEnough'))
       checkStatus = false
       return 
@@ -427,16 +497,16 @@ class SendPage extends React.Component {
   }
   onConfirm = async () => {
     let { currentAccount } = this.props
-    const { toAddressCanInput,runtimeType } = this.pageConfig
+    const { toAddressCanInput,runtimeType,isWithdraw,toAddressCanInputDefaultValue } = this.pageConfig
     if (currentAccount.type === ACCOUNT_TYPE.WALLET_OBSERVE) {
       Toast.info(getLanguage('observeAccountTip'))
       return
     }
-    if(toAddressCanInput){
-      let toAddress = trimSpace(this.state.toAddress)
+    let toAddress = trimSpace(this.state.toAddress) || toAddressCanInputDefaultValue
 
-      if(runtimeType ===RUNTIME_ACCOUNT_TYPE.EVM){
-        if(!ethAddressValid(toAddress)){
+    if(toAddressCanInput){
+      if(runtimeType ===RUNTIME_ACCOUNT_TYPE.EVM && !isWithdraw){
+        if(!evmAddressValid(toAddress)){
           Toast.info(getLanguage('sendAddressError'))
           return
         }
@@ -521,7 +591,7 @@ class SendPage extends React.Component {
     }
   }
   clickNextStep = async () => {
-    const { toAddressCanInput,toAddressValue,sendAction,runtimeId,runtimeType,currentAllowance } = this.pageConfig
+    const { toAddressCanInput,toAddressValue,sendAction,runtimeId,runtimeType,currentAllowance,toAddressCanInputDefaultValue } = this.pageConfig
     let currentAccount = this.props.currentAccount
     let accountInfo = this.props.accountInfo
 
@@ -530,7 +600,7 @@ class SendPage extends React.Component {
     amount = toNonExponential(amount)
     let toAddress = ""
     if(toAddressCanInput){
-      toAddress = trimSpace(this.state.toAddress)
+      toAddress = trimSpace(this.state.toAddress)||toAddressCanInputDefaultValue
     } else {
       toAddress = toAddressValue
     }
@@ -544,14 +614,30 @@ class SendPage extends React.Component {
     if(runtimeType === RUNTIME_ACCOUNT_TYPE.EVM){
       depositAddress = trimSpace(this.state.toAddress)
     }else if(runtimeType === RUNTIME_ACCOUNT_TYPE.OASIS){
-      depositAddress = toAddressValue
+      depositAddress = toAddress
     }
 
-    let allowance = currentAllowance
+    let allowance = currentAllowance 
+    
     let payload = {
-      fromAddress, toAddress, amount, nonce, feeAmount, feeGas, currentAccount,shares,
-      runtimeId,runtimeType,depositAddress,allowance
+      fromAddress,toAddress,amount,feeAmount,feeGas,currentAccount
     }
+
+    if(this.state.stakeType !== SEND_PAGE_TYPE_RUNTIME_WITHDRAW){
+      payload.nonce = nonce
+    }
+    if(this.state.stakeType === SEND_PAGE_TYPE_RECLAIM){ 
+      payload.shares = shares
+    }
+    if(this.state.stakeType === SEND_PAGE_TYPE_RUNTIME_DEPOSIT){
+      payload.depositAddress = depositAddress
+      payload.allowance = allowance
+    }
+
+    if(runtimeId){
+      payload.runtimeId = runtimeId
+    }
+   
     Loading.show()
 
     this.modal.current.setModalVisible(false)
@@ -611,7 +697,7 @@ class SendPage extends React.Component {
     )
   }
   renderConfirmView = () => {
-    const {confirmTitle,confirmToAddressTitle,runtimeId} = this.pageConfig
+    const {confirmTitle,confirmToAddressTitle,runtimeId,toAddressCanInputDefaultValue} = this.pageConfig
     let accountInfo = this.props.accountInfo
     let netNonce = isNumber(accountInfo.nonce) ? accountInfo.nonce : ""
     let nonce = this.state.nonce ? this.state.nonce : netNonce
@@ -628,11 +714,12 @@ class SendPage extends React.Component {
     }
 
     let currentSymbol = this.props.netConfig.currentSymbol
+    let toAddressShow = this.state.toAddress || toAddressCanInputDefaultValue
     return (
       <div className={"confirm-modal-container"}>
         <div className={"test-modal-title-container"}><p className={"test-modal-title"}>{title}</p></div>
         {this.renderConfirmItem(getLanguage('amount'), this.state.amount + " " + currentSymbol, true)}
-        {this.renderConfirmItem(toTitle, this.state.toAddress)}
+        {this.renderConfirmItem(toTitle, toAddressShow)}
         {this.renderConfirmItem(getLanguage('fromAddress'), this.state.fromAddress)}
         {this.renderConfirmItem(getLanguage('fee'), feeAmount + " " + currentSymbol)}
         {!runtimeId && isNumber(nonce) && this.renderConfirmItem("Nonce", nonce)}
@@ -699,8 +786,14 @@ class SendPage extends React.Component {
     })
   }
   renderSendAmount = () => {
-    const { maxCanUseAmount,isReclaim } = this.pageConfig
-    let amount = getDisplayAmount(maxCanUseAmount)
+    const { maxCanUseAmount,isReclaim,isWithdraw } = this.pageConfig
+    let { maxWithdrawAmount } = this.state
+    let amount = 0
+    if(isWithdraw){
+      amount = getDisplayAmount(maxWithdrawAmount)
+    }else{
+      amount = getDisplayAmount(maxCanUseAmount)
+    }
     let amountTitle = getLanguage('amount')
 
     let bottomText = ""
@@ -741,7 +834,7 @@ class SendPage extends React.Component {
   }
   renderMyIcon = () => {
     let { currentAccount } = this.props
-    let address = currentAccount.address
+    let address = currentAccount.evmAddress ||currentAccount.address
     return (
       <AccountIcon
         address={address}

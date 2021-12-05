@@ -202,7 +202,7 @@ class SignTransaction extends React.Component {
   }
   renderMyIcon = () => {
     let { currentAccount } = this.state;
-    let address = currentAccount.address;
+    let address = currentAccount.evmAddress ||currentAccount.address
     if (!address) {
       return (<div />)
     }

@@ -172,7 +172,7 @@
     "stakeNodeName":"Validator Name",
     "stakeAmount":"Delegate Amount",
     "reclaimAmount":"Debond Amount",
-    "canUseAmount":"Available Balance",
+    "canUseAmount":"Available",
     "canReclaimShares":"Available Shares",
     "myStaking":"My Delegations",
     "validators":"Validators",
@@ -263,11 +263,23 @@
     "deleteTag":"delete",
     "resetWallet":"Reset Wallet",
 
-    "paratime":"Paratime",
+    "paratime":"Paratimes",
     "sendIn":"Deposit",
     "noRuntime":"No Runtime Found",
     "depositTitle":"Deposit",
     "depositToAddress":"Deposit To",
     "depositInfo":"Deposit Info",
-    "ledgerNotSupportTip":"Ledger account is not supported"
+    "ledgerNotSupportTip":"Ledger account is not supported",
+
+    "importOasisKey":"Oasis Private Key",
+    "importOEvmKey":"Ethereum-compatible Private Key",
+    "evmAccount":"Ethereum-compatible Account",
+    "oasisAccount":"Oasis Account",
+    "evmAddress":"Ethereum-compatible Address",
+    "toParatime":"To ParaTime",
+    "toConsensus":"To Consensus",
+
+    "withdrawTitle":"Withdraw",
+    "withdrawToAddress":"Withdraw Address",
+    "withdrawInfo":"Withdraw Info"
 }

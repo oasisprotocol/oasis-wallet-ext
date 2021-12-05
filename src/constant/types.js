@@ -90,6 +90,11 @@ export const WALLET_SEND_RECLAIM_TRANSACTION = "WALLET_SEND_RECLAIM_TRANSACTION"
 export const WALLET_SEND_RUNTIME_WITHDRAW = "WALLET_SEND_RUNTIME_WITHDRAW"
 
 /**
+ * runtime withdraw transfer token from evm runtime to consensus
+ */
+export const WALLET_SEND_RUNTIME_EVM_WITHDRAW = "WALLET_SEND_RUNTIME_EVM_WITHDRAW"
+
+/**
  *  runtime deposit transfer token from consensus to runtime
  */
 export const WALLET_SEND_RUNTIME_DEPOSIT = "WALLET_SEND_RUNTIME_DEPOSIT"

@@ -66,9 +66,9 @@ export function addressValid(address) {
 }
 
 /**
- * Verify eth address
+ * Verify evm address
  * @param {*} address
  */
-export function ethAddressValid(address){
+export function evmAddressValid(address){
   return isAddress(address)
 }

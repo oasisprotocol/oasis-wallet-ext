@@ -15,11 +15,17 @@ export default class Tabs extends React.Component {
       })
     }
   }
-  detailClickHandler(index) {
+  detailClickHandler=(index,disable)=>{
+    if(disable){
+      return
+    }
     let { onChangeIndex } = this.props
     onChangeIndex(index)
   }
-  check_title_index = (index) => {
+  check_title_index = (index,disable) => {
+    if(disable){
+      return "tab_title home-disable"
+    }
     return this.state.currentIndex === index ? "tab_title home-active click-cursor" : "tab_title home-inactive click-cursor";
   };
   check_item_index = (index) => {
@@ -30,6 +36,9 @@ export default class Tabs extends React.Component {
       <div>
         <ul className="tab_content_wrap">
           {React.Children.map(this.props.children, (ele, index) => {
+            if(ele.disable){
+              return <></>
+            }
             let key = ele.props.label
             return (
               <li key={key} className={this.check_item_index(index)}>
@@ -42,12 +51,17 @@ export default class Tabs extends React.Component {
           {React.Children.map(this.props.children, (ele, index) => {
             let commonSource = ele.props.commonSource
             let activeSource = ele.props.activeSource
-            let imgSource = this.state.currentIndex === index ? activeSource : commonSource
+            let disableSource = ele.props.disableSource
+            let disable = ele.props.disable
+
+            let imgSource = disable ? disableSource :this.state.currentIndex === index ? activeSource : commonSource
             return (
               <li
                 key={index + ""}
-                className={this.check_title_index(index)}
-                onClick={this.detailClickHandler.bind(this, index)}>
+                className={this.check_title_index(index,disable)}
+                onClick={()=>
+                   this.detailClickHandler(index,disable)
+                  }>
                 <img className="home-tab-img" src={imgSource}></img>
                 {ele.props.label}
               </li>

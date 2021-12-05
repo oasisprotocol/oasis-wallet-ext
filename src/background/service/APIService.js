@@ -12,11 +12,12 @@ import { FROM_BACK_TO_RECORD, SET_LOCK, TX_SUCCESS } from '../../constant/types'
 import { ACCOUNT_TYPE, TRANSACTION_TYPE } from "../../constant/walletType";
 import { getLanguage } from '../../i18n';
 import { openTab } from "../../utils/commonMsg";
-import { amountDecimals, getExplorerUrl, getRuntimeConfig, hex2uint, publicKeyToAddress, toNonExponential, trimSpace, uint2hex } from '../../utils/utils';
+import { amountDecimals, getEvmBech32Address, getExplorerUrl, getRuntimeConfig, hex2uint, publicKeyToAddress, toNonExponential, trimSpace, uint2hex } from '../../utils/utils';
 import { getRuntimeTxStatus, getSubmitStatus } from '../api';
-import { buildRuntimeTxBody, buildTxBody, getChainContext, submitTx } from '../api/txHelper';
+import { buildParatimeTxBody, buildTxBody, getChainContext, submitTx } from '../api/txHelper';
 import { get, removeValue, save } from '../storage/storageService';
 
+const EthUtils = require('ethereumjs-util');
 const ObservableStore = require('obs-store')
 const encryptUtils = require('@metamask/browser-passworder')
 const RETRY_TIME = 4
@@ -184,22 +185,29 @@ class APIService {
     }
     accountSort = (accountList, isDapp = false) => {
         let newList = accountList
-        let createList = newList.filter((item, index) => {
+        let commonList = []
+        let createList = newList.filter((item) => {
             return item.type === ACCOUNT_TYPE.WALLET_INSIDE
         })
-        let importList = newList.filter((item, index) => {
+        let importList = newList.filter((item) => {
             return item.type === ACCOUNT_TYPE.WALLET_OUTSIDE
         })
-        let ledgerList = newList.filter((item, index) => {
+        let ledgerList = newList.filter((item) => {
             return item.type === ACCOUNT_TYPE.WALLET_LEDGER
         })
+        commonList = [...createList, ...importList, ...ledgerList]
         if (isDapp) {
-            return [...createList, ...importList, ...ledgerList]
+            return {commonList}
         }
-        let observeList = newList.filter((item, index) => {
+        let observeList = newList.filter((item) => {
             return item.type === ACCOUNT_TYPE.WALLET_OBSERVE
         })
-        return [...createList, ...importList, ...ledgerList, ...observeList]
+        let evmAccountList = newList.filter((item) => {
+            return item.type === ACCOUNT_TYPE.WALLET_OUTSIDE_SECP256K1
+        })
+        commonList = [...commonList, ...observeList]
+        let evmList = evmAccountList
+        return {commonList,evmList}
     }
     importWalletByMnemonicHDkey = async (mnemonic, index = 0) => {
         const keyPair = await oasis.hdkey.HDKey.getAccountSigner(
@@ -277,7 +285,7 @@ class APIService {
         }
     }
     /**
-     * import wallet by private key
+     * import wallet by ed25519 private key
      * @param {*} key
      * @returns
      */
@@ -295,11 +303,46 @@ class APIService {
         }
     }
     /**
+     * import wallet by secp256k1 private key
+     * @param {*} privKey 
+     * @returns 
+     */
+    importSecWalletByPrivateKey = async (priKey) => {
+        let priBuffer = Buffer.from(priKey.replace('0x', ''), 'hex');
+
+        let isValid =  EthUtils.isValidPrivate(priBuffer)
+        if(!isValid){
+            throw new Error('privateError')
+        }
+        let publicKeyBuffer =  EthUtils.privateToPublic(priBuffer)
+        let publicKeyHex =  publicKeyBuffer.toString('hex');
+        let publicKey = EthUtils.addHexPrefix(publicKeyHex);
+
+        let addressBuffer =  EthUtils.privateToAddress(priBuffer)
+        let addressHex = addressBuffer.toString('hex');
+        let address = EthUtils.addHexPrefix(addressHex);
+        let walletAddress = EthUtils.toChecksumAddress(address);
+
+        let oasisAddress = await getEvmBech32Address(walletAddress)
+        return {
+            privKey_hex: priKey,
+            publicKey,
+            address: oasisAddress,
+            evmAddress:walletAddress
+        }
+    }
+    /**
      *  import wallet by private key
      */
-    addImportAccount = async (privateKey, accountName) => {
+    addImportAccount = async (privateKey, accountName,accountType) => {
         try {
-            let wallet = await this.importWalletByPrivateKey(privateKey)
+            let wallet 
+            let currentAccountType = accountType || ACCOUNT_TYPE.WALLET_OUTSIDE
+            if(currentAccountType === ACCOUNT_TYPE.WALLET_OUTSIDE_SECP256K1){
+                wallet = await this.importSecWalletByPrivateKey(privateKey)
+            }else{
+                wallet = await this.importWalletByPrivateKey(privateKey)
+            }
             let data = this.getStore().data
             let accounts = data[0].accounts
             let error = {}
@@ -315,7 +358,7 @@ class APIService {
                 return error
             }
             let importList = accounts.filter((item, index) => {
-                return item.type === ACCOUNT_TYPE.WALLET_OUTSIDE
+                return item.type === currentAccountType
             })
             let typeIndex = ""
             if (importList.length == 0) {
@@ -325,13 +368,16 @@ class APIService {
             }
 
             let privKeyEncrypt = await this.encryptor.encrypt(this.getStore().password, wallet.privKey_hex)
-            const account = {
+            let account = {
                 address: wallet.address,
                 privateKey: privKeyEncrypt,
                 publicKey: wallet.publicKey,
-                type: ACCOUNT_TYPE.WALLET_OUTSIDE,
+                type: currentAccountType, 
                 accountName,
                 typeIndex
+            }
+            if(wallet.evmAddress){
+                account.evmAddress = wallet.evmAddress
             }
             data[0].currentAddress = account.address
             data[0].accounts.push(account)
@@ -579,6 +625,9 @@ class APIService {
             })
             let nowAccount = accounts[0]
             const privateKey = await this.encryptor.decrypt(pwd, nowAccount.privateKey)
+            if(nowAccount.type === ACCOUNT_TYPE.WALLET_OUTSIDE_SECP256K1){
+                return privateKey
+            }
             let base64PrivKey = this.hexToBase64(privateKey)
             return base64PrivKey
         } else {
@@ -648,46 +697,89 @@ class APIService {
      * @param {*} params 
      * @returns 
      */ 
-    setWithdraw = async (params) => {
-        const CONSENSUS_RT_ID = oasis.misc.fromHex(params.toAddress)
+    setWithdrawToConsensusAccount = async (params) => {
+        const CONSENSUS_RT_ID = oasis.misc.fromHex(params.runtimeId)
         const consensusWrapper = new oasisRT.consensusAccounts.Wrapper(CONSENSUS_RT_ID);
         const withdrawWrapper = consensusWrapper.callWithdraw()
-        return this.submitRuntimeBody(params, withdrawWrapper)
+        return this.submitParatimeAccountTx(params, withdrawWrapper)
     }
     /**
      * set deposit
      * @param {*} params 
      */
-    setDeposit= (params)=>{
+    setAllowanceAndDepositToParatimeAccount= (params)=>{
         return new Promise( async (resolve,reject)=>{ 
             let allowanceDifference = new BigNumber(params.amount).minus(params.allowance).toString()
             if(BigNumber(allowanceDifference).lte(0)){
-                 return await this.onBroadcastEnd(params,resolve)
+                 params.method = TRANSACTION_TYPE.StakingAllow
+                 return await this.depositToParatimeAccount(params,resolve)
             }else{ 
                 params.allowance = allowanceDifference
                 const tw = oasis.staking.allowWrapper()
                 params.method = TRANSACTION_TYPE.StakingAllow
                 params.toAddress = oasis.staking.addressToBech32(await oasis.staking.addressFromRuntimeID(oasis.misc.fromHex(params.runtimeId)))
-                let result = await this.submitTxBody(params, tw,true,(data)=>this.onBroadcastEnd(params,resolve,reject,data)).catch(err=>err)
+                let result = await this.submitTxBody(params, tw,true,(data)=>this.depositToParatimeAccount(params,resolve,reject,data)).catch(err=>err)
                 if(result&&result.error){
                     reject({error:result.error})
                 }
             }
         })
     }
-    onBroadcastEnd= async(params,resolve,reject,data)=>{
+    depositToParatimeAccount= async(params,resolve,reject,data)=>{
         if(data && data.code !== 0){
             reject(data)
             return 
         }
         const consensusWrapper = new oasisRT.consensusAccounts.Wrapper(oasis.misc.fromHex(params.runtimeId));
         const depositWrapper = consensusWrapper.callDeposit()
-        let submitRuntime = await this.submitRuntimeBody(params, depositWrapper).catch(err=>err)
+        let submitRuntime = await this.submitParatimeAccountTx(params, depositWrapper).catch(err=>err)
         resolve(submitRuntime)
     }
-    submitRuntimeBody= async(params, wrapper)=>{
+    setEvmWithdrawToConsensusAccount=(params)=>{
+        const CONSENSUS_RT_ID = oasis.misc.fromHex(params.runtimeId)
+        const consensusWrapper = new oasisRT.consensusAccounts.Wrapper(CONSENSUS_RT_ID);
+        const withdrawWrapper = consensusWrapper.callWithdraw()
+        return this.submitEvmWithdrawToConsensusAccountTx(params,withdrawWrapper)
+    }
+    submitEvmWithdrawToConsensusAccountTx=async (params,withdrawWrapper)=>{
         try {
-            let buildResult = await buildRuntimeTxBody(params,wrapper)
+            let buildResult = await buildParatimeTxBody(params,withdrawWrapper)
+            let nonce = buildResult.nonce
+            let txWrapper = buildResult.txWrapper
+            let consensusChainContext = buildResult.consensusChainContext
+
+            const privHex = await this.getCurrentPrivateKey()
+            const privU8Array = oasis.misc.fromHex(privHex);
+            const ellipticSigner = oasisRT.signatureSecp256k1.EllipticSigner.fromPrivate(
+                privU8Array,
+                'this key is not important',
+            );
+            const signer = new oasisRT.signatureSecp256k1.BlindContextSigner(ellipticSigner);
+
+            const signerInfo =({
+                address_spec: {signature: {secp256k1eth: signer.public()}},
+                nonce: nonce,
+            });
+        
+            txWrapper.setSignerInfo([signerInfo])
+            await txWrapper.sign([signer], consensusChainContext);
+
+            await submitTx(txWrapper, RETRY_TIME)
+
+            let u8Hash = await oasis.hash.hash(txWrapper.unverifiedTransaction[0])
+            let hash = oasis.misc.toHex(u8Hash)
+            let config =  getRuntimeConfig(params.runtimeId)
+            if (hash && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
+                this.createNotificationAfterRuntimeTxSucceeds(hash,params.runtimeId)
+            }
+            return {code:0}
+        } catch (error) {
+            throw error
+        }
+    }
+    submitParatimeAccountTx= async(params, wrapper)=>{
+        try {
+            let buildResult = await buildParatimeTxBody(params,wrapper)
             let nonce = buildResult.nonce
             let txWrapper = buildResult.txWrapper
             let consensusChainContext = buildResult.consensusChainContext
@@ -704,14 +796,12 @@ class APIService {
             });
             txWrapper.setSignerInfo([signerInfo]);
             await txWrapper.sign([signer], consensusChainContext);
-
             await submitTx(txWrapper, RETRY_TIME)
-        
             let u8Hash = await oasis.hash.hash(txWrapper.unverifiedTransaction[0])
             let hash = oasis.misc.toHex(u8Hash)
             let config =  getRuntimeConfig(params.runtimeId)
             if (hash && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
-                this.checkRuntimeTxStatus(hash,params.runtimeId)
+                this.createNotificationAfterRuntimeTxSucceeds(hash,params.runtimeId)
             }
             return {code:0}
         } catch (error) {
@@ -830,7 +920,7 @@ class APIService {
             }, 5000);
         })
     }
-    checkRuntimeTxStatus = (hash,runtimeId) => {
+    createNotificationAfterRuntimeTxSucceeds = (hash,runtimeId) => {
         this.fetchRuntimeTxStatus(hash,runtimeId)
     }
     fetchRuntimeTxStatus = (hash,runtimeId) => {

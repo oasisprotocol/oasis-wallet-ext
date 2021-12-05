@@ -72,7 +72,7 @@
     width: 18px;
 }
 .account-item-option {
-    width: 8px;
+    height: 12px;
 }
 .account-item-option-container {
     padding: 4px;
@@ -163,4 +163,19 @@
     background: rgba(34, 109, 255, 1);
     padding: 2px 6px;
     border-radius: 4px;
+}
+
+.descAddress{
+    margin: 4px 0px 0px;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #666666;
+}
+
+.oasisAccountTitle, .evmAccountTitle{
+    margin: 0px 15px 20px;
+    font-size: $font-size-content;
+    color: #333333;
+    letter-spacing: 0;
+    line-height: $font-size-content;
 }

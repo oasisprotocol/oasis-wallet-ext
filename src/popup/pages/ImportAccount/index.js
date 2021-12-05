@@ -48,11 +48,13 @@ class ImportAccount extends React.Component {
 
   };
   goToCreate = () => {
+    const accountType = this.props.accountType
     sendMsg({
       action: WALLET_IMPORT_HD_ACCOUNT,
       payload: {
         privateKey: this.state.privateKey.replace(/[\r\n]/g, ""),
-        accountName: this.state.accountName
+        accountName: this.state.accountName,
+        accountType:accountType
       }
     }, (account) => {
       if (account.error) {
@@ -137,7 +139,9 @@ class ImportAccount extends React.Component {
 
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  accountType:state.cache.accountType
+});
 
 function mapDispatchToProps(dispatch) {
   return {

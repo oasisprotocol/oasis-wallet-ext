@@ -18,8 +18,6 @@ export function updateNetConfigList(data) {
 
 const initState = {
     netList: [],
-    currentConfig:{},
-
 
     totalNetList:[],
     currentNetList:[],

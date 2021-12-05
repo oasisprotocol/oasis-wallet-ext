@@ -30,6 +30,10 @@ words:
 
   # SVG terms.
   - evenodd
+  - xlink
+  - linecap
+  - linejoin
+  - polyline
 
   # Cryptocurrency-related terms.
   - encryptor
