@@ -95,9 +95,7 @@ module.exports = (env, argv) => {
   };
   if (isDev) {
     config.devtool = 'cheap-module-source-map';
-    config.optimization = {
-      minimize: false,
-    };
+    config.optimization.minimize = false;
   }
   return config;
 }
