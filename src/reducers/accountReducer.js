@@ -149,28 +149,19 @@ const initState = {
 const setRuntimeName=(currentAccount,runtimeList)=>{
     let allRuntimeList = []
     let evmShowList = []
-    let isEvm = currentAccount.evmAddress
+    let isEvm = !!currentAccount.evmAddress
     for (let index = 0; index < runtimeList.length; index++) {
         let runtime = runtimeList[index];
         let runtimeConfig = getRuntimeConfig(runtime.runtimeId)
+        let isEmerald = runtimeConfig.accountType === RUNTIME_ACCOUNT_TYPE.EVM
         let config = {
             ...runtime,
             name:runtimeConfig.runtimeName,
             decimals: runtimeConfig.decimals,
             accountType:runtimeConfig.accountType,
-        }
-        let isEmerald = config.accountType === RUNTIME_ACCOUNT_TYPE.EVM
-        if(isEvm){
-            config.disableToConsensus = false
-            config.disableToParatime = true
-        }else{
-            if(isEmerald){
-                config.disableToConsensus = true
-                config.disableToParatime = false
-            }else{
-                config.disableToConsensus = false
-                config.disableToParatime = false
-            }
+            // Prevent use of non-secp256k1eth accounts on emerald.
+            disableToConsensus: !isEvm && isEmerald,
+            disableToParatime: isEvm,
         }
         allRuntimeList.push(config)
         if(isEmerald){
