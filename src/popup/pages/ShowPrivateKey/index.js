@@ -19,6 +19,7 @@ class ShowPrivateKeyPage extends React.Component {
       showSecurity:true
     };
     this.address = props.location.params?.address ?? ""
+    this.evmAddress = props.location.params?.evmAddress ?? ""
     this.isUnMounted = false;
   }
 
@@ -39,16 +40,16 @@ class ShowPrivateKeyPage extends React.Component {
       <p className="wallet-tip-description">{getLanguage('privateKeyTip_2')}</p>
     )
   }
-  copyAddress = () => {
-    copyText(this.address).then(() => {
+  copyAddress = (content) => {
+    copyText(content).then(() => {
       Toast.info(getLanguage('copySuccess'))
     })
   }
-  renderAddress = () => {
-    return (<div className={"click-cursor"} onClick={this.copyAddress}>
-      <p className="wallet-show-title">{getLanguage('walletAddress')}</p>
+  renderAddress = (title,address) => {
+    return (<div className={"click-cursor"} onClick={()=>this.copyAddress(address)}>
+      <p className="wallet-show-title">{title}</p>
       <div className={"wallet-pri-address-container"}>
-      <p className="wallet-show-address">{this.address}</p>
+      <p className="wallet-show-address">{address}</p>
       </div>
     </div>)
   }
@@ -120,8 +121,9 @@ class ShowPrivateKeyPage extends React.Component {
         title={title}
         history={this.props.history}>
         {showSecurity ? <SecurityPwd onClickCheck={this.onClickCheck} action={SEC_SHOW_PRIVATE_KEY}/>:
-        <div className="mne-show-container">
-          {this.renderAddress()}
+        <div className="private-show-container">
+          {this.renderAddress(getLanguage('walletAddress'),this.address)}
+          {this.evmAddress && this.renderAddress(getLanguage("evmAddress"),this.evmAddress)}
           {this.renderKey()}
           {this.renderCopy()}
         </div>}

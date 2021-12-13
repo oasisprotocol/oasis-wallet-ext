@@ -1,4 +1,6 @@
 import { TX_LIST_LENGTH } from "../../config";
+import { RUNTIME_ACCOUNT_TYPE } from "../constant/paratimeConfig";
+import { getRuntimeConfig } from "../utils/utils";
 import { UPDATE_NET_CONFIG_REQUEST } from "./cache";
 
 const CHANGE_ACCOUNT_TX_HISTORY = "CHANGE_ACCOUNT_TX_HISTORY"
@@ -18,7 +20,8 @@ const UPDATE_ACCOUNT_RPC_NONCE = "UPDATE_ACCOUNT_RPC_NONCE"
 
 const UPDATE_ACCOUNT_RUNTIME_LIST = "UPDATE_ACCOUNT_RUNTIME_LIST"
 
-const UPDATE_ACCOUNT_RUNTIME_NAME = "UPDATE_ACCOUNT_RUNTIME_NAME"
+
+const UPDATE_ACCOUNT_LOADING = "UPDATE_ACCOUNT_LOADING"
 
 /**
  * Update transaction records
@@ -98,13 +101,13 @@ export function updateRuntimeList(list) {
 }
 
 
-export function updateRuntimeNameList(list) {
+
+export function updateAccountLoading(isLoading){
     return {
-        type: UPDATE_ACCOUNT_RUNTIME_NAME,
-        list
+        type: UPDATE_ACCOUNT_LOADING,
+        isLoading
     };
 }
-
 const initState = {
     txList: [],
     currentAccount: {},
@@ -140,19 +143,41 @@ const initState = {
     debondList: [],
 
     runtimeList:[],
-    runtimeNameData:{},
+    evmRuntimeList:[],
 };
 
-const setRuntimeName=(runtimeList,runtimeNameData)=>{
-    let newRuntimeList = []
+const setRuntimeName=(currentAccount,runtimeList)=>{
+    let allRuntimeList = []
+    let evmShowList = []
+    let isEvm = currentAccount.evmAddress
     for (let index = 0; index < runtimeList.length; index++) {
         let runtime = runtimeList[index];
-        newRuntimeList.push({
+        let runtimeConfig = getRuntimeConfig(runtime.runtimeId)
+        let config = {
             ...runtime,
-            name:runtimeNameData[runtime.runtimeId]||runtime.name
-        })
+            name:runtimeConfig.runtimeName,
+            decimals: runtimeConfig.decimals,
+            accountType:runtimeConfig.accountType,
+        }
+        let isEmerald = config.accountType === RUNTIME_ACCOUNT_TYPE.EVM
+        if(isEvm){
+            config.disableToConsensus = false
+            config.disableToParatime = true
+        }else{
+            if(isEmerald){
+                config.disableToConsensus = true
+                config.disableToParatime = false
+            }else{
+                config.disableToConsensus = false
+                config.disableToParatime = false
+            }
+        }
+        allRuntimeList.push(config)
+        if(isEmerald){
+            evmShowList.push(config)
+        }
     }
-    return newRuntimeList
+    return {allRuntimeList,evmShowList}
 }
 
 const accountInfo = (state = initState, action) => {
@@ -236,21 +261,16 @@ const accountInfo = (state = initState, action) => {
                 nonce: action.nonce
             }
         case UPDATE_ACCOUNT_RUNTIME_LIST:
-            let runtime =  setRuntimeName(action.list,state.runtimeNameData)
+            let runtime =  setRuntimeName(state.currentAccount,action.list)
             return {
                 ...state,
-                runtimeList: runtime,
+                runtimeList: runtime.allRuntimeList,
+                evmRuntimeList :runtime.evmShowList,
             }
-        case UPDATE_ACCOUNT_RUNTIME_NAME:
-            let runtimeNameList = Array.isArray(action.list) ? action.list : []
-            let runtimeName = {}
-            runtimeNameList.map((item)=>{
-                runtimeName[item.runtimeId] = item.name
-            })
-            return{
+        case UPDATE_ACCOUNT_LOADING:
+            return {
                 ...state,
-                runtimeNameData:runtimeName,
-                runtimeList: setRuntimeName(state.runtimeList,runtimeName),
+                refreshAccountLoading: action.isLoading,
             }
         default:
             return state;

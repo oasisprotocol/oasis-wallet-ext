@@ -40,7 +40,8 @@ class ApprovePage extends React.Component {
     action: WALLET_GET_ALL_ACCOUNT,
     payload:true
   }, (account) => {
-    let list = account.accounts.map((item)=>{
+    let dappAccountLis = account.accounts.commonList
+    let list = dappAccountLis.map((item)=>{
       if(item.address === account.currentAddress){
         item.isConnected = true
       }

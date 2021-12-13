@@ -1,31 +1,44 @@
+import cx from "classnames";
 import React from "react";
 import { connect } from "react-redux";
 import loadingCommon from "../../../assets/images/loadingCommon.gif";
 import noHistory from "../../../assets/images/noHistory.png";
-import whiteArrow from "../../../assets/images/whiteArrow.svg";
-import { getRpcBalance, getRpcRuntimeList, getRuntimeNameList } from "../../../background/api";
-import { SEND_PAGE_TYPE_RUNTIME_DEPOSIT } from "../../../constant/types";
+import wallet_send from "../../../assets/images/wallet_send.png";
+import sendDisable from "../../../assets/images/wallet_send_disable.svg";
+import { getRpcBalance, getRpcRuntimeList } from "../../../background/api";
+import { SEND_PAGE_TYPE_RUNTIME_DEPOSIT, SEND_PAGE_TYPE_RUNTIME_WITHDRAW } from "../../../constant/types";
 import { ACCOUNT_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
-import { updateRuntimeList, updateRuntimeNameList } from "../../../reducers/accountReducer";
+import { updateAccountLoading, updateRuntimeList } from "../../../reducers/accountReducer";
 import { updateSendPageType } from "../../../reducers/cache";
 import { addressSlice, getRuntimeAddress } from "../../../utils/utils";
+import Button from "../../component/Button";
 import Clock from "../../component/Clock";
 import Toast from "../../component/Toast";
+import WalletBar from "../../component/WalletBar";
 import "./index.scss";
-
 class Paratime extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             refreshing: false,
-            loading: props.runtimeList.length === 0
+            loading: props.runtimeList.length === 0,
+            currentShowList: this.getShowRuntimeList()
         }
         this.isUnMounted = false;
         this.isRequest = false
     }
     async componentDidMount() {
         this.fetchData()
+    }
+
+    getShowRuntimeList = () => {
+        const { currentAccount, evmRuntimeList, runtimeList } = this.props
+        if (currentAccount.evmAddress) {
+            return evmRuntimeList
+        } else {
+            return runtimeList
+        }
     }
     componentWillUnmount() {
         this.isUnMounted = true;
@@ -36,6 +49,12 @@ class Paratime extends React.Component {
                 loading: true
             }, () => {
                 this.fetchData()
+            })
+        }
+        if (nextProps.currentAccount.type !== this.props.currentAccount.type) {
+            let list = this.getShowRuntimeList()
+            this.callSetState({
+                currentShowList: list
             })
         }
     }
@@ -70,13 +89,9 @@ class Paratime extends React.Component {
         if (this.isRequest) {
             return
         }
-        let { currentAccount } = this.props
-        let address = currentAccount.address
         this.isRequest = true
-        getRuntimeNameList().then((data) => {
-            this.props.updateRuntimeNameList(data)
-        })
-        let rpcBalance = getRpcBalance(address) 
+        const { currentAccount } = this.props
+        let rpcBalance = getRpcBalance(currentAccount.address)
         let runtimeRequestList = getRpcRuntimeList()
         Promise.all([rpcBalance, runtimeRequestList]).then(async (data) => {
             let rpcAccount = data[0]
@@ -87,9 +102,11 @@ class Paratime extends React.Component {
             this.props.updateRuntimeList(newRuntimeList)
             this.callSetState({
                 refreshing: false,
-                loading: false
+                loading: false,
+                currentShowList: this.getShowRuntimeList()
             }, () => {
                 this.isRequest = false
+                this.notifyAccountLoading()
             })
         }).catch((error) => {
             this.callSetState({
@@ -97,10 +114,17 @@ class Paratime extends React.Component {
                 loading: false
             }, () => {
                 this.isRequest = false
+                this.notifyAccountLoading()
             })
         })
     }
 
+    notifyAccountLoading = () => {
+        const { currentAccount } = this.props
+        if (currentAccount.evmAddress) {
+            this.props.updateAccountLoading(false)
+        }
+    }
     callSetState = (data, callback) => {
         if (!this.isUnMounted) {
             this.setState({
@@ -118,56 +142,91 @@ class Paratime extends React.Component {
             }
         })
     };
- 
-    onClickDeposit = (item) => {
-        let { currentAccount  } = this.props
+
+    onClickWithdraw = (item) => {
+        let { currentAccount } = this.props
         if (currentAccount.type === ACCOUNT_TYPE.WALLET_OBSERVE) {
-          Toast.info(getLanguage('ledgerNotSupportTip'))
-          return
+            Toast.info(getLanguage('ledgerNotSupportTip'))
+            return
+        }
+        this.props.updateSendPageType(SEND_PAGE_TYPE_RUNTIME_WITHDRAW)
+        this.goToPage("/send_page", {
+            runtimeId: item.runtimeId,
+            runtimeName: this.getRuntimeName(item),
+            accountType: item.accountType,
+            decimals: item.decimals
+        })
+    }
+    onClickDeposit = (item) => {
+        let { currentAccount } = this.props
+        if (currentAccount.type === ACCOUNT_TYPE.WALLET_OBSERVE) {
+            Toast.info(getLanguage('ledgerNotSupportTip'))
+            return
         }
         this.props.updateSendPageType(SEND_PAGE_TYPE_RUNTIME_DEPOSIT)
         this.goToPage("/send_page", {
             runtimeId: item.runtimeId,
-            allowance:item.allowance,
-            runtimeName:this.getRuntimeName(item)
+            allowance: item.allowance,
+            runtimeName: this.getRuntimeName(item),
+            accountType: item.accountType,
+            decimals: item.decimals
         })
     }
-    getRuntimeName=(item)=>{
+    getRuntimeName = (item) => {
         return item.name
     }
     renderRuntimeItem = (item) => {
         let runtimeName = this.getRuntimeName(item)
+        let showId = "(" + addressSlice(item.runtimeId) + ")"
+        let disableToParatime = item.disableToParatime
+        let disableToConsensus = item.disableToConsensus
         return (<div key={item.runtimeAddress} className={"runtime-item-container"}>
-            <div>
-                <p className={"runtime-content-name"}>{runtimeName}</p>
-                <span className={"runtime-content-id"}>{addressSlice(item.runtimeId)}</span>
-            </div>
-            <div className={"runtime-item-row"}>
-                <div className={"runtime-arrow-container bottom click-cursor"} onClick={() => this.onClickDeposit(item)} >
-                    <span className="baseTip tooltip-text">{getLanguage('sendIn')}</span>
-                    <img className={"runtime-arrow"} src={whiteArrow} />
-                </div>
+            <p className={"runtime-content-name"}>{runtimeName+" "}<span className={"runtime-content-id"}>{showId}</span></p>
+            <div className={"paratime-button-container"}>
+                <Button
+                    content={getLanguage('toParatime')}
+                    disabled={disableToParatime}
+                    onClick={() => this.onClickDeposit(item)}
+                    propsClass={cx("wallet-common", {
+                        "home-send-btn": !disableToParatime,
+                        "paratime-disable-btn": disableToParatime
+                    })}
+                    imgLeft={true}>
+                    <img className="wallet-button-img" src={disableToParatime ? sendDisable : wallet_send} />
+                </Button>
+
+                <Button
+                    content={getLanguage('toConsensus')}
+                    onClick={() => this.onClickWithdraw(item)}
+                    disabled={disableToConsensus}
+                    propsClass={cx("wallet-common", {
+                        "home-send-btn": !disableToConsensus,
+                        "paratime-disable-btn": disableToConsensus
+                    })}
+                    imgLeft={true}>
+                    <img className="wallet-button-img" src={disableToConsensus ? sendDisable : wallet_send} />
+                </Button>
             </div>
         </div>)
     }
     renderRuntimeList = () => {
-        const { runtimeList } = this.props
-        if (runtimeList.length === 0) {
+        const { currentShowList } = this.state
+        if (currentShowList.length === 0) {
             return (<div className={"noParatimeContainer"}>
                 <img className={"no-tx-img"} src={noHistory} />
                 <p className={"no-tx-content"}>{getLanguage('noRuntime')}</p>
             </div>)
         }
         return <div className={"runtimeListContainer"}>
-            {runtimeList.map((item) => {
+            {currentShowList.map((item) => {
                 return this.renderRuntimeItem(item)
             })}
         </div>
     }
     render() {
         return (<div className="paratime-outer-container">
-            <div className={"setting-title-container"}>
-                <p className={"tab-common-title"}>{getLanguage('paratime')}</p>
+            <div className={"home-wallet-top-container"}>
+                <WalletBar history={this.props.params.history} />
             </div>
             {this.state.loading ?
                 <div className={"home-loading-container"}>
@@ -184,6 +243,7 @@ class Paratime extends React.Component {
 
 const mapStateToProps = (state) => ({
     runtimeList: state.accountInfo.runtimeList,
+    evmRuntimeList: state.accountInfo.evmRuntimeList,
     refreshAccountLoading: state.accountInfo.refreshAccountLoading,
     currentAccount: state.accountInfo.currentAccount,
 });
@@ -196,8 +256,8 @@ function mapDispatchToProps(dispatch) {
         updateRuntimeList: (list) => {
             dispatch(updateRuntimeList(list))
         },
-        updateRuntimeNameList: (list) => {
-            dispatch(updateRuntimeNameList(list))
+        updateAccountLoading: (isLoading) => {
+            dispatch(updateAccountLoading(isLoading))
         },
     };
 }

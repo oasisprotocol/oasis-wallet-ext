@@ -4,10 +4,9 @@ import * as oasisLedger from "@oasisprotocol/client-signer-ledger";
 import BigNumber from "bignumber.js";
 import { cointypes, TEST_NET_CONTEXT } from '../../../config';
 import { TRANSACTION_TYPE } from '../../constant/walletType';
-import { amountDecimals, getEthBech32Address, getRuntimeConfig, hex2uint, toNonExponential } from '../../utils/utils';
+import { amountDecimals, getEvmBech32Address, getRuntimeConfig, hex2uint, isEvmAddress, toNonExponential } from '../../utils/utils';
 import { getOasisClient } from './request';
 import * as oasisRT from '@oasisprotocol/client-rt';
-import { RUNTIME_ACCOUNT_TYPE } from '../../constant/paratimeConfig';
 
 const RETRY_TIME = 4
 const RETRY_DELAY = 1000
@@ -279,13 +278,13 @@ function getRuntimeNonce(accountsWrapper,address,retryTime){
  * @param {*} wrapper 
  * @returns 
  */
-export async function buildRuntimeTxBody(params, wrapper) {
+export async function buildParatimeTxBody(params, wrapper) {
     const CONSENSUS_RT_ID = oasis.misc.fromHex(params.runtimeId)
     const accountsWrapper = new oasisRT.accounts.Wrapper(CONSENSUS_RT_ID);
    
     let bech32Address = await oasis.staking.addressFromBech32(params.fromAddress)
     const nonce = await getRuntimeNonce(accountsWrapper,bech32Address,RETRY_TIME)
-    
+
     let decimal 
     let runtimeConfig = getRuntimeConfig(params.runtimeId)
     if(runtimeConfig.decimals){
@@ -300,7 +299,6 @@ export async function buildRuntimeTxBody(params, wrapper) {
         oasis.quantity.fromBigInt(amount),
         oasisRT.token.NATIVE_DENOMINATION
     ]);
-
     let feeAmount  = params.feeAmount||0
     feeAmount = BigInt(feeAmount)
     const FEE_FREE =([
@@ -308,17 +306,28 @@ export async function buildRuntimeTxBody(params, wrapper) {
         oasisRT.token.NATIVE_DENOMINATION,
     ]);
     feeAmount  = FEE_FREE
-
+    // Use default if feeGas is "" or 0 (0 is illegal in send page)
     let feeGas = params.feeGas||50000
     feeGas = BigInt(feeGas)
     let consensusChainContext = await getChainContext(RETRY_TIME)
-
     let txWrapper
 
-    if(params.runtimeType === RUNTIME_ACCOUNT_TYPE.EVM){
+    let targetAddress = ""
+    if(params.method === TRANSACTION_TYPE.StakingAllow){
+        targetAddress = params.depositAddress
+    }else{
+        targetAddress = params.toAddress 
+    }
+
+    if(targetAddress){
+        let realAddress = targetAddress
+        if(isEvmAddress(targetAddress)){
+            realAddress = await getEvmBech32Address(targetAddress)
+        }
+        let uint8ArrayAddress = await oasis.staking.addressFromBech32(realAddress)
         txWrapper = wrapper.setBody({
             amount: DEPOSIT_AMOUNT,
-            to: await oasis.staking.addressFromBech32(await getEthBech32Address(params.depositAddress))
+            to: uint8ArrayAddress
         })
     }else{
         txWrapper = wrapper.setBody({
@@ -328,6 +337,5 @@ export async function buildRuntimeTxBody(params, wrapper) {
     txWrapper.setFeeAmount(feeAmount)
             .setFeeGas(feeGas)
             .setFeeConsensusMessages(1)
-
     return {txWrapper,nonce,consensusChainContext}
 }

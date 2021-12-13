@@ -21,9 +21,10 @@ class AccountManagePage extends React.Component {
     super(props);
     let address = props.currentAccount.address
     this.state = {
-      accountList: [{}, {}],
+      commonAccountList:[],
       currentAddress: address,
-      balanceList: []
+      balanceList: [],
+      evmAccountList:[]
     };
     this.isUnMounted = false;
   }
@@ -32,13 +33,15 @@ class AccountManagePage extends React.Component {
     sendMsg({
       action: WALLET_GET_ALL_ACCOUNT,
     }, (account) => {
-      this.props.updateAccountList(account.accounts)
+      let list = account.accounts
+      let allList = [...list.commonList,...list.evmList]
+      this.props.updateAccountList(allList)
       this.callSetState({
-        accountList: account.accounts,
+        commonAccountList: list.commonList,
+        evmAccountList:list.evmList,
         currentAddress: account.currentAddress
       })
     })
-
   }
   componentWillUnmount() {
     this.isUnMounted = true;
@@ -88,10 +91,13 @@ class AccountManagePage extends React.Component {
         action: WALLET_CHANGE_CURRENT_ACCOUNT,
         payload: item.address
       }, (account) => {
-        if (account.accountList && account.accountList.length > 0) {
+        let list = account.accountList
+        let allList = [...list.commonList,...list.evmList]
+        if (allList.length > 0) {
           this.props.updateCurrentAccount(account.currentAccount)
           this.callSetState({
-            accountList: account.accountList,
+            commonAccountList: list.commonList,
+            evmAccountList:list.evmList,
             currentAddress: item.address
           })
           sendMsg({
@@ -129,12 +135,12 @@ class AccountManagePage extends React.Component {
     }
     return typeText
   }
-  renderAccountItem = (item, index) => {
+  renderAccountItem = (item) => {
     const { accountBalanceList } = this.props
     let showSelect = this.state.currentAddress === item.address
     let showImport = this.getAccountType(item)
     return (<AccountItem
-      key={index + ""}
+      key={item.address}
       item={item}
       showSelect={showSelect}
       showImport={showImport}
@@ -147,8 +153,13 @@ class AccountManagePage extends React.Component {
   renderAccountList = () => {
     return (
       <div className={"account-list-container"}>
-        {this.state.accountList.map((item, index) => {
-          return this.renderAccountItem(item, index)
+        {this.state.commonAccountList.length>0 && <p className="oasisAccountTitle">{getLanguage('oasisAccount')}</p>}
+        {this.state.commonAccountList.map((item) => {
+          return this.renderAccountItem(item)
+        })}
+        {this.state.evmAccountList.length>0 && <p className="evmAccountTitle">{getLanguage('evmAccount')}</p>}
+        {this.state.evmAccountList.map((item) => {
+          return this.renderAccountItem(item)
         })}
       </div>
     )

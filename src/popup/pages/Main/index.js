@@ -4,12 +4,12 @@ import setting_active from "../../../assets/images/setting_active.png";
 import setting_common from "../../../assets/images/setting_common.png";
 import staking_active from "../../../assets/images/stake_active.png";
 import staking_common from "../../../assets/images/stake_common.png";
+import stake_disable from "../../../assets/images/stake_disable.svg";
 import home_active from "../../../assets/images/wallet_active.png";
 import home_common from "../../../assets/images/wallet_common.png";
 import paratime_active from "../../../assets/images/paratime_active.svg";
 import paratime_common from "../../../assets/images/paratime_common.svg";
 import { getLanguage } from "../../../i18n";
-import { updateCurrentAccount } from "../../../reducers/accountReducer";
 
 import { updateHomeIndex } from "../../../reducers/tabRouteReducer";
 import Tabs from "../../component/Tabs";
@@ -25,6 +25,7 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isEvm:props.currentAccount.evmAddress
     }
   }
 
@@ -36,6 +37,7 @@ class HomePage extends React.Component {
 
   render() {
     let { tabRoute } = this.props
+    const { isEvm } = this.state
     return (
       <div
         style={{
@@ -54,6 +56,8 @@ class HomePage extends React.Component {
           <div label={getLanguage('staking')}
             activeSource={staking_active}
             commonSource={staking_common}
+            disableSource={stake_disable}
+            disable={isEvm}
           >
             <Staking params={this.props} />
           </div>
@@ -85,10 +89,6 @@ function mapDispatchToProps(dispatch) {
     updateHomeIndex: (index) => {
       dispatch(updateHomeIndex(index));
     },
-    updateCurrentAccount: (account) => {
-      dispatch(updateCurrentAccount(account))
-    },
-
   };
 }
 

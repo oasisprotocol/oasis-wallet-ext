@@ -23,6 +23,7 @@ class AccountInfo extends React.Component {
   constructor(props) {
     super(props);
     let account = props.cache.accountInfo
+    let type = account.type
     this.state = {
       confirmModal: false,
       account,
@@ -30,7 +31,12 @@ class AccountInfo extends React.Component {
       inputAccountName: "",
       errorTipShow: false,
       btnClick: false,
-      showSecurity: false
+      showSecurity: false,
+      showExportPrivateKey:type === ACCOUNT_TYPE.WALLET_INSIDE || type === ACCOUNT_TYPE.WALLET_OUTSIDE || type === ACCOUNT_TYPE.WALLET_OUTSIDE_SECP256K1,
+      showDelete : type !== ACCOUNT_TYPE.WALLET_INSIDE,
+      showAddress:getPrettyAddress(account.address),
+      evmAddress:account.evmAddress
+
     };
     this.modal = React.createRef();
     this.isUnMounted = false;
@@ -48,31 +54,6 @@ class AccountInfo extends React.Component {
       })
     }
   }
-  renderInfo = (title, content, callback, hideArrow) => {
-    return (
-      <div className={cx({
-        "account-info-item": true,
-      })}
-        onClick={() => callback && callback()}>
-        <div className="account-info-item-inner click-cursor">
-          <p className="account-info-title">{title}</p>
-          {content && <p className={
-            cx({
-              "account-info-content": true,
-            })
-          }>{content}</p>}
-        </div>
-        <img className={
-          cx({
-            "account-info-arrow": true,
-            "account-info-arrow-hide": hideArrow
-          })
-
-        } src={txArrow} />
-      </div>
-    )
-  }
-
   changeAccountName = (e) => {
     this.modal.current.setModalVisible(true)
   }
@@ -84,6 +65,7 @@ class AccountInfo extends React.Component {
       pathname: "/show_privatekey_page",
       params: {
         address: this.state.account.address,
+        evmAddress :this.state.account.evmAddress,
       }
     }
     )
@@ -177,8 +159,8 @@ class AccountInfo extends React.Component {
       </div>
     </TestModal>)
   }
-  copyAddress = () => {
-    copyText(this.state.account.address).then(() => {
+  copyAddress = (address) => {
+    copyText(address).then(() => {
       Toast.info(getLanguage('copySuccess'))
     })
   }
@@ -203,8 +185,8 @@ class AccountInfo extends React.Component {
     )
   }
   renderExportPrivateKey = () => {
-    let showPrivateKey = this.state.account.type === ACCOUNT_TYPE.WALLET_INSIDE || this.state.account.type === ACCOUNT_TYPE.WALLET_OUTSIDE
-    if (!showPrivateKey) {
+    const { showExportPrivateKey } = this.state
+    if (!showExportPrivateKey) {
       return (<></>)
     }
     return (<div className={"account-info-export click-cursor"} onClick={this.showPrivateKey}>
@@ -254,9 +236,7 @@ class AccountInfo extends React.Component {
       })
   }
   render() {
-    const { showSecurity } = this.state
-    let showDelete = this.state.account.type !== ACCOUNT_TYPE.WALLET_INSIDE
-    let showAddress = getPrettyAddress(this.state.account.address)
+    const { showSecurity,showDelete,showAddress,evmAddress } = this.state
     let title = showSecurity ? getLanguage('securityPassword') : getLanguage('accountInfo')
     return (
       <CustomView
@@ -265,7 +245,8 @@ class AccountInfo extends React.Component {
         {showSecurity ? <SecurityPwd onClickCheck={this.onClickCheck} action={SEC_DELETE_ACCOUNT} /> :
           <>
             <div className="account-info-container">
-              {this.renderCommonShowItem(getLanguage("accountAddress"), showAddress, this.copyAddress)}
+              {this.renderCommonShowItem(getLanguage("accountAddress"), showAddress, ()=>this.copyAddress(this.state.account.address))}
+              {evmAddress && this.renderCommonShowItem(getLanguage("evmAddress"), evmAddress, ()=>this.copyAddress(evmAddress))}
               {this.renderCommonShowItem(getLanguage("accountName"), this.state.account.accountName, this.changeAccountName, true)}
 
               {this.renderExportPrivateKey()}

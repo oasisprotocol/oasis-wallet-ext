@@ -1875,10 +1875,10 @@
   dependencies:
     "@oasisprotocol/client" "^0.1.0-alpha5"
 
-"@oasisprotocol/client-rt@0.2.0-alpha8":
-  version "0.2.0-alpha8"
-  resolved "https://registry.yarnpkg.com/@oasisprotocol/client-rt/-/client-rt-0.2.0-alpha8.tgz#af3af3b48c6a8ee7afab4783338f22fdd912c9ff"
-  integrity sha512-8Nqt7ElzGlbJ/bDekR0PhEjZTqPqJdbt6TMP82dXNEHzM+zG7KUPhNc9FVx9A2DQt4DmbDts/qn174DlLzRPrg==
+"@oasisprotocol/client-rt@0.2.0-alpha10":
+  version "0.2.0-alpha10"
+  resolved "https://registry.npmmirror.com/@oasisprotocol/client-rt/download/@oasisprotocol/client-rt-0.2.0-alpha10.tgz#72092a4676ecb2517fd0c64065def410868da1b1"
+  integrity sha512-Rl2UnqH4gehoZcfobUjzd96eDVRhWPuPBA5ewF6n9Q0jASUVvRd0d+HlvJFGn+6rcm5IwLLr33049OzCLG5YtA==
   dependencies:
     "@oasisprotocol/client" "^0.1.0-alpha7"
     elliptic "^6.5.3"
@@ -5758,7 +5758,7 @@ ethereum-cryptography@^0.1.3:
     secp256k1 "^4.0.1"
     setimmediate "^1.0.5"
 
-ethereumjs-util@^7.1.0:
+ethereumjs-util@7.1.3, ethereumjs-util@^7.1.0:
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/ethereumjs-util/-/ethereumjs-util-7.1.3.tgz#b55d7b64dde3e3e45749e4c41288238edec32d23"
   integrity sha512-y+82tEbyASO0K0X1/SRhbJJoAlfcvq8JbrG4a5cjrOks7HS/36efU/0j2flxCPOUM++HFahk33kr/ZxyC4vNuw==

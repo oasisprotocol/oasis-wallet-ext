@@ -6,8 +6,9 @@ export const ACCOUNT_TYPE = {
   WALLET_OUTSIDE: "WALLET_OUTSIDE",
   WALLET_LEDGER: "WALLET_LEDGER",
   WALLET_OBSERVE: "WALLET_OBSERVE",
-};
 
+  WALLET_OUTSIDE_SECP256K1: "WALLET_OUTSIDE_SECP256K1",
+};
 /**
  * type on the account management page
  */

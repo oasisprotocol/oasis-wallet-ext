@@ -100,10 +100,11 @@ export function setWelcomeNextRoute(nextRoute) {
  * @param {*} fromType
  * @returns
  */
-export function updateAccountType(fromType) {
+export function updateAccountType(fromType,accountType) {
     return {
         type: UPDATE_ACCOUNT_TYPE_FROM,
-        fromType
+        fromType,
+        accountType
     };
 }
 
@@ -249,6 +250,7 @@ export function updateDAppOpenWindow(dappWindow) {
 
 const initState = {
     fromType: '',
+    accountType:"",
     accountInfo: {},
     welcomeNextRoute: "",
 
@@ -300,6 +302,7 @@ const cacheReducer = (state = initState, action) => {
             return {
                 ...state,
                 fromType: action.fromType,
+                accountType: action.accountType||"",
             }
         case UPDATE_VALIDATOR_LIST:
             let validatorList = action.validatorList || []

@@ -31,7 +31,7 @@ import {
   DAPP_ACCOUNT_CONNECT_SITE,
   DAPP_DELETE_ACCOUNT_CONNECT_HIS,
   DAPP_CHANGE_CONNECTING_ADDRESS, DAPP_GET_CURRENT_OPEN_WINDOW, GET_APP_LOCK_STATUS,
-  FRAME_GET_APPROVE_ACCOUNT, FRAME_GET_ACCOUNT_PUBLIC_KEY, FRAME_GET_ACCOUNT_SIGNER, FRAME_SEND_TRANSFER, RESET_WALLET, WALLET_SEND_RUNTIME_WITHDRAW, WALLET_SEND_RUNTIME_DEPOSIT
+  FRAME_GET_APPROVE_ACCOUNT, FRAME_GET_ACCOUNT_PUBLIC_KEY, FRAME_GET_ACCOUNT_SIGNER, FRAME_SEND_TRANSFER, RESET_WALLET, WALLET_SEND_RUNTIME_WITHDRAW, WALLET_SEND_RUNTIME_DEPOSIT, WALLET_SEND_RUNTIME_EVM_WITHDRAW
 } from "../constant/types";
 import extension from 'extensionizer'
 import apiService from "./service/APIService";
@@ -74,7 +74,7 @@ function internalMessageListener(message, sender, sendResponse) {
       })
       break;
     case WALLET_IMPORT_HD_ACCOUNT:
-      apiService.addImportAccount(payload.privateKey, payload.accountName).then((account) => {
+      apiService.addImportAccount(payload.privateKey, payload.accountName,payload.accountType).then((account) => {
         sendResponse(account);
       })
       break;
@@ -133,14 +133,21 @@ function internalMessageListener(message, sender, sendResponse) {
       })
       break;
     case WALLET_SEND_RUNTIME_WITHDRAW:
-      apiService.setWithdraw(payload).then((result) => {
+      apiService.setWithdrawToConsensusAccount(payload).then((result) => {
         sendResponse(result);
       }).catch((err) => {
         sendResponse(err);
       })
       break;
+    case WALLET_SEND_RUNTIME_EVM_WITHDRAW:
+      apiService.setEvmWithdrawToConsensusAccount(payload).then((result) => {
+        sendResponse(result);
+      }).catch((err) => {
+        sendResponse(err);
+      })
+      break
     case WALLET_SEND_RUNTIME_DEPOSIT:
-      apiService.setDeposit(payload).then((result) => {
+      apiService.setAllowanceAndDepositToParatimeAccount(payload).then((result) => {
         sendResponse(result);
       }).catch((error) => {
         sendResponse(error);

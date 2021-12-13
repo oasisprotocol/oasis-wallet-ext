@@ -8,7 +8,7 @@
 }
 
 .wallet-show-title {
-    margin: 0;
+    margin: 10px 0 0;
 
     font-size: $font-size-content;
     font-weight: 400;
@@ -67,4 +67,10 @@
     border: 1px solid #BFC7DF;
     padding: 6px 15px;
     margin-top: 10px;
+}
+
+.private-show-container {
+    padding: 0px 27px;
+    position: relative;
+    flex-direction: column;
 }

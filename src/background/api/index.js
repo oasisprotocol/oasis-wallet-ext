@@ -1,7 +1,8 @@
 import * as oasis from '@oasisprotocol/client';
-import { TX_LIST_LENGTH } from "../../../config";
-import { amountDecimals } from '../../utils/utils';
+import { cointypes, TX_LIST_LENGTH } from "../../../config";
+import { amountDecimals, isNumber } from '../../utils/utils';
 import { commonFetch, getOasisClient } from "./request";
+import * as oasisRT from '@oasisprotocol/client-rt';
 const MAX_LENGTH = 500
 /**
  * get account balance
@@ -130,19 +131,6 @@ export async function getRpcRuntimeList(){
 }
 
 /**
- * get runtimeList
- */
-export async function getRuntimeNameList(){
-  let url = "/runtime/list"
-  let runtimeList = await commonFetch(url).catch(() => { })
-  if (runtimeList && runtimeList.code === 0) {
-    return runtimeList?.data?.list || []
-  } else {
-    return []
-  }
-}
-
-/**
  * get runtime tx status
  * @param {*} txHash
  * @returns
@@ -186,4 +174,38 @@ export async function getRuntimeNameList(){
   }
   let nonce = account?.general?.nonce || 0
   return { balance, nonce,allowanceList }
+}
+
+/**
+ * get runtime balance and allowance
+ * @param {*} address 
+ * @param {*} runtimeId 
+ * @returns 
+ */
+ export async function getRuntimeBalance(address,runtimeId,propDecimals){ 
+  const oasisClient = getOasisClient()
+  const CONSENSUS_RT_ID = oasis.misc.fromHex(runtimeId)
+  const accountsWrapper = new oasisRT.accounts.Wrapper(CONSENSUS_RT_ID);
+  const balancesResult = await accountsWrapper
+      .queryBalances()
+      .setArgs({
+          address: await oasis.staking.addressFromBech32(address),
+      })
+      .query(oasisClient).catch(err=>{return err});
+  let nativeDenominationBalanceBI = 0n;
+  if(balancesResult.balances){
+    const nativeDenominationHex = oasis.misc.toHex(oasisRT.token.NATIVE_DENOMINATION);
+    for (const [denomination, amount] of balancesResult.balances) {
+        const denominationHex = oasis.misc.toHex(denomination);
+        if (denominationHex === nativeDenominationHex) {
+            nativeDenominationBalanceBI = oasis.quantity.toBigInt(amount);
+            break;
+        }
+    }
+  }
+  let decimals = cointypes.decimals
+  if(isNumber(propDecimals)){
+    decimals = propDecimals
+  }
+  return amountDecimals(nativeDenominationBalanceBI.toString(),decimals)
 }

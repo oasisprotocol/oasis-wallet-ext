@@ -34,7 +34,6 @@ export default class Select extends Component {
 
   onChange = item => {
     this.setState({
-      value: item.value,
       isOpen: false
     });
     this.props.onChange(item);

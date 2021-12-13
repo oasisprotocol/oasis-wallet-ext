@@ -8,69 +8,29 @@
         position: relative;
         background: #feffff;
         border-radius: 10px;
-        padding: 16px 12px;
+        padding: 10px 12px 20px;
         margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
 
-        
-        .runtime-item-row {
-            display: flex;
-            align-items: center;
-        }
         .runtime-content-name {
             margin: 0px 0px 6px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #2c3451;
-
+            font-size: 16px;
+            line-height: 24px;
+            color: #2C3451;
             max-width: 80%;
-            word-break: break-all;
         }
         .runtime-content-id {
-            font-size: 10px;
+            font-size: 14px;
+            line-height: 20px;
             font-weight: normal;
             color: #7080b5;
         }
-        .runtime-arrow-container {
-            border-radius: 4px;
-            text-align: center;
-        }
-        .bottom {
-            background: #0ac7ff;
-            width: 20px;
-            height: 20px;
+        .paratime-button-container {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-            &:hover {
-                background: rgba(10, 199, 255, 0.6);
-            }
-        }
-        .runtime-arrow {
-            width: 12px;
-        }
-        .baseTip {
-            visibility: hidden;
-            background-color: black;
-            color: #fff;
-            text-align: center;
-            padding: 5px 5px;
-            border-radius: 6px;
-            position: absolute;
-            z-index: 1;
-            width: 70px;
-        }
-
-        .bottom .tooltip-text {
-            transform: translate(0%);
-            top: -6px;
-        }
-        .bottom:hover .tooltip-text {
-            visibility: visible;
-        }
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: 10px;
+          }
+          
     }
     .noParatimeContainer {
         margin-top: 120px;

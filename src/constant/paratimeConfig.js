@@ -11,7 +11,16 @@ export const RUNTIME_ACCOUNT_TYPE = {
  */
 const emerald_config = {
     runtimeName:"Emerald",
-    runtimeId:"00000000000000000000000000000000000000000000000072c8215e60d5bca7",
+    runtimeIdList:[
+        {
+            type:"TEST",
+            runtimeId:"00000000000000000000000000000000000000000000000072c8215e60d5bca7"
+        },
+        {
+            type:"MAIN",
+            runtimeId:"000000000000000000000000000000000000000000000000e2eaa99fc008f87f"
+        },
+    ],
     decimals: 18,
     accountType:RUNTIME_ACCOUNT_TYPE.EVM,
 }
@@ -20,7 +29,16 @@ const emerald_config = {
  */
 const cipher_config = {
     runtimeName:"Cipher",
-    runtimeId:"0000000000000000000000000000000000000000000000000000000000000000",
+    runtimeIdList:[
+        {
+            type:"TEST",
+            runtimeId:"0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+            type:"MAIN",
+            runtimeId:"000000000000000000000000000000000000000000000000e199119c992377cb"
+        },
+    ],
     decimals: 9,
     accountType:RUNTIME_ACCOUNT_TYPE.OASIS,
 }
