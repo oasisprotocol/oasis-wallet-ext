@@ -73,6 +73,11 @@ module.exports = (env, argv) => {
         },
       ],
     },
+    resolve: {
+      alias: {
+        '@protobufjs/inquire': path.resolve(__dirname, "./src/errata/inquire"),
+      },
+    },
     plugins: getPlugins(isDev),
     performance: getPerformance(),
     node: {
