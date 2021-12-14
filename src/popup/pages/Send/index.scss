@@ -147,6 +147,7 @@ p {
   display: flex;
   flex-direction: row;
   align-items: center;
+  white-space: pre
 }
 .send-amount-desc {
   font-size: $font-size-desc;
