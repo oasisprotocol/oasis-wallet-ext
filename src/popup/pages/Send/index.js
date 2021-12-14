@@ -661,8 +661,9 @@ class SendPage extends React.Component {
       }, 100);
     }else{
       let errMessage =
-        data?.error?.metadata?.['grpc-message'] ||
         data?.message ||
+        data?.error?.message ||
+        data?.error?.metadata?.['grpc-message'] ||
         getLanguage('postFailed')
       Toast.info(errMessage)
     }
@@ -683,8 +684,9 @@ class SendPage extends React.Component {
       })
     } else {
       let errMessage =
-        data?.error?.metadata?.['grpc-message'] ||
         data?.message ||
+        data?.error?.message ||
+        data?.error?.metadata?.['grpc-message'] ||
         getLanguage('postFailed')
       Toast.info(errMessage)
       return
