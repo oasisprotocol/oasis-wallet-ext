@@ -48,3 +48,7 @@ export const PARATIME_CONFIG=[
     emerald_config,
     cipher_config
 ]
+
+const allRuntimeIdsInParatimes = PARATIME_CONFIG.flatMap(paratime => paratime.runtimeIdList.map(runtime => runtime.runtimeId))
+const areRuntimeIdsUnique = new Set(allRuntimeIdsInParatimes).size !== allRuntimeIdsInParatimes.length
+if (areRuntimeIdsUnique) throw new Error('Runtime IDs are not unique across paratimes. getRuntimeConfig will break.')
