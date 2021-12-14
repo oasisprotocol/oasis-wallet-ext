@@ -47,9 +47,10 @@ class LockPage extends React.Component {
     }
     goToConfirm = async () => {
         const { onClickUnLock } = this.props
+        let pwd = this.state.password.trim()
         sendMsg({
             action: WALLET_APP_SUBMIT_PWD,
-            payload: this.state.password
+            payload: pwd
         },
             (account) => {
                 if (account.error) {
@@ -72,7 +73,6 @@ class LockPage extends React.Component {
 
     onPwdInput = (e) => {
         let value = e.target.value
-        value = value.trim()
         this.callSetState({
             password: value
         }, () => {
