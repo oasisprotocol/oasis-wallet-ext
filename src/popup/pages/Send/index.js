@@ -661,7 +661,6 @@ class SendPage extends React.Component {
       }, 100);
     }else{
       let errMessage =
-        data?.metadata?.['grpc-message'] ||
         data?.error?.metadata?.['grpc-message'] ||
         data?.message ||
         getLanguage('postFailed')
@@ -684,7 +683,6 @@ class SendPage extends React.Component {
       })
     } else {
       let errMessage =
-        data?.metadata?.['grpc-message'] ||
         data?.error?.metadata?.['grpc-message'] ||
         data?.message ||
         getLanguage('postFailed')

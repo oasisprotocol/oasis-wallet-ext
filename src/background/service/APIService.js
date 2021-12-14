@@ -774,7 +774,7 @@ class APIService {
             }
             return {code:0}
         } catch (error) {
-            throw error
+            throw {error}
         }
     }
     submitParatimeAccountTx= async(params, wrapper)=>{
@@ -805,7 +805,7 @@ class APIService {
             }
             return {code:0}
         } catch (error) {
-            throw error
+            throw {error}
         }
     }
 
