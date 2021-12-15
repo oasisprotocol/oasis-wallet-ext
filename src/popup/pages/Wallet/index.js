@@ -512,12 +512,28 @@ class Wallet extends React.Component {
     if (item.showExplorer) {
       return this.renderListExplorer(index)
     }
-    let isReceive = true
+    let isReceive
     let showAddress = item.to
-    if (item.method === TRANSACTION_TYPE.Transfer) {
-      isReceive = item.to.toLowerCase() === this.props.currentAccount.address.toLowerCase()
-    } else if (item.method === TRANSACTION_TYPE.AddEscrow) {
-      isReceive = false
+    switch (item.method) {
+      case TRANSACTION_TYPE.Transfer:
+        if (item.to.toLowerCase() === this.props.currentAccount.address.toLowerCase()) {
+          isReceive = true
+          // TODO: do we want to change showAddress to item.from?
+        } else {
+          isReceive = false
+        }
+        break
+      case TRANSACTION_TYPE.AddEscrow:
+        isReceive = false
+        break
+      case TRANSACTION_TYPE.ReclaimEscrow:
+        isReceive = true
+        break
+      default:
+        // For other transaction types that don't affect the balance (e.g. Allow), we're not
+        // showing them in this abbreviated list. Users can still, however, view them on a block
+        // explorer such as OASISSCAN.
+        return <></>
     }
     showAddress = addressSlice(showAddress, 8)
     let amount = item.amount
