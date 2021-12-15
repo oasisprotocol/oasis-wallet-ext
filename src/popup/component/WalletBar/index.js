@@ -23,6 +23,11 @@ class WalletBar extends React.Component {
     componentWillUnmount() {
         this.isUnMounted = true;
     }
+    componentWillReceiveProps(nextProps) {
+        this.callSetState({
+            netConfigList: this.netConfigAction(nextProps.netConfig.currentNetList)
+        })
+    }
     callSetState = (data, callback) => {
         if (!this.isUnMounted) {
             this.setState({
@@ -54,11 +59,7 @@ class WalletBar extends React.Component {
         saveLocal(NETWORK_CONFIG, JSON.stringify(config))
         this.props.updateNetConfigList(config)
         this.props.updateNetConfigRequest(true)
-
-        this.callSetState({
-            netConfigList:this.netConfigAction(currentList)
-        })
-    };
+    }
 
     netConfigAction = (netList) => {
         let currentNetList = netList ? netList:this.props.netConfig.currentNetList
