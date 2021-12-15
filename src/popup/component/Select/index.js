@@ -6,7 +6,7 @@ import "./index.scss";
 export default class Select extends Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: false, value: "" };
+    this.state = { isOpen: false };
     this.toggleContainer = React.createRef();
   }
   componentDidMount() {
@@ -39,7 +39,7 @@ export default class Select extends Component {
     this.props.onChange(item);
   };
   render() {
-    const { isOpen, value } = this.state;
+    const { isOpen } = this.state;
     const { label, options, defaultValue } = this.props;
     const { selfInputProps, selectArrowProps, optionsProps, itemProps } = this.props;
     return (
@@ -56,7 +56,7 @@ export default class Select extends Component {
               [selfInputProps]: !!selfInputProps
             })}>
             <p className={"self-input-item"}>
-              {value || defaultValue}
+              {defaultValue}
             </p>
           </div>
           <img
