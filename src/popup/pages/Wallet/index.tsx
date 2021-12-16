@@ -1,7 +1,7 @@
 import cx from "classnames";
 import React from "react";
 import { connect } from "react-redux";
-import loadingCommon from "../../../assets/images/loadingCommon.gif";
+import loadingCommon from "url:../../../assets/images/loadingCommon.gif";
 import noHistory from "../../../assets/images/noHistory.png";
 import refreshIcon from "../../../assets/images/refresh.svg";
 import txCommonType from "../../../assets/images/txCommonType.svg";

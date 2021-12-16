@@ -4,7 +4,7 @@ import React from "react";
 import { buildStyles, CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { connect } from "react-redux";
-import loadingCommon from "../../../assets/images/loadingCommon.gif";
+import loadingCommon from "url:../../../assets/images/loadingCommon.gif";
 import node_stake_icon from "../../../assets/images/node_stake_icon.png";
 import walletLogo from "../../../assets/images/transparentLogo.png";
 import { getNodeStakeInfo } from "../../../background/api";

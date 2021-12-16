@@ -31,3 +31,4 @@ __pycache__/
 
 # Ignore build releases.
 oasis-wallet-*.zip
+.parcel-cache

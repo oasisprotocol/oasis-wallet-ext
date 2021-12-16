@@ -4,7 +4,7 @@ import React from "react";
 import { connect } from "react-redux";
 import ledgerWallet from "../../../assets/images/ledger_logo.png";
 import ledger_title from "../../../assets/images/ledger_title.png";
-import loadingCommon from "../../../assets/images/loadingCommon.gif";
+import loadingCommon from "url:../../../assets/images/loadingCommon.gif";
 import { WALLET_IMPORT_LEDGER } from "../../../constant/types";
 import { getLanguage } from "../../../i18n";
 import { updateCurrentAccount } from "../../../reducers/accountReducer";

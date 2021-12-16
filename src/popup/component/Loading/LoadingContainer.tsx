@@ -1,6 +1,6 @@
 import cx from "classnames";
 import React, { Component } from "react";
-import loadingCommon from "../../../assets/images/loadingCommon.gif";
+import loadingCommon from "url:../../../assets/images/loadingCommon.gif";
 import "./index.scss";
 
 

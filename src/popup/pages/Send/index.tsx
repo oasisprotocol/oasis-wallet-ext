@@ -4,7 +4,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { cointypes, network_config } from "../../../../config";
 import address_book from "../../../assets/images/address_book.png";
-import loadingCommon from "../../../assets/images/loadingCommon.gif";
+import loadingCommon from "url:../../../assets/images/loadingCommon.gif";
 import record_arrow from "../../../assets/images/record_arrow.png";
 import { getBalance, getRpcNonce, getRuntimeBalance } from "../../../background/api";
 import { saveLocal } from "../../../background/storage/localStorage";

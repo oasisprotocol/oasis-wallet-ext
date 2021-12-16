@@ -1,7 +1,7 @@
 import cx from "classnames";
 import React from "react";
 import { connect } from "react-redux";
-import loadingCommon from "../../../assets/images/loadingCommon.gif";
+import loadingCommon from "url:../../../assets/images/loadingCommon.gif";
 import noHistory from "../../../assets/images/noHistory.png";
 import wallet_send from "../../../assets/images/wallet_send.png";
 import sendDisable from "../../../assets/images/wallet_send_disable.svg";

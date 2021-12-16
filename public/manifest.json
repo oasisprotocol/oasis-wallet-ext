@@ -6,26 +6,26 @@
   "version": "0.1.0",
   "default_locale": "en",
   "icons": {
-    "16": "img/oasis.png",
-    "19": "img/oasis.png",
-    "32": "img/oasis.png",
-    "38": "img/oasis.png",
-    "64": "img/oasis.png",
-    "128": "img/oasis.png",
-    "512": "img/oasis.png"
+    "16": "static/img/oasis.png",
+    "19": "static/img/oasis.png",
+    "32": "static/img/oasis.png",
+    "38": "static/img/oasis.png",
+    "64": "static/img/oasis.png",
+    "128": "static/img/oasis.png",
+    "512": "static/img/oasis.png"
 	},
   "browser_action": {
     "default_icon": {
-      "16": "img/oasis.png",
-      "19": "img/oasis.png",
-      "32": "img/oasis.png",
-      "38": "img/oasis.png",
-      "64": "img/oasis.png",
-      "128": "img/oasis.png",
-      "512": "img/oasis.png"
+      "16": "static/img/oasis.png",
+      "19": "static/img/oasis.png",
+      "32": "static/img/oasis.png",
+      "38": "static/img/oasis.png",
+      "64": "static/img/oasis.png",
+      "128": "static/img/oasis.png",
+      "512": "static/img/oasis.png"
 		},
     "default_title": "Oasis Wallet",
-    "default_popup": "popup.html"
+    "default_popup": "static/popup.html"
   },
   "permissions": [
     "storage",
@@ -34,7 +34,7 @@
   ],
   "content_security_policy": "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.oasisscan.com https://www.oasisscan.com https://testnet.oasisscan.com https://grpc-mainnet.oasisscan.com https://grpc.oasis.dev https://grpc-testnet.oasisscan.com https://testnet.grpc.oasis.dev; frame-ancestors 'self' https: http://localhost:* http://127.0.0.1:*; img-src 'self' data: https: http://localhost:* http://127.0.0.1:*; base-uri 'self'; manifest-src 'self';",
   "background": {
-    "scripts": ["common.js", "background.js"],
+    "scripts": ["../src/background/index.ts"],
     "persistent": true
   },
   "web_accessible_resources": [

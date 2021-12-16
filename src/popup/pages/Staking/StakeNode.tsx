@@ -9,7 +9,7 @@ import { updateCurrentNodeDetail, updateCurrentValidatorList, updateValidatorLis
 import { addressSlice } from "../../../utils/utils";
 import Clock from "../../component/Clock";
 import "./index.scss";
-import loadingCommon from "../../../assets/images/loadingCommon.gif";
+import loadingCommon from "url:../../../assets/images/loadingCommon.gif";
 import noHistory from "../../../assets/images/noHistory.png";
 class StakeNode extends React.Component {
   constructor(props) {
