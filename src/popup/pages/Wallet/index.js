@@ -518,7 +518,9 @@ class Wallet extends React.Component {
       case TRANSACTION_TYPE.Transfer:
         if (item.to.toLowerCase() === this.props.currentAccount.address.toLowerCase()) {
           isReceive = true
-          // TODO: do we want to change showAddress to item.from?
+          // For transactions we receive, show the sender's address instead of our own.
+          // Our own address is shown nearby already.
+          showAddress = item.from
         } else {
           isReceive = false
         }
