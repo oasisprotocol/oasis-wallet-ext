@@ -363,7 +363,7 @@ class SendPage extends React.Component {
     let params = this.props?.location?.params || {}
     let runtimeName = params.runtimeName
     let runtimeId = params.runtimeId
-    return(<p className={"runtimeName"}>{runtimeName}<span className={"runtimeId"}>{"("+addressSlice(runtimeId,6)+")"}</span></p>)
+    return(<p className={"runtimeName"}>{runtimeName}<span className={"runtimeId"}>{" ("+addressSlice(runtimeId,6)+")"}</span></p>)
   }
   onAmountInput = (e) => {
     let amount = e.target.value;
