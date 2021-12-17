@@ -5,13 +5,13 @@ import loadingCommon from "../../../assets/images/loadingCommon.gif";
 import noHistory from "../../../assets/images/noHistory.png";
 import wallet_send from "../../../assets/images/wallet_send.png";
 import sendDisable from "../../../assets/images/wallet_send_disable.svg";
-import { getRpcBalance, getRpcRuntimeList } from "../../../background/api";
+import { getRpcBalance, getRpcRuntimeList, getRuntimeBalanceRaw } from "../../../background/api";
 import { SEND_PAGE_TYPE_RUNTIME_DEPOSIT, SEND_PAGE_TYPE_RUNTIME_WITHDRAW } from "../../../constant/types";
 import { ACCOUNT_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { updateAccountLoading, updateRuntimeList } from "../../../reducers/accountReducer";
 import { updateSendPageType } from "../../../reducers/cache";
-import { addressSlice, getRuntimeAddress } from "../../../utils/utils";
+import { addressSlice, amountDecimals, getRuntimeAddress } from "../../../utils/utils";
 import Button from "../../component/Button";
 import Clock from "../../component/Clock";
 import Toast from "../../component/Toast";
@@ -76,10 +76,18 @@ class Paratime extends React.Component {
             const runtime = runtimeList[index];
             let runtimeAddress = await getRuntimeAddress(runtime.runtimeId)
             let allowance = this.getRuntimeAllowance(allowanceList, runtimeAddress)
+            let balanceInfo
+            try {
+                balanceInfo = {asString: (await getRuntimeBalanceRaw(this.props.currentAccount.address, runtime.runtimeId)).toString()}
+            } catch (error) {
+                console.error(error)
+                balanceInfo = {error: error.message}
+            }
             newRuntimeList.push({
                 ...runtime,
                 runtimeAddress,
-                allowance
+                allowance,
+                balanceInfo
             })
         }
         return newRuntimeList
@@ -180,6 +188,12 @@ class Paratime extends React.Component {
         let disableToConsensus = item.disableToConsensus
         return (<div key={item.runtimeAddress} className={"runtime-item-container"}>
             <p className={"runtime-content-name"}>{runtimeName+" "}<span className={"runtime-content-id"}>{showId}</span></p>
+            {disableToConsensus ||
+                <p className={"runtime-info-container"}>
+                    <span className={"runtime-info-title"}>{getLanguage('availableBalance')}{' '}</span>
+                    <span className={"runtime-info-content"}>{item.balanceInfo.error ? getLanguage('nodeError') : amountDecimals(item.balanceInfo.asString, item.decimals)}</span>
+                </p>
+            }
             <div className={"paratime-button-container"}>
                 <Button
                     content={getLanguage('toParatime')}

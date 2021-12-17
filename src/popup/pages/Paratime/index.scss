@@ -24,6 +24,13 @@
             font-weight: normal;
             color: #7080b5;
         }
+        .runtime-info-container {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            width: 100%;
+            color: #2c3451;
+        }
         .paratime-button-container {
             display: flex;
             flex-direction: row;
