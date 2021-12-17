@@ -150,7 +150,7 @@ export async function getRpcRuntimeList(){
  * @param {*} address
  * @returns
  */
- export async function getRpcBalance(address) {
+export async function getRpcBalance(address) {
   const oasisClient = getOasisClient()
   let shortKey = await oasis.staking.addressFromBech32(address)
   let height = oasis.consensus.HEIGHT_LATEST
@@ -177,12 +177,12 @@ export async function getRpcRuntimeList(){
 }
 
 /**
- * get runtime balance and allowance
- * @param {*} address 
- * @param {*} runtimeId 
- * @returns 
+ * get runtime balance as a bigint
+ * @param {string} address in bech32
+ * @param {string} runtimeId in hex
+ * @returns native denomination balance
  */
- export async function getRuntimeBalance(address,runtimeId,propDecimals){ 
+export async function getRuntimeBalanceRaw(address, runtimeId) {
   const oasisClient = getOasisClient()
   const CONSENSUS_RT_ID = oasis.misc.fromHex(runtimeId)
   const accountsWrapper = new oasisRT.accounts.Wrapper(CONSENSUS_RT_ID);
@@ -203,6 +203,17 @@ export async function getRpcRuntimeList(){
         }
     }
   }
+  return nativeDenominationBalanceBI;
+}
+
+/**
+ * get runtime balance and allowance
+ * @param {*} address 
+ * @param {*} runtimeId 
+ * @returns 
+ */
+ export async function getRuntimeBalance(address,runtimeId,propDecimals){
+  const nativeDenominationBalanceBI = await getRuntimeBalanceRaw(address, runtimeId)
   let decimals = cointypes.decimals
   if(isNumber(propDecimals)){
     decimals = propDecimals
