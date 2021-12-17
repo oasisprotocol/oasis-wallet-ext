@@ -84,8 +84,8 @@ class Record extends React.Component {
       <div className="record-detail-container">
         {!!method && this.renderDetailItem(getLanguage('txType'), method)}
         {this.renderDetailItem(getLanguage('amount'), amount + " " + symbol)}
-        {this.renderDetailItem(getLanguage('toAddress'), receive)}
         {this.renderDetailItem(getLanguage('fromAddress'), senderAddress)}
+        {this.renderDetailItem(getLanguage('toAddress'), receive)}
         {this.renderDetailItem(getLanguage('fee'), this.state.txDetail.fee + " " + symbol)}
         {isNumber(this.state.txDetail.nonce) && this.renderDetailItem("Nonce", String(this.state.txDetail.nonce))}
         {!!timestamp && this.renderDetailItem(getLanguage('recordTime'), time)}
