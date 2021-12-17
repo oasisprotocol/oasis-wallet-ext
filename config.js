@@ -27,7 +27,7 @@ export const LOCK_TIME = 5 * 60
 /**
  * Extension's version.
  */
-export const VERSION_CONFIG = "0.1.0"
+export const VERSION_CONFIG = "1.0.0"
 
 /**
  * Default language.
