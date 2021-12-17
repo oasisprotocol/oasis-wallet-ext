@@ -93,22 +93,12 @@ class Paratime extends React.Component {
         const { currentAccount } = this.props
         let rpcBalance = getRpcBalance(currentAccount.address)
         let runtimeRequestList = getRpcRuntimeList()
-        Promise.all([rpcBalance, runtimeRequestList]).then(async (data) => {
-            let rpcAccount = data[0]
+        try {
+            const [rpcAccount, runtimeList] = await Promise.all([rpcBalance, runtimeRequestList])
             let allowanceList = rpcAccount.allowanceList
-
-            let runtimeList = data[1]
             let newRuntimeList = await this.getRuntimeDetail(runtimeList, allowanceList)
             this.props.updateRuntimeList(newRuntimeList)
-            this.callSetState({
-                refreshing: false,
-                loading: false,
-                currentShowList: this.getShowRuntimeList()
-            }, () => {
-                this.isRequest = false
-                this.notifyAccountLoading()
-            })
-        }).catch((error) => {
+        } catch (error) {
             this.callSetState({
                 refreshing: false,
                 loading: false
@@ -116,6 +106,14 @@ class Paratime extends React.Component {
                 this.isRequest = false
                 this.notifyAccountLoading()
             })
+        }
+        this.callSetState({
+            refreshing: false,
+            loading: false,
+            currentShowList: this.getShowRuntimeList()
+        }, () => {
+            this.isRequest = false
+            this.notifyAccountLoading()
         })
     }
 
