@@ -727,8 +727,8 @@ class SendPage extends React.Component {
       <div className={"confirm-modal-container"}>
         <div className={"test-modal-title-container"}><p className={"test-modal-title"}>{title}</p></div>
         {this.renderConfirmItem(getLanguage('amount'), this.state.amount + " " + currentSymbol, true)}
-        {this.renderConfirmItem(toTitle, toAddressShow)}
         {this.renderConfirmItem(getLanguage('fromAddress'), this.state.fromAddress)}
+        {this.renderConfirmItem(toTitle, toAddressShow)}
         {this.renderConfirmItem(getLanguage('fee'), feeAmount + " " + currentSymbol)}
         {!runtimeId && isNumber(nonce) && this.renderConfirmItem("Nonce", nonce)}
         {this.renderConfirmButton()}
