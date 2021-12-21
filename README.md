@@ -99,7 +99,7 @@ yarn test
 yarn buildProd
 ```
 
-## Preparing a Release
+## Preparing a Production Release Build
 
 ```sh
 VERSION=<VERSION>
@@ -108,6 +108,9 @@ yarn install --frozen-lockfile
 yarn buildProd
 zip -r oasis-wallet-$VERSION-$(git rev-parse --short HEAD).zip dist/
 ```
+
+If you're actually making a new release, follow the applicable steps in the
+[release process doc](docs/release-process.md)
 
 ## LICENSE
 
