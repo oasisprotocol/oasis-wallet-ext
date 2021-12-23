@@ -13,7 +13,6 @@ If no changes are needed, 1.0.1 becomes the first public release of 1.0.
 ## Set the New Version Throughout
 You must update:
 
-- `config.js`
 - `package.json`
 - `public/manifest.json`
 

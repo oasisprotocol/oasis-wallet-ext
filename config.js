@@ -7,6 +7,8 @@
 
 import { NET_CONFIG_DEFAULT, NET_CONFIG_TYPE_MAIN, NET_CONFIG_TYPE_TEST } from "./src/constant/types"
 
+import { version } from './package.json'
+
 /**
  * Token definitions.
  */
@@ -27,7 +29,7 @@ export const LOCK_TIME = 5 * 60
 /**
  * Extension's version.
  */
-export const VERSION_CONFIG = "1.0.0"
+export const VERSION_CONFIG = version
 
 /**
  * Default language.
