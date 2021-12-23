@@ -50,8 +50,7 @@
     "redux": "4.0.5",
     "safe-buffer": "5.2.1",
     "tweetnacl": "1.0.3",
-    "valid-url": "1.0.9",
-    "web3-utils": "1.6.0"
+    "valid-url": "1.0.9"
   },
   "eslintConfig": {
     "extends": [
@@ -77,18 +76,9 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "7.12.1",
-    "@babel/plugin-transform-react-jsx": "7.12.12",
-    "@babel/plugin-transform-runtime": "7.12.1",
-    "@babel/preset-env": "7.12.7",
-    "@babel/preset-react": "7.12.7",
-    "@babel/runtime": "7.12.5",
     "@parcel/config-webextension": "^2.0.1",
     "@parcel/transformer-sass": "^2.0.1",
     "assert": "2.0.0",
-    "babel-loader": "8.1.0",
-    "babel-plugin-import": "1.13.3",
-    "babel-plugin-transform-runtime": "6.23.0",
     "copy-webpack-plugin": "6.3.2",
     "crypto": "1.0.1",
     "cspell": "^5.9.0",
@@ -98,10 +88,6 @@
     "jsdom-global": "1.7.0",
     "parcel": "^2.0.1",
     "polyfill-crypto.getrandomvalues": "1.0.0",
-    "react-scripts": "4.0.1",
-    "sinon": "^11.1.1",
-    "url-loader": "4.1.1",
-    "webpack": "4.44.2",
-    "webpack-cli": "4.2.0"
+    "sinon": "^11.1.1"
   }
 }

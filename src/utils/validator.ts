@@ -1,6 +1,6 @@
 import { bech32 } from 'bech32'
-import { isAddress } from "web3-utils"
-
+// import { isAddress } from "web3-utils"
+const isAddress = () => { throw("YSZ") }
 export const matchList = [
   {
     text: ('atLeastOneNumber'),
