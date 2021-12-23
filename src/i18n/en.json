@@ -22,7 +22,7 @@
     "backup_success": "Congrats! You've created a wallet successfully! ",
     "backup_success_restore": "Congrats! You've restored a wallet successfully! ",
     "backup_success_title": "Successful",
-    "inputSeed": "Please enter 12 seed words in order, with each word separated by a space.",
+    "inputSeed": "Please enter 12 or 24 seed words in order, with each word separated by a space.",
     "inputValidSeed": "Please enter a valid mnemonic phrase",
     "seedLengthError": "The length of mnemonic phrase does not match",
     "confirm": "Confirm",
