@@ -8,6 +8,12 @@
 import { NET_CONFIG_DEFAULT, NET_CONFIG_TYPE_MAIN, NET_CONFIG_TYPE_TEST } from "./src/constant/types"
 
 /**
+ * Fix unsafe-eval CSP violation with regenerator
+ * https://stephencharlesweiss.com/unsafe-eval-regenerator-runtime
+ */
+globalThis.regeneratorRuntime = undefined;
+
+/**
  * Token definitions.
  */
 export const cointypes = {
