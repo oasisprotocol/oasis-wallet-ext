@@ -1,5 +1,12 @@
 # Change Log
 
+## Unreleased changes
+
+Little things:
+
+- The transaction review page now shows the "From" line before the "To" line.
+- The recovery page instructions now indicate that you can enter a 24-word mnemonic.
+
 ## 1.0.0
 
 Spotlight change:
