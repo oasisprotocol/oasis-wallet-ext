@@ -76,7 +76,7 @@ class AccountItem extends Component {
                             "account-item-type-observe": item.type === ACCOUNT_TYPE.WALLET_OBSERVE,
                         })}>{showImport}</p>
                     </div>
-                    <p className={"account-item-address"}>{addressSlice(item.address)}</p>
+                    {!item.evmAddress && <p className={"account-item-address"}>{addressSlice(item.address)}</p>}
                     {item.evmAddress ?<p className={'account-item-address descAddress'}>{addressSlice(item.evmAddress)}</p>: <p className={"account-item-address account-item-balance"}>{showBalance}</p>}
                 </div>
                 <div className={"account-item-right"}>

@@ -6,6 +6,7 @@ Little things:
 
 - The transaction review page now shows the "From" line before the "To" line.
 - The recovery page instructions now indicate that you can enter a 24-word mnemonic.
+- We no longer show the `oasis1...` address for Ethereum-compatible accounts.
 
 ## 1.0.0
 

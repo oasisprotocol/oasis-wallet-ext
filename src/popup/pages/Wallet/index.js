@@ -452,7 +452,7 @@ class Wallet extends React.Component {
         <div className={"account-container-top"}>
           <div>
             {this.renderAccountName()}
-            <p className="account-address click-cursor" onClick={()=>this.onClickAddress(currentAccount.address)}>{addressSlice(currentAccount.address)}</p>
+            {!currentAccount.evmAddress && <p className="account-address click-cursor" onClick={()=>this.onClickAddress(currentAccount.address)}>{addressSlice(currentAccount.address)}</p>}
             {currentAccount.evmAddress && <p className={"account-evm-address click-cursor"} onClick={()=>this.onClickAddress(currentAccount.evmAddress)}>{addressSlice(currentAccount.evmAddress)}</p>}
           </div>
           <div className={'account-container-top-right'}>

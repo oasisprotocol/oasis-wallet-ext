@@ -245,7 +245,7 @@ class AccountInfo extends React.Component {
         {showSecurity ? <SecurityPwd onClickCheck={this.onClickCheck} action={SEC_DELETE_ACCOUNT} /> :
           <>
             <div className="account-info-container">
-              {this.renderCommonShowItem(getLanguage("accountAddress"), showAddress, ()=>this.copyAddress(this.state.account.address))}
+              {!evmAddress && this.renderCommonShowItem(getLanguage("accountAddress"), showAddress, ()=>this.copyAddress(this.state.account.address))}
               {evmAddress && this.renderCommonShowItem(getLanguage("evmAddress"), evmAddress, ()=>this.copyAddress(evmAddress))}
               {this.renderCommonShowItem(getLanguage("accountName"), this.state.account.accountName, this.changeAccountName, true)}
 
