@@ -32,7 +32,7 @@
 }
 
 .wallet-info {
-    width: 351px;
+    width: $app-width - 24px;
     background: #ffffff;
     border-radius: 10px;
 

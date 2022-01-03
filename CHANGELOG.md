@@ -8,6 +8,7 @@ Little things:
 - The recovery page instructions now indicate that you can enter a 24-word mnemonic.
 - We no longer show the `oasis1...` address for Ethereum-compatible accounts.
 - Creating new wallets now generates 24-word mnemonic.
+- Popup is now wider.
 
 ## 1.0.0
 
