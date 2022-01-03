@@ -9,7 +9,7 @@ import txReceive from "../../../assets/images/txReceive.svg";
 import txSend from "../../../assets/images/txSend.svg";
 import wallet_receive from "../../../assets/images/wallet_receive.png";
 import wallet_send from "../../../assets/images/wallet_send.png";
-import { getBalance, getRpcNonce, getTransactionList } from "../../../background/api";
+import { getBalance, getRpcNonce, getRuntimeTransactionList, getTransactionList } from "../../../background/api";
 import { DAPP_ACCOUNT_CONNECT_SITE, DAPP_CHANGE_CONNECTING_ADDRESS, DAPP_DISCONNECT_SITE, DAPP_GET_ALL_APPROVE_ACCOUNT, SEND_PAGE_TYPE_SEND, WALLET_CHANGE_CURRENT_ACCOUNT, WALLET_SEND_RUNTIME_EVM_WITHDRAW } from "../../../constant/types";
 import { ACCOUNT_TYPE, TRANSACTION_TYPE } from '../../../constant/walletType';
 import { getLanguage } from "../../../i18n";
@@ -17,7 +17,7 @@ import { updateAccountTx, updateCurrentAccount, updateNetAccount, updateRpcNonce
 import { setAccountInfo, updateDappConnectList, updateNetConfigRequest, updateSendPageType } from "../../../reducers/cache";
 import { updateNetConfigList } from "../../../reducers/network";
 import { openTab, sendMsg } from '../../../utils/commonMsg';
-import { addressSlice, connectAccountDataFilter, copyText, getExplorerUrl, isNumber } from "../../../utils/utils";
+import { addressSlice, connectAccountDataFilter, copyText, getExplorerUrl, isNumber, mergeTxLists } from "../../../utils/utils";
 import Button from "../../component/Button";
 import Clock from "../../component/Clock";
 import TestModal from "../../component/TestModal";
@@ -112,15 +112,17 @@ class Wallet extends React.Component {
 
     let balanceRequest = getBalance(address)
     let txRequest = getTransactionList(address)
-    await Promise.all([balanceRequest, txRequest]).then((data) => {
+    let rtTxRequest = getRuntimeTransactionList(address)
+    await Promise.all([balanceRequest, txRequest, rtTxRequest]).then((data) => {
       let account = data[0]
       let txList = data[1]
+      let rtTxList = data[2]
       if (account.error) {
         Toast.info(getLanguage('nodeError'))
       } else if (account && account.address) {
         this.props.updateNetAccount(account)
       }
-      this.props.updateAccountTx(txList.list)
+      this.props.updateAccountTx(mergeTxLists([txList.list, rtTxList.list]))
       this.isRequest = false
     })
     getRpcNonce(address).then((nonce) => {
@@ -483,19 +485,32 @@ class Wallet extends React.Component {
     return txCommonType
   }
   onClickItem = (item) => {
-    this.props.params.history.push({
-      pathname: "/record_page",
-      params: {
-        txDetail: item
-      }
-    })
+    if (item.runtimeId) {
+      // We don't have a viewer for runtime transactions yet.
+      // Directly open the block explorer page in this case.
+      let url = getExplorerUrl() + "paratimes/transactions/" + item.txHash + "?runtime=" + item.runtimeId
+      openTab(url)
+    } else {
+      this.props.params.history.push({
+        pathname: "/record_page",
+        params: {
+          txDetail: item
+        }
+      })
+    }
   }
   getStatusColor = (item) => {
     let className = "tx-pending-title"
-    if (item.status) {
-      className = "tx-success-title"
+    if (item.runtimeId) {
+      if (item.result) {
+        className = "tx-success-title"
+      }
     } else {
-      className = "tx-failed-title"
+      if (item.status) {
+        className = "tx-success-title"
+      } else {
+        className = "tx-failed-title"
+      }
     }
     return className
   }
@@ -513,48 +528,62 @@ class Wallet extends React.Component {
       return this.renderListExplorer(index)
     }
     let isReceive
-    let showAddress = item.to
-    switch (item.method) {
-      case TRANSACTION_TYPE.Transfer:
-        if (item.to.toLowerCase() === this.props.currentAccount.address.toLowerCase()) {
-          isReceive = true
-          // For transactions we receive, show the sender's address instead of our own.
-          // Our own address is shown nearby already.
-          showAddress = item.from
-        } else {
+    let topContainer
+    let statusText
+    if (item.runtimeId) {
+      // Runtime transactions don't include a method name. Show them all for now.
+      isReceive = false
+      topContainer =
+        <div className={"tx-top-container"}>
+          <p className="tx-item-address">{item.runtimeName}</p>
+        </div>
+      statusText = item.result ? getLanguage('backup_success_title') : getLanguage('txPending')
+    } else {
+      let showAddress = item.to
+      switch (item.method) {
+        case TRANSACTION_TYPE.Transfer:
+          if (item.to.toLowerCase() === this.props.currentAccount.address.toLowerCase()) {
+            isReceive = true
+            // For transactions we receive, show the sender's address instead of our own.
+            // Our own address is shown nearby already.
+            showAddress = item.from
+          } else {
+            isReceive = false
+          }
+          break
+        case TRANSACTION_TYPE.AddEscrow:
           isReceive = false
-        }
-        break
-      case TRANSACTION_TYPE.AddEscrow:
-        isReceive = false
-        break
-      case TRANSACTION_TYPE.ReclaimEscrow:
-        isReceive = true
-        break
-      default:
-        // For other transaction types that don't affect the balance (e.g. Allow), we're not
-        // showing them in this abbreviated list. Users can still, however, view them on a block
-        // explorer such as OASISSCAN.
-        return <></>
+          break
+        case TRANSACTION_TYPE.ReclaimEscrow:
+          isReceive = true
+          break
+        default:
+          // For other transaction types that don't affect the balance (e.g. Allow), we're not
+          // showing them in this abbreviated list. Users can still, however, view them on a block
+          // explorer such as OASISSCAN.
+          return <></>
+      }
+      showAddress = addressSlice(showAddress, 8)
+      let amount = item.amount
+      amount = isReceive ? "+" + amount : "-" + amount
+      topContainer =
+        <div className={"tx-top-container"}>
+          <p className="tx-item-address">{showAddress}</p>
+          <p className={cx({
+            "tx-item-amount": true,
+          })}>{amount}</p>
+        </div>
+      let status = item.status
+      statusText = status ? getLanguage('backup_success_title') : getLanguage('txFailed')
     }
-    showAddress = addressSlice(showAddress, 8)
-    let amount = item.amount
-    amount = isReceive ? "+" + amount : "-" + amount
 
-    let status = item.status
-    let statusText = status ? getLanguage('backup_success_title') : getLanguage('txFailed')
     let imgSource = this.getTxSource(item.method, isReceive)
     let statusColor = this.getStatusColor(item)
     let time = new Date(parseInt(item.timestamp) * 1000).toJSON()
     return (
       <div key={index + ""} className={"tx-item-container click-cursor"} onClick={() => { this.onClickItem(item) }}>
         <div className={"tx-detail-container"}>
-          <div className={"tx-top-container"}>
-            <p className="tx-item-address">{showAddress}</p>
-            <p className={cx({
-              "tx-item-amount": true,
-            })}>{amount}</p>
-          </div>
+          {topContainer}
           <div className={'tx-bottom-container'}>
             <div className={'tx-bottom-time-container'}>
               <img className={"tx-item-type"} src={imgSource} />

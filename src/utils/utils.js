@@ -329,3 +329,10 @@ export function isEvmAddress(address){
     }
     return false
 }
+
+export function mergeTxLists(lists){
+    // It should suffice to sort by timestamp, which in honest operation will be monotonic.
+    let result = lists.flat();
+    result.sort((a, b) => b.timestamp - a.timestamp);
+    return result;
+}

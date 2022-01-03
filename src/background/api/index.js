@@ -24,12 +24,31 @@ export async function getBalance(address) {
  */
 export async function getTransactionList(address) {
   let url = "/chain/transactions?address=" + address + "&size=" + TX_LIST_LENGTH
-  let txList = await commonFetch(url).catch(() => { })
-  if (txList && txList.code === 0) {
-    return txList.data
-  } else {
+  let txList;
+  try {
+    txList = await commonFetch(url)
+  } catch(e) {
+    console.error('fetching runtime transaction list', url, e)
     return []
   }
+  return txList.data
+}
+
+/**
+ * get runtime tx list
+ * @param {*} address
+ * @returns
+ */
+export async function getRuntimeTransactionList(address) {
+  let url = "/chain/transactions?address=" + address + "&runtime=true&size=" + TX_LIST_LENGTH
+  let txList;
+  try {
+    txList = await commonFetch(url)
+  } catch(e) {
+    console.error('fetching runtime transaction list', url, e)
+    return []
+  }
+  return txList.data
 }
 
 /**
