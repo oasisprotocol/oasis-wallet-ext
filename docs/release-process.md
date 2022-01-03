@@ -18,7 +18,7 @@ You must update:
 
 ## Add a Change Log Section
 Here's the [Change Log](../CHANGELOG.md).
-If there is an "Unreleased changes" section, rename it to the new version.
+If there is an "Unreleased Changes" section, rename it to the new version.
 Do not include a "v" prefix in the heading.
 
 Add any other user-facing changes since the last release that aren't entered.
