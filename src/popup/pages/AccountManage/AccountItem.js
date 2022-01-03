@@ -60,8 +60,17 @@ class AccountItem extends Component {
     render() {
         const { item, showSelect, showImport, onClickAccount, goToAccountInfo, symbol, cacheAccount } = this.props
         let imgSource = showSelect ? select_account_ok : select_account_no
-        let showBalance = cacheAccount && cacheAccount.total || item.balance || this.state.balance
-        showBalance = showBalance + " " + symbol
+        let addressInfo
+        if (item.evmAddress) {
+            addressInfo = <p className={'account-item-address descAddress'}>{addressSlice(item.evmAddress)}</p>
+        } else {
+            let showBalance = cacheAccount && cacheAccount.total || item.balance || this.state.balance
+            showBalance = showBalance + " " + symbol
+            addressInfo = <>
+                <p className={"account-item-address"}>{addressSlice(item.address)}</p>
+                <p className={"account-item-address account-item-balance"}>{showBalance}</p>
+            </>
+        }
         return (
             <div onClick={() => onClickAccount && onClickAccount(item)}
                 className={"account-item-container click-cursor"}>
@@ -76,8 +85,7 @@ class AccountItem extends Component {
                             "account-item-type-observe": item.type === ACCOUNT_TYPE.WALLET_OBSERVE,
                         })}>{showImport}</p>
                     </div>
-                    <p className={"account-item-address"}>{addressSlice(item.address)}</p>
-                    {item.evmAddress ?<p className={'account-item-address descAddress'}>{addressSlice(item.evmAddress)}</p>: <p className={"account-item-address account-item-balance"}>{showBalance}</p>}
+                    {addressInfo}
                 </div>
                 <div className={"account-item-right"}>
                     <img
