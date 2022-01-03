@@ -120,7 +120,7 @@ class BackupMnemonics extends React.Component {
         return (<p
           key={index + ""}
           onClick={() => this.onClickTopItem(item, index)}
-          className={"mne-item-common mne-item  mne-item-clicked click-cursor"}>{index + 1 + ". " + item.name}</p>)
+          className={"mne-item mne-item-common click-cursor"}>{index + 1 + ". " + item.name}</p>)
       })}
     </div>)
   }
@@ -129,13 +129,13 @@ class BackupMnemonics extends React.Component {
       <div className={"mne-container"}>
         {this.state.list.map((item, index) => {
           return (
-            <div
+            <p
               key={index + ""}
               onClick={() => this.onClickBottomItem(item, index)}
-              className={cx({
+              className={cx("mne-item mne-item-record click-cursor", {
                 "mne-item-select": item.selected,
               })}
-            ><p className={"mne-item-record mne-item-noSelect click-cursor"}>{item.name}</p></div>)
+            >{item.name}</p>)
         })
         }
       </div>)

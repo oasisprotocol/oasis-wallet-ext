@@ -1,27 +1,14 @@
 @import "../../common.scss";
 .mne-item-record {
   background: #f7f9fc;
-  border-radius: 5px;
-
-  font-size: $font-size-content;
-
-  font-weight: 400;
   color: #7080b5;
-  line-height: 19px;
 }
-.mne-item-noSelect {
-  padding: 8px 15px;
-  margin: 5px 15px 5px 0;
-}
+
 .mne-item-select {
-  visibility: hidden;
-  width: 0;
+  display: none !important;
 }
 
 .mne-select-container {
-  min-height: 100px;
+  min-height: 60px;
   margin-bottom: 30px;
-}
-.mne-item-clicked {
-  height: 34px;
 }
