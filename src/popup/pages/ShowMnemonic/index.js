@@ -5,6 +5,7 @@ import { getLanguage } from "../../../i18n";
 import { sendMsg } from "../../../utils/commonMsg";
 import Button from "../../component/Button";
 import CustomView from "../../component/CustomView";
+import NoTranslate from "../../component/NoTranslate";
 import "./index.scss";
 class ShowMnemonic extends React.Component {
   constructor(props) {
@@ -39,11 +40,13 @@ class ShowMnemonic extends React.Component {
 
   showMne = () => {
     return (
-      <div className={"mne-container"}>
-        {this.state.mnemonic.split(" ").map((item, index) => {
-          return <p key={index + ""} className="mne-item mne-item-common">{index + 1 + ". " + item}</p>;
-        })}
-      </div>
+      <NoTranslate>
+        <div className={"mne-container"}>
+          {this.state.mnemonic.split(" ").map((item, index) => {
+            return <p key={index + ""} className="mne-item mne-item-common">{index + 1 + ". " + item}</p>;
+          })}
+        </div>
+      </NoTranslate>
     );
   };
   goToNext = () => {

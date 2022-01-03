@@ -9,6 +9,7 @@ import { sendMsg } from "../../../utils/commonMsg";
 import Button from "../../component/Button";
 import CustomView from "../../component/CustomView";
 import Toast from "../../component/Toast";
+import NoTranslate from "../../component/NoTranslate";
 import "./index.scss";
 class BackupMnemonics extends React.Component {
   constructor(props) {
@@ -115,30 +116,37 @@ class BackupMnemonics extends React.Component {
     }
   };
   renderSelectedMne = () => {
-    return (<div className="mne-container mne-select-container">
-      {this.state.selectList.map((item, index) => {
-        return (<p
-          key={index + ""}
-          onClick={() => this.onClickTopItem(item, index)}
-          className={"mne-item mne-item-common click-cursor"}>{index + 1 + ". " + item.name}</p>)
-      })}
-    </div>)
+    return (
+      <NoTranslate>
+        <div className="mne-container mne-select-container">
+          {this.state.selectList.map((item, index) => {
+            return (<p
+              key={index + ""}
+              onClick={() => this.onClickTopItem(item, index)}
+              className={"mne-item mne-item-common click-cursor"}>{index + 1 + ". " + item.name}</p>)
+          })}
+        </div>
+      </NoTranslate>
+    )
   }
   renderMneList = () => {
     return (
-      <div className={"mne-container"}>
-        {this.state.list.map((item, index) => {
-          return (
-            <p
-              key={index + ""}
-              onClick={() => this.onClickBottomItem(item, index)}
-              className={cx("mne-item mne-item-record click-cursor", {
-                "mne-item-select": item.selected,
-              })}
-            >{item.name}</p>)
-        })
-        }
-      </div>)
+      <NoTranslate>
+        <div className={"mne-container"}>
+          {this.state.list.map((item, index) => {
+            return (
+              <p
+                key={index + ""}
+                onClick={() => this.onClickBottomItem(item, index)}
+                className={cx("mne-item mne-item-record click-cursor", {
+                  "mne-item-select": item.selected,
+                })}
+              >{item.name}</p>)
+          })
+          }
+        </div>
+      </NoTranslate>
+    )
   }
   renderBottomBtn = () => {
     return (
