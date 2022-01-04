@@ -9,11 +9,11 @@ import nacl from 'tweetnacl';
 import { cointypes, LOCK_TIME } from '../../../config';
 import { RUNTIME_ACCOUNT_TYPE } from '../../constant/paratimeConfig';
 import { FROM_BACK_TO_RECORD, SET_LOCK, TX_SUCCESS } from '../../constant/types';
-import { ACCOUNT_TYPE, TRANSACTION_TYPE } from "../../constant/walletType";
+import { ACCOUNT_TYPE, TRANSACTION_RUNTIME_TYPE, TRANSACTION_TYPE } from "../../constant/walletType";
 import { getLanguage } from '../../i18n';
 import { openTab } from "../../utils/commonMsg";
 import { amountDecimals, getEvmBech32Address, getExplorerUrl, getRuntimeConfig, hex2uint, publicKeyToAddress, toNonExponential, trimSpace, uint2hex } from '../../utils/utils';
-import { getRuntimeTxStatus, getSubmitStatus } from '../api';
+import { getRuntimeTxDetail, getSubmitStatus } from '../api';
 import { buildParatimeTxBody, buildTxBody, getChainContext, submitTx } from '../api/txHelper';
 import { get, removeValue, save } from '../storage/storageService';
 
@@ -771,6 +771,20 @@ class APIService {
             let config =  getRuntimeConfig(params.runtimeId)
             if (hash && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
                 this.createNotificationAfterRuntimeTxSucceeds(hash,params.runtimeId)
+                console.log("params==0",params);
+                return {
+                    code:0,
+                    txHash:hash,
+                    runtimeId:params.runtimeId,
+                    runtimeName:config.runtimeName,
+                    type:"regular",
+                    ctx:{
+                        to:params.toAddress,
+                        from:params.fromAddress,
+                        amount:params.amount,
+                        method:TRANSACTION_RUNTIME_TYPE.Withdraw,
+                    }
+                }
             }
             return {code:0}
         } catch (error) {
@@ -802,6 +816,19 @@ class APIService {
             let config =  getRuntimeConfig(params.runtimeId)
             if (hash && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
                 this.createNotificationAfterRuntimeTxSucceeds(hash,params.runtimeId)
+                return {
+                    code:0,
+                    txHash:hash,
+                    runtimeId:params.runtimeId,
+                    runtimeName:config.runtimeName,
+                    type:"regular",
+                    ctx:{
+                        to: await getEvmBech32Address(params.toAddress),
+                        from:params.fromAddress,
+                        amount:params.amount,
+                        method:TRANSACTION_RUNTIME_TYPE.Deposit,
+                    }
+                }
             }
             return {code:0}
         } catch (error) {
@@ -924,9 +951,14 @@ class APIService {
         this.fetchRuntimeTxStatus(hash,runtimeId)
     }
     fetchRuntimeTxStatus = (hash,runtimeId) => {
-        getRuntimeTxStatus(hash,runtimeId).then((data) => {
+        getRuntimeTxDetail(hash,runtimeId).then((data) => {
             if (data && data.txHash) {
                 this.notification(hash,runtimeId)
+                extension.runtime.sendMessage({
+                    type: FROM_BACK_TO_RECORD,
+                    action: TX_SUCCESS,
+                    data
+                });
                 if (this.runtimeStatusTimer[hash]) {
                     clearTimeout(this.runtimeStatusTimer[hash]);
                     this.runtimeStatusTimer[hash] = null;

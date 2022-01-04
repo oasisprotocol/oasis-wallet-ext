@@ -656,9 +656,18 @@ class SendPage extends React.Component {
   onSubmitRuntime=(data)=>{
     if(data && data.code === 0){
       Toast.info(getLanguage('postSuccess'))
-      setTimeout(() => {
-        this.props.history.goBack()
-      }, 100);
+      if(data.txHash){
+        this.props.history.replace({
+          pathname: "/record_page",
+          params: {
+            txDetail: data
+          }
+        })
+      }else{
+        setTimeout(() => {
+          this.props.history.goBack()
+        }, 100);
+      }
     }else{
       let errMessage =
         data?.message ||

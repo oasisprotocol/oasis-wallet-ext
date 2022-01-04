@@ -54,3 +54,12 @@ export const TRANSACTION_TYPE = {
   ReclaimEscrow: "staking.ReclaimEscrow",
   StakingAllow:"staking.Allow"
 };
+
+
+/**
+ * transaction runtime type 
+ */
+export const TRANSACTION_RUNTIME_TYPE = {
+  Deposit: "consensus.Deposit",
+  Withdraw: "consensus.Withdraw",
+};

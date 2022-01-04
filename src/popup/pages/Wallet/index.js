@@ -5,6 +5,7 @@ import loadingCommon from "../../../assets/images/loadingCommon.gif";
 import noHistory from "../../../assets/images/noHistory.png";
 import refreshIcon from "../../../assets/images/refresh.svg";
 import txCommonType from "../../../assets/images/txCommonType.svg";
+import txRuntime from "../../../assets/images/txRuntime.svg";
 import txReceive from "../../../assets/images/txReceive.svg";
 import txSend from "../../../assets/images/txSend.svg";
 import wallet_receive from "../../../assets/images/wallet_receive.png";
@@ -512,9 +513,56 @@ class Wallet extends React.Component {
       <p className={"history-to-explorer"}>{getLanguage('toSeeMore')}</p>
     </div>)
   }
+  getEvmStatusColor = (item) => {
+    let className = "tx-pending-title"
+    if(typeof item.result ==='boolean'){
+      if (item.result) {
+        className = "tx-success-title"
+      } else {
+        className = "tx-failed-title"
+      }
+    }
+    return className
+  }
+  renderEvmTxItem=(item, index)=>{
+    let showAddress = item.runtimeName
+    let imgSource  = txRuntime
+    let time = new Date(parseInt(item.timestamp) * 1000).toJSON()
+    let statusText = item.result ? getLanguage('backup_success_title') : getLanguage('txFailed')
+    let amount = item.type
+    let statusColor = this.getEvmStatusColor(item)
+    return this.renderCommonTxItem({item,index,amount,showAddress,imgSource,time,statusText,statusColor})
+  }
+  renderCommonTxItem=({item,index,showAddress,amount="",imgSource,time,statusText,statusColor})=>{
+    return (
+      <div key={index + ""} className={"tx-item-container click-cursor"} onClick={() => { this.onClickItem(item) }}>
+        <div className={"tx-detail-container"}>
+          <div className={"tx-top-container"}>
+            <p className="tx-item-address">{showAddress}</p>
+            <p className={cx({
+              "tx-item-amount": true,
+            })}>{amount}</p>
+          </div>
+          <div className={'tx-bottom-container'}>
+            <div className={'tx-bottom-time-container'}>
+              <img className={"tx-item-type"} src={imgSource} />
+              <p className="tx-item-time">{time}</p>
+            </div>
+            <p className={cx({
+              "tx-item-status": true,
+              [statusColor]: true
+            })}>{statusText}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
   renderTxList = (item, index) => {
     if (item.showExplorer) {
       return this.renderListExplorer(index)
+    }
+    if(item.type && item.type === "regular"){
+      return this.renderEvmTxItem(item, index)
     }
     let isReceive
     let showAddress = item.to
@@ -539,7 +587,7 @@ class Wallet extends React.Component {
         // For other transaction types that don't affect the balance (e.g. Allow), we're not
         // showing them in this abbreviated list. Users can still, however, view them on a block
         // explorer such as OASISSCAN.
-        return <></>
+        return <div key={index}/>
     }
     showAddress = addressSlice(showAddress, 8)
     let amount = item.amount
@@ -550,28 +598,7 @@ class Wallet extends React.Component {
     let imgSource = this.getTxSource(item.method, isReceive)
     let statusColor = this.getStatusColor(item)
     let time = new Date(parseInt(item.timestamp) * 1000).toJSON()
-    return (
-      <div key={index + ""} className={"tx-item-container click-cursor"} onClick={() => { this.onClickItem(item) }}>
-        <div className={"tx-detail-container"}>
-          <div className={"tx-top-container"}>
-            <p className="tx-item-address">{showAddress}</p>
-            <p className={cx({
-              "tx-item-amount": true,
-            })}>{amount}</p>
-          </div>
-          <div className={'tx-bottom-container'}>
-            <div className={'tx-bottom-time-container'}>
-              <img className={"tx-item-type"} src={imgSource} />
-              <p className="tx-item-time">{time}</p>
-            </div>
-            <p className={cx({
-              "tx-item-status": true,
-              [statusColor]: true
-            })}>{statusText}</p>
-          </div>
-        </div>
-      </div>
-    )
+    return this.renderCommonTxItem({item,index,showAddress,amount,imgSource,time,statusText,statusColor})
   }
   renderHistory = () => {
     let txList = this.props.txList
