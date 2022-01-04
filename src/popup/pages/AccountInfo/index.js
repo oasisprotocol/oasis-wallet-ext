@@ -238,6 +238,11 @@ class AccountInfo extends React.Component {
   render() {
     const { showSecurity,showDelete,showAddress,evmAddress } = this.state
     let title = showSecurity ? getLanguage('securityPassword') : getLanguage('accountInfo')
+    let addressInfo = evmAddress ? (
+      this.renderCommonShowItem(getLanguage("evmAddress"), evmAddress, ()=>this.copyAddress(evmAddress))
+    ) : (
+      this.renderCommonShowItem(getLanguage("accountAddress"), showAddress, ()=>this.copyAddress(this.state.account.address))
+    )
     return (
       <CustomView
         title={title}
@@ -245,8 +250,7 @@ class AccountInfo extends React.Component {
         {showSecurity ? <SecurityPwd onClickCheck={this.onClickCheck} action={SEC_DELETE_ACCOUNT} /> :
           <>
             <div className="account-info-container">
-              {this.renderCommonShowItem(getLanguage("accountAddress"), showAddress, ()=>this.copyAddress(this.state.account.address))}
-              {evmAddress && this.renderCommonShowItem(getLanguage("evmAddress"), evmAddress, ()=>this.copyAddress(evmAddress))}
+              {addressInfo}
               {this.renderCommonShowItem(getLanguage("accountName"), this.state.account.accountName, this.changeAccountName, true)}
 
               {this.renderExportPrivateKey()}

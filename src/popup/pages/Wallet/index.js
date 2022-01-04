@@ -446,14 +446,18 @@ class Wallet extends React.Component {
   }
   renderEvmWalletInfo =()=>{
     let { currentAccount } = this.props
+    let addressInfo = currentAccount.evmAddress ? (
+      <p className={"account-evm-address click-cursor"} onClick={()=>this.onClickAddress(currentAccount.evmAddress)}>{addressSlice(currentAccount.evmAddress)}</p>
+    ) : (
+      <p className="account-address click-cursor" onClick={()=>this.onClickAddress(currentAccount.address)}>{addressSlice(currentAccount.address)}</p>
+    )
     return (
       <div className="wallet-info">
       <div className="account-container">
         <div className={"account-container-top"}>
           <div>
             {this.renderAccountName()}
-            <p className="account-address click-cursor" onClick={()=>this.onClickAddress(currentAccount.address)}>{addressSlice(currentAccount.address)}</p>
-            {currentAccount.evmAddress && <p className={"account-evm-address click-cursor"} onClick={()=>this.onClickAddress(currentAccount.evmAddress)}>{addressSlice(currentAccount.evmAddress)}</p>}
+            {addressInfo}
           </div>
           <div className={'account-container-top-right'}>
             <div className="account-manager click-cursor"
@@ -606,13 +610,20 @@ class Wallet extends React.Component {
   }
   render() {
     let { currentAccount } = this.props
+    let infoAndHistory = currentAccount.evmAddress ? (
+      this.renderEvmWalletInfo()
+    ) : (
+      <>
+        {this.renderWalletInfo()}
+        {this.renderHistory()}
+      </>
+    )
     return (
       <div className="wallet-page-container">
         <div className={"home-wallet-top-container"}>
           <WalletBar history={this.props.params.history} />
         </div>
-        {currentAccount.evmAddress ? this.renderEvmWalletInfo() : this.renderWalletInfo()}
-        {!currentAccount.evmAddress && this.renderHistory()}
+        {infoAndHistory}
         {this.renderChangeModal()}
         <Clock schemeEvent={() => { this.fetchData(this.props.currentAccount.address) }} />
       </div>
