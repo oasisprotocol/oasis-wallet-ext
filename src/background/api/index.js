@@ -23,7 +23,7 @@ export async function getBalance(address) {
  * @returns
  */
 export async function getTransactionList(address) {
-  let url = "/chain/transactions?address=" + address + "&size=" + TX_LIST_LENGTH
+  let url = "/chain/transactions?address=" + address + "&size=" + TX_LIST_LENGTH + "&runtime=true"
   let txList = await commonFetch(url).catch(() => { })
   if (txList && txList.code === 0) {
     return txList.data
@@ -135,11 +135,11 @@ export async function getRpcRuntimeList(){
  * @param {*} txHash
  * @returns
  */
- export async function getRuntimeTxStatus(txhash,runtimeId) {
+ export async function getRuntimeTxDetail(txhash,runtimeId) {
   let url = `/runtime/transaction/info?id=${runtimeId}&hash=${txhash}`
-  let txStatus = await commonFetch(url).catch(() => { })
-  if (txStatus && txStatus.code === 0) {
-    return txStatus.data
+  let txDetail = await commonFetch(url).catch(() => { })
+  if (txDetail && txDetail.code === 0) {
+    return txDetail.data
   } else {
     return {}
   }
