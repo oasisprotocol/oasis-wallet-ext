@@ -5,6 +5,7 @@ import { SEC_SHOW_MNEMONIC } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { sendMsg } from "../../../utils/commonMsg";
 import CustomView from "../../component/CustomView";
+import NoTranslate from "../../component/NoTranslate";
 import SecurityPwd from "../../component/SecurityPwd";
 import Toast from "../../component/Toast";
 import "./index.scss"
@@ -32,7 +33,7 @@ class RevealSeedPage extends React.Component {
   }
 
   renderInput = () => {
-    return(<p className={"reveal-text"}>{this.state.mnemonic}</p>)
+    return(<NoTranslate><p className={"reveal-text"}>{this.state.mnemonic}</p></NoTranslate>)
   }
 
   onClickCheck = (password) => {

@@ -10,6 +10,7 @@ Little things:
 - Creating new wallets now generates 24-word mnemonic.
 - Popup is now wider.
 - Buttons to confirm wallet resetting are now red and no longer swapped.
+- Blocked Google Translate from translating displayed mnemonic.
 
 ## 1.0.0
 
