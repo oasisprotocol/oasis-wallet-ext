@@ -2,6 +2,11 @@
 
 ## Unreleased Changes
 
+New features:
+
+- Select ParaTime transactions, including Emerald deposit and withdraw, now show up in your
+  consensus account's transaction history.
+
 Little things:
 
 - The transaction review page now shows the "From" line before the "To" line.
