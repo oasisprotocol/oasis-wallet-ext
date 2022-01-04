@@ -123,7 +123,12 @@ class Record extends React.Component {
   }
   goToExplorer = () => {
     let hash = this.state.txDetail.txHash || this.state.txDetail.hash
-    let url = getExplorerUrl() + "transactions/" + hash
+    let url
+    if (this.state.isEvmTx) {
+      url = getExplorerUrl() + "paratimes/transactions/" + hash + "?runtime=" + this.state.txDetail.runtimeId
+    } else {
+      url = getExplorerUrl() + "transactions/" + hash
+    }
     openTab(url)
   }
   renderDetailExplorer = () => {
