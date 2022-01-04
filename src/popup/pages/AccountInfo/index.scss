@@ -107,14 +107,14 @@
 
 .account-info-delete-container {
     border-radius: 4px;
-    border: 1px solid #ff2a7f;
+    border: 1px solid $color-danger;
     padding: 7px 32px;
 }
 .account-info-delete-content {
     font-size: $font-size-content;
 
     font-weight: 400;
-    color: #ff2a7f;
+    color: $color-danger;
     line-height: 20px;
 }
 
@@ -152,4 +152,12 @@
 .account-common-btn-cancel {
     background: #e8f0ff;
     color: #7080b5;
+}
+.account-common-btn-danger {
+    background: $color-danger;
+    color: #feffff;
+
+    &:disabled {
+        background: #ffe8e8;
+    }
 }

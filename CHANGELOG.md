@@ -9,7 +9,7 @@ Little things:
 - We no longer show the `oasis1...` address for Ethereum-compatible accounts.
 - Creating new wallets now generates 24-word mnemonic.
 - Popup is now wider.
-- Buttons to confirm wallet resetting are no longer swapped.
+- Buttons to confirm wallet resetting are now red and no longer swapped.
 
 ## 1.0.0
 

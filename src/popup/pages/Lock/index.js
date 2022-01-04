@@ -145,7 +145,7 @@ class LockPage extends React.Component {
                 <Button
                     content={getLanguage('confirm')}
                     onClick={this.onConfirmReset}
-                    propsClass={"account-common-btn"}
+                    propsClass={"account-common-btn account-common-btn-danger"}
                     disabled={!this.state.deleteTagStatus}
                 />
                 <Button
@@ -221,6 +221,7 @@ class LockPage extends React.Component {
             confirmText,
             showClose: true,
             tipImgSrc,
+            isDangerous: true,
             onConfirm: this.showConfirmModal,
         })
     }
