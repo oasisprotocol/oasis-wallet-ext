@@ -708,12 +708,12 @@ class APIService {
      * @param {*} params 
      */
     setAllowanceAndDepositToParatimeAccount= (params)=>{
-        return new Promise( async (resolve,reject)=>{ 
+        return new Promise( async (resolve,reject)=>{
             let allowanceDifference = new BigNumber(params.amount).minus(params.allowance).toString()
-            if(BigNumber(allowanceDifference).lte(0)){
+            if(new BigNumber(allowanceDifference).lte(0)){
                  params.method = TRANSACTION_TYPE.StakingAllow
                  return await this.depositToParatimeAccount(params,resolve)
-            }else{ 
+            }else{
                 params.allowance = allowanceDifference
                 const tw = oasis.staking.allowWrapper()
                 params.method = TRANSACTION_TYPE.StakingAllow

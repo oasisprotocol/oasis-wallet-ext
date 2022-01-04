@@ -82,8 +82,8 @@ class MyStaking extends React.Component {
         )
     }
     getStakePercent = (total_balance, delegations_balance) => {
-        let percent = 0
-        if (BigNumber(total_balance).gt(0)) {
+        let percent = "0"
+        if (new BigNumber(total_balance).gt(0)) {
             percent = new BigNumber(delegations_balance).dividedBy(total_balance).multipliedBy(100).toFixed(4, 1).toString()
         }
         percent = percent + "%"
@@ -95,8 +95,7 @@ class MyStaking extends React.Component {
             const debondItem = debondList[index];
             totalNumber = totalNumber.plus(debondItem.shares)
         }
-        totalNumber = totalNumber.toNumber()
-        return totalNumber
+        return totalNumber.toNumber()
     }
     renderTopInfo = () => {
         let { accountInfo } = this.props

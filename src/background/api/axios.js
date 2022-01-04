@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 const timeout = 10000;
 axios.defaults.retry = 3;
 axios.defaults.retryDelay = 1000;

@@ -154,7 +154,7 @@ export function fitPopupWindow() {
 // Opens current page in a popup window, so that it doesn't close when switching
 // to other windows (e.g. password manager).
 export function openCurrentRouteInPersistentPopup() {
-  const url = new URL(window.location);
+  const url = new URL(window.location.href);
   if (!url.searchParams.has('persistentPopup')) {
     url.searchParams.set('persistentPopup', '1');
 
