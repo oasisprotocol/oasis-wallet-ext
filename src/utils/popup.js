@@ -4,7 +4,7 @@ import { sendMsg, getActiveTab } from './commonMsg';
 import { WALLET_OPEN_ROUTE_IN_PERSISTENT_POPUP } from "../constant/types";
 
 const PopupSize = {
-  width: 375,
+  width: 450,
   height: 600,
 };
 

@@ -14,7 +14,7 @@
     "passwordDifferent": "Passwords do not match, please retype!",
     "backTips_title": "Backup Mnemonic Phrase",
     "backTips_1": "Backup your mnemonic phrase now!",
-    "backTips_2": "The Mnemonic phrase consists of 12 English words, which cannot be retrieved if they are lost. Make sure the mnemonic phrase is kept in a secure location.",
+    "backTips_2": "The Mnemonic phrase consists of 24 English words, which cannot be retrieved if they are lost. Make sure the mnemonic phrase is kept in a secure location.",
     "backTips_3": "When the wallet can't be accessed because the device is lost or any other reasons,importing mnemonic phrase is the only way to retrieve your assets.",
     "show_seed_content": "Please write down the following mnemonic phrase and keep it in a safe place.",
 
@@ -198,7 +198,7 @@
     "copyConfirm": "Confirm copy",
     "copyCancel": "Cancel copy",
     "show_seed_button": "Confirm backup",
-    "backInputDesc":"Please tap the 12 mnemonic in order for verify.",
+    "backInputDesc":"Please tap the 24 mnemonic in order to verify.",
     "recordTime":"time",
     "AddEscrow": "Delegate",
     "changeSecPassword":"Change Security Password",

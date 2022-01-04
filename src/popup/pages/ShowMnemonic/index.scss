@@ -13,30 +13,11 @@
   color: #7080b5;
   line-height: 20px;
   margin-top: 7px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 
   hyphens: auto;
 }
 
-.mne-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.mne-item {
-  padding: 8px 15px;
-  margin: 5px 15px 5px 0;
-
-  background: rgba(34, 109, 255, 0.1);
-  border-radius: 5px;
-}
 .mne-item-common {
-  color: rgba(51, 51, 51, 1);
-
-  font-size: $font-size-content;
-
-  font-weight: 400;
   color: #226dff;
-  line-height: 20px;
 }

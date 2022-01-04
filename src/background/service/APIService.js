@@ -36,7 +36,7 @@ class APIService {
     };
     getCreateMnemonic = (isNewMne) => {
         if (isNewMne) {
-            let mnemonic = bip39.generateMnemonic()
+            let mnemonic = bip39.generateMnemonic(256)
             this.memStore.updateState({ mne: mnemonic })
             return mnemonic
         } else {
@@ -44,7 +44,7 @@ class APIService {
             if (mne) {
                 return mne
             } else {
-                let mnemonic = bip39.generateMnemonic()
+                let mnemonic = bip39.generateMnemonic(256)
                 this.memStore.updateState({ mne: mnemonic })
                 return mnemonic
             }
