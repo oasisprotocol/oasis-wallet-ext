@@ -146,7 +146,7 @@ class BackupMnemonics extends React.Component {
         <Button
           content={getLanguage('confirm')}
           onClick={this.goToNext}
-          disabled={this.state.selectList.length !== 12}
+          disabled={this.state.selectList.length !== 24}
         />
       </div>
     )
