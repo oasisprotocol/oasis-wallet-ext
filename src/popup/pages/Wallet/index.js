@@ -606,13 +606,20 @@ class Wallet extends React.Component {
   }
   render() {
     let { currentAccount } = this.props
+    let infoAndHistory = currentAccount.evmAddress ? (
+      this.renderEvmWalletInfo()
+    ) : (
+      <>
+        {this.renderWalletInfo()}
+        {this.renderHistory()}
+      </>
+    )
     return (
       <div className="wallet-page-container">
         <div className={"home-wallet-top-container"}>
           <WalletBar history={this.props.params.history} />
         </div>
-        {currentAccount.evmAddress ? this.renderEvmWalletInfo() : this.renderWalletInfo()}
-        {!currentAccount.evmAddress && this.renderHistory()}
+        {infoAndHistory}
         {this.renderChangeModal()}
         <Clock schemeEvent={() => { this.fetchData(this.props.currentAccount.address) }} />
       </div>
