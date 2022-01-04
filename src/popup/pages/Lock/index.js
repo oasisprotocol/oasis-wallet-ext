@@ -145,7 +145,7 @@ class LockPage extends React.Component {
                 <Button
                     content={getLanguage('confirm')}
                     onClick={this.onConfirmReset}
-                    propsClass={"account-common-btn"}
+                    propsClass={"account-common-btn account-common-btn-danger"}
                     disabled={!this.state.deleteTagStatus}
                 />
                 <Button
@@ -208,8 +208,8 @@ class LockPage extends React.Component {
     onClickRestore = () => {
         let title = getLanguage('prompt')
         let content = ""
-        let cancelText = getLanguage('confirmReset')
-        let confirmText = getLanguage('cancelReset')
+        let cancelText = getLanguage('cancelReset')
+        let confirmText = getLanguage('confirmReset')
         let tipImgSrc = txFailed
         content = [
             getLanguage('reset_tip_1'),
@@ -221,7 +221,8 @@ class LockPage extends React.Component {
             confirmText,
             showClose: true,
             tipImgSrc,
-            onCancel: this.showConfirmModal,
+            isDangerous: true,
+            onConfirm: this.showConfirmModal,
         })
     }
     render() {

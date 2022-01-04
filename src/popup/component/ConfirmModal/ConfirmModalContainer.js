@@ -16,6 +16,7 @@ export default class ConfirmModalContainer extends Component {
         this.cancelText = ""
         this.confirmText = ""
         this.showClose = false
+        this.isDangerous = false
 
         this.onCancel = () => { }
         this.onConfirm = () => { }
@@ -24,12 +25,13 @@ export default class ConfirmModalContainer extends Component {
     }
 
     show = (params) => {
-        let { title, content, onCancel, onConfirm, cancelText, confirmText, touchToClose, showClose,tipImgSrc } = params
+        let { title, content, onCancel, onConfirm, cancelText, confirmText, touchToClose, showClose, isDangerous, tipImgSrc } = params
         this.title = title
         this.content = content
         this.cancelText = cancelText
         this.confirmText = confirmText
         this.showClose = showClose
+        this.isDangerous = !!isDangerous
 
         this.onCancel = onCancel
         this.onConfirm = onConfirm
@@ -58,7 +60,7 @@ export default class ConfirmModalContainer extends Component {
         return (
             <Button
                 content={this.confirmText}
-                propsClass={"account-common-btn"}
+                propsClass={`account-common-btn ${this.isDangerous ? 'account-common-btn-danger' : ''}`}
                 onClick={() => {
                     this.hide()
                     this.onConfirm && this.onConfirm()

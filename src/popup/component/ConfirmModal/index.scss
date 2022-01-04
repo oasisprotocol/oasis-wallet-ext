@@ -16,13 +16,14 @@
     display: none;
 }
 .confirm-content-container {
-    width: 290px;
+    width: $modal-width;
     background: #feffff;
     box-shadow: 0 12px 30px 0 rgba(37, 34, 117, 0.08);
     border-radius: 10px;
     padding: 20px;
     margin: 0px 42px;
     position: relative;
+    box-sizing: content-box;
 }
 
 .confirm-title {
