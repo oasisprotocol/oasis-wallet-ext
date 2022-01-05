@@ -1,8 +1,8 @@
 # Change Log
 
-## Unreleased Changes
+## 1.1.0
 
-New features:
+Spotlight change:
 
 - Select ParaTime transactions, including Emerald deposit and withdraw, now show up in your
   consensus account's transaction history.
@@ -16,7 +16,8 @@ Little things:
 - Popup is now wider.
 - Buttons to confirm wallet resetting are now red and no longer swapped.
 - Blocked Google Translate from translating displayed mnemonic.
-- Amounts displayed in the account information is now selectable.
+- Amounts displayed in the account information are now selectable
+  ([#204](https://github.com/oasisprotocol/oasis-wallet-ext/pull/204)).
 
 ## 1.0.0
 
