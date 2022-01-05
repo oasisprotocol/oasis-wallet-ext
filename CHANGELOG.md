@@ -16,6 +16,7 @@ Little things:
 - Popup is now wider.
 - Buttons to confirm wallet resetting are now red and no longer swapped.
 - Blocked Google Translate from translating displayed mnemonic.
+- Amounts displayed in the account information is now selectable.
 
 ## 1.0.0
 
