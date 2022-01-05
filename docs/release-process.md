@@ -36,10 +36,12 @@ We especially encourage linking externally reported issues.
 If you feel like it, move one Change Log item to a section on top titled "Spotlight change".
 
 ## Propose the New Version
-Open a pull request (PR) for the version changes and Change Log update, ideally separate from
-any other changes.
+Commit the version changes and Change Log update with a message in the format
+`Prepare release <VERSION>`, ideally separate from any other changes.
 
-When this PR gets merged into `master`, the chosen version permanently associated with the merge
+Open a pull request (PR) for the changes.
+
+When this PR gets merged into `master`, the chosen version is permanently associated with the merge
 commit.
 
 ## Prepare an Unsigned Archive
