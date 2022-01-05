@@ -10,8 +10,8 @@ import "./index.scss";
 
 class LedgerImport extends React.Component {
   constructor(props) {
-    let params = props.location?.params || {};
     super(props);
+    let params = props.location?.params || {};
     this.accountName = params.accountName
     this.state = {
     };

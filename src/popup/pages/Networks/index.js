@@ -63,16 +63,9 @@ class NetworkPage extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    netConfig: state.network,
-});
-
+const mapStateToProps = (state) => ({});
 function mapDispatchToProps(dispatch) {
-    return {
-        updateNetConfigList: (config) => {
-            dispatch(updateNetConfigList(config))
-        },
-    };
+    return {};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NetworkPage);

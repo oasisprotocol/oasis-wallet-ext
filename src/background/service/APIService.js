@@ -138,30 +138,23 @@ class APIService {
     createAccount = async (mnemonic) => {
         this.memStore.updateState({ mne: "" })
         let wallet = await this.importWalletByMnemonicHDkey(mnemonic)
-        let privKeyEncrypt = await this.encryptor.encrypt(this.getStore().password, wallet.privKey_hex)
-        const account = {
-            address: wallet.address,
-            privateKey: privKeyEncrypt,
-            publicKey: wallet.publicKey,
-            type: ACCOUNT_TYPE.WALLET_INSIDE,
-            hdPath: wallet.hdIndex,
-            accountName: default_account_name,
-            typeIndex: 1
-        }
 
-        let mnemonicEn = await this.encryptor.encrypt(this.getStore().password, mnemonic)
+        let keyringData = [{
+            mnemonic: await this.encryptor.encrypt(this.getStore().password, mnemonic),
+            accounts: [{
+                address: wallet.address,
+                privateKey: await this.encryptor.encrypt(this.getStore().password, wallet.privKey_hex),
+                publicKey: wallet.publicKey,
+                type: ACCOUNT_TYPE.WALLET_INSIDE,
+                hdPath: wallet.hdIndex,
+                accountName: default_account_name,
+                typeIndex: 1
+            }],
+            currentAddress: wallet.address
+        }];
+        let account = keyringData[0].accounts[0];
 
-        let keyringData = []
-        let data = {
-            mnemonic: mnemonicEn,
-            accounts: [],
-            currentAddress: account.address
-        }
-        data.accounts.push(account)
-        keyringData.push(data)
-        let encryptData
-
-        encryptData = await this.encryptor.encrypt(this.getStore().password, keyringData)
+        let encryptData = await this.encryptor.encrypt(this.getStore().password, keyringData)
         this.memStore.updateState({ data: keyringData })
         save({ keyringData: encryptData })
         this.memStore.updateState({ currentAccount: account })
@@ -708,12 +701,12 @@ class APIService {
      * @param {*} params 
      */
     setAllowanceAndDepositToParatimeAccount= (params)=>{
-        return new Promise( async (resolve,reject)=>{ 
+        return new Promise( async (resolve,reject)=>{
             let allowanceDifference = new BigNumber(params.amount).minus(params.allowance).toString()
-            if(BigNumber(allowanceDifference).lte(0)){
+            if(new BigNumber(allowanceDifference).lte(0)){
                  params.method = TRANSACTION_TYPE.StakingAllow
                  return await this.depositToParatimeAccount(params,resolve)
-            }else{ 
+            }else{
                 params.allowance = allowanceDifference
                 const tw = oasis.staking.allowWrapper()
                 params.method = TRANSACTION_TYPE.StakingAllow

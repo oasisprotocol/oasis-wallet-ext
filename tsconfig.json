@@ -1,0 +1,21 @@
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "allowJs": true,
+    "checkJs": true,
+    "resolveJsonModule": true,
+    "jsx": "react-jsx",
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "importsNotUsedAsValues": "error",
+    "lib": ["esnext", "dom"],
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "strict": true,
+    "noImplicitAny": false,
+    "module": "es2020",
+    "target": "es2020"
+  }
+}

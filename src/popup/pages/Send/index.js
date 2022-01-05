@@ -782,7 +782,7 @@ class SendPage extends React.Component {
   }
 
   getReclaimShare=(inputAmount = 0)=>{
-    if(!isNumber(inputAmount) || !BigNumber(inputAmount).gt(0)){
+    if(!isNumber(inputAmount) || !new BigNumber(inputAmount).gt(0)){
       return 0
     }
     const {amount ,shares} = this.props.nodeDetail
