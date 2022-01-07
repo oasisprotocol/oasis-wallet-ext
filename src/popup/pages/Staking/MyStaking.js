@@ -4,7 +4,6 @@ import React from "react";
 import { connect } from "react-redux";
 import loadingCommon from "../../../assets/images/loadingCommon.gif";
 import noHistory from "../../../assets/images/noHistory.png";
-import walletLogo from "../../../assets/images/transparentLogo.png";
 import { getAccountStakeInfo, getUserDebondInfo } from "../../../background/api";
 import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_STAKE } from "../../../constant/types";
 import { getLanguage } from "../../../i18n";

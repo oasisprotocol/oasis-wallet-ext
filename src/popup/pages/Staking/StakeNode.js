@@ -2,11 +2,11 @@ import BigNumber from "bignumber.js";
 import cx from "classnames";
 import React from "react";
 import { connect } from "react-redux";
-import walletLogo from "../../../assets/images/transparentLogo.png";
 import { getNodeStakeList } from "../../../background/api";
 import { getLanguage } from "../../../i18n";
 import { updateCurrentNodeDetail, updateCurrentValidatorList, updateValidatorList } from "../../../reducers/cache";
 import { addressSlice } from "../../../utils/utils";
+import { DEFAULT_VALIDATOR_ICON } from "../../../utils/validator";
 import Clock from "../../component/Clock";
 import "./index.scss";
 import loadingCommon from "../../../assets/images/loadingCommon.gif";
@@ -95,7 +95,7 @@ class StakeNode extends React.Component {
     let statusText = item.commission || 0
     statusText = new BigNumber(statusText).multipliedBy(100).toFixed(1, 1).toString() + "%"
     let validatorName = item.name || showAddress
-    let icon = item.icon || walletLogo
+    let icon = item.icon || DEFAULT_VALIDATOR_ICON
     let delegators = item.delegators
     return (
       <div key={index + ""} className={"stake-item-container click-cursor"} onClick={() => { this.onClickItem(item) }}>

@@ -6,12 +6,12 @@ import 'react-circular-progressbar/dist/styles.css';
 import { connect } from "react-redux";
 import loadingCommon from "../../../assets/images/loadingCommon.gif";
 import node_stake_icon from "../../../assets/images/node_stake_icon.png";
-import walletLogo from "../../../assets/images/transparentLogo.png";
 import { getNodeStakeInfo } from "../../../background/api";
 import { SEND_PAGE_TYPE_STAKE } from "../../../constant/types";
 import { getLanguage } from "../../../i18n";
 import { updateNodeDetail, updateSendPageType } from "../../../reducers/cache";
 import { addressSlice, copyText } from "../../../utils/utils";
+import { DEFAULT_VALIDATOR_ICON } from "../../../utils/validator";
 import Button from "../../component/Button";
 import CustomView from "../../component/CustomView";
 import Toast from "../../component/Toast";
@@ -98,7 +98,7 @@ class StakeNodeDetail extends React.Component {
         let validatorName = nodeDetail.validatorName || nodeDetail.name || addressSlice(address, 6)
         let statusText = nodeDetail.commission || this.state.commission || 0
         statusText = new BigNumber(statusText).multipliedBy(100).toFixed(1, 1).toString() + "%"
-        let icon = nodeDetail.icon || walletLogo
+        let icon = nodeDetail.icon || DEFAULT_VALIDATOR_ICON
         return (
             <div className={"node-detail-top-detail"}>
                 <div className={"node-base-info-container"}>
