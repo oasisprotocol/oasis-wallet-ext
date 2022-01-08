@@ -1,6 +1,8 @@
 import { bech32 } from 'bech32'
 import { isAddress } from "web3-utils"
 
+export const DEFAULT_VALIDATOR_ICON = '';
+
 export const matchList = [
   {
     text: ('atLeastOneNumber'),
