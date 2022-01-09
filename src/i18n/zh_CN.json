@@ -132,7 +132,7 @@
   "pleaseOpenInLedger":"在Ledger硬件中打开Oasis的App",
   "postFailed": "广播失败",
 
-   "userPrivateProtocol":"隐私策略",
+   "privacyPolicy":"隐私策略",
   "contactUs":"联系我们",
   "confirmDelete":"是否确认删除",
   "onConfirm":"确认",

@@ -134,7 +134,7 @@
     "postFailed": "Transaction broadcast failed",
     "confirmInfoLedger":"Please confirm on your Ledger wallet",
 
-    "userPrivateProtocol":"Privacy Policy",
+    "privacyPolicy":"Privacy Policy",
     "contactUs":"Contact Us",
     "confirmDelete":"Confirm Delete",
     "onConfirm":"Confirm",
