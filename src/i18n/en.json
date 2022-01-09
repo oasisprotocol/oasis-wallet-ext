@@ -128,7 +128,7 @@
     "inputNonceError":"Please enter a valid nonce",
     "confirmEnv":"Please ensure that the system and network environment you are using is absolutely safe before performing this operation",
     "ledgerNotSupport":"This browser does not support Ledger temporarily",
-    "userAgree":"Terms and Conditions",
+    "termsAndConditions":"Terms and Conditions",
     "agree":"Agree",
     "pleaseOpenInLedger":"Open the Oasis app on your Ledger device",
     "postFailed": "Transaction broadcast failed",
