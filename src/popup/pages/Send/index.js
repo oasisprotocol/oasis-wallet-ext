@@ -480,14 +480,14 @@ class SendPage extends React.Component {
   
     let checkStatus = true
     let inputAmount = new BigNumber(amount).plus(payFee).toNumber()
-    
-    if(BigNumber(inputAmount).gt(maxAmount)){
+
+    if(new BigNumber(inputAmount).gt(maxAmount)){
       Toast.info(getLanguage('canUseNotEnough'))
       checkStatus = false
-      return 
+      return
     }
     if(this.state.stakeType === SEND_PAGE_TYPE_STAKE){
-      if(!BigNumber(amount).gte(STAKE_MIN_AMOUNT)){
+      if(!new BigNumber(amount).gte(STAKE_MIN_AMOUNT)){
         Toast.info(getLanguage('minStakeAmount') + " " + STAKE_MIN_AMOUNT)
         checkStatus = false
         return 
