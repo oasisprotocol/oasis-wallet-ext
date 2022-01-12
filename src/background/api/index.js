@@ -220,3 +220,9 @@ export async function getRuntimeBalanceRaw(address, runtimeId) {
   }
   return amountDecimals(nativeDenominationBalanceBI.toString(),decimals)
 }
+
+export async function isValidator(address ) {
+  const nodeInfo = await getNodeStakeInfo(address)
+  const isStakingNode = !!nodeInfo?.data;
+  return isStakingNode
+}

@@ -6,7 +6,7 @@ import { cointypes, network_config } from "../../../../config";
 import address_book from "../../../assets/images/address_book.png";
 import loadingCommon from "../../../assets/images/loadingCommon.gif";
 import record_arrow from "../../../assets/images/record_arrow.png";
-import { getBalance, getRpcNonce, getRuntimeBalance } from "../../../background/api";
+import { getBalance, getRpcNonce, getRuntimeBalance, isValidator } from "../../../background/api";
 import { saveLocal } from "../../../background/storage/localStorage";
 import { undelegateTransaction, delegateTransaction, sendTransaction} from "../../../background/api/txHelper";
 import { NETWORK_CONFIG } from "../../../constant/storageKey";
@@ -59,6 +59,7 @@ class SendPage extends React.Component {
       maxWithdrawAmount:0
     };
     this.modal = React.createRef();
+    this.confirmTransferToValidatorModal = React.createRef();
     this.isUnMounted = false;
     this.currentNetConfig = {}
     this.isRequest = false
@@ -480,14 +481,14 @@ class SendPage extends React.Component {
   
     let checkStatus = true
     let inputAmount = new BigNumber(amount).plus(payFee).toNumber()
-    
-    if(BigNumber(inputAmount).gt(maxAmount)){
+
+    if(new BigNumber(inputAmount).gt(maxAmount)){
       Toast.info(getLanguage('canUseNotEnough'))
       checkStatus = false
-      return 
+      return
     }
     if(this.state.stakeType === SEND_PAGE_TYPE_STAKE){
-      if(!BigNumber(amount).gte(STAKE_MIN_AMOUNT)){
+      if(!new BigNumber(amount).gte(STAKE_MIN_AMOUNT)){
         Toast.info(getLanguage('minStakeAmount') + " " + STAKE_MIN_AMOUNT)
         checkStatus = false
         return 
@@ -497,7 +498,7 @@ class SendPage extends React.Component {
   }
   onConfirm = async () => {
     let { currentAccount } = this.props
-    const { toAddressCanInput,runtimeType,isWithdraw,toAddressCanInputDefaultValue } = this.pageConfig
+    const { toAddressCanInput,runtimeType,isWithdraw,toAddressCanInputDefaultValue, sendAction } = this.pageConfig
     if (currentAccount.type === ACCOUNT_TYPE.WALLET_OBSERVE) {
       Toast.info(getLanguage('observeAccountTip'))
       return
@@ -553,6 +554,18 @@ class SendPage extends React.Component {
     if (nonce.length > 0 && !isNumber(nonce)) {
       Toast.info(getLanguage('inputNonceError'))
       return
+    }
+
+    if (sendAction === "WALLET_SEND_TRANSACTION") {
+      try {
+        if (await isValidator(toAddress)) {
+          this.confirmTransferToValidatorModal.current.setModalVisible(true)
+          return
+        }
+      } catch (err) {
+        // Ignore warning if endpoint is broken
+        console.error("Couldn't check (and warn) if toAddress is validator", err);
+      }
     }
 
     this.modal.current.setModalVisible(true)
@@ -755,8 +768,31 @@ class SendPage extends React.Component {
   onCloseModal = () => {
     this.modal.current.setModalVisible(false)
   }
+  renderConfirmTransferToValidatorModal = () => {
+    return (<TestModal
+      ref={this.confirmTransferToValidatorModal}
+      touchToClose={true}
+      showClose={true}
+    >
+      <div className={"confirm-modal-container"}>
+        <div className={"test-modal-title-container"}><p className={"test-modal-title"}>{getLanguage("confirmSendingToValidatorTitle", "Are you sure you want to continue?")}</p></div>
+        <p>{getLanguage("confirmSendingToValidatorDescription", "This is a validator wallet address. Transfers to this address do not stake your funds with the validator.")}</p>
+        <div className={"send-confirm-container"}>
+          <Button
+            content={getLanguage('cancel')}
+            propsClass={"account-common-btn account-common-btn-cancel"}
+            onClick={() => this.confirmTransferToValidatorModal.current.setModalVisible(false)}
+          />
+          <Button
+            content={getLanguage('confirm')}
+            onClick={() => this.modal.current.setModalVisible(true)}
+            propsClass={"account-common-btn account-common-btn-danger"}
+          />
+        </div>
+      </div>
+    </TestModal>)
+  }
   renderConfirmModal = () => {
-
     return (<TestModal
       ref={this.modal}
       touchToClose={true}
@@ -929,6 +965,7 @@ class SendPage extends React.Component {
         {this.renderAdvanceOption()}
       </form>
       {this.renderConfirm()}
+      {this.renderConfirmTransferToValidatorModal()}
       {this.renderConfirmModal()}
     </CustomView>)
   }
