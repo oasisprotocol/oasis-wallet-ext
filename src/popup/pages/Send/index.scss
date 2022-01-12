@@ -85,6 +85,10 @@ p {
 .send-confirm-container {
   margin-top: 20px;
   text-align: center;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 .confirm-loading {
   height: 180px;
