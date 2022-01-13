@@ -35,6 +35,9 @@ words:
   - linejoin
   - polyline
 
+  # HTML terms.
+  - noopener
+
   # Cryptocurrency-related terms.
   - encryptor
   - hdkey
