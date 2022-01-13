@@ -73,7 +73,7 @@ export async function getUserDebondInfo(address) {
  * @returns
  */
 export async function getNodeStakeList() {
-  let url = "/validator/list" + "?pageSize=" + MAX_LENGTH
+  let url = "/validator/list?pageSize=" + MAX_LENGTH
   let validatorList = await commonFetch(url).catch(() => [])
   return validatorList
 }
@@ -110,7 +110,7 @@ export async function getRpcNonce(address) {
 }
 /**
  * get runtime list from RPC
- * @returns 
+ * @returns
  */
 export async function getRpcRuntimeList(){
   const oasisClient = getOasisClient()
@@ -208,9 +208,9 @@ export async function getRuntimeBalanceRaw(address, runtimeId) {
 
 /**
  * get runtime balance and allowance
- * @param {*} address 
- * @param {*} runtimeId 
- * @returns 
+ * @param {*} address
+ * @param {*} runtimeId
+ * @returns
  */
  export async function getRuntimeBalance(address,runtimeId,propDecimals){
   const nativeDenominationBalanceBI = await getRuntimeBalanceRaw(address, runtimeId)

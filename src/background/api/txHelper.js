@@ -243,10 +243,10 @@ export async function submitTxBody(params, tw) {
 
 /**
  * get runtime nonce
- * @param {*} accountsWrapper 
- * @param {*} address 
- * @param {*} retryTime 
- * @returns 
+ * @param {*} accountsWrapper
+ * @param {*} address
+ * @param {*} retryTime
+ * @returns
  */
 function getRuntimeNonce(accountsWrapper,address,retryTime){
     return new Promise(async (resolve, reject) => {
@@ -274,25 +274,25 @@ function getRuntimeNonce(accountsWrapper,address,retryTime){
 
 /**
  * build runtime tx body
- * @param {*} params 
- * @param {*} wrapper 
- * @returns 
+ * @param {*} params
+ * @param {*} wrapper
+ * @returns
  */
 export async function buildParatimeTxBody(params, wrapper) {
     const CONSENSUS_RT_ID = oasis.misc.fromHex(params.runtimeId)
     const accountsWrapper = new oasisRT.accounts.Wrapper(CONSENSUS_RT_ID);
-   
+
     let bech32Address = await oasis.staking.addressFromBech32(params.fromAddress)
     const nonce = await getRuntimeNonce(accountsWrapper,bech32Address,RETRY_TIME)
 
-    let decimal 
+    let decimal
     let runtimeConfig = getRuntimeConfig(params.runtimeId)
     if(runtimeConfig.decimals){
         decimal = new BigNumber(10).pow(runtimeConfig.decimals)
     }else{
         decimal = new BigNumber(10).pow(cointypes.decimals)
     }
-  
+
     let amount = new BigNumber(params.amount).multipliedBy(decimal).toFixed()
     amount = BigInt(amount)
     const DEPOSIT_AMOUNT = ([
@@ -316,7 +316,7 @@ export async function buildParatimeTxBody(params, wrapper) {
     if(params.method === TRANSACTION_TYPE.StakingAllow){
         targetAddress = params.depositAddress
     }else{
-        targetAddress = params.toAddress 
+        targetAddress = params.toAddress
     }
 
     if(targetAddress){

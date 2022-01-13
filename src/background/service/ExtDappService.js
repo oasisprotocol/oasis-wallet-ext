@@ -360,7 +360,7 @@ class ExtDappService {
   }
   getDappStore() {
     return this.dappStore.getState()
-  };
+  }
   getAppLockStatus() {
     return apiService.getLockStatus()
   }
