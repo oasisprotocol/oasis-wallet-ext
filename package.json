@@ -6,6 +6,7 @@
     "build": "webpack --mode production",
     "buildProd": "webpack --mode production",
     "dev": "webpack --mode development --progress --watch",
+    "lint": "yarn run eslint src",
     "test": "jest"
   },
   "dependencies": {
@@ -44,12 +45,6 @@
     "valid-url": "1.0.9",
     "web3-utils": "1.6.0"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -86,6 +81,8 @@
     "copy-webpack-plugin": "6.3.2",
     "crypto": "1.0.1",
     "cspell": "^5.9.0",
+    "eslint": "^8.0.0",
+    "eslint-config-react-app": "^7.0.0",
     "jest": "^26.6.3",
     "jest-chrome": "0.7.1",
     "jsdom": "^8.1.0",
