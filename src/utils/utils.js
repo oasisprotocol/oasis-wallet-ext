@@ -266,8 +266,8 @@ export function connectAccountDataFilter(account){
 
 /**
  * parse hex runtimeId to address
- * @param {*} runtimeID 
- * @returns 
+ * @param {*} runtimeID
+ * @returns
  */
 export async function getRuntimeAddress(runtimeID){
     let address = await oasis.staking.addressFromRuntimeID(oasis.misc.fromHex(runtimeID))
@@ -277,8 +277,8 @@ export async function getRuntimeAddress(runtimeID){
 
 /**
  * get evm bech32 address
- * @param {*} evmAddress 
- * @returns 
+ * @param {*} evmAddress
+ * @returns
  */
 export async function getEvmBech32Address(evmAddress){
     if(!evmAddress){
@@ -299,9 +299,9 @@ export async function getEvmBech32Address(evmAddress){
 }
 
 /**
- * get runtime config by runtimeID 
- * @param {*} runtimeId 
- * @returns 
+ * get runtime config by runtimeID
+ * @param {*} runtimeId
+ * @returns
  */
 export function getRuntimeConfig(runtimeId){
     let runtimeConfig = {}
@@ -321,7 +321,7 @@ export function getRuntimeConfig(runtimeId){
 
 /**
  * check address is evm address
- * @param {*} address 
+ * @param {*} address
  */
 export function isEvmAddress(address){
     if (address.indexOf('0x') === 0) {

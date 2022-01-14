@@ -57,7 +57,7 @@ export const TRANSACTION_TYPE = {
 
 
 /**
- * transaction runtime type 
+ * transaction runtime type
  */
 export const TRANSACTION_RUNTIME_TYPE = {
   Deposit: "consensus.Deposit",
