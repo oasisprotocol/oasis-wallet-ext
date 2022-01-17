@@ -1,5 +1,34 @@
 # Change Log
 
+## 1.2.0
+
+Spotlight changes:
+
+- Warn users if they try to transfer tokens to a validator
+  ([#217](https://github.com/oasisprotocol/oasis-wallet-ext/issues/217)).
+- Remove default Oasis logo from validators without their own logo to prevent
+  users thinking these validators are affiliated with the Oasis Protocol
+  Foundation
+  ([#216](https://github.com/oasisprotocol/oasis-wallet-ext/issues/216)).
+
+Little things:
+
+- Add Terms and Conditions link to the About Us page
+  ([#225](https://github.com/oasisprotocol/oasis-wallet-ext/pull/225)).
+
+Internal:
+
+- Add tsconfig and types so editor can detect basic type errors
+  ([#211](https://github.com/oasisprotocol/oasis-wallet-ext/pull/211)).
+- Add eslint, add `noopener` to `target="_blank"` links
+  ([#222](https://github.com/oasisprotocol/oasis-wallet-ext/pull/222)).
+- Bump tar from 6.1.0 to 6.1.1
+  ([#202](https://github.com/oasisprotocol/oasis-wallet-ext/pull/202)).
+- Bump url-parse from 1.5.1 to 1.5.4
+  ([#220](https://github.com/oasisprotocol/oasis-wallet-ext/pull/220)).
+- Bump follow-redirects from 1.14.3 to 1.14.7
+  ([#223](https://github.com/oasisprotocol/oasis-wallet-ext/pull/223)).
+
 ## 1.1.0
 
 Spotlight change:
