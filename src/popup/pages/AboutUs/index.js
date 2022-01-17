@@ -60,6 +60,9 @@ class AboutUs extends React.Component {
   onClickPrivacyPolicy = () => {
     openTab('https://oasisprotocol.org/privacy-policy')
   }
+  onClickTermsAndConditions = () => {
+    openTab('https://wallet.oasisprotocol.org/t-c')
+  }
   onClickGithub = () => {
     openTab('https://github.com/oasisprotocol/oasis-wallet-ext/')
   }
@@ -68,8 +71,8 @@ class AboutUs extends React.Component {
   }
   renderWalletDetail = () => {
     return (<div className={"wallet-detail-container"}>
-      {this.renderWalletItem(getLanguage("userPrivateProtocol"), this.onClickPrivacyPolicy)}
-      {this.renderWalletItem(getLanguage("userAgree"))}
+      {this.renderWalletItem(getLanguage("privacyPolicy"), this.onClickPrivacyPolicy)}
+      {this.renderWalletItem(getLanguage("termsAndConditions"), this.onClickTermsAndConditions)}
       {this.renderWalletItem("GitHub", this.onClickGithub)}
       {this.renderWalletItem(getLanguage("contactUs"), this.onClickContactUs)}
     </div>)
