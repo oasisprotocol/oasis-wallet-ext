@@ -7,6 +7,10 @@ import { TRANSACTION_TYPE } from '../../constant/walletType';
 import { amountDecimals, getEvmBech32Address, getRuntimeConfig, hex2uint, isEvmAddress, toNonExponential } from '../../utils/utils';
 import { getOasisClient } from './request';
 import * as oasisRT from '@oasisprotocol/client-rt';
+import { getLocal, saveLocal } from '../storage/localStorage';
+import { APPROVE_AND_DEPOSIT_TRANSACTION } from "../../constant/storageKey"
+import extension from 'extensionizer';
+import { APPROVE_TRANSACTION_UPDATE, FROM_BACK_TO_POPUP, FROM_BACK_TO_RECORD, NET_CONFIG_TYPE_MAIN } from "../../constant/types"
 
 const RETRY_TIME = 4
 const RETRY_DELAY = 1000
@@ -78,21 +82,21 @@ export async function getTxFee(tw, publicKey, retryTime) {
  * @param {*} retryTime
  * @returns
  */
-export async function getChainContext(retryTime) {
+export async function getChainContext(retryTime,currentNetConfig) {
     if (process.env.NODE_ENV === 'test') {
         return TEST_NET_CONTEXT
     } else {
         return new Promise(async (resolve, reject) => {
             retryTime = retryTime - 1
             try {
-                const oasisClient = getOasisClient()
+                const oasisClient = getOasisClient(currentNetConfig)
                 let chainContext = await oasisClient.consensusGetChainContext()
                 resolve(chainContext)
             } catch (error) {
                 if (retryTime > 0) {
                     setTimeout(async () => {
                         try {
-                            resolve(await getChainContext(retryTime))
+                            resolve(await getChainContext(retryTime,currentNetConfig))
                         } catch (error) {
                             reject(error)
                         }
@@ -111,21 +115,21 @@ export async function getChainContext(retryTime) {
  * @param {*} retryTime
  * @returns
  */
-export async function submitTx(tw, retryTime) {
+export async function submitTx(tw, retryTime,currentNetConfig) {
     if (process.env.NODE_ENV === 'test') {
         return
     } else {
         return new Promise(async (resolve, reject) => {
             retryTime = retryTime - 1
             try {
-                const oasisClient = getOasisClient()
+                const oasisClient = getOasisClient(currentNetConfig)
                 let signSubmit = await tw.submit(oasisClient)
                 resolve(signSubmit)
             } catch (error) {
                 if (retryTime > 0) {
                     setTimeout(async () => {
                         try {
-                            resolve(await submitTx(tw, retryTime))
+                            resolve(await submitTx(tw, retryTime,currentNetConfig))
                         } catch (err) {
                             reject(err)
                         }
@@ -248,18 +252,18 @@ export async function submitTxBody(params, tw) {
  * @param {*} retryTime 
  * @returns 
  */
-function getRuntimeNonce(accountsWrapper,address,retryTime){
+ function getRuntimeNonce(accountsWrapper,address,retryTime,currentNetConfig){
     return new Promise(async (resolve, reject) => {
         retryTime = retryTime - 1
         try {
-            const oasisClient = getOasisClient()
+            const oasisClient = getOasisClient(currentNetConfig)
             let nonceResult = await accountsWrapper.queryNonce().setArgs({ address: address }).query(oasisClient);
             resolve(nonceResult)
         } catch (error) {
             if (retryTime > 0) {
                 setTimeout(async () => {
                     try {
-                        resolve(await getRuntimeNonce(accountsWrapper,address,retryTime))
+                        resolve(await getRuntimeNonce(accountsWrapper,address,retryTime,currentNetConfig))
                     } catch (error) {
                         reject(error)
                     }
@@ -278,12 +282,12 @@ function getRuntimeNonce(accountsWrapper,address,retryTime){
  * @param {*} wrapper 
  * @returns 
  */
-export async function buildParatimeTxBody(params, wrapper) {
+ export async function buildParatimeTxBody(params, wrapper,currentNetConfig) {
     const CONSENSUS_RT_ID = oasis.misc.fromHex(params.runtimeId)
     const accountsWrapper = new oasisRT.accounts.Wrapper(CONSENSUS_RT_ID);
    
     let bech32Address = await oasis.staking.addressFromBech32(params.fromAddress)
-    const nonce = await getRuntimeNonce(accountsWrapper,bech32Address,RETRY_TIME)
+    const nonce = await getRuntimeNonce(accountsWrapper,bech32Address,RETRY_TIME,currentNetConfig)
 
     let decimal 
     let runtimeConfig = getRuntimeConfig(params.runtimeId)
@@ -309,7 +313,7 @@ export async function buildParatimeTxBody(params, wrapper) {
     // Use default if feeGas is "" or 0 (0 is illegal in send page)
     let feeGas = params.feeGas||50000
     feeGas = BigInt(feeGas)
-    let consensusChainContext = await getChainContext(RETRY_TIME)
+    let consensusChainContext = await getChainContext(RETRY_TIME,currentNetConfig)
     let txWrapper
 
     let targetAddress = ""
@@ -337,5 +341,136 @@ export async function buildParatimeTxBody(params, wrapper) {
     txWrapper.setFeeAmount(feeAmount)
             .setFeeGas(feeGas)
             .setFeeConsensusMessages(1)
+    
     return {txWrapper,nonce,consensusChainContext}
+}
+
+/**
+ * get local depositAnd approve pending tx by address 
+ * @param {*} address 
+ * @param {*} netType 
+ * @returns 
+ */
+export function getLocalApproveAndDepositTransactionCacheByAddress(address,netType) {
+    let currentNetType = netType||NET_CONFIG_TYPE_MAIN
+    let addressTxList = []
+    let localTxListConfig = getLocal(APPROVE_AND_DEPOSIT_TRANSACTION)
+    if (localTxListConfig) {
+        let localTxList = JSON.parse(localTxListConfig)
+        let currentNetTxList = localTxList[currentNetType] || {}
+        addressTxList = currentNetTxList[address] || []
+    }
+    return addressTxList
+}
+
+/**
+ * save approve tx transaction
+ * @param {*} address 
+ * @param {*} txHash 
+ * @param {*} netType 
+ */
+export function setLocalApproveTransactionCache(address, txHash, netType) {
+    let currentNetType = netType||NET_CONFIG_TYPE_MAIN
+
+    let addressTxList = []
+    let localTxListConfig = getLocal(APPROVE_AND_DEPOSIT_TRANSACTION)
+    if (localTxListConfig) {
+        let localTxList = JSON.parse(localTxListConfig)
+        let currentNetTxList = localTxList[currentNetType] 
+        if(!currentNetTxList){
+            localTxList[currentNetType] = {}
+            currentNetTxList = {}
+        }
+        addressTxList = currentNetTxList[address] || []
+        addressTxList.push(txHash)
+
+        localTxList[currentNetType][address] = addressTxList
+        saveLocal(APPROVE_AND_DEPOSIT_TRANSACTION, JSON.stringify(localTxList))
+    } else {
+        let newConfigTxList = {
+            [currentNetType]: {}
+        }
+        newConfigTxList[currentNetType][address] = []
+        newConfigTxList[currentNetType][address].push(txHash)
+
+        saveLocal(APPROVE_AND_DEPOSIT_TRANSACTION, JSON.stringify(newConfigTxList))
+    }
+    notifyApproveTransactionUpdate()
+}
+
+/**
+ * add deposit transaction hash and runtime to approve hash
+ * @param {*} address 
+ * @param {*} approveHash 
+ * @param {*} runtimeId 
+ * @param {*} txHash 
+ * @param {*} netType 
+ */
+export function setLocalDepositTransactionCache(address, approveHash,runtimeId,txHash, netType) {
+    let currentNetType = netType||NET_CONFIG_TYPE_MAIN
+
+    let addressTxList = []
+    let localTxListConfig = getLocal(APPROVE_AND_DEPOSIT_TRANSACTION)
+    if (localTxListConfig) {
+        let localTxList = JSON.parse(localTxListConfig)
+        let currentNetTxList = localTxList[currentNetType] 
+
+        if(currentNetTxList){
+            addressTxList = currentNetTxList[address]
+            if(addressTxList){
+                for (let index = 0; index < addressTxList.length; index++) {
+                    const txData = addressTxList[index];
+                    if(txData === approveHash){
+                        localTxList[currentNetType][address][index] = approveHash+"+"+runtimeId+"+"+txHash
+                        saveLocal(APPROVE_AND_DEPOSIT_TRANSACTION, JSON.stringify(localTxList))
+                        break
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+/**
+ * remove txHash when success or throw error 
+ * @param {*} data 
+ * @param {*} netType 
+ * @returns 
+ */
+export function removeLocalApproveAndDepositTransactionCacheByHash(data,netType) {
+    if(!Array.isArray(data)){
+        return 
+    }
+    let deleteValue = data 
+
+    let currentNetType = netType||NET_CONFIG_TYPE_MAIN
+
+    let localTxListConfig = getLocal(APPROVE_AND_DEPOSIT_TRANSACTION)
+    if (localTxListConfig) {
+        let localTxList = JSON.parse(localTxListConfig)
+        let currentNetTxList = localTxList[currentNetType] || {}
+
+        let addressList = Object.keys(currentNetTxList)
+        for (let index = 0; index < addressList.length; index++) {
+            const address = addressList[index];
+            let newList = currentNetTxList[address].filter((tx) => {
+                return deleteValue.indexOf(tx) === -1
+            })
+            currentNetTxList[address] = newList
+        }
+        
+        localTxList[currentNetType] = currentNetTxList
+        saveLocal(APPROVE_AND_DEPOSIT_TRANSACTION, JSON.stringify(localTxList))
+
+        notifyApproveTransactionUpdate()
+    }
+}
+
+
+function notifyApproveTransactionUpdate() {
+    extension.runtime.sendMessage({
+        type: FROM_BACK_TO_POPUP,
+        action: APPROVE_TRANSACTION_UPDATE,
+    });
 }

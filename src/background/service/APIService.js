@@ -11,10 +11,11 @@ import { RUNTIME_ACCOUNT_TYPE } from '../../constant/paratimeConfig';
 import { FROM_BACK_TO_RECORD, SET_LOCK, TX_SUCCESS } from '../../constant/types';
 import { ACCOUNT_TYPE, TRANSACTION_RUNTIME_TYPE, TRANSACTION_TYPE } from "../../constant/walletType";
 import { getLanguage } from '../../i18n';
-import { openTab } from "../../utils/commonMsg";
-import { amountDecimals, getEvmBech32Address, getExplorerUrl, getRuntimeConfig, hex2uint, publicKeyToAddress, toNonExponential, trimSpace, uint2hex } from '../../utils/utils';
+import { openTab, showErrorNotification } from "../../utils/commonMsg";
+import { amountDecimals, getEvmBech32Address, getCurrentNetConfig, getRuntimeConfig, hex2uint, publicKeyToAddress, toNonExponential, trimSpace, uint2hex, getNetTypeByUrl } from '../../utils/utils';
 import { getRuntimeTxDetail, getSubmitStatus } from '../api';
-import { buildParatimeTxBody, buildTxBody, getChainContext, submitTx } from '../api/txHelper';
+import { getNowUrl } from '../api/request';
+import { buildParatimeTxBody, buildTxBody, getChainContext, removeLocalApproveAndDepositTransactionCacheByHash, setLocalApproveTransactionCache, setLocalDepositTransactionCache, submitTx } from '../api/txHelper';
 import { get, removeValue, save } from '../storage/storageService';
 
 const EthUtils = require('ethereumjs-util');
@@ -702,30 +703,34 @@ class APIService {
      */
     setAllowanceAndDepositToParatimeAccount= (params)=>{
         return new Promise( async (resolve,reject)=>{
-            let allowanceDifference = new BigNumber(params.amount).minus(params.allowance).toString()
-            if(new BigNumber(allowanceDifference).lte(0)){
-                 params.method = TRANSACTION_TYPE.StakingAllow
-                 return await this.depositToParatimeAccount(params,resolve)
-            }else{
-                params.allowance = allowanceDifference
-                const tw = oasis.staking.allowWrapper()
-                params.method = TRANSACTION_TYPE.StakingAllow
-                params.toAddress = oasis.staking.addressToBech32(await oasis.staking.addressFromRuntimeID(oasis.misc.fromHex(params.runtimeId)))
-                let result = await this.submitTxBody(params, tw,true,(data)=>this.depositToParatimeAccount(params,resolve,reject,data)).catch(err=>err)
-                if(result&&result.error){
-                    reject({error:result.error})
-                }
+            params.allowance = new BigNumber(params.amount).toString()
+            const tw = oasis.staking.allowWrapper()
+            params.method = TRANSACTION_TYPE.StakingAllow
+            params.toAddress = oasis.staking.addressToBech32(await oasis.staking.addressFromRuntimeID(oasis.misc.fromHex(params.runtimeId)))
+            let result = await this.submitTxBody(params, tw,true,(data,approveTxHash,currentNetConfig)=>this.depositToParatimeAccount(params,resolve,reject,data,approveTxHash,currentNetConfig)).catch(err=>err)
+            if(result&&result.error){
+                let sendResult = {error:result.error}
+                showErrorNotification(params.fromAddress,sendResult)
+                reject(sendResult)
+            }else if(result && result.code === 0){
+                resolve(result)
             }
         })
-    }
-    depositToParatimeAccount= async(params,resolve,reject,data)=>{
+    }  
+    depositToParatimeAccount= async(params,resolve,reject,data,approveTxHash,currentNetConfig)=>{
         if(data && data.code !== 0){
+            showErrorNotification(params.fromAddress,data)
             reject(data)
+            approveTxHash && removeLocalApproveAndDepositTransactionCacheByHash([approveTxHash],currentNetConfig.netType)
             return 
         }
         const consensusWrapper = new oasisRT.consensusAccounts.Wrapper(oasis.misc.fromHex(params.runtimeId));
         const depositWrapper = consensusWrapper.callDeposit()
-        let submitRuntime = await this.submitParatimeAccountTx(params, depositWrapper).catch(err=>err)
+        let config =  getRuntimeConfig(params.runtimeId)
+        if (config && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
+            params.approveTxHash = approveTxHash
+        }
+        let submitRuntime = await this.submitParatimeAccountTx(params, depositWrapper,currentNetConfig).catch(err=>err)
         resolve(submitRuntime)
     }
     setEvmWithdrawToConsensusAccount=(params)=>{
@@ -764,7 +769,7 @@ class APIService {
             let config =  getRuntimeConfig(params.runtimeId)
             if (hash && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
                 this.createNotificationAfterRuntimeTxSucceeds(hash,params.runtimeId)
-                console.log("params==0",params);
+                
                 return {
                     code:0,
                     txHash:hash,
@@ -784,9 +789,10 @@ class APIService {
             throw {error}
         }
     }
-    submitParatimeAccountTx= async(params, wrapper)=>{
+    submitParatimeAccountTx= async(params, wrapper,currentNetConfig)=>{
+        let config =  getRuntimeConfig(params.runtimeId)
         try {
-            let buildResult = await buildParatimeTxBody(params,wrapper)
+            let buildResult = await buildParatimeTxBody(params,wrapper,currentNetConfig)
             let nonce = buildResult.nonce
             let txWrapper = buildResult.txWrapper
             let consensusChainContext = buildResult.consensusChainContext
@@ -803,12 +809,12 @@ class APIService {
             });
             txWrapper.setSignerInfo([signerInfo]);
             await txWrapper.sign([signer], consensusChainContext);
-            await submitTx(txWrapper, RETRY_TIME)
+            await submitTx(txWrapper, RETRY_TIME,currentNetConfig)
             let u8Hash = await oasis.hash.hash(txWrapper.unverifiedTransaction[0])
             let hash = oasis.misc.toHex(u8Hash)
-            let config =  getRuntimeConfig(params.runtimeId)
             if (hash && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
-                this.createNotificationAfterRuntimeTxSucceeds(hash,params.runtimeId)
+                params.approveTxHash && currentNetConfig && setLocalDepositTransactionCache(params.fromAddress, params.approveTxHash,params.runtimeId,hash, currentNetConfig.netType)
+                this.createNotificationAfterRuntimeTxSucceeds(hash,params.runtimeId,params.approveTxHash,currentNetConfig)
                 return {
                     code:0,
                     txHash:hash,
@@ -825,10 +831,12 @@ class APIService {
             }
             return {code:0}
         } catch (error) {
+            if(config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
+                params.approveTxHash && removeLocalApproveAndDepositTransactionCacheByHash([params.approveTxHash],currentNetConfig.netType)
+            }
             throw {error}
         }
     }
-
     /**
      * submit tx
      * @param {*} params
@@ -868,6 +876,13 @@ class APIService {
             }
             if(!callback){
                 return sendResult
+            }else{
+                let config =  getRuntimeConfig(params.runtimeId)
+                if (config && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
+                    let netType = getCurrentNetConfig().netType
+                    setLocalApproveTransactionCache(sendResult.from,sendResult.hash,netType)
+                    return {code:0}
+                }
             }
         } catch (error) {
             throw {error}
@@ -880,10 +895,11 @@ class APIService {
         extension.notifications.onClicked.addListener(function (clickId) {
             if(myNotificationID === clickId){ 
                 let url
+                let explorerUrl = getCurrentNetConfig().explorer
                 if(runtimeId){
-                    url = getExplorerUrl() + "paratimes/transactions/" + clickId
+                    url = explorerUrl + "paratimes/transactions/" + clickId
                 }else{
-                    url = getExplorerUrl() + "transactions/" + clickId
+                    url = explorerUrl + "transactions/" + clickId
                 }
                 openTab(url)
             }
@@ -901,52 +917,66 @@ class APIService {
         return
     }
     checkTxStatus = (hash,hideNotify,callback) => {
-        this.fetchTransactionStatus(hash,hideNotify,callback)
+        let real = getNowUrl()
+        let fetchUrl = real.url
+        this.fetchTransactionStatus(hash,hideNotify,fetchUrl,callback)
     }
-    onSuccess=(data,hash,hideNotify,callback)=>{
+    onSuccess=(currentNetConfig,data,hash,hideNotify,callback)=>{
         if(!hideNotify){
             this.notification(hash)
         }
         if(callback){
             try {
                 let rawData = JSON.parse(data.raw)
-                callback(rawData.error)
+                callback(rawData.error,hash,currentNetConfig)
             } catch (error) {
                 callback({error})
             }
         }
-    }
-    fetchTransactionStatus = (hash,hideNotify,callback) => {
-        getSubmitStatus(hash).then((data) => {
+    } 
+    fetchTransactionStatus = (hash,hideNotify,baseFetchUrl,callback) => {
+        getSubmitStatus(hash,baseFetchUrl).then((data) => {
             if (data && data.txHash) {
-                extension.runtime.sendMessage({
-                    type: FROM_BACK_TO_RECORD,
-                    action: TX_SUCCESS,
-                    data
-                });
-                this.onSuccess(data,hash,hideNotify,callback)
+                if(!callback){
+                    extension.runtime.sendMessage({
+                        type: FROM_BACK_TO_RECORD,
+                        action: TX_SUCCESS,
+                        data
+                    });
+                }
+                
+                let currentNetConfig =  getNetTypeByUrl(baseFetchUrl)
+                this.onSuccess(currentNetConfig,data,hash,hideNotify,callback)
                 if (this.statusTimer[hash]) {
                     clearTimeout(this.statusTimer[hash]);
                     this.statusTimer[hash] = null;
                 }
             } else {
                 this.statusTimer[hash] = setTimeout(() => {
-                    this.fetchTransactionStatus(hash,hideNotify,callback);
+                    this.fetchTransactionStatus(hash,hideNotify,baseFetchUrl,callback);
                 }, 5000);
             }
         }).catch((error) => {
             this.statusTimer[hash] = setTimeout(() => {
-                this.fetchTransactionStatus(hash,hideNotify,callback);
+                this.fetchTransactionStatus(hash,hideNotify,baseFetchUrl,callback);
             }, 5000);
         })
     }
-    createNotificationAfterRuntimeTxSucceeds = (hash,runtimeId) => {
-        this.fetchRuntimeTxStatus(hash,runtimeId)
+    createNotificationAfterRuntimeTxSucceeds = (hash,runtimeId,approveTxHash,currentNetConfig) => {
+        this.fetchRuntimeTxStatus(hash,runtimeId,currentNetConfig,approveTxHash)
     }
-    fetchRuntimeTxStatus = (hash,runtimeId) => {
-        getRuntimeTxDetail(hash,runtimeId).then((data) => {
+    fetchRuntimeTxStatus = (hash,runtimeId,currentNetConfig,approveTxHash) => {
+        let baseFetchUrl = currentNetConfig?.url || ""
+        getRuntimeTxDetail(hash,runtimeId,baseFetchUrl).then((data) => {
             if (data && data.txHash) {
                 this.notification(hash,runtimeId)
+                let removeCacheData = approveTxHash+"+"+runtimeId+"+"+ data.txHash
+                
+                let config =  getRuntimeConfig(runtimeId)
+                if (config && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
+                    approveTxHash && removeLocalApproveAndDepositTransactionCacheByHash([removeCacheData],currentNetConfig.netType)
+                }
+
                 extension.runtime.sendMessage({
                     type: FROM_BACK_TO_RECORD,
                     action: TX_SUCCESS,
@@ -958,12 +988,12 @@ class APIService {
                 }
             } else {
                 this.runtimeStatusTimer[hash] = setTimeout(() => {
-                    this.fetchRuntimeTxStatus(hash,runtimeId);
+                    this.fetchRuntimeTxStatus(hash,runtimeId,currentNetConfig,approveTxHash);
                 }, 5000);
             }
         }).catch((error) => {
             this.runtimeStatusTimer[hash] = setTimeout(() => {
-                this.fetchRuntimeTxStatus(hash,runtimeId);
+                this.fetchRuntimeTxStatus(hash,runtimeId,baseFetchUrl,approveTxHash);
             }, 5000);
         })
     }

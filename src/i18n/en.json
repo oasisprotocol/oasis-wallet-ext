@@ -281,5 +281,6 @@
 
     "withdrawTitle":"Withdraw",
     "withdrawToAddress":"Withdraw Address",
-    "withdrawInfo":"Withdraw Info"
+    "withdrawInfo":"Withdraw Info",
+    "pendingTx":"Pending transaction ({{length}})"
 }

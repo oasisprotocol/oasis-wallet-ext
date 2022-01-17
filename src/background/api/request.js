@@ -3,12 +3,13 @@ import axios from "axios";
 import { NETWORK_CONFIG } from "../../constant/storageKey";
 import "./axios";
 import { getLocal } from "../storage/localStorage";
+import { isContainBaseUrl } from "../../utils/utils"
 
 export function getNowUrl() {
-  let localNetConfig = getLocal(NETWORK_CONFIG)
+  let localNetConfigStr = getLocal(NETWORK_CONFIG)
   let url = {}
-  if (localNetConfig) {
-    localNetConfig = JSON.parse(localNetConfig)
+  if (localNetConfigStr) {
+    let localNetConfig = JSON.parse(localNetConfigStr)
     let currentList = localNetConfig.currentNetList
     currentList = currentList.filter((item, index) => {
       return item.isSelect
@@ -19,8 +20,13 @@ export function getNowUrl() {
 }
 
 export async function commonFetch(url) {
-  let real = getNowUrl()
-  let fetchUrl = real.url + url
+  let fetchUrl
+  if(isContainBaseUrl(url)){
+    fetchUrl = url
+  }else{
+    let real = getNowUrl()
+    fetchUrl = real.url + url
+  }
   return new Promise((resolve, reject) => {
     axios.get(fetchUrl).then((response) => {
       resolve(response.data)
@@ -30,9 +36,14 @@ export async function commonFetch(url) {
   })
 }
 
-export function getOasisClient(){
-  let real = getNowUrl()
-  let fetchUrl = real.grpc
+export function getOasisClient(config){
+  let fetchUrl 
+  if(config && config.grpc){
+    fetchUrl = config.grpc
+  }else{
+    let real = getNowUrl()
+    fetchUrl = real.grpc
+  }
   const oasisClient = new oasis.client.NodeInternal(fetchUrl)
   return oasisClient
 }

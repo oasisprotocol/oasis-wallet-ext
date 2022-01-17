@@ -291,3 +291,10 @@ export const FRAME_SEND_TRANSFER = "FRAME_SEND_TRANSFER"
  * RESET WALLET WHEN USER CLICK RESET BUTTON
  */
 export const RESET_WALLET = "RESET_WALLET"
+
+
+/** notify the message from background to popup */
+export const FROM_BACK_TO_POPUP = "FROM_BACK_TO_POPUP"
+
+/** notify approve tx update */
+export const APPROVE_TRANSACTION_UPDATE = "APPROVE_TRANSACTION_UPDATE"

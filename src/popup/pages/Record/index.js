@@ -13,7 +13,7 @@ import { FROM_BACK_TO_RECORD, TX_SUCCESS } from '../../../constant/types';
 import { TRANSACTION_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { openTab } from '../../../utils/commonMsg';
-import { addressSlice, copyText, getExplorerUrl, isNumber } from "../../../utils/utils";
+import { addressSlice, copyText, getCurrentNetConfig, isNumber } from "../../../utils/utils";
 import CustomView from "../../component/CustomView";
 import Toast from "../../component/Toast";
 import "./index.scss";
@@ -67,7 +67,8 @@ class Record extends React.Component {
   startListener = () => {
     extension.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       const { type, action, data } = message;
-      if (type === FROM_BACK_TO_RECORD && action === TX_SUCCESS && data.txHash === this.state.txDetail.txHash) {
+      let hash = this.state.txDetail.txHash || this.state.txDetail.hash
+      if (type === FROM_BACK_TO_RECORD && action === TX_SUCCESS && data.txHash === hash) {
         if(data.runtimeId){
           this.callSetState({
             txStatus: data.result,
@@ -124,10 +125,11 @@ class Record extends React.Component {
   goToExplorer = () => {
     let hash = this.state.txDetail.txHash || this.state.txDetail.hash
     let url
+    let explorerUrl = getCurrentNetConfig().explorer 
     if (this.state.isEvmTx) {
-      url = getExplorerUrl() + "paratimes/transactions/" + hash + "?runtime=" + this.state.txDetail.runtimeId
+      url = explorerUrl + "paratimes/transactions/" + hash + "?runtime=" + this.state.txDetail.runtimeId
     } else {
-      url = getExplorerUrl() + "transactions/" + hash
+      url = explorerUrl + "transactions/" + hash
     }
     openTab(url)
   }

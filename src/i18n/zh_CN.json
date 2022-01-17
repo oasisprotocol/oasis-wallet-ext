@@ -279,6 +279,6 @@
 
   "withdrawTitle":"提现",
   "withdrawToAddress":"提现地址",
-  "withdrawInfo":"提现信息"
-
+  "withdrawInfo":"提现信息",
+  "pendingTx":"处理中 ({{length}})"
 }

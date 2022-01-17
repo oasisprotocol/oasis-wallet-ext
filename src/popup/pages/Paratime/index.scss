@@ -46,4 +46,13 @@
     .runtimeListContainer {
         margin-top: 10px;
     }
+    .runtimePendingContainer{
+        display: flex;
+        align-items: center;
+        margin: 4px 0;
+        .pending-loading{
+            margin-left: 10px;
+            width: 20px;
+        }
+    }
 }
