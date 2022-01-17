@@ -75,7 +75,7 @@ class APIService {
         } catch (error) {
             return { error: 'passwordError', type: "local" }
         }
-    };
+    }
     checkPassword(password) {
         return this.getStore().password === password
     }
@@ -120,7 +120,7 @@ class APIService {
         }else{
             this.memStore.updateState({ isUnlocked: status })
         }
-    };
+    }
     getCurrentAccount = async () => {
         let localAccount = await get("keyringData")
         let currentAccount = this.getStore().currentAccount
@@ -298,8 +298,8 @@ class APIService {
     }
     /**
      * import wallet by secp256k1 private key
-     * @param {*} privKey 
-     * @returns 
+     * @param {*} privKey
+     * @returns
      */
     importSecWalletByPrivateKey = async (priKey) => {
         let priBuffer = Buffer.from(priKey.replace('0x', ''), 'hex');
@@ -330,7 +330,7 @@ class APIService {
      */
     addImportAccount = async (privateKey, accountName,accountType) => {
         try {
-            let wallet 
+            let wallet
             let currentAccountType = accountType || ACCOUNT_TYPE.WALLET_OUTSIDE
             if(currentAccountType === ACCOUNT_TYPE.WALLET_OUTSIDE_SECP256K1){
                 wallet = await this.importSecWalletByPrivateKey(privateKey)
@@ -366,7 +366,7 @@ class APIService {
                 address: wallet.address,
                 privateKey: privKeyEncrypt,
                 publicKey: wallet.publicKey,
-                type: currentAccountType, 
+                type: currentAccountType,
                 accountName,
                 typeIndex
             }
@@ -688,9 +688,9 @@ class APIService {
     }
     /**
      * withdraw amount when set allowance
-     * @param {*} params 
-     * @returns 
-     */ 
+     * @param {*} params
+     * @returns
+     */
     setWithdrawToConsensusAccount = async (params) => {
         const CONSENSUS_RT_ID = oasis.misc.fromHex(params.runtimeId)
         const consensusWrapper = new oasisRT.consensusAccounts.Wrapper(CONSENSUS_RT_ID);
@@ -699,7 +699,7 @@ class APIService {
     }
     /**
      * set deposit
-     * @param {*} params 
+     * @param {*} params
      */
     setAllowanceAndDepositToParatimeAccount= (params)=>{
         return new Promise( async (resolve,reject)=>{
@@ -758,7 +758,7 @@ class APIService {
                 address_spec: {signature: {secp256k1eth: signer.public()}},
                 nonce: nonce,
             });
-        
+
             txWrapper.setSignerInfo([signerInfo])
             await txWrapper.sign([signer], consensusChainContext);
 
@@ -893,7 +893,7 @@ class APIService {
         let myNotificationID
         extension.notifications &&
         extension.notifications.onClicked.addListener(function (clickId) {
-            if(myNotificationID === clickId){ 
+            if(myNotificationID === clickId){
                 let url
                 let explorerUrl = getCurrentNetConfig().explorer
                 if(runtimeId){

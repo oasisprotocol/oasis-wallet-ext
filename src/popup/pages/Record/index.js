@@ -72,7 +72,7 @@ class Record extends React.Component {
         if(data.runtimeId){
           this.callSetState({
             txStatus: data.result,
-            evmTxDetail:data.ctx ? data : {} 
+            evmTxDetail:data.ctx ? data : {}
           })
         }else{
           this.callSetState({
@@ -152,12 +152,12 @@ class Record extends React.Component {
     }
     if (typeof this.state.txStatus === "boolean") {
       if (this.state.txStatus) {
-        status.source = success,
-          status.text = getLanguage('backup_success_title')
+        status.source = success
+        status.text = getLanguage('backup_success_title')
         status.className = "tx-success-title"
       } else {
-        status.source = txFailed,
-          status.text = getLanguage('txFailed')
+        status.source = txFailed
+        status.text = getLanguage('txFailed')
         status.className = "tx-failed-title"
       }
     }

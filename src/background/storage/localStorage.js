@@ -39,7 +39,7 @@ export function clearLocal() {
 
 
 /**
- * delete all local storage except 
+ * delete all local storage except
  */
  export function clearLocalExcept(targetKey) {
      if(targetKey){
