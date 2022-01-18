@@ -18,3 +18,6 @@ export const LANGUAGE_CONFIG = "LANGUAGE_CONFIG"
  */
 export const ADDRESS_BOOK_CONFIG = "ADDRESS_BOOK_CONFIG"
 
+
+/** notify approve transaction */
+export const APPROVE_AND_DEPOSIT_TRANSACTION = "APPROVE_AND_DEPOSIT_TRANSACTION"

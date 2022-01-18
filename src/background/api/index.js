@@ -81,12 +81,19 @@ export async function getNodeStakeList() {
 
 /**
  * get tx hash
- * @param {*} txHash
+ * @param {*} url
+ * @param {*} hash
  * @returns
  */
-export async function getSubmitStatus(txhash) {
-  let url = "/chain/transaction/" + txhash
-  let txStatus = await commonFetch(url).catch(() => { })
+export async function getSubmitStatus(hash,url){
+  let fetchUrl 
+  if(url){
+    fetchUrl = url + "/chain/transaction/" + hash
+  }else{
+    fetchUrl =  "/chain/transaction/" + hash
+  }
+  
+  let txStatus = await commonFetch(fetchUrl).catch(() => { })
   if (txStatus && txStatus.code === 0) {
     return txStatus.data
   } else {
@@ -132,11 +139,16 @@ export async function getRpcRuntimeList(){
 
 /**
  * get runtime tx status
- * @param {*} txHash
- * @returns
+ * @param {*} txhash 
+ * @param {*} runtimeId 
+ * @param {*} baseFetchUrl 
+ * @returns 
  */
- export async function getRuntimeTxDetail(txhash,runtimeId) {
+ export async function getRuntimeTxDetail(txhash,runtimeId,baseFetchUrl) {
   let url = `/runtime/transaction/info?id=${runtimeId}&hash=${txhash}`
+  if(baseFetchUrl){
+    url = baseFetchUrl+ url
+  }
   let txDetail = await commonFetch(url).catch(() => { })
   if (txDetail && txDetail.code === 0) {
     return txDetail.data

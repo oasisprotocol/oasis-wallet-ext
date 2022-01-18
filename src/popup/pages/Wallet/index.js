@@ -18,7 +18,7 @@ import { updateAccountTx, updateCurrentAccount, updateNetAccount, updateRpcNonce
 import { setAccountInfo, updateDappConnectList, updateNetConfigRequest, updateSendPageType } from "../../../reducers/cache";
 import { updateNetConfigList } from "../../../reducers/network";
 import { openTab, sendMsg } from '../../../utils/commonMsg';
-import { addressSlice, connectAccountDataFilter, copyText, getExplorerUrl, isNumber } from "../../../utils/utils";
+import { addressSlice, connectAccountDataFilter, copyText, getCurrentNetConfig, isNumber } from "../../../utils/utils";
 import Button from "../../component/Button";
 import Clock from "../../component/Clock";
 import TestModal from "../../component/TestModal";
@@ -505,7 +505,8 @@ class Wallet extends React.Component {
     return className
   }
   onClickGoExplorer = () => {
-    let url = getExplorerUrl() + "accounts/detail/" + this.props.currentAccount.address
+    let explorerUrl = getCurrentNetConfig().explorer 
+    let url = explorerUrl + "accounts/detail/" + this.props.currentAccount.address
     openTab(url)
   }
   renderListExplorer = (index) => {

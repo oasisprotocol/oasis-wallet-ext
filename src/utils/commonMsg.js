@@ -1,5 +1,7 @@
 import extension from 'extensionizer'
+import { getLanguage } from "../i18n"
 import { QUERY_TAB_TYPE } from '../constant/specifyType';
+import { getSendTxError } from './utils';
 /**
  * Encapsulation class for sending messages
  * @param {*} message
@@ -68,4 +70,18 @@ export function getActiveTab(type, params) {
       resolve(tabs)
     })
   })
+}
+
+
+export function showErrorNotification(address, err) {
+  let errMessage = getSendTxError(err)
+  let title = getLanguage('notificationTitle')
+    let message = address+" :"+errMessage
+    let notifyId =address +  Date.now()
+    extension.notifications.create(notifyId, {
+        title: title,
+        message: message,
+        iconUrl: '/img/oasis.png',
+        type: 'basic'
+    });
 }

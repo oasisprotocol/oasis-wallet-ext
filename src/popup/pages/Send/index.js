@@ -18,7 +18,7 @@ import { updateAddressBookFrom, updateNetConfigRequest } from "../../../reducers
 import { updateNetConfigList } from "../../../reducers/network";
 import { sendMsg } from "../../../utils/commonMsg";
 import { checkLedgerConnect } from "../../../utils/ledger";
-import { addressSlice, amountDecimals, getDisplayAmount, getNumberDecimals, isNumber, isTrueNumber, toNonExponential, trimSpace } from "../../../utils/utils";
+import { addressSlice, amountDecimals, getDisplayAmount, getNumberDecimals, getSendTxError, isNumber, isTrueNumber, toNonExponential, trimSpace } from "../../../utils/utils";
 import { addressValid, evmAddressValid } from "../../../utils/validator";
 import AccountIcon from "../../component/AccountIcon";
 import Button from "../../component/Button";
@@ -707,11 +707,7 @@ class SendPage extends React.Component {
         }
       })
     } else {
-      let errMessage =
-        data?.message ||
-        data?.error?.message ||
-        data?.error?.metadata?.['grpc-message'] ||
-        getLanguage('postFailed')
+      let errMessage = getSendTxError(data)
       Toast.info(errMessage)
       return
     }

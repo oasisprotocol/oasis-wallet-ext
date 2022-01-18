@@ -6,6 +6,7 @@ import { NETWORK_CONFIG } from "../constant/storageKey";
 import { PARATIME_CONFIG } from "../constant/paratimeConfig";
 import * as oasis from '@oasisprotocol/client';
 import * as oasisRT from '@oasisprotocol/client-rt';
+import { getLanguage } from "../i18n"
 /**
  * Address interception
  * @param {*} address
@@ -179,18 +180,22 @@ export function getNumberDecimals(number) {
     }
 }
 
-export function getExplorerUrl() {
-    let localNetConfig = getLocal(NETWORK_CONFIG)
+/**
+ * get current net config
+ * @returns 
+ */
+export function getCurrentNetConfig() {
+    let localNetConfigStr = getLocal(NETWORK_CONFIG)
     let config = {}
-    if (localNetConfig) {
-        localNetConfig = JSON.parse(localNetConfig)
+    if (localNetConfigStr) {
+        let localNetConfig = JSON.parse(localNetConfigStr)
         let currentList = localNetConfig.currentNetList
         currentList = currentList.filter((item, index) => {
             return item.isSelect
         })
-        config = currentList && currentList.length > 0 ? currentList[0] : ""
+        config = currentList && currentList.length > 0 ? currentList[0] : {}
     }
-    return config.explorer
+    return config
 }
 
 
@@ -328,4 +333,49 @@ export function isEvmAddress(address){
         return true
     }
     return false
+}
+
+/**
+ * 
+ * @returns 
+ */
+ export function getNetTypeByUrl(url) { 
+    let localNetConfigStr = getLocal(NETWORK_CONFIG)
+    let config = {}
+    if (localNetConfigStr) {
+        let localNetConfig = JSON.parse(localNetConfigStr)
+        let totalNetList = localNetConfig.totalNetList
+        let filterList = totalNetList.filter((item, index) => {
+            return  url.indexOf(item.url) !== -1
+        })
+        config = filterList && filterList.length > 0 ? filterList[0] : ""
+    }
+    return config
+}
+
+
+/**
+ * check url is have https or http
+ * @param {*} url 
+ */
+export function isContainBaseUrl(url){
+    if(url.indexOf("https://")!==-1 || url.indexOf("http://")!==-1){
+        return true
+    }else{
+        return false
+    }
+}
+
+/**
+ * get send error
+ * @param {*} data 
+ * @returns 
+ */
+export function getSendTxError(data){
+    let errMessage =
+    data?.message ||
+    data?.error?.message ||
+    data?.error?.metadata?.['grpc-message'] ||
+    getLanguage('postFailed')
+    return errMessage
 }
