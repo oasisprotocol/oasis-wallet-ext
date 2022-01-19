@@ -23,6 +23,10 @@ const emerald_config = {
     ],
     decimals: 18,
     accountType:RUNTIME_ACCOUNT_TYPE.EVM,
+    // https://github.com/oasisprotocol/emerald-paratime/blob/main/src/lib.rs#L40
+    minGasPriceExemptMethods: [
+        "consensus.Deposit",
+    ],
 }
 /**
  * cipher-paratime config
@@ -41,6 +45,7 @@ const cipher_config = {
     ],
     decimals: 9,
     accountType:RUNTIME_ACCOUNT_TYPE.OASIS,
+    minGasPriceExemptMethods: [],
 }
 
 

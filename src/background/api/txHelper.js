@@ -92,6 +92,39 @@ export async function getTxFee(tw, publicKey, retryTime) {
 }
 
 /**
+ * Note: this only supports native denomination currently.
+ * @param {Uint8Array} runtimeId
+ * @param {number} retryTime
+ */
+export async function getRuntimeMinGasPrice(runtimeId, retryTime) {
+    const minGasPrice = await retry(async () => {
+        const oasisClient = getOasisClient()
+        return await new oasisRT.core.Wrapper(runtimeId)
+            .queryMinGasPrice()
+            .query(oasisClient)
+    }, retryTime)
+
+    /** @type {bigint | null} */
+    let nativeMin = null
+    const nativeDenominationHex = oasis.misc.toHex(oasisRT.token.NATIVE_DENOMINATION)
+    for (const [denomination, minPrice] of minGasPrice) {
+        if (oasis.misc.toHex(denomination) === nativeDenominationHex) {
+            nativeMin = oasis.quantity.toBigInt(minPrice)
+            break
+        }
+    }
+    if (nativeMin === null) {
+        const runtimeIdHex = oasis.misc.toHex(runtimeId)
+        const denominationsList = Array.from(minGasPrice.keys())
+            .map((denomination) => oasis.misc.toStringUTF8(denomination))
+            .join(', ')
+        throw new Error(`This ParaTime (${runtimeIdHex}) requires non-native denomination gas (${denominationsList}), which this wallet does not support.`)
+    }
+
+    return nativeMin
+}
+
+/**
  * get chain context
  * @param {number} retryTime
  * @returns
@@ -252,8 +285,8 @@ function getRuntimeNonce(accountsWrapper,address,retryTime){
  * @returns
  */
 export async function buildParatimeTxBody(params, wrapper) {
-    const CONSENSUS_RT_ID = oasis.misc.fromHex(params.runtimeId)
-    const accountsWrapper = new oasisRT.accounts.Wrapper(CONSENSUS_RT_ID);
+    const runtimeId = oasis.misc.fromHex(params.runtimeId)
+    const accountsWrapper = new oasisRT.accounts.Wrapper(runtimeId);
 
     let bech32Address = await oasis.staking.addressFromBech32(params.fromAddress)
     const nonce = await getRuntimeNonce(accountsWrapper,bech32Address,RETRY_TIME)
@@ -272,16 +305,28 @@ export async function buildParatimeTxBody(params, wrapper) {
         oasis.quantity.fromBigInt(amountBI),
         oasisRT.token.NATIVE_DENOMINATION
     ]);
-    let feeAmount  = params.feeAmount||0
-    feeAmount = BigInt(feeAmount)
-    const FEE_FREE =([
-        oasis.quantity.fromBigInt(feeAmount),
-        oasisRT.token.NATIVE_DENOMINATION,
-    ]);
-    feeAmount  = FEE_FREE
+
     // Use default if feeGas is "" or 0 (0 is illegal in send page)
     let feeGas = params.feeGas||50000
     feeGas = BigInt(feeGas)
+
+    let feeAmountBI
+    if (params.feeAmount) {
+        feeAmountBI = BigInt(params.feeAmount)
+    } else {
+        if (runtimeConfig.minGasPriceExemptMethods && runtimeConfig.minGasPriceExemptMethods.includes(wrapper.transaction.call.method)) {
+            // Use zero fee amount for methods in core::Config::MIN_GAS_PRICE_EXEMPT_METHODS.
+            feeAmountBI = 0n
+        } else {
+            let minGasPrice = await getRuntimeMinGasPrice(runtimeId, RETRY_TIME)
+            feeAmountBI = minGasPrice * feeGas
+        }
+    }
+    let feeAmount =([
+        oasis.quantity.fromBigInt(feeAmountBI),
+        oasisRT.token.NATIVE_DENOMINATION,
+    ])
+
     let consensusChainContext = await getChainContext(RETRY_TIME)
     let txWrapper
 
