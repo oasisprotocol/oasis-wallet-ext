@@ -293,10 +293,10 @@ export async function buildParatimeTxBody(params, wrapper) {
         decimal = new BigNumber(10).pow(cointypes.decimals)
     }
 
-    let amount = new BigNumber(params.amount).multipliedBy(decimal).toFixed()
-    amount = BigInt(amount)
+    let amountBaseUnisStr = new BigNumber(params.amount).multipliedBy(decimal).toFixed()
+    let amountBI = BigInt(amountBaseUnisStr)
     const DEPOSIT_AMOUNT = ([
-        oasis.quantity.fromBigInt(amount),
+        oasis.quantity.fromBigInt(amountBI),
         oasisRT.token.NATIVE_DENOMINATION
     ]);
     let feeAmount  = params.feeAmount||0
