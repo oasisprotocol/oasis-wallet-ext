@@ -43,98 +43,86 @@ export function delegateTransaction(params) {
     params.method = TRANSACTION_TYPE.AddEscrow
     return submitTxBody(params, tw)
 }
+
+/**
+ * @param {number} ms 
+ * @returns {Promise<void>}
+ */
+export function delay(ms) {
+    return new Promise((resolve, _reject) => {
+        setTimeout(resolve, ms)
+    })
+}
+
+/**
+ * Resolve f(). If it rejects, retry up to retryTime times.
+ * @template T
+ * @param {() => Promise<T>} f
+ * @param {number} retryTime
+ * @returns {Promise<T>}
+ */
+export async function retry(f, retryTime) {
+    while (true) {
+        retryTime = retryTime - 1
+        try {
+            return await f()
+        } catch (e) {
+            if (retryTime > 0) {
+                await delay(RETRY_DELAY)
+            } else {
+                throw e
+            }
+        }
+    }
+}
+
 /**
  * get tx fee
  * @param {*} tw
  * @param {*} publicKey
- * @param {*} retryTime
+ * @param {number} retryTime
  * @returns
  */
 export async function getTxFee(tw, publicKey, retryTime) {
-    return new Promise(async (resolve, reject) => {
-        retryTime = retryTime - 1
-        try {
-            const oasisClient = getOasisClient()
-            let gasResult = await tw.estimateGas(oasisClient, publicKey)
-            resolve(gasResult)
-        } catch (error) {
-            if (retryTime > 0) {
-                setTimeout(async () => {
-                    try {
-                        resolve(await getTxFee(tw, publicKey, retryTime))
-                    } catch (error) {
-                        reject(error)
-                    }
-                }, RETRY_DELAY);
-            } else {
-                reject(error)
-            }
-        }
-    })
-
+    return await retry(async () => {
+        const oasisClient = getOasisClient()
+        let gasResult = await tw.estimateGas(oasisClient, publicKey)
+        return gasResult
+    }, retryTime)
 }
+
 /**
  * get chain context
- * @param {*} retryTime
+ * @param {number} retryTime
  * @returns
  */
 export async function getChainContext(retryTime) {
     if (process.env.NODE_ENV === 'test') {
         return TEST_NET_CONTEXT
     } else {
-        return new Promise(async (resolve, reject) => {
-            retryTime = retryTime - 1
-            try {
-                const oasisClient = getOasisClient()
-                let chainContext = await oasisClient.consensusGetChainContext()
-                resolve(chainContext)
-            } catch (error) {
-                if (retryTime > 0) {
-                    setTimeout(async () => {
-                        try {
-                            resolve(await getChainContext(retryTime))
-                        } catch (error) {
-                            reject(error)
-                        }
-                    }, RETRY_DELAY);
-                } else {
-                    reject(error)
-                }
-            }
-        })
+        return await retry(async () => {
+            const oasisClient = getOasisClient()
+            let chainContext = await oasisClient.consensusGetChainContext()
+            return chainContext
+        }, retryTime)
     }
 }
 
 /**
  * broadcast tx
  * @param {*} tw
- * @param {*} retryTime
+ * @param {number} retryTime
  * @returns
  */
 export async function submitTx(tw, retryTime) {
     if (process.env.NODE_ENV === 'test') {
         return
     } else {
-        return new Promise(async (resolve, reject) => {
-            retryTime = retryTime - 1
-            try {
-                const oasisClient = getOasisClient()
-                let signSubmit = await tw.submit(oasisClient)
-                resolve(signSubmit)
-            } catch (error) {
-                if (retryTime > 0) {
-                    setTimeout(async () => {
-                        try {
-                            resolve(await submitTx(tw, retryTime))
-                        } catch (err) {
-                            reject(err)
-                        }
-                    }, RETRY_DELAY);
-                } else {
-                    reject(error)
-                }
-            }
-        })
+        return await retry(async () => {
+            const oasisClient = getOasisClient()
+            let signSubmit = await tw.submit(oasisClient)
+            return signSubmit
+        }, retryTime)
     }
 }
 /**
@@ -245,30 +233,15 @@ export async function submitTxBody(params, tw) {
  * get runtime nonce
  * @param {*} accountsWrapper
  * @param {*} address
- * @param {*} retryTime
+ * @param {number} retryTime
  * @returns
  */
 function getRuntimeNonce(accountsWrapper,address,retryTime){
-    return new Promise(async (resolve, reject) => {
-        retryTime = retryTime - 1
-        try {
-            const oasisClient = getOasisClient()
-            let nonceResult = await accountsWrapper.queryNonce().setArgs({ address: address }).query(oasisClient);
-            resolve(nonceResult)
-        } catch (error) {
-            if (retryTime > 0) {
-                setTimeout(async () => {
-                    try {
-                        resolve(await getRuntimeNonce(accountsWrapper,address,retryTime))
-                    } catch (error) {
-                        reject(error)
-                    }
-                }, RETRY_DELAY);
-            } else {
-                reject(error)
-            }
-        }
-    })
+    return retry(async () => {
+        const oasisClient = getOasisClient()
+        let nonceResult = await accountsWrapper.queryNonce().setArgs({ address: address }).query(oasisClient);
+        return nonceResult
+    }, retryTime)
 }
 
 
