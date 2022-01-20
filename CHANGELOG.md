@@ -5,7 +5,7 @@
 New features:
 
 - ParaTime withdrawals now automatically set the fee that will soon be required on Emerald
-  (0.0005 ROSE/TEST)
+  (0.00015 ROSE/TEST)
 
 Little things:
 

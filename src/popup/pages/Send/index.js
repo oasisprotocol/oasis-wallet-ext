@@ -139,8 +139,8 @@ class SendPage extends React.Component {
             sendAction = WALLET_SEND_RUNTIME_WITHDRAW
           }
           // A wild guess: the minimum gas price on Emerald (10 nano ROSE) times the default loose
-          // overestimate of the gas (50k).
-          defaultFeeAmount = "500000"
+          // overestimate of the gas (15k).
+          defaultFeeAmount = "150000"
         }
 
         pageTitle = getLanguage('send')
