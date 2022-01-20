@@ -299,7 +299,9 @@ export async function buildParatimeTxBody(params, wrapper) {
         oasis.quantity.fromBigInt(amount),
         oasisRT.token.NATIVE_DENOMINATION
     ]);
-    let feeAmount  = params.feeAmount||0
+    // Fee amount idiosyncrasy: UI presents it in 1e-9 always, regardless of paratime setting.
+    let feeAmountDecimal = new BigNumber(10).pow(cointypes.decimals)
+    let feeAmount  = new BigNumber(params.feeAmount||0).multipliedBy(decimal).dividedBy(feeAmountDecimal).toFixed()
     feeAmount = BigInt(feeAmount)
     const FEE_FREE =([
         oasis.quantity.fromBigInt(feeAmount),

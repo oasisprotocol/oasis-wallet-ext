@@ -5,6 +5,8 @@
 Bug fixes:
 
 - Brought ParaTime transaction hashing in sync with block explorer.
+- Emerald transactions had mistakenly used a lower fee than configured, when using the advanced fee
+  options. This is corrected.
 
 ## 1.2.0
 
