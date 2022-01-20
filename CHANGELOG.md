@@ -2,6 +2,11 @@
 
 ## Unreleased changes
 
+New features:
+
+- ParaTime withdrawals now automatically set the fee that will soon be required on Emerald
+  (0.0005 ROSE/TEST)
+
 Little things:
 
 - The advanced fee options now indicates the unit for the amount (nano ROSE/TEST).

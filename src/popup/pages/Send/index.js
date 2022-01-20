@@ -90,6 +90,7 @@ class SendPage extends React.Component {
     let runtimeType = params.accountType||""
     let runtimeDecimals = params.decimals||cointypes.decimals
     let isWithdraw = false
+    let defaultFeeAmount = "0"
 
 
     let confirmTitle = ""
@@ -137,6 +138,9 @@ class SendPage extends React.Component {
             toAddressCanInputDefaultValue = currentAccount.address
             sendAction = WALLET_SEND_RUNTIME_WITHDRAW
           }
+          // A wild guess: the minimum gas price on Emerald (10 nano ROSE) times the default loose
+          // overestimate of the gas (50k).
+          defaultFeeAmount = "500000"
         }
 
         pageTitle = getLanguage('send')
@@ -207,6 +211,7 @@ class SendPage extends React.Component {
       toAddressShowValue,
       runtimeType,
       runtimeId,
+      defaultFeeAmount,
       confirmTitle,
       confirmToAddressTitle,
       sendAction,
@@ -541,7 +546,7 @@ class SendPage extends React.Component {
       return
     }
 
-    feeAmount = feeAmount || 0
+    feeAmount = feeAmount || this.pageConfig.defaultFeeAmount
     feeGas = feeGas || 0
     let payFee = new BigNumber(amountDecimals(feeAmount)).toString()
 
@@ -622,7 +627,7 @@ class SendPage extends React.Component {
     let nonce = trimSpace(this.state.nonce) || accountInfo.nonce
     let fromAddress = currentAccount.address
 
-    let feeAmount = trimSpace(this.state.feeAmount)
+    let feeAmount = trimSpace(this.state.feeAmount) || this.pageConfig.defaultFeeAmount
     let feeGas = trimSpace(this.state.feeGas)
 
     let depositAddress = ""
@@ -734,7 +739,7 @@ class SendPage extends React.Component {
     let netNonce = isNumber(accountInfo.nonce) ? accountInfo.nonce : ""
     let nonce = this.state.nonce ? this.state.nonce : netNonce
 
-    let feeAmount = this.state.feeAmount ? this.state.feeAmount : 0
+    let feeAmount = this.state.feeAmount ? this.state.feeAmount : this.pageConfig.defaultFeeAmount
     feeAmount = toNonExponential(amountDecimals(feeAmount, cointypes.decimals))
     let title = ""
     let toTitle = ""
