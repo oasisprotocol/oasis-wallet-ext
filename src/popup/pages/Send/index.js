@@ -543,7 +543,7 @@ class SendPage extends React.Component {
 
     feeAmount = feeAmount || 0
     feeGas = feeGas || 0
-    let payFee = new BigNumber(amountDecimals(feeAmount)).multipliedBy(feeGas).toString()
+    let payFee = new BigNumber(amountDecimals(feeAmount)).toString()
 
 
     let checkStatus = this.checkBalanceEnough(amount,payFee)
