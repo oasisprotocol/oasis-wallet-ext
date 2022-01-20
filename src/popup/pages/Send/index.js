@@ -425,7 +425,7 @@ class SendPage extends React.Component {
         />}
         <CustomInput
           value={this.state.feeAmount}
-          placeholder={"Fee Amount"}
+          placeholder={`Fee Amount (nano ${this.props.netConfig.currentSymbol})`}
           onTextInput={this.onFeeInput}
         />
         <CustomInput

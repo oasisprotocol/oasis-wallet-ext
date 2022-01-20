@@ -2,6 +2,10 @@
 
 ## Unreleased changes
 
+Little things:
+
+- The advanced fee options now indicates the unit for the amount (nano ROSE/TEST).
+
 Bug fixes:
 
 - Brought ParaTime transaction hashing in sync with block explorer.
