@@ -1,5 +1,11 @@
 # Change Log
 
+## Unrelease changes
+
+Bug fixes:
+
+- Brought ParaTime transaction hashing in sync with block explorer.
+
 ## 1.2.0
 
 Spotlight changes:

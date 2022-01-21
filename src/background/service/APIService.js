@@ -759,7 +759,7 @@ class APIService {
 
             await submitTx(txWrapper, RETRY_TIME)
 
-            let u8Hash = await oasis.hash.hash(txWrapper.unverifiedTransaction[0])
+            let u8Hash = await oasis.hash.hash(oasis.misc.toCBOR(txWrapper.unverifiedTransaction))
             let hash = oasis.misc.toHex(u8Hash)
             let config =  getRuntimeConfig(params.runtimeId)
             if (hash && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
@@ -803,7 +803,7 @@ class APIService {
             txWrapper.setSignerInfo([signerInfo]);
             await txWrapper.sign([signer], consensusChainContext);
             await submitTx(txWrapper, RETRY_TIME)
-            let u8Hash = await oasis.hash.hash(txWrapper.unverifiedTransaction[0])
+            let u8Hash = await oasis.hash.hash(oasis.misc.toCBOR(txWrapper.unverifiedTransaction))
             let hash = oasis.misc.toHex(u8Hash)
             let config =  getRuntimeConfig(params.runtimeId)
             if (hash && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
