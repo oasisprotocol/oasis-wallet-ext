@@ -31,6 +31,12 @@ import Toast from "../../component/Toast";
 import "./index.scss";
 import { RUNTIME_ACCOUNT_TYPE } from "../../../constant/paratimeConfig";
 
+/**
+ * @typedef { ReturnType<import('../../../background/service/APIService')['default']['getAllAccount']> } GetAllAccountsResponse
+ * @typedef { import("src/background/service/APIService").Account } Account
+ */
+
+
 const STAKE_MIN_AMOUNT = 100
 class SendPage extends React.Component {
   constructor(props) {
@@ -54,6 +60,12 @@ class SendPage extends React.Component {
       feeGas: "",
       stakeType: type,
       netConfigList: [],
+      allAccounts: {
+        /** @type {Account[]} */
+        commonList: [],
+        /** @type {Account[]} */
+        evmList: []
+      },
       reclaimShare:"",
       pageTitle:pageConfig.pageTitle,
       maxWithdrawAmount:0,
@@ -131,7 +143,6 @@ class SendPage extends React.Component {
       case SEND_PAGE_TYPE_RUNTIME_WITHDRAW:
         maxCanUseAmount = 0
         if(runtimeId){
-
           if(runtimeType === RUNTIME_ACCOUNT_TYPE.EVM){
             toAddressPlaceHolder = "oasis..."
             toAddressCanInput = true
@@ -151,8 +162,24 @@ class SendPage extends React.Component {
         toAddressTitle=getLanguage('toAddress')
         confirmTitle = getLanguage('sendDetail')
         confirmToAddressTitle = getLanguage('toAddress')
-
         isWithdraw = true
+
+        warnBeforeSending = async () => {
+          const ownAddresses = this.state.allAccounts.commonList
+            .filter(acc => {
+              return (
+                acc.type === ACCOUNT_TYPE.WALLET_INSIDE ||
+                acc.type === ACCOUNT_TYPE.WALLET_LEDGER ||
+                acc.type === ACCOUNT_TYPE.WALLET_OUTSIDE
+              )
+            })
+            .map(acc => acc.address)
+
+          if (!ownAddresses.includes(this.state.toAddress)) {
+            return getLanguage("confirmWithdrawingFromParatimeToForeignAccount", "Destination account is not in your wallet! Some automated systems, e.g., those used for tracking exchange deposits, may be unable to accept funds through ParaTime withdrawals. For better compatibility, cancel, withdraw into your own account, and transfer from there.")
+          }
+          return undefined
+        }
         break
       case SEND_PAGE_TYPE_STAKE:
         pageTitle = getLanguage('AddEscrow')
@@ -256,6 +283,7 @@ class SendPage extends React.Component {
   async componentDidMount() {
     let { isWithdraw } = this.pageConfig
     this.netConfigAction()
+    this.getAllAccounts()
     if(isWithdraw){
       await this.fetchParatimeData()
     }else{
@@ -307,6 +335,17 @@ class SendPage extends React.Component {
     if(!isSilent){
       Loading.hide()
     }
+  }
+  getAllAccounts() {
+    sendMsg({
+      action: WALLET_GET_ALL_ACCOUNT,
+    },
+      /** @param {GetAllAccountsResponse} account */
+      (account) => {
+        this.callSetState({
+          allAccounts: account.accounts,
+        })
+    })
   }
 
   componentWillReceiveProps(nextProps) {

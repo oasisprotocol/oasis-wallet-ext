@@ -44,6 +44,7 @@
     "amountError": "The format of the amount you entered is incorrect, please check and re-enter",
     "confirmTransferringToValidator": "This is a validator wallet address. Transfers to this address do not stake your funds with the validator.",
     "confirmWantToContinue": "Are you sure you want to continue?",
+    "confirmWithdrawingFromParatimeToForeignAccount": "Destination account is not in your wallet! Some automated systems, e.g., those used for tracking exchange deposits, may be unable to accept funds through ParaTime withdrawals. For better compatibility, cancel, withdraw into your own account, and transfer from there.",
     "txHash": "Transaction Hash",
     "receiveTitle": "Receive",
     "walletAddress": "Wallet Address",
