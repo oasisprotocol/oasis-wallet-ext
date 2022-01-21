@@ -56,10 +56,12 @@ class SendPage extends React.Component {
       netConfigList: [],
       reclaimShare:"",
       pageTitle:pageConfig.pageTitle,
-      maxWithdrawAmount:0
+      maxWithdrawAmount:0,
+      /** @type {undefined | string} */
+      warningTextBeforeSending: undefined,
     };
     this.modal = React.createRef();
-    this.confirmTransferToValidatorModal = React.createRef();
+    this.warningModalBeforeSending = React.createRef();
     this.isUnMounted = false;
     this.currentNetConfig = {}
     this.isRequest = false
@@ -91,6 +93,8 @@ class SendPage extends React.Component {
     let runtimeDecimals = params.decimals||cointypes.decimals
     let isWithdraw = false
     let defaultFeeAmount = "0"
+    /** @returns { Promise<undefined | string> } */
+    let warnBeforeSending = async () => undefined
 
 
     let confirmTitle = ""
@@ -195,6 +199,19 @@ class SendPage extends React.Component {
 
         sendAction = WALLET_SEND_TRANSACTION
 
+        warnBeforeSending = async () => {
+          try {
+            if (await isValidator(this.state.toAddress)) {
+              return getLanguage("confirmTransferringToValidator", "This is a validator wallet address. Transfers to this address do not stake your funds with the validator.")
+            }
+            return undefined
+          } catch (err) {
+            // Ignore warning if endpoint is broken
+            console.error("Couldn't check (and warn) if toAddress is validator", err)
+            return undefined
+          }
+        }
+
         confirmTitle = getLanguage('sendDetail')
         confirmToAddressTitle = getLanguage('toAddress')
         break
@@ -214,6 +231,7 @@ class SendPage extends React.Component {
       defaultFeeAmount,
       confirmTitle,
       confirmToAddressTitle,
+      warnBeforeSending,
       sendAction,
       currentAllowance,
       runtimeDecimals,
@@ -507,7 +525,7 @@ class SendPage extends React.Component {
   }
   onConfirm = async () => {
     let { currentAccount } = this.props
-    const { toAddressCanInput,runtimeType,isWithdraw,toAddressCanInputDefaultValue, sendAction } = this.pageConfig
+    const { toAddressCanInput,runtimeType,isWithdraw,toAddressCanInputDefaultValue, warnBeforeSending } = this.pageConfig
     if (currentAccount.type === ACCOUNT_TYPE.WALLET_OBSERVE) {
       Toast.info(getLanguage('observeAccountTip'))
       return
@@ -565,16 +583,11 @@ class SendPage extends React.Component {
       return
     }
 
-    if (sendAction === "WALLET_SEND_TRANSACTION") {
-      try {
-        if (await isValidator(toAddress)) {
-          this.confirmTransferToValidatorModal.current.setModalVisible(true)
-          return
-        }
-      } catch (err) {
-        // Ignore warning if endpoint is broken
-        console.error("Couldn't check (and warn) if toAddress is validator", err);
-      }
+    const warningTextBeforeSending = await warnBeforeSending()
+    if (warningTextBeforeSending) {
+      this.setState({ warningTextBeforeSending: warningTextBeforeSending })
+      this.warningModalBeforeSending.current.setModalVisible(true)
+      return
     }
 
     this.modal.current.setModalVisible(true)
@@ -780,20 +793,20 @@ class SendPage extends React.Component {
   onCloseModal = () => {
     this.modal.current.setModalVisible(false)
   }
-  renderConfirmTransferToValidatorModal = () => {
+  renderWarningModalBeforeSending = () => {
     return (<TestModal
-      ref={this.confirmTransferToValidatorModal}
+      ref={this.warningModalBeforeSending}
       touchToClose={true}
       showClose={true}
     >
       <div className={"confirm-modal-container"}>
-        <div className={"test-modal-title-container"}><p className={"test-modal-title"}>{getLanguage("confirmSendingToValidatorTitle", "Are you sure you want to continue?")}</p></div>
-        <p>{getLanguage("confirmSendingToValidatorDescription", "This is a validator wallet address. Transfers to this address do not stake your funds with the validator.")}</p>
+        <div className={"test-modal-title-container"}><p className={"test-modal-title"}>{getLanguage("confirmWantToContinue", "Are you sure you want to continue?")}</p></div>
+        <p>{this.state.warningTextBeforeSending}</p>
         <div className={"send-confirm-container"}>
           <Button
             content={getLanguage('cancel')}
             propsClass={"account-common-btn account-common-btn-cancel"}
-            onClick={() => this.confirmTransferToValidatorModal.current.setModalVisible(false)}
+            onClick={() => this.warningModalBeforeSending.current.setModalVisible(false)}
           />
           <Button
             content={getLanguage('confirm')}
@@ -976,7 +989,7 @@ class SendPage extends React.Component {
         {this.renderAdvanceOption()}
       </form>
       {this.renderConfirm()}
-      {this.renderConfirmTransferToValidatorModal()}
+      {this.renderWarningModalBeforeSending()}
       {this.renderConfirmModal()}
     </CustomView>)
   }
