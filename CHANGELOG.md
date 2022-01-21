@@ -1,6 +1,6 @@
 # Change Log
 
-## Unrelease changes
+## Unreleased changes
 
 Bug fixes:
 
