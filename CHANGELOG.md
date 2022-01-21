@@ -1,10 +1,23 @@
 # Change Log
 
-## Unrelease changes
+## Unreleased changes
+
+New features:
+
+- ParaTime withdrawals now automatically set the fee that will soon be required on Emerald
+  (0.00015 ROSE/TEST)
+
+Little things:
+
+- The advanced fee options now indicates the unit for the amount (nano ROSE/TEST).
 
 Bug fixes:
 
 - Brought ParaTime transaction hashing in sync with block explorer.
+- Emerald transactions had mistakenly used a lower fee than configured, when using the advanced fee
+  options. This is corrected.
+- Corrected how the total amount+fee is calculated when checking if you have enough funds for a
+  transaction.
 
 ## 1.2.0
 
