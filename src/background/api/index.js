@@ -226,3 +226,29 @@ export async function isValidator(address ) {
   const isStakingNode = !!nodeInfo?.data;
   return isStakingNode
 }
+
+/**
+ * @param {string} runtimeId in hex
+ */
+export async function getRuntimeMinGasPrice(runtimeId) {
+  const oasisClient = getOasisClient()
+  const minGasPriceResult = await new oasisRT.core.Wrapper(oasis.misc.fromHex(runtimeId))
+    .queryMinGasPrice()
+    .query(oasisClient)
+  let nativeMinBI = null
+  const nativeDenominationHex = oasis.misc.toHex(oasisRT.token.NATIVE_DENOMINATION);
+  for (const [denomination, amount] of minGasPriceResult) {
+    const denominationHex = oasis.misc.toHex(denomination)
+    if (denominationHex === nativeDenominationHex) {
+      nativeMinBI = oasis.quantity.toBigInt(amount)
+      break
+    }
+  }
+  if (nativeMinBI === null) {
+    const denominationsList = Array.from(minGasPriceResult.keys())
+      .map((denomination) => oasis.misc.toStringUTF8(denomination))
+      .join(', ')
+    throw new Error(`This ParaTime requires non-native denomination gas (${denominationsList})`)
+  }
+  return nativeMinBI
+}

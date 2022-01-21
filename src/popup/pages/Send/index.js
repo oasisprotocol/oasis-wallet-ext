@@ -6,7 +6,7 @@ import { cointypes, network_config } from "../../../../config";
 import address_book from "../../../assets/images/address_book.png";
 import loadingCommon from "../../../assets/images/loadingCommon.gif";
 import record_arrow from "../../../assets/images/record_arrow.png";
-import { getBalance, getRpcNonce, getRuntimeBalance, isValidator } from "../../../background/api";
+import { getBalance, getRpcNonce, getRuntimeBalance, getRuntimeMinGasPrice, isValidator } from "../../../background/api";
 import { saveLocal } from "../../../background/storage/localStorage";
 import { undelegateTransaction, delegateTransaction, sendTransaction} from "../../../background/api/txHelper";
 import { NETWORK_CONFIG } from "../../../constant/storageKey";
@@ -71,6 +71,8 @@ class SendPage extends React.Component {
       maxWithdrawAmount:0,
       /** @type {undefined | string} */
       warningTextBeforeSending: undefined,
+      minGasPriceBI: 0n,
+      previewedFeeAmount: "",
     };
     this.modal = React.createRef();
     this.warningModalBeforeSending = React.createRef();
@@ -344,6 +346,17 @@ class SendPage extends React.Component {
         maxWithdrawAmount:amount
       })
     }
+    let minGasPriceBI = 0n
+    try {
+      minGasPriceBI = await getRuntimeMinGasPrice(runtimeId)
+    } catch (e) {
+      console.error(`getting min gas price for runtime ${runtimeId}`, e)
+    }
+    if (minGasPriceBI > 0n) {
+      this.callSetState({
+        minGasPriceBI,
+      })
+    }
     this.isRequest = false
     if(!isSilent){
       Loading.hide()
@@ -602,7 +615,7 @@ class SendPage extends React.Component {
   }
   onConfirm = async () => {
     let { currentAccount } = this.props
-    const { toAddressCanInput,runtimeType,isWithdraw,toAddressCanInputDefaultValue, warnBeforeSending } = this.pageConfig
+    const { toAddressCanInput,runtimeType,isWithdraw,toAddressCanInputDefaultValue, warnBeforeSending, sendAction, runtimeDecimals, defaultFeeAmount } = this.pageConfig
     if (currentAccount.type === ACCOUNT_TYPE.WALLET_OBSERVE) {
       Toast.info(getLanguage('observeAccountTip'))
       return
@@ -645,7 +658,34 @@ class SendPage extends React.Component {
       return
     }
 
-    feeAmount = feeAmount || this.pageConfig.defaultFeeAmount
+    if (!feeAmount) {
+      if (this.state.minGasPriceBI > 0n) {
+        // We've loaded an exact min gas price. Use that.
+        if (sendAction === WALLET_SEND_RUNTIME_DEPOSIT) {
+          // Deposit is listed as a method exempt from the minimum gas price.
+          // Maybe we could save the min gas price query in this case, but we hadn't checked back
+          // then.
+          feeAmount = "0"
+        }
+        // Keep the roughGas numbers sync with txHelper.buildParatimeTxBody.
+        let roughGas = 0n
+        switch (sendAction) {
+          case WALLET_SEND_RUNTIME_WITHDRAW:
+          case WALLET_SEND_RUNTIME_EVM_WITHDRAW:
+            roughGas = 15_000n
+            break
+        }
+        feeAmount = new BigNumber(String(this.state.minGasPriceBI * roughGas))
+          .dividedBy(new BigNumber(10).pow(runtimeDecimals))
+          .times(new BigNumber(10).pow(cointypes.decimals))
+          .toFixed()
+      } else if (defaultFeeAmount) {
+        feeAmount = defaultFeeAmount
+      }
+    }
+    this.callSetState({
+      previewedFeeAmount: feeAmount,
+    })
     feeGas = feeGas || 0
     let payFee = new BigNumber(amountDecimals(feeAmount)).toString()
 
@@ -721,7 +761,7 @@ class SendPage extends React.Component {
     let nonce = trimSpace(this.state.nonce) || accountInfo.nonce
     let fromAddress = currentAccount.address
 
-    let feeAmount = trimSpace(this.state.feeAmount) || this.pageConfig.defaultFeeAmount
+    let feeAmount = this.state.previewedFeeAmount
     let feeGas = trimSpace(this.state.feeGas)
 
     let depositAddress = ""
