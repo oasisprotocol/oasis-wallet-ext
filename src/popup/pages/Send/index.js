@@ -10,7 +10,7 @@ import { getBalance, getRpcNonce, getRuntimeBalance, isValidator } from "../../.
 import { saveLocal } from "../../../background/storage/localStorage";
 import { undelegateTransaction, delegateTransaction, sendTransaction} from "../../../background/api/txHelper";
 import { NETWORK_CONFIG } from "../../../constant/storageKey";
-import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_RUNTIME_DEPOSIT, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, SEND_PAGE_TYPE_RUNTIME_WITHDRAW, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSACTION, WALLET_SEND_RUNTIME_DEPOSIT, WALLET_SEND_STAKE_TRANSACTION, WALLET_SEND_TRANSACTION, WALLET_SEND_RUNTIME_WITHDRAW, WALLET_SEND_RUNTIME_EVM_WITHDRAW } from "../../../constant/types";
+import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_RUNTIME_DEPOSIT, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, SEND_PAGE_TYPE_RUNTIME_WITHDRAW, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSACTION, WALLET_SEND_RUNTIME_DEPOSIT, WALLET_SEND_STAKE_TRANSACTION, WALLET_SEND_TRANSACTION, WALLET_SEND_RUNTIME_WITHDRAW, WALLET_SEND_RUNTIME_EVM_WITHDRAW, WALLET_GET_ALL_ACCOUNT } from "../../../constant/types";
 import { ACCOUNT_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { updateNetAccount, updateRpcNonce, updateSendRefresh } from "../../../reducers/accountReducer";
@@ -222,6 +222,10 @@ class SendPage extends React.Component {
     }
   }
 
+  /**
+   * @param {Partial<SendPage['state']>} data
+   * @param {() => void} [callback]
+   */
   callSetState = (data, callback) => {
     if (!this.isUnMounted) {
       this.setState({
@@ -664,14 +668,15 @@ class SendPage extends React.Component {
 
     if (currentAccount.type === ACCOUNT_TYPE.WALLET_LEDGER) {
       return this.ledgerTransfer(payload)
+    } else {
+      sendMsg({
+        action: sendAction,
+        payload
+      }, (data) => {
+        Loading.hide()
+        this.onSubmitSuccess(data)
+      })
     }
-    sendMsg({
-      action: sendAction,
-      payload
-    }, (data) => {
-      Loading.hide()
-      this.onSubmitSuccess(data)
-    })
   }
   onSubmitRuntime=(data)=>{
     if(data && data.code === 0){

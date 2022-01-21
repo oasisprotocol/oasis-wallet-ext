@@ -22,6 +22,18 @@ const EthUtils = require('ethereumjs-util');
 const encryptUtils = require('@metamask/browser-passworder')
 const RETRY_TIME = 4
 
+/**
+ * @typedef {{
+ *   address: string;
+ *   evmAddress?: string;
+ *   privateKey: string;
+ *   publicKey: string;
+ *   type: keyof typeof ACCOUNT_TYPE;
+ *   hdPath: number;
+ *   accountName: string;
+ *   typeIndex: number;
+ * }} Account
+ */
 
 const default_account_name = "Account 1"
 class APIService {
@@ -98,12 +110,19 @@ class APIService {
     initLockedState=()=>{
         return {
           isUnlocked: false,
-          data: '',
+          /**
+           * @type { Array<{
+           *   mnemonic: string;
+           *     accounts: Account[];
+           *     currentAddress: string;
+           *  }> }
+           */
+          data: /** @type {any} */ (undefined),
           password: '',
           currentAccount: {},
           mne: ""
         };
-      }
+    }
 
     resetWallet=()=>{
       this.memStore.putState(this.initLockedState())
@@ -176,6 +195,7 @@ class APIService {
             currentAddress: currentAccount.address
         }
     }
+    /** @param {Account[]} accountList */
     accountSort = (accountList, isDapp = false) => {
         let newList = accountList
         let commonList = []
@@ -353,14 +373,13 @@ class APIService {
             let importList = accounts.filter((item, index) => {
                 return item.type === currentAccountType
             })
-            let typeIndex = ""
-            if (importList.length == 0) {
-                typeIndex = 1
-            } else {
+            let typeIndex = 1
+            if (importList.length > 0) {
                 typeIndex = importList[importList.length - 1].typeIndex + 1
             }
 
             let privKeyEncrypt = await this.encryptor.encrypt(this.getStore().password, wallet.privKey_hex)
+            /** @type {Account} */
             let account = {
                 address: wallet.address,
                 privateKey: privKeyEncrypt,

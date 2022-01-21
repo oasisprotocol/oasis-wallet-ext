@@ -2,12 +2,12 @@
  * Wallet type
  */
 export const ACCOUNT_TYPE = {
-  WALLET_INSIDE: "WALLET_INSIDE",
-  WALLET_OUTSIDE: "WALLET_OUTSIDE",
-  WALLET_LEDGER: "WALLET_LEDGER",
-  WALLET_OBSERVE: "WALLET_OBSERVE",
+  WALLET_INSIDE: "WALLET_INSIDE", // Generated from mnemonic
+  WALLET_OUTSIDE: "WALLET_OUTSIDE", // Imported from private key
+  WALLET_LEDGER: "WALLET_LEDGER", // Ledger
+  WALLET_OBSERVE: "WALLET_OBSERVE", // Watch
 
-  WALLET_OUTSIDE_SECP256K1: "WALLET_OUTSIDE_SECP256K1",
+  WALLET_OUTSIDE_SECP256K1: "WALLET_OUTSIDE_SECP256K1", // Imported from metamask private key
 };
 /**
  * type on the account management page

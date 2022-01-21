@@ -5,6 +5,7 @@ module.exports = (env, argv) => {
   console.log('argv.mode', argv.mode)
   const mode = argv.mode;
   const isDev = mode === 'development';
+  /** @type {import('webpack').Configuration} */
   const config = {
     entry: {
       background: "./src/background/index.js",
