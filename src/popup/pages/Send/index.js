@@ -149,8 +149,15 @@ class SendPage extends React.Component {
                 })
                 .map(acc => acc.address)
 
+              const ledgerAddresses = this.state.allAccounts.commonList
+                .filter(acc => acc.type === ACCOUNT_TYPE.WALLET_LEDGER)
+                .map(acc => acc.address)
+
               if (!ownAddresses.includes(this.state.toAddress)) {
                 return getLanguage("confirmDepositingToParatimeToForeignAccount", "Destination account is not in your wallet! We recommend you always deposit into your own ParaTime account, then transfer from there.")
+              }
+              if (ledgerAddresses.includes(this.state.toAddress)) {
+                return getLanguage("confirmDepositingToParatimeToLedgerAccount", "Destination account was imported from Ledger! Ledger accounts do not support withdrawing from ParaTime.")
               }
               return undefined
             }
