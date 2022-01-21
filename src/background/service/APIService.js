@@ -16,9 +16,9 @@ import { amountDecimals, getEvmBech32Address, getExplorerUrl, getRuntimeConfig, 
 import { getRuntimeTxDetail, getSubmitStatus } from '../api';
 import { buildParatimeTxBody, buildTxBody, getChainContext, submitTx } from '../api/txHelper';
 import { get, removeValue, save } from '../storage/storageService';
+import { ObservableStore } from '@metamask/obs-store'
 
 const EthUtils = require('ethereumjs-util');
-const ObservableStore = require('obs-store')
 const encryptUtils = require('@metamask/browser-passworder')
 const RETRY_TIME = 4
 
