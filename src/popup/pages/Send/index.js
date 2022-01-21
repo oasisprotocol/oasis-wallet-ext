@@ -125,10 +125,35 @@ class SendPage extends React.Component {
           if(runtimeType === RUNTIME_ACCOUNT_TYPE.EVM){
             toAddressPlaceHolder = "0x..."
             toAddressCanInput = true
+
+            warnBeforeSending = async () => {
+              const ownAddresses = this.state.allAccounts.evmList.map(acc => acc.evmAddress)
+              if (!ownAddresses.includes(this.state.toAddress)) {
+                return getLanguage("confirmDepositingToParatimeToForeignAccount", "Destination account is not in your wallet! We recommend you always deposit into your own ParaTime account, then transfer from there.")
+              }
+              return undefined
+            }
           }else{
             toAddressPlaceHolder = currentAccount.address || ""
             toAddressCanInput = true
             toAddressCanInputDefaultValue = currentAccount.address
+
+            warnBeforeSending = async () => {
+              const ownAddresses = this.state.allAccounts.commonList
+                .filter(acc => {
+                  return (
+                    acc.type === ACCOUNT_TYPE.WALLET_INSIDE ||
+                    acc.type === ACCOUNT_TYPE.WALLET_LEDGER ||
+                    acc.type === ACCOUNT_TYPE.WALLET_OUTSIDE
+                  )
+                })
+                .map(acc => acc.address)
+
+              if (!ownAddresses.includes(this.state.toAddress)) {
+                return getLanguage("confirmDepositingToParatimeToForeignAccount", "Destination account is not in your wallet! We recommend you always deposit into your own ParaTime account, then transfer from there.")
+              }
+              return undefined
+            }
           }
         }
 
