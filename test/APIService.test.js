@@ -3,7 +3,7 @@ import assert from 'assert'
 import apiService from "../src/background/service/APIService"
 import { TRANSACTION_TYPE } from "../src/constant/walletType";
 
-const ObservableStore = require('obs-store')
+import { ObservableStore } from '@metamask/obs-store'
 
 const mockEncryptor = require('./lib/mock-encryptor');
 

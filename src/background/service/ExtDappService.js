@@ -1,5 +1,5 @@
 import extension from 'extensionizer';
-import ObservableStore from 'obs-store';
+import { ObservableStore } from '@metamask/obs-store';
 import { QUERY_TAB_TYPE } from '../../constant/specifyType';
 import { BACKGROUND_KEYS_CHANGED, DAPP_ACTION_CLOSE_WINDOW, DAPP_ACTION_GET_ACCOUNT, DAPP_ACTION_SEND_TRANSACTION, DAPP_CLOSE_POPUP_WINDOW, FROM_BACK_TO_RECORD } from '../../constant/types';
 import { getActiveTab, sendMsg } from '../../utils/commonMsg';

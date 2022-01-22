@@ -10,7 +10,7 @@ import { getBalance, getRpcNonce, getRuntimeBalance, isValidator } from "../../.
 import { saveLocal } from "../../../background/storage/localStorage";
 import { undelegateTransaction, delegateTransaction, sendTransaction} from "../../../background/api/txHelper";
 import { NETWORK_CONFIG } from "../../../constant/storageKey";
-import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_RUNTIME_DEPOSIT, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, SEND_PAGE_TYPE_RUNTIME_WITHDRAW, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSACTION, WALLET_SEND_RUNTIME_DEPOSIT, WALLET_SEND_STAKE_TRANSACTION, WALLET_SEND_TRANSACTION, WALLET_SEND_RUNTIME_WITHDRAW, WALLET_SEND_RUNTIME_EVM_WITHDRAW } from "../../../constant/types";
+import { SEND_PAGE_TYPE_RECLAIM, SEND_PAGE_TYPE_RUNTIME_DEPOSIT, SEND_PAGE_TYPE_SEND, SEND_PAGE_TYPE_STAKE, SEND_PAGE_TYPE_RUNTIME_WITHDRAW, WALLET_CHECK_TX_STATUS, WALLET_SEND_RECLAIM_TRANSACTION, WALLET_SEND_RUNTIME_DEPOSIT, WALLET_SEND_STAKE_TRANSACTION, WALLET_SEND_TRANSACTION, WALLET_SEND_RUNTIME_WITHDRAW, WALLET_SEND_RUNTIME_EVM_WITHDRAW, WALLET_GET_ALL_ACCOUNT } from "../../../constant/types";
 import { ACCOUNT_TYPE } from "../../../constant/walletType";
 import { getLanguage } from "../../../i18n";
 import { updateNetAccount, updateRpcNonce, updateSendRefresh } from "../../../reducers/accountReducer";
@@ -30,6 +30,12 @@ import TestModal from "../../component/TestModal";
 import Toast from "../../component/Toast";
 import "./index.scss";
 import { RUNTIME_ACCOUNT_TYPE } from "../../../constant/paratimeConfig";
+
+/**
+ * @typedef { import("src/background/service/APIService").GetAllAccountsResponse } GetAllAccountsResponse
+ * @typedef { import("src/background/service/APIService").Account } Account
+ */
+
 
 const STAKE_MIN_AMOUNT = 100
 class SendPage extends React.Component {
@@ -54,12 +60,20 @@ class SendPage extends React.Component {
       feeGas: "",
       stakeType: type,
       netConfigList: [],
+      allAccounts: {
+        /** @type {Account[]} */
+        commonList: [],
+        /** @type {Account[]} */
+        evmList: []
+      },
       reclaimShare:"",
       pageTitle:pageConfig.pageTitle,
-      maxWithdrawAmount:0
+      maxWithdrawAmount:0,
+      /** @type {undefined | string} */
+      warningTextBeforeSending: undefined,
     };
     this.modal = React.createRef();
-    this.confirmTransferToValidatorModal = React.createRef();
+    this.warningModalBeforeSending = React.createRef();
     this.isUnMounted = false;
     this.currentNetConfig = {}
     this.isRequest = false
@@ -91,6 +105,8 @@ class SendPage extends React.Component {
     let runtimeDecimals = params.decimals||cointypes.decimals
     let isWithdraw = false
     let defaultFeeAmount = "0"
+    /** @returns { Promise<undefined | string> } */
+    let warnBeforeSending = async () => undefined
 
 
     let confirmTitle = ""
@@ -109,10 +125,42 @@ class SendPage extends React.Component {
           if(runtimeType === RUNTIME_ACCOUNT_TYPE.EVM){
             toAddressPlaceHolder = "0x..."
             toAddressCanInput = true
+
+            warnBeforeSending = async () => {
+              const ownAddresses = this.state.allAccounts.evmList.map(acc => acc.evmAddress)
+              if (!ownAddresses.includes(this.state.toAddress)) {
+                return getLanguage("confirmDepositingToParatimeToForeignAccount", "Destination account is not in your wallet! We recommend you always deposit into your own ParaTime account, then transfer from there.")
+              }
+              return undefined
+            }
           }else{
             toAddressPlaceHolder = currentAccount.address || ""
             toAddressCanInput = true
             toAddressCanInputDefaultValue = currentAccount.address
+
+            warnBeforeSending = async () => {
+              const ownAddresses = this.state.allAccounts.commonList
+                .filter(acc => {
+                  return (
+                    acc.type === ACCOUNT_TYPE.WALLET_INSIDE ||
+                    acc.type === ACCOUNT_TYPE.WALLET_LEDGER ||
+                    acc.type === ACCOUNT_TYPE.WALLET_OUTSIDE
+                  )
+                })
+                .map(acc => acc.address)
+
+              const ledgerAddresses = this.state.allAccounts.commonList
+                .filter(acc => acc.type === ACCOUNT_TYPE.WALLET_LEDGER)
+                .map(acc => acc.address)
+
+              if (!ownAddresses.includes(this.state.toAddress)) {
+                return getLanguage("confirmDepositingToParatimeToForeignAccount", "Destination account is not in your wallet! We recommend you always deposit into your own ParaTime account, then transfer from there.")
+              }
+              if (ledgerAddresses.includes(this.state.toAddress)) {
+                return getLanguage("confirmDepositingToParatimeToLedgerAccount", "Destination account was imported from Ledger! Ledger accounts do not support withdrawing from ParaTime.")
+              }
+              return undefined
+            }
           }
         }
 
@@ -127,7 +175,6 @@ class SendPage extends React.Component {
       case SEND_PAGE_TYPE_RUNTIME_WITHDRAW:
         maxCanUseAmount = 0
         if(runtimeId){
-
           if(runtimeType === RUNTIME_ACCOUNT_TYPE.EVM){
             toAddressPlaceHolder = "oasis..."
             toAddressCanInput = true
@@ -147,8 +194,24 @@ class SendPage extends React.Component {
         toAddressTitle=getLanguage('toAddress')
         confirmTitle = getLanguage('sendDetail')
         confirmToAddressTitle = getLanguage('toAddress')
-
         isWithdraw = true
+
+        warnBeforeSending = async () => {
+          const ownAddresses = this.state.allAccounts.commonList
+            .filter(acc => {
+              return (
+                acc.type === ACCOUNT_TYPE.WALLET_INSIDE ||
+                acc.type === ACCOUNT_TYPE.WALLET_LEDGER ||
+                acc.type === ACCOUNT_TYPE.WALLET_OUTSIDE
+              )
+            })
+            .map(acc => acc.address)
+
+          if (!ownAddresses.includes(this.state.toAddress)) {
+            return getLanguage("confirmWithdrawingFromParatimeToForeignAccount", "Destination account is not in your wallet! Some automated systems, e.g., those used for tracking exchange deposits, may be unable to accept funds through ParaTime withdrawals. For better compatibility, cancel, withdraw into your own account, and transfer from there.")
+          }
+          return undefined
+        }
         break
       case SEND_PAGE_TYPE_STAKE:
         pageTitle = getLanguage('AddEscrow')
@@ -195,6 +258,19 @@ class SendPage extends React.Component {
 
         sendAction = WALLET_SEND_TRANSACTION
 
+        warnBeforeSending = async () => {
+          try {
+            if (await isValidator(this.state.toAddress)) {
+              return getLanguage("confirmTransferringToValidator", "This is a validator wallet address. Transfers to this address do not stake your funds with the validator.")
+            }
+            return undefined
+          } catch (err) {
+            // Ignore warning if endpoint is broken
+            console.error("Couldn't check (and warn) if toAddress is validator", err)
+            return undefined
+          }
+        }
+
         confirmTitle = getLanguage('sendDetail')
         confirmToAddressTitle = getLanguage('toAddress')
         break
@@ -214,6 +290,7 @@ class SendPage extends React.Component {
       defaultFeeAmount,
       confirmTitle,
       confirmToAddressTitle,
+      warnBeforeSending,
       sendAction,
       currentAllowance,
       runtimeDecimals,
@@ -222,6 +299,10 @@ class SendPage extends React.Component {
     }
   }
 
+  /**
+   * @param {Partial<SendPage['state']>} data
+   * @param {() => void} [callback]
+   */
   callSetState = (data, callback) => {
     if (!this.isUnMounted) {
       this.setState({
@@ -234,6 +315,12 @@ class SendPage extends React.Component {
   async componentDidMount() {
     let { isWithdraw } = this.pageConfig
     this.netConfigAction()
+
+    Loading.show()
+    const allAccounts = await this.getAllAccounts()
+    this.callSetState({ allAccounts: allAccounts })
+    Loading.hide()
+
     if(isWithdraw){
       await this.fetchParatimeData()
     }else{
@@ -285,6 +372,18 @@ class SendPage extends React.Component {
     if(!isSilent){
       Loading.hide()
     }
+  }
+  /**
+   * @returns {Promise<GetAllAccountsResponse['accounts']>}
+   */
+  async getAllAccounts() {
+    return new Promise(resolve => {
+      sendMsg(
+        { action: WALLET_GET_ALL_ACCOUNT },
+        /** @param {GetAllAccountsResponse} account */
+        (account) => resolve(account.accounts)
+      )
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -503,7 +602,7 @@ class SendPage extends React.Component {
   }
   onConfirm = async () => {
     let { currentAccount } = this.props
-    const { toAddressCanInput,runtimeType,isWithdraw,toAddressCanInputDefaultValue, sendAction } = this.pageConfig
+    const { toAddressCanInput,runtimeType,isWithdraw,toAddressCanInputDefaultValue, warnBeforeSending } = this.pageConfig
     if (currentAccount.type === ACCOUNT_TYPE.WALLET_OBSERVE) {
       Toast.info(getLanguage('observeAccountTip'))
       return
@@ -561,16 +660,11 @@ class SendPage extends React.Component {
       return
     }
 
-    if (sendAction === "WALLET_SEND_TRANSACTION") {
-      try {
-        if (await isValidator(toAddress)) {
-          this.confirmTransferToValidatorModal.current.setModalVisible(true)
-          return
-        }
-      } catch (err) {
-        // Ignore warning if endpoint is broken
-        console.error("Couldn't check (and warn) if toAddress is validator", err);
-      }
+    const warningTextBeforeSending = await warnBeforeSending()
+    if (warningTextBeforeSending) {
+      this.setState({ warningTextBeforeSending: warningTextBeforeSending })
+      this.warningModalBeforeSending.current.setModalVisible(true)
+      return
     }
 
     this.modal.current.setModalVisible(true)
@@ -664,14 +758,15 @@ class SendPage extends React.Component {
 
     if (currentAccount.type === ACCOUNT_TYPE.WALLET_LEDGER) {
       return this.ledgerTransfer(payload)
+    } else {
+      sendMsg({
+        action: sendAction,
+        payload
+      }, (data) => {
+        Loading.hide()
+        this.onSubmitSuccess(data)
+      })
     }
-    sendMsg({
-      action: sendAction,
-      payload
-    }, (data) => {
-      Loading.hide()
-      this.onSubmitSuccess(data)
-    })
   }
   onSubmitRuntime=(data)=>{
     if(data && data.code === 0){
@@ -775,20 +870,20 @@ class SendPage extends React.Component {
   onCloseModal = () => {
     this.modal.current.setModalVisible(false)
   }
-  renderConfirmTransferToValidatorModal = () => {
+  renderWarningModalBeforeSending = () => {
     return (<TestModal
-      ref={this.confirmTransferToValidatorModal}
+      ref={this.warningModalBeforeSending}
       touchToClose={true}
       showClose={true}
     >
       <div className={"confirm-modal-container"}>
-        <div className={"test-modal-title-container"}><p className={"test-modal-title"}>{getLanguage("confirmSendingToValidatorTitle", "Are you sure you want to continue?")}</p></div>
-        <p>{getLanguage("confirmSendingToValidatorDescription", "This is a validator wallet address. Transfers to this address do not stake your funds with the validator.")}</p>
+        <div className={"test-modal-title-container"}><p className={"test-modal-title"}>{getLanguage("confirmWantToContinue", "Are you sure you want to continue?")}</p></div>
+        <p>{this.state.warningTextBeforeSending}</p>
         <div className={"send-confirm-container"}>
           <Button
             content={getLanguage('cancel')}
             propsClass={"account-common-btn account-common-btn-cancel"}
-            onClick={() => this.confirmTransferToValidatorModal.current.setModalVisible(false)}
+            onClick={() => this.warningModalBeforeSending.current.setModalVisible(false)}
           />
           <Button
             content={getLanguage('confirm')}
@@ -971,7 +1066,7 @@ class SendPage extends React.Component {
         {this.renderAdvanceOption()}
       </form>
       {this.renderConfirm()}
-      {this.renderConfirmTransferToValidatorModal()}
+      {this.renderWarningModalBeforeSending()}
       {this.renderConfirmModal()}
     </CustomView>)
   }

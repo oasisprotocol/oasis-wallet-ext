@@ -16,12 +16,37 @@ import { amountDecimals, getEvmBech32Address, getExplorerUrl, getRuntimeConfig, 
 import { getRuntimeTxDetail, getSubmitStatus } from '../api';
 import { buildParatimeTxBody, buildTxBody, getChainContext, submitTx } from '../api/txHelper';
 import { get, removeValue, save } from '../storage/storageService';
+import { ObservableStore } from '@metamask/obs-store'
 
 const EthUtils = require('ethereumjs-util');
-const ObservableStore = require('obs-store')
 const encryptUtils = require('@metamask/browser-passworder')
 const RETRY_TIME = 4
 
+/**
+ * @typedef {{
+ *   address: string;
+ *   evmAddress?: string;
+ *   privateKey?: string;
+ *   publicKey: string;
+ *   type: keyof typeof ACCOUNT_TYPE;
+ *   hdPath: number;
+ *   accountName: string;
+ *   typeIndex: number;
+ * }} Account
+ * @typedef {{
+ *   accounts: {
+ *     commonList: Account[],
+ *     evmList: Account[],
+ *   },
+ *   currentAddress: string,
+ * }} GetAllAccountsResponse
+ * @typedef {{
+ *   accounts: {
+ *     commonList: Account[],
+ *   },
+ *   currentAddress: string,
+ * }} GetAllAccountsDappResponse
+ */
 
 const default_account_name = "Account 1"
 class APIService {
@@ -98,12 +123,22 @@ class APIService {
     initLockedState=()=>{
         return {
           isUnlocked: false,
-          data: '',
+          /**
+           * @type { Array<{
+           *   mnemonic: string;
+           *     accounts: Account[];
+           *     currentAddress: string;
+           *  }> }
+           */
+          data: /** @type {any} */ (undefined),
           password: '',
-          currentAccount: {},
+          /**
+           * @type {Account}
+           */
+          currentAccount: /** @type {any} */ ({}),
           mne: ""
         };
-      }
+    }
 
     resetWallet=()=>{
       this.memStore.putState(this.initLockedState())
@@ -162,6 +197,9 @@ class APIService {
 
         return this.getAccountWithoutPrivate(account)
     }
+    /**
+     * @returns {GetAllAccountsResponse | GetAllAccountsDappResponse}
+     */
     getAllAccount = (isDapp = false) => {
         let data = this.getStore().data
         let accountList = data[0].accounts
@@ -176,6 +214,7 @@ class APIService {
             currentAddress: currentAccount.address
         }
     }
+    /** @param {Account[]} accountList */
     accountSort = (accountList, isDapp = false) => {
         let newList = accountList
         let commonList = []
@@ -353,14 +392,13 @@ class APIService {
             let importList = accounts.filter((item, index) => {
                 return item.type === currentAccountType
             })
-            let typeIndex = ""
-            if (importList.length == 0) {
-                typeIndex = 1
-            } else {
+            let typeIndex = 1
+            if (importList.length > 0) {
                 typeIndex = importList[importList.length - 1].typeIndex + 1
             }
 
             let privKeyEncrypt = await this.encryptor.encrypt(this.getStore().password, wallet.privKey_hex)
+            /** @type {Account} */
             let account = {
                 address: wallet.address,
                 privateKey: privKeyEncrypt,
@@ -397,10 +435,8 @@ class APIService {
             let ledgerList = accounts.filter((item, index) => {
                 return item.type === ACCOUNT_TYPE.WALLET_LEDGER
             })
-            let typeIndex = ""
-            if (ledgerList.length === 0) {
-                typeIndex = 1
-            } else {
+            let typeIndex = 1
+            if (ledgerList.length > 0) {
                 typeIndex = ledgerList[ledgerList.length - 1].typeIndex + 1
             }
             let ledgerAccountList = []
@@ -416,7 +452,7 @@ class APIService {
                     ledgerHdIndex: ledgerAccount.ledgerHdIndex,
                     type: ACCOUNT_TYPE.WALLET_LEDGER,
                     accountName: !index ? accountName : accountName + "-" + index,
-                    typeIndex: parseInt(typeIndex) + index
+                    typeIndex: typeIndex + index
                 })
 
             }
@@ -456,14 +492,12 @@ class APIService {
             if (error.error) {
                 return error
             }
-            let ledgerList = accounts.filter((item, index) => {
+            let observeList = accounts.filter((item, index) => {
                 return item.type === ACCOUNT_TYPE.WALLET_OBSERVE
             })
-            let typeIndex = ""
-            if (ledgerList.length === 0) {
-                typeIndex = 1
-            } else {
-                typeIndex = ledgerList[ledgerList.length - 1].typeIndex + 1
+            let typeIndex = 1
+            if (observeList.length > 0) {
+                typeIndex = observeList[observeList.length - 1].typeIndex + 1
             }
 
             const account = {

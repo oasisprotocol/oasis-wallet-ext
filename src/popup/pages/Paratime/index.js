@@ -152,6 +152,10 @@ class Paratime extends React.Component {
     onClickWithdraw = (item) => {
         let { currentAccount } = this.props
         if (currentAccount.type === ACCOUNT_TYPE.WALLET_OBSERVE) {
+            Toast.info(getLanguage('observeAccountTip'))
+            return
+        }
+        if (currentAccount.type === ACCOUNT_TYPE.WALLET_LEDGER) {
             Toast.info(getLanguage('ledgerNotSupportTip'))
             return
         }
@@ -166,6 +170,10 @@ class Paratime extends React.Component {
     onClickDeposit = (item) => {
         let { currentAccount } = this.props
         if (currentAccount.type === ACCOUNT_TYPE.WALLET_OBSERVE) {
+            Toast.info(getLanguage('observeAccountTip'))
+            return
+        }
+        if (currentAccount.type === ACCOUNT_TYPE.WALLET_LEDGER) {
             Toast.info(getLanguage('ledgerNotSupportTip'))
             return
         }
