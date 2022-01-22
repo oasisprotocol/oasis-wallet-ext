@@ -32,7 +32,7 @@ import "./index.scss";
 import { RUNTIME_ACCOUNT_TYPE } from "../../../constant/paratimeConfig";
 
 /**
- * @typedef { ReturnType<import('../../../background/service/APIService')['default']['getAllAccount']> } GetAllAccountsResponse
+ * @typedef { import("src/background/service/APIService").GetAllAccountsResponse } GetAllAccountsResponse
  * @typedef { import("src/background/service/APIService").Account } Account
  */
 
