@@ -315,7 +315,12 @@ class SendPage extends React.Component {
   async componentDidMount() {
     let { isWithdraw } = this.pageConfig
     this.netConfigAction()
-    this.getAllAccounts()
+
+    Loading.show()
+    const allAccounts = await this.getAllAccounts()
+    this.callSetState({ allAccounts: allAccounts })
+    Loading.hide()
+
     if(isWithdraw){
       await this.fetchParatimeData()
     }else{
@@ -368,15 +373,16 @@ class SendPage extends React.Component {
       Loading.hide()
     }
   }
-  getAllAccounts() {
-    sendMsg({
-      action: WALLET_GET_ALL_ACCOUNT,
-    },
-      /** @param {GetAllAccountsResponse} account */
-      (account) => {
-        this.callSetState({
-          allAccounts: account.accounts,
-        })
+  /**
+   * @returns {Promise<GetAllAccountsResponse['accounts']>}
+   */
+  async getAllAccounts() {
+    return new Promise(resolve => {
+      sendMsg(
+        { action: WALLET_GET_ALL_ACCOUNT },
+        /** @param {GetAllAccountsResponse} account */
+        (account) => resolve(account.accounts)
+      )
     })
   }
 
