@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased changes
+## 1.3.0
 
 Spotlight changes:
 
