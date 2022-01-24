@@ -2,24 +2,33 @@
 
 ## Unreleased changes
 
+Spotlight changes:
+
+- Warn users on ParaTime withdraws to accounts they don't own
+  ([#236](https://github.com/oasisprotocol/oasis-wallet-ext/pull/236),
+  [#239](https://github.com/oasisprotocol/oasis-wallet-ext/pull/239)).
+- Brought ParaTime transaction hashing in sync with block explorer
+  ([#231](https://github.com/oasisprotocol/oasis-wallet-ext/pull/231)).
+
 New features:
 
 - ParaTime withdrawals now automatically set the fee that will soon be required on Emerald
   (0.00015 ROSE/TEST)
-- Warn users on ParaTime withdraws to accounts they don't own
-  ([#236](https://github.com/oasisprotocol/oasis-wallet-ext/pull/236)).
+  ([#228](https://github.com/oasisprotocol/oasis-wallet-ext/pull/228)).
 
 Little things:
 
-- The advanced fee options now indicates the unit for the amount (nano ROSE/TEST).
+- The advanced fee options now indicates the unit for the amount (nano ROSE/TEST)
+  ([#228](https://github.com/oasisprotocol/oasis-wallet-ext/pull/228)).
 
 Bug fixes:
 
-- Brought ParaTime transaction hashing in sync with block explorer.
 - Emerald transactions had mistakenly used a lower fee than configured, when using the advanced fee
-  options. This is corrected.
+  options. This is corrected
+  ([#228](https://github.com/oasisprotocol/oasis-wallet-ext/pull/228)).
 - Corrected how the total amount+fee is calculated when checking if you have enough funds for a
-  transaction.
+  transaction
+  ([#228](https://github.com/oasisprotocol/oasis-wallet-ext/pull/228)).
 
 ## 1.2.0
 
