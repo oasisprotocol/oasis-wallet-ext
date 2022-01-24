@@ -126,13 +126,13 @@ class SendPage extends React.Component {
             toAddressPlaceHolder = "0x..."
             toAddressCanInput = true
 
-            warnBeforeSending = async () => {
-              const ownAddresses = this.state.allAccounts.evmList.map(acc => acc.evmAddress)
-              if (!ownAddresses.includes(this.state.toAddress)) {
-                return getLanguage("confirmDepositingToParatimeToForeignAccount", "Destination account is not in your wallet! We recommend you always deposit into your own ParaTime account, then transfer from there.")
-              }
-              return undefined
-            }
+            // Users may deposit into an Ethereum-compatible address without warning.
+            // It is still best for compatibility to deposit into the user's own address and to
+            // transfer from there (entirely within the Emerald side).
+            // However, it is not necessary to import the Ethereum-compatible account to do the
+            // deposit, (by private key), so we don't check and warn if they haven't.
+            // Access the Git blame for this comment to recover the code that would have performed
+            // this check.
           }else{
             toAddressPlaceHolder = currentAccount.address || ""
             toAddressCanInput = true

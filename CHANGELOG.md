@@ -6,7 +6,7 @@ New features:
 
 - ParaTime withdrawals now automatically set the fee that will soon be required on Emerald
   (0.00015 ROSE/TEST)
-- Warn users on ParaTime withdraws (and deposits) to accounts they don't own
+- Warn users on ParaTime withdraws to accounts they don't own
   ([#236](https://github.com/oasisprotocol/oasis-wallet-ext/pull/236)).
 
 Little things:
