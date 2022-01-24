@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.3.1
+
+Little things:
+
+- Properly set 1.3.0 release heading in the Change Log
+
 ## 1.3.0
 
 Spotlight changes:
