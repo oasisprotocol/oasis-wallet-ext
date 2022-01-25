@@ -399,16 +399,9 @@ class SendPage extends React.Component {
   setBtnStatus = () => {
     const {toAddressCanInputDefaultValue} = this.pageConfig
     let toAddress = this.state.toAddress || toAddressCanInputDefaultValue
-    if (toAddress.length > 0
-      && this.state.amount.length > 0) {
-      this.callSetState({
-        btnClick: true
-      })
-    } else {
-      this.callSetState({
-        btnClick: false
-      })
-    }
+    this.callSetState({
+      btnClick: toAddress.length > 0 && this.state.amount.length > 0
+    })
   }
 
 
