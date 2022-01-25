@@ -50,7 +50,6 @@ class SendPage extends React.Component {
       addressErr: "",
       amountErr: "",
       feeErr: "",
-      btnClick: false,
       confirmModal: false,
       isOpenAdvance: false,
       feeAmount: "",
@@ -396,28 +395,11 @@ class SendPage extends React.Component {
       }
     }
   }
-  setBtnStatus = () => {
-    const {toAddressCanInputDefaultValue} = this.pageConfig
-    let toAddress = this.state.toAddress || toAddressCanInputDefaultValue
-    if (toAddress.length > 0
-      && this.state.amount.length > 0) {
-      this.callSetState({
-        btnClick: true
-      })
-    } else {
-      this.callSetState({
-        btnClick: false
-      })
-    }
-  }
-
 
   onToAddressInput = (e) => {
     let address = e.target.value;
     this.callSetState({
       toAddress: address
-    }, () => {
-      this.setBtnStatus()
     })
   }
   renderAddressBook = () => {
@@ -479,8 +461,6 @@ class SendPage extends React.Component {
     this.callSetState({
       amount: amount,
       reclaimShare
-    }, () => {
-      this.setBtnStatus()
     })
   }
   onOpenAdvance = () => {
@@ -493,8 +473,6 @@ class SendPage extends React.Component {
     let fee = e.target.value
     this.callSetState({
       feeAmount: fee
-    }, () => {
-      this.setBtnStatus()
     })
   }
   onNonceInput = (e) => {
@@ -507,8 +485,6 @@ class SendPage extends React.Component {
     let fee = e.target.value
     this.callSetState({
       feeGas: fee
-    }, () => {
-      this.setBtnStatus()
     })
   }
   renderAdvanceOption = () => {
@@ -556,10 +532,12 @@ class SendPage extends React.Component {
   }
 
   renderConfirm = () => {
+    const toAddress = this.state.toAddress || this.pageConfig.toAddressCanInputDefaultValue
+    const enabled = toAddress.length > 0 && this.state.amount.length > 0
     return (
       <div className="bottom-container">
         <Button
-          disabled={!this.state.btnClick}
+          disabled={!enabled}
           content={getLanguage('next')}
           onClick={this.onConfirm}
         />
@@ -935,8 +913,6 @@ class SendPage extends React.Component {
     this.callSetState({
       amount:nodeDetail && nodeDetail.amount || "0",
       reclaimShare:nodeDetail && nodeDetail.shares || "0",
-    },()=>{
-      this.setBtnStatus()
     })
   }
   renderSendAmount = () => {

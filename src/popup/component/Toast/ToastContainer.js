@@ -3,7 +3,7 @@ import "./ToastContainer.scss";
 import ToastItem from './ToastItem';
 
 
-const default_duration = 2000
+const default_duration = 5000
 class ToastContainer extends Component {
     constructor(props) {
         super(props);
