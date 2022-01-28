@@ -18,6 +18,7 @@ You must update:
 
 ## Add a Change Log Section
 Here's the [Change Log](../CHANGELOG.md).
+
 If there is an "Unreleased Changes" section, rename it to the new version.
 Do not include a "v" prefix in the heading.
 
@@ -43,6 +44,16 @@ Open a pull request (PR) for the changes.
 
 When this PR gets merged into `master`, the chosen version is permanently associated with the merge
 commit.
+
+## Prepare a Git Tag
+
+Create a signed git tag for the new version and push it to the origin repository:
+
+```sh
+VERSION=<VERSION>
+git tag --sign --message="Version $VERSION" v$VERSION
+git push origin v$VERSION
+```
 
 ## Prepare an Unsigned Archive
 Clean the output directory, build, and package:
