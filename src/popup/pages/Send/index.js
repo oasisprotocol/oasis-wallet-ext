@@ -152,10 +152,10 @@ class SendPage extends React.Component {
                 .filter(acc => acc.type === ACCOUNT_TYPE.WALLET_LEDGER)
                 .map(acc => acc.address)
 
-              if (!ownAddresses.includes(this.state.toAddress)) {
+              if (!ownAddresses.includes(this.getToAddress())) {
                 return getLanguage("confirmDepositingToParatimeToForeignAccount", "Destination account is not in your wallet! We recommend you always deposit into your own ParaTime account, then transfer from there.")
               }
-              if (ledgerAddresses.includes(this.state.toAddress)) {
+              if (ledgerAddresses.includes(this.getToAddress())) {
                 return getLanguage("confirmDepositingToParatimeToLedgerAccount", "Destination account was imported from Ledger! Ledger accounts do not support withdrawing from ParaTime.")
               }
               return undefined
@@ -206,7 +206,7 @@ class SendPage extends React.Component {
             })
             .map(acc => acc.address)
 
-          if (!ownAddresses.includes(this.state.toAddress)) {
+          if (!ownAddresses.includes(this.getToAddress())) {
             return getLanguage("confirmWithdrawingFromParatimeToForeignAccount", "Destination account is not in your wallet! Some automated systems, e.g., those used for tracking exchange deposits, may be unable to accept funds through ParaTime withdrawals. For better compatibility, cancel, withdraw into your own account, and transfer from there.")
           }
           return undefined
@@ -259,7 +259,7 @@ class SendPage extends React.Component {
 
         warnBeforeSending = async () => {
           try {
-            if (await isValidator(this.state.toAddress)) {
+            if (await isValidator(this.getToAddress())) {
               return getLanguage("confirmTransferringToValidator", "This is a validator wallet address. Transfers to this address do not stake your funds with the validator.")
             }
             return undefined
