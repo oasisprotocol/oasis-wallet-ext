@@ -152,10 +152,10 @@ class SendPage extends React.Component {
                 .filter(acc => acc.type === ACCOUNT_TYPE.WALLET_LEDGER)
                 .map(acc => acc.address)
 
-              if (!ownAddresses.includes(this.state.toAddress)) {
+              if (!ownAddresses.includes(this.getToAddress())) {
                 return getLanguage("confirmDepositingToParatimeToForeignAccount", "Destination account is not in your wallet! We recommend you always deposit into your own ParaTime account, then transfer from there.")
               }
-              if (ledgerAddresses.includes(this.state.toAddress)) {
+              if (ledgerAddresses.includes(this.getToAddress())) {
                 return getLanguage("confirmDepositingToParatimeToLedgerAccount", "Destination account was imported from Ledger! Ledger accounts do not support withdrawing from ParaTime.")
               }
               return undefined
@@ -206,7 +206,7 @@ class SendPage extends React.Component {
             })
             .map(acc => acc.address)
 
-          if (!ownAddresses.includes(this.state.toAddress)) {
+          if (!ownAddresses.includes(this.getToAddress())) {
             return getLanguage("confirmWithdrawingFromParatimeToForeignAccount", "Destination account is not in your wallet! Some automated systems, e.g., those used for tracking exchange deposits, may be unable to accept funds through ParaTime withdrawals. For better compatibility, cancel, withdraw into your own account, and transfer from there.")
           }
           return undefined
@@ -259,7 +259,7 @@ class SendPage extends React.Component {
 
         warnBeforeSending = async () => {
           try {
-            if (await isValidator(this.state.toAddress)) {
+            if (await isValidator(this.getToAddress())) {
               return getLanguage("confirmTransferringToValidator", "This is a validator wallet address. Transfers to this address do not stake your funds with the validator.")
             }
             return undefined
@@ -402,6 +402,14 @@ class SendPage extends React.Component {
       toAddress: address
     })
   }
+  getToAddress = () => {
+    const { toAddressCanInput, toAddressValue, toAddressCanInputDefaultValue } = this.pageConfig
+    if(toAddressCanInput){
+      return trimSpace(this.state.toAddress) || toAddressCanInputDefaultValue
+    } else {
+      return toAddressValue
+    }
+  }
   renderAddressBook = () => {
       return (
         <div className={"send-address-book-container click-cursor"} onClick={this.onGotoAddressBook}>
@@ -532,7 +540,7 @@ class SendPage extends React.Component {
   }
 
   renderConfirm = () => {
-    const toAddress = this.state.toAddress || this.pageConfig.toAddressCanInputDefaultValue
+    const toAddress = this.getToAddress()
     const enabled = toAddress.length > 0 && this.state.amount.length > 0
     return (
       <div className="bottom-container">
@@ -580,12 +588,12 @@ class SendPage extends React.Component {
   }
   onConfirm = async () => {
     let { currentAccount } = this.props
-    const { toAddressCanInput,runtimeType,isWithdraw,toAddressCanInputDefaultValue, warnBeforeSending } = this.pageConfig
+    const { toAddressCanInput,runtimeType,isWithdraw, warnBeforeSending } = this.pageConfig
     if (currentAccount.type === ACCOUNT_TYPE.WALLET_OBSERVE) {
       Toast.info(getLanguage('observeAccountTip'))
       return
     }
-    let toAddress = trimSpace(this.state.toAddress) || toAddressCanInputDefaultValue
+    let toAddress = this.getToAddress()
 
     if(toAddressCanInput){
       if(runtimeType ===RUNTIME_ACCOUNT_TYPE.EVM && !isWithdraw){
@@ -683,19 +691,15 @@ class SendPage extends React.Component {
     }
   }
   clickNextStep = async () => {
-    const { toAddressCanInput,toAddressValue,sendAction,runtimeId,runtimeType,currentAllowance,toAddressCanInputDefaultValue } = this.pageConfig
+    const { sendAction,runtimeId,runtimeType,currentAllowance } = this.pageConfig
     let currentAccount = this.props.currentAccount
     let accountInfo = this.props.accountInfo
 
     let shares = this.state.reclaimShare
     let amount = new BigNumber(this.state.amount).toString()
     amount = toNonExponential(amount)
-    let toAddress = ""
-    if(toAddressCanInput){
-      toAddress = trimSpace(this.state.toAddress)||toAddressCanInputDefaultValue
-    } else {
-      toAddress = toAddressValue
-    }
+    let toAddress = this.getToAddress()
+
     let nonce = trimSpace(this.state.nonce) || accountInfo.nonce
     let fromAddress = currentAccount.address
 
@@ -807,7 +811,7 @@ class SendPage extends React.Component {
     )
   }
   renderConfirmView = () => {
-    const {confirmTitle,confirmToAddressTitle,runtimeId,toAddressCanInputDefaultValue} = this.pageConfig
+    const {confirmTitle,confirmToAddressTitle,runtimeId} = this.pageConfig
     let accountInfo = this.props.accountInfo
     let netNonce = isNumber(accountInfo.nonce) ? accountInfo.nonce : ""
     let nonce = this.state.nonce ? this.state.nonce : netNonce
@@ -824,7 +828,7 @@ class SendPage extends React.Component {
     }
 
     let currentSymbol = this.props.netConfig.currentSymbol
-    let toAddressShow = this.state.toAddress || toAddressCanInputDefaultValue
+    let toAddressShow = this.getToAddress()
     return (
       <div className={"confirm-modal-container"}>
         <div className={"test-modal-title-container"}><p className={"test-modal-title"}>{title}</p></div>
