@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import ledger_connect_little from "../../../assets/images/ledger_connect_little.png";
 import ledgerWallet from "../../../assets/images/ledger_logo.png";
 import ledger_open_little from "../../../assets/images/ledger_open_little.png";
+import ledger_close_little from "../../../assets/images/ledger_close_little.svg";
+import ledger_confirm_little from "../../../assets/images/ledger_confirm_little.svg";
 import ledger_title from "../../../assets/images/ledger_title.png";
 import { LEDGER_CONNECTED_SUCCESSFULLY } from '../../../constant/types';
 import { getLanguage } from "../../../i18n";
@@ -108,16 +110,28 @@ class LedgerConnect extends React.Component {
   renderSteps = () => {
     const steps = [
       {
-        title: getLanguage("firstStep"),
+        title: getLanguage("step1"),
         content: getLanguage('pleaseConnectLedger'),
         bool: this.state.connected,
         img: ledger_connect_little
       },
       {
-        title: getLanguage("secondStep"),
+        title: getLanguage("step2"),
+        content: getLanguage('pleaseCloseLedgerLive'),
+        bool: this.state.opened,
+        img: ledger_close_little
+      },
+      {
+        title: getLanguage("step3"),
         content: getLanguage('pleaseOpenInLedger'),
         bool: this.state.opened,
         img: ledger_open_little
+      },
+      {
+        title: getLanguage("step4"),
+        content: getLanguage('pleaseConfirmPendingReview'),
+        bool: this.state.opened,
+        img: ledger_confirm_little
       }
     ]
     return (
