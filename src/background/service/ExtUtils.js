@@ -102,7 +102,7 @@ oasisExt.ext.ready({
                 const handled = oasis.signature.visitMessage(
                     {
                         withChainContext:
-                            ({
+                            /** @type {oasis.consensus.SignatureMessageHandlersWithChainContext} */ ({
                                 [oasis.consensus.TRANSACTION_SIGNATURE_CONTEXT]: (chainContext, tx) => {
 
                                     signParams.chainContext = chainContext
@@ -112,7 +112,7 @@ oasisExt.ext.ready({
                                     signParams.method = tx.method
                                     signParams.bodyDump = dump(tx.body)
 
-                                    const handled = oasis.consensus.visitTransaction(({
+                                    const handled = oasis.consensus.visitTransaction(/** @type {oasis.staking.ConsensusTransactionHandlers} */ ({
                                         [oasis.staking.METHOD_TRANSFER]: (body) => {
                                             signParams.to = oasis.staking.addressToBech32(body.to)
                                             signParams.amount = oasis.quantity.toBigInt(body.amount).toString()

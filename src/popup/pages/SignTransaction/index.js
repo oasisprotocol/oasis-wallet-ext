@@ -14,7 +14,7 @@ import { ENTRY_WHICH_ROUTE, updateEntryWhichRoute } from "../../../reducers/entr
 import { sendMsg } from "../../../utils/commonMsg";
 import { checkLedgerConnect } from "../../../utils/ledger";
 import { dump } from "../../../utils/dump";
-import { addressSlice, amountDecimals, getQueryStringArgs, hex2uint, isNumber, trimSpace, uint2hex } from "../../../utils/utils";
+import { addressSlice, amountDecimals, getQueryStringArgs, hex2uint, isNumber, methodNeedsAmount, methodNeedsTo, trimSpace, uint2hex } from "../../../utils/utils";
 import { addressValid } from "../../../utils/validator";
 import AccountIcon from "../../component/AccountIcon";
 import Button from "../../component/Button";
@@ -82,21 +82,25 @@ class SignTransaction extends React.Component {
       return
     }
     if (params.recognizedConsensusTransactionMethod) {
-      let toAddress = trimSpace(params.to)
-      if (!addressValid(toAddress)) {
-        Toast.info(getLanguage('sendAddressError'))
-        return
-      }
-      let amount = trimSpace(params.amount)
-      if (!isNumber(amount) || !new BigNumber(amount).gt(0)) {
-        Toast.info(getLanguage('amountError'))
-        return
-      }
-
-      if (this.state.sendAction === oasis.staking.METHOD_ADD_ESCROW) {
-        if (!isNumber(amount) || (parseInt(amount) < parseInt(STAKE_MIN_AMOUNT))) {
-          Toast.info(getLanguage('minStakeAmount') + " " + STAKE_MIN_AMOUNT)
+      if (methodNeedsTo(params.method)) {
+        let toAddress = trimSpace(params.to)
+        if (!addressValid(toAddress)) {
+          Toast.info(getLanguage('sendAddressError'))
           return
+        }
+      }
+      if (methodNeedsAmount(params.method)) {
+        let amount = trimSpace(params.amount)
+        if (!isNumber(amount) || !new BigNumber(amount).gt(0)) {
+          Toast.info(getLanguage('amountError'))
+          return
+        }
+
+        if (this.state.sendAction === oasis.staking.METHOD_ADD_ESCROW) {
+          if (!isNumber(amount) || (parseInt(amount) < parseInt(STAKE_MIN_AMOUNT))) {
+            Toast.info(getLanguage('minStakeAmount') + " " + STAKE_MIN_AMOUNT)
+            return
+          }
         }
       }
     }

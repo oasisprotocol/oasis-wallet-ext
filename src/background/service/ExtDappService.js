@@ -4,7 +4,7 @@ import { QUERY_TAB_TYPE } from '../../constant/specifyType';
 import { BACKGROUND_KEYS_CHANGED, DAPP_ACTION_CLOSE_WINDOW, DAPP_ACTION_GET_ACCOUNT, DAPP_ACTION_SEND_TRANSACTION, DAPP_CLOSE_POPUP_WINDOW, FROM_BACK_TO_RECORD } from '../../constant/types';
 import { getActiveTab, sendMsg } from '../../utils/commonMsg';
 import { closePopupWindow, openPopupWindow } from '../../utils/popup';
-import { connectAccountDataFilter, hex2uint, isNumber, uint2hex } from '../../utils/utils';
+import { connectAccountDataFilter, hex2uint, isNumber, methodNeedsAccount, methodNeedsAmount, methodNeedsTo, uint2hex } from '../../utils/utils';
 import { addressValid } from '../../utils/validator';
 import apiService from './APIService';
 let signRequests = [];
@@ -164,11 +164,17 @@ class ExtDappService {
           return
         }
         if (params.recognizedConsensusTransactionMethod) {
-          if (params.to.length <= 0 || !addressValid(params.to)) {
+          /** @param {string} param */
+          let presentAndValid = (param) => param.length > 0 && addressValid(param)
+          if (methodNeedsTo(params.method) && !presentAndValid(params.to)) {
             reject({ error: "Please enter a valid wallet address" })
             return
           }
-          if (!isNumber(params.amount)) {
+          if (methodNeedsAccount(params.method) && !presentAndValid(params.account)) {
+            reject({ error: "Please enter a valid wallet address" })
+            return
+          }
+          if (methodNeedsAmount(params.method) && !isNumber(params.amount)) {
             reject({ error: "Amount error" })
             return
           }

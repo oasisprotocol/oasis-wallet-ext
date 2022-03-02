@@ -329,3 +329,25 @@ export function isEvmAddress(address){
     }
     return false
 }
+
+export function methodNeedsTo(method) {
+    return [
+        oasis.staking.METHOD_TRANSFER,
+        oasis.staking.METHOD_ADD_ESCROW,
+    ].includes(method)
+}
+
+export function methodNeedsAccount(method) {
+    return [
+        oasis.staking.METHOD_RECLAIM_ESCROW,
+    ].includes(method)
+}
+
+export function methodNeedsAmount(method) {
+    return [
+        oasis.staking.METHOD_TRANSFER,
+        oasis.staking.METHOD_ADD_ESCROW,
+        oasis.staking.METHOD_BURN,
+        oasis.staking.METHOD_WITHDRAW,
+    ].includes(method)
+}
