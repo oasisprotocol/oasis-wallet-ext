@@ -1,5 +1,24 @@
 # Change Log
 
+## 1.4.0
+
+Spotlight change:
+
+- We fixed a problem where we checked for the wrong fields when signing
+  certain transactions when using the extension with a dApp. As a result,
+  dApps can now request signatures for more kinds of transactions
+  ([#249](https://github.com/oasisprotocol/oasis-wallet-ext/issues/249)).
+
+Little things:
+
+- Error message "toast" notifications now show up for longer
+  ([#242](https://github.com/oasisprotocol/oasis-wallet-ext/pull/242)).
+- Instructions for how to connect a Ledger device are more detailed
+  ([#248](https://github.com/oasisprotocol/oasis-wallet-ext/pull/248)).
+- We're a little smarter about when to show a warning when depositing into the
+  Cipher ParaTime
+  ([#245](https://github.com/oasisprotocol/oasis-wallet-ext/pull/245)).
+
 ## 1.3.1
 
 Little things:
