@@ -45,7 +45,7 @@ export function delegateTransaction(params) {
 }
 /**
  * get tx fee
- * @param {*} tw
+ * @param {oasis.consensus.TransactionWrapper} tw
  * @param {*} publicKey
  * @param {*} retryTime
  * @returns
@@ -76,7 +76,7 @@ export async function getTxFee(tw, publicKey, retryTime) {
 /**
  * get chain context
  * @param {*} retryTime
- * @returns
+ * @returns {Promise<string>}
  */
 export async function getChainContext(retryTime) {
     if (process.env.NODE_ENV === 'test') {
@@ -107,7 +107,7 @@ export async function getChainContext(retryTime) {
 
 /**
  * broadcast tx
- * @param {*} tw
+ * @param {oasis.consensus.TransactionWrapper} tw
  * @param {*} retryTime
  * @returns
  */
@@ -140,7 +140,7 @@ export async function submitTx(tw, retryTime) {
 /**
  * build tx body
  * @param {*} params
- * @param {*} tw
+ * @param {oasis.consensus.TransactionWrapper} tw
  * @returns
  */
 export async function buildTxBody(params, tw) {
@@ -194,12 +194,7 @@ export async function buildTxBody(params, tw) {
         let currentAccount = params.currentAccount
         let publicKey = hex2uint(currentAccount.publicKey)
 
-        let gas = ""
-        if (feeGas) {
-            gas = BigInt(feeGas)
-        } else {
-            gas = await getTxFee(tw, publicKey, RETRY_TIME)
-        }
+        let gas = feeGas ? BigInt(feeGas) : await getTxFee(tw, publicKey, RETRY_TIME)
         tw.setFeeGas(gas)
         return tw
     } catch (e) {
@@ -212,6 +207,10 @@ export async function getLedgerSigner(ledgerHdIndex) {
     return signer
 }
 
+/**
+ * @param {*} params
+ * @param {oasis.consensus.TransactionWrapper} tw
+ */
 export async function submitTxBody(params, tw) {
     try {
         let newTw = await buildTxBody(params, tw)
@@ -243,7 +242,7 @@ export async function submitTxBody(params, tw) {
 
 /**
  * get runtime nonce
- * @param {*} accountsWrapper
+ * @param {oasisRT.accounts.Wrapper} accountsWrapper
  * @param {*} address
  * @param {*} retryTime
  * @returns
@@ -275,10 +274,10 @@ function getRuntimeNonce(accountsWrapper,address,retryTime){
 /**
  * build runtime tx body
  * @param {*} params
- * @param {*} wrapper
+ * @param {oasisRT.wrapper.TransactionWrapper} txWrapper
  * @returns
  */
-export async function buildParatimeTxBody(params, wrapper) {
+export async function buildParatimeTxBody(params, txWrapper) {
     const CONSENSUS_RT_ID = oasis.misc.fromHex(params.runtimeId)
     const accountsWrapper = new oasisRT.accounts.Wrapper(CONSENSUS_RT_ID);
 
@@ -293,26 +292,18 @@ export async function buildParatimeTxBody(params, wrapper) {
         decimal = new BigNumber(10).pow(cointypes.decimals)
     }
 
-    let amount = new BigNumber(params.amount).multipliedBy(decimal).toFixed()
-    amount = BigInt(amount)
+    const amount = BigInt(new BigNumber(params.amount).multipliedBy(decimal).toFixed())
     const DEPOSIT_AMOUNT = ([
         oasis.quantity.fromBigInt(amount),
         oasisRT.token.NATIVE_DENOMINATION
     ]);
     // Fee amount idiosyncrasy: UI presents it in 1e-9 always, regardless of paratime setting.
-    let feeAmountDecimal = new BigNumber(10).pow(cointypes.decimals)
-    let feeAmount  = new BigNumber(params.feeAmount||0).multipliedBy(decimal).dividedBy(feeAmountDecimal).toFixed()
-    feeAmount = BigInt(feeAmount)
-    const FEE_FREE =([
-        oasis.quantity.fromBigInt(feeAmount),
-        oasisRT.token.NATIVE_DENOMINATION,
-    ]);
-    feeAmount  = FEE_FREE
+    const feeAmountDecimal = new BigNumber(10).pow(cointypes.decimals)
+    const feeAmount  = BigInt(new BigNumber(params.feeAmount||0).multipliedBy(decimal).dividedBy(feeAmountDecimal).toFixed())
+
     // Use default if feeGas is "" or 0 (0 is illegal in send page)
-    let feeGas = params.feeGas||15000
-    feeGas = BigInt(feeGas)
-    let consensusChainContext = await getChainContext(RETRY_TIME)
-    let txWrapper
+    const feeGas = BigInt(params.feeGas||15000)
+    const consensusChainContext = await getChainContext(RETRY_TIME)
 
     let targetAddress = ""
     if(params.method === TRANSACTION_TYPE.StakingAllow){
@@ -327,16 +318,16 @@ export async function buildParatimeTxBody(params, wrapper) {
             realAddress = await getEvmBech32Address(targetAddress)
         }
         let uint8ArrayAddress = await oasis.staking.addressFromBech32(realAddress)
-        txWrapper = wrapper.setBody({
+        txWrapper.setBody({
             amount: DEPOSIT_AMOUNT,
             to: uint8ArrayAddress
         })
     }else{
-        txWrapper = wrapper.setBody({
+        txWrapper.setBody({
             amount: DEPOSIT_AMOUNT,
         })
     }
-    txWrapper.setFeeAmount(feeAmount)
+    txWrapper.setFeeAmount(([oasis.quantity.fromBigInt(feeAmount), oasisRT.token.NATIVE_DENOMINATION]))
             .setFeeGas(feeGas)
             .setFeeConsensusMessages(1)
     return {txWrapper,nonce,consensusChainContext}
