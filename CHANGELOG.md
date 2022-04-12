@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.5.0
+
+Spotlight change:
+
+- Update default gas fees for ParaTime transactions to be sufficient for the
+  recent Emerald minimum gas price increase
+  ([#260](https://github.com/oasisprotocol/oasis-wallet-ext/issues/260)).
+
 ## 1.4.0
 
 Spotlight change:
