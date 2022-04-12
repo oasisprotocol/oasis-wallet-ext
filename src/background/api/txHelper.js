@@ -309,7 +309,7 @@ export async function buildParatimeTxBody(params, wrapper) {
     ]);
     feeAmount  = FEE_FREE
     // Use default if feeGas is "" or 0 (0 is illegal in send page)
-    let feeGas = params.feeGas||150000
+    let feeGas = params.feeGas||15000
     feeGas = BigInt(feeGas)
     let consensusChainContext = await getChainContext(RETRY_TIME)
     let txWrapper
