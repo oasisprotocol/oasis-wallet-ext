@@ -184,9 +184,9 @@ class SendPage extends React.Component {
             toAddressCanInputDefaultValue = currentAccount.address
             sendAction = WALLET_SEND_RUNTIME_WITHDRAW
           }
-          // A wild guess: the minimum gas price on Emerald (10 nano ROSE) times the default loose
+          // A wild guess: the minimum gas price on Emerald (100 nano ROSE) times the default loose
           // overestimate of the gas (15k).
-          defaultFeeAmount = "150000"
+          defaultFeeAmount = "1500000"
         }
 
         pageTitle = getLanguage('send')
