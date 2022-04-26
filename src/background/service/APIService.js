@@ -865,10 +865,12 @@ class APIService {
     /**
      * submit tx
      * @param {*} params
-     * @param {*} tw
+     * @param {oasis.consensus.TransactionWrapper} tw
+     * @param {*} [hideNotify]
+     * @param {*} [callback]
      * @returns
      */
-    submitTxBody = async (params, tw,hideNotify,callback) => {
+    submitTxBody = async (params, tw, hideNotify, callback) => {
         try {
             let newTw = await buildTxBody(params, tw)
 
