@@ -1,6 +1,6 @@
 import * as oasis from "@oasisprotocol/client";
 import { cointypes, TX_LIST_LENGTH } from "../../../config";
-import { amountDecimals, isNumber } from "../../utils/utils";
+import { amountDecimals, getRuntimeConfig, isNumber } from "../../utils/utils";
 import { commonFetch, getOasisClient } from "./request";
 import { getRpcAccount } from "./rpc";
 import * as oasisRT from "@oasisprotocol/client-rt";
@@ -186,6 +186,8 @@ export async function getRpcRuntimeList() {
     const runtime = runtimeList[index];
     let id = runtime.id;
     let runtimeId = oasis.misc.toHex(id);
+    let runtimeConfig = getRuntimeConfig(runtimeId);
+    if (!runtimeConfig) continue; // Only keep runtimes from PARATIME_CONFIG
     list.push({
       name: "unknown",
       runtimeId: runtimeId,
