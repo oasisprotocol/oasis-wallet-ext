@@ -304,19 +304,17 @@ export async function getEvmBech32Address(evmAddress){
  * @returns
  */
 export function getRuntimeConfig(runtimeId){
-    let runtimeConfig = {}
     for (let index = 0; index < PARATIME_CONFIG.length; index++) {
         const runtime = PARATIME_CONFIG[index];
         let runtimeIdList = runtime.runtimeIdList
         for (let j = 0; j < runtimeIdList.length; j++) {
             let config = runtimeIdList[j]
             if(runtimeId === config.runtimeId){
-                runtimeConfig = runtime
-                return runtimeConfig
+                return runtime
             }
         }
     }
-    return runtimeConfig
+    return undefined
 }
 
 /**

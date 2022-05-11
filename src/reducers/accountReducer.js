@@ -153,6 +153,7 @@ const setRuntimeName=(currentAccount,runtimeList)=>{
     for (let index = 0; index < runtimeList.length; index++) {
         let runtime = runtimeList[index];
         let runtimeConfig = getRuntimeConfig(runtime.runtimeId)
+        if (!runtimeConfig) continue // Only keep runtimes from PARATIME_CONFIG
         let isEmerald = runtimeConfig.accountType === RUNTIME_ACCOUNT_TYPE.EVM
         let config = {
             ...runtime,
