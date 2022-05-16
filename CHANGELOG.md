@@ -1,5 +1,23 @@
 # Change Log
 
+## 1.6.0
+
+Spotlight change:
+
+- Only show paratimes Emerald and Cipher
+  ([#267](https://github.com/oasisprotocol/oasis-wallet-ext/pull/267))
+
+Little things:
+
+- If getting account balance through Oasis Scan API fails, then get it from
+  Oasis gRPC
+  ([#257](https://github.com/oasisprotocol/oasis-wallet-ext/pull/257)).
+
+Internal:
+
+- Improved inferred types of promises and TransactionWrapper
+  ([#264](https://github.com/oasisprotocol/oasis-wallet-ext/pull/264)).
+
 ## 1.5.0
 
 Spotlight change:
