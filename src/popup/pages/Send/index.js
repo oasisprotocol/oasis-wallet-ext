@@ -869,6 +869,7 @@ class SendPage extends React.Component {
           />
           <Button
             content={getLanguage('confirm')}
+            disabled
             onClick={() => this.modal.current.setModalVisible(true)}
             propsClass={"account-common-btn account-common-btn-danger"}
           />
