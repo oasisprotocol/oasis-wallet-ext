@@ -38,7 +38,24 @@ import apiService from "./service/APIService";
 import extDappService from "./service/ExtDappService";
 import { openPopupWindow } from '../utils/popup';
 
-function internalMessageListener(message, sender, sendResponse) {
+function internalMessageListener(message, sender, sendResponseSerializable) {
+  const sendResponse = (response) => {
+    if (response?.error instanceof Error) {
+      return sendResponseSerializable({
+        ...response,
+        error: {
+          // Name, message, and stack are non-enumerable, so by default errors
+          // would serialize to "{}".
+          ...response.error,
+          name: response.error.name,
+          message: response.error.message,
+          stack: response.error.stack,
+        }
+      })
+    }
+    return sendResponseSerializable(response)
+  }
+
   const { messageSource, action, payload } = message;
   if (messageSource) {
     return false
