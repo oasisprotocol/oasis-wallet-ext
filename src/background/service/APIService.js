@@ -328,6 +328,8 @@ class APIService {
         const publicKey = uint2hex(publicKeyBytes)
         let privateHex = Buffer.from(privateBase64, 'base64').toString('hex')
         return {
+            // Note for future migration: use parseKey(privKey_base64) to get
+            // a consistent format of secretKey.
             privKey_base64: privateBase64,
             privKey_hex: privateHex,
             publicKey,
@@ -686,8 +688,17 @@ class APIService {
         delete newAccount.privateKey;
         return newAccount
     }
+    /** @param {Uint8Array} privateKey */
     signerFromPrivateKey = (privateKey) => {
-        return oasis.signature.NaclSigner.fromSecret(privateKey, 'this key is not important')
+        // TODO: simplify by storing long parsed private key (instead of input),
+        // and migrating old stored 32B private keys.
+        if (privateKey.length === 32) {
+            return oasis.signature.NaclSigner.fromSeed(privateKey, 'this key is not important')
+        } else if (privateKey.length === 64) {
+            return oasis.signature.NaclSigner.fromSecret(privateKey, 'this key is not important')
+        } else {
+            throw new Error('Invalid private key shape')
+        }
     }
     /**
      * transfer
