@@ -83,13 +83,11 @@ export function getAmountForUI(rawAmount, decimal = cointypes.decimals) {
 
 
 /**
- * Remove the spaces before and after the string
- * @param {*} str
+ * Remove the spaces before and after the string and remove newlines
+ * @param {string} str
  */
 export function trimSpace(str) {
-    let res = str.replace(/(^\s*)|(\s*$)/g, "")
-    res = res.replace(/[\r\n]/g, "")
-    return res
+    return str.replace(/(^\s*)|(\s*$)/g, "").replace(/[\r\n]/g, "")
 }
 
 /**
