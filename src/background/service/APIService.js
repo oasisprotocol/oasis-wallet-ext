@@ -293,13 +293,13 @@ class APIService {
             return this.getAccountWithoutPrivate(account)
         }
     };
+    /** @param {Uint8Array} key */
     fromPrivateKey = (key) => {
         try {
             if (key.length === 32) {
                 return nacl.sign.keyPair.fromSeed(key).secretKey
             } else if (key.length === 64) {
-                let res = nacl.sign.keyPair.fromSecretKey(key).secretKey
-                return res
+                return nacl.sign.keyPair.fromSecretKey(key).secretKey
             } else {
                 throw new Error('Invalid private key shape')
             }
@@ -307,10 +307,10 @@ class APIService {
             throw e
         }
     }
+    /** @param {string} key */
     parseKey = (key) => {
         try {
-            const keyWithoutEnvelope = trimSpace(key)
-            const key_bytes = decode(keyWithoutEnvelope)
+            const key_bytes = decode(trimSpace(key))
             return this.fromPrivateKey(new Uint8Array(key_bytes))
         } catch (e) {
             throw e
@@ -318,8 +318,7 @@ class APIService {
     }
     /**
      * import wallet by ed25519 private key
-     * @param {*} key
-     * @returns
+     * @param {string} privateBase64
      */
     importWalletByPrivateKey = async (privateBase64) => {
         let secretKey = this.parseKey(privateBase64)
@@ -328,6 +327,8 @@ class APIService {
         const publicKey = uint2hex(publicKeyBytes)
         let privateHex = Buffer.from(privateBase64, 'base64').toString('hex')
         return {
+            // Note for future migration: use parseKey(privKey_base64) to get
+            // a consistent format of secretKey.
             privKey_base64: privateBase64,
             privKey_hex: privateHex,
             publicKey,
@@ -336,7 +337,7 @@ class APIService {
     }
     /**
      * import wallet by secp256k1 private key
-     * @param {*} privKey
+     * @param {string} priKey
      * @returns
      */
     importSecWalletByPrivateKey = async (priKey) => {
@@ -686,8 +687,17 @@ class APIService {
         delete newAccount.privateKey;
         return newAccount
     }
+    /** @param {Uint8Array} privateKey */
     signerFromPrivateKey = (privateKey) => {
-        return oasis.signature.NaclSigner.fromSecret(privateKey, 'this key is not important')
+        // TODO: simplify by storing long parsed private key (instead of input),
+        // and migrating old stored 32B private keys.
+        if (privateKey.length === 32) {
+            return oasis.signature.NaclSigner.fromSeed(privateKey, 'this key is not important')
+        } else if (privateKey.length === 64) {
+            return oasis.signature.NaclSigner.fromSecret(privateKey, 'this key is not important')
+        } else {
+            throw new Error('Invalid private key shape')
+        }
     }
     /**
      * transfer
