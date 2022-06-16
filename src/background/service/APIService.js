@@ -309,8 +309,7 @@ class APIService {
     }
     parseKey = (key) => {
         try {
-            const keyWithoutEnvelope = trimSpace(key)
-            const key_bytes = decode(keyWithoutEnvelope)
+            const key_bytes = decode(trimSpace(key))
             return this.fromPrivateKey(new Uint8Array(key_bytes))
         } catch (e) {
             throw e
