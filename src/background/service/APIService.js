@@ -293,13 +293,13 @@ class APIService {
             return this.getAccountWithoutPrivate(account)
         }
     };
+    /** @param {Uint8Array} key */
     fromPrivateKey = (key) => {
         try {
             if (key.length === 32) {
                 return nacl.sign.keyPair.fromSeed(key).secretKey
             } else if (key.length === 64) {
-                let res = nacl.sign.keyPair.fromSecretKey(key).secretKey
-                return res
+                return nacl.sign.keyPair.fromSecretKey(key).secretKey
             } else {
                 throw new Error('Invalid private key shape')
             }
@@ -307,6 +307,7 @@ class APIService {
             throw e
         }
     }
+    /** @param {string} key */
     parseKey = (key) => {
         try {
             const key_bytes = decode(trimSpace(key))
@@ -317,8 +318,7 @@ class APIService {
     }
     /**
      * import wallet by ed25519 private key
-     * @param {*} key
-     * @returns
+     * @param {string} privateBase64
      */
     importWalletByPrivateKey = async (privateBase64) => {
         let secretKey = this.parseKey(privateBase64)
@@ -337,7 +337,7 @@ class APIService {
     }
     /**
      * import wallet by secp256k1 private key
-     * @param {*} privKey
+     * @param {string} priKey
      * @returns
      */
     importSecWalletByPrivateKey = async (priKey) => {
