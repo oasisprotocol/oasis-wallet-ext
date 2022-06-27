@@ -16,6 +16,8 @@ global.navigator={
 
 }
 require('jsdom-global')()
+
+delete window.localStorage
 window.localStorage = {}
 
 if (!('crypto' in window)) { window.crypto = {} }
