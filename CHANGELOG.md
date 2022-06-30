@@ -1,5 +1,20 @@
 # Change Log
 
+## 1.7.0
+
+Spotlight change:
+
+- Disable the confirm button on warnings for dangerous transactions
+  ([#271](https://github.com/oasisprotocol/oasis-wallet-ext/pull/271))
+
+Little things:
+
+- Fix signing transactions with accounts created from short private key "seeds"
+  ([#273](https://github.com/oasisprotocol/oasis-wallet-ext/pull/273))
+
+- Display more informative errors than only "Transaction broadcast failed"
+  ([#272](https://github.com/oasisprotocol/oasis-wallet-ext/pull/272))
+
 ## 1.6.0
 
 Spotlight change:

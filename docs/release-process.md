@@ -50,7 +50,7 @@ commit.
 Create a signed git tag for the new version and push it to the origin repository:
 
 ```sh
-VERSION=<VERSION>
+VERSION=`cat public/manifest.json | jq .version -r`
 git tag --sign --message="Version $VERSION" v$VERSION
 git push origin v$VERSION
 ```
@@ -59,7 +59,7 @@ git push origin v$VERSION
 Clean the output directory, build, and package:
 
 ```sh
-VERSION=<VERSION>
+VERSION=`cat public/manifest.json | jq .version -r`
 rm -rf dist/
 yarn install --frozen-lockfile
 yarn buildProd
