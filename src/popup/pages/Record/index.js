@@ -125,9 +125,9 @@ class Record extends React.Component {
     let hash = this.state.txDetail.txHash || this.state.txDetail.hash
     let url
     if (this.state.isEvmTx) {
-      url = getExplorerUrl() + "paratimes/transactions/" + hash + "?runtime=" + this.state.txDetail.runtimeId
+      url = getExplorerUrl() + "paratimes/transactions/" + encodeURIComponent(hash) + "?runtime=" + encodeURIComponent(this.state.txDetail.runtimeId)
     } else {
-      url = getExplorerUrl() + "transactions/" + hash
+      url = getExplorerUrl() + "transactions/" + encodeURIComponent(hash)
     }
     openTab(url)
   }

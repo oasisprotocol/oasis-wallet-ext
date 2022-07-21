@@ -919,7 +919,7 @@ class APIService {
         }
     }
     notification = (hash,runtimeId) => {
-        let notifyId = runtimeId ?  hash +"?runtime="+runtimeId : hash
+        let notifyId = runtimeId ?  encodeURIComponent(hash) +"?runtime="+encodeURIComponent(runtimeId) : encodeURIComponent(hash)
         let myNotificationID
         extension.notifications &&
         extension.notifications.onClicked.addListener(function (clickId) {
