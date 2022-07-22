@@ -505,7 +505,7 @@ class Wallet extends React.Component {
     return className
   }
   onClickGoExplorer = () => {
-    let url = getExplorerUrl() + "accounts/detail/" + this.props.currentAccount.address
+    let url = getExplorerUrl() + "accounts/detail/" + encodeURIComponent(this.props.currentAccount.address)
     openTab(url)
   }
   renderListExplorer = (index) => {

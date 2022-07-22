@@ -919,29 +919,21 @@ class APIService {
         }
     }
     notification = (hash,runtimeId) => {
-        let notifyId = runtimeId ?  hash +"?runtime="+runtimeId : hash
-        let myNotificationID
-        extension.notifications &&
-        extension.notifications.onClicked.addListener(function (clickId) {
-            if(myNotificationID === clickId){
-                let url
-                if(runtimeId){
-                    url = getExplorerUrl() + "paratimes/transactions/" + clickId
-                }else{
-                    url = getExplorerUrl() + "transactions/" + clickId
-                }
-                openTab(url)
-            }
-        });
-        let title = getLanguage('notificationTitle')
-        let message = getLanguage('notificationContent')
-        extension.notifications.create(notifyId, {
-            title: title,
-            message: message,
+        const notificationLinkAsId = runtimeId
+            ? getExplorerUrl() + "paratimes/transactions/" + encodeURIComponent(hash) + "?runtime=" + encodeURIComponent(runtimeId)
+            : getExplorerUrl() + "transactions/" + encodeURIComponent(hash)
+
+        const notificationListener = (clickedNotificationId) => {
+            if(notificationLinkAsId !== clickedNotificationId) return
+            extension.notifications.onClicked.removeListener(notificationListener)
+            openTab(notificationLinkAsId)
+        }
+        extension.notifications.onClicked.addListener(notificationListener)
+        extension.notifications.create(notificationLinkAsId, {
+            title: getLanguage('notificationTitle'),
+            message: getLanguage('notificationContent'),
             iconUrl: '/img/oasis.png',
             type: 'basic'
-        },(notificationItem)=>{
-            myNotificationID = notificationItem
         });
         return
     }

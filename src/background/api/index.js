@@ -18,7 +18,7 @@ function getSharePrice(pool) {
  * @returns {Promise<Balance>}
  */
 export async function getBalance(address) {
-  let url = "/chain/account/info/" + address;
+  let url = "/chain/account/info/" + encodeURIComponent(address);
   let account = await commonFetch(url).catch(() => {});
   if (account && account.code === 0) {
     return { ...account.data, address };
@@ -101,7 +101,7 @@ export async function getTransactionList(address) {
  */
 export async function getAccountStakeInfo(address) {
   let url =
-    "/chain/account/delegations?address=" + address + "&size=" + MAX_LENGTH;
+    "/chain/account/delegations?address=" + encodeURIComponent(address) + "&size=" + encodeURIComponent(MAX_LENGTH);
   let accountStakeInfo = await commonFetch(url).catch(() => []);
   return accountStakeInfo;
 }
@@ -112,7 +112,7 @@ export async function getAccountStakeInfo(address) {
  * @returns
  */
 export async function getNodeStakeInfo(address) {
-  let url = "/validator/info?address=" + address;
+  let url = "/validator/info?address=" + encodeURIComponent(address);
   let validatorInfo = await commonFetch(url).catch(() => {});
   return validatorInfo;
 }
@@ -124,7 +124,7 @@ export async function getNodeStakeInfo(address) {
  */
 export async function getUserDebondInfo(address) {
   let url =
-    "/chain/account/debonding?address=" + address + "&size=" + MAX_LENGTH;
+    "/chain/account/debonding?address=" + encodeURIComponent(address) + "&size=" + encodeURIComponent(MAX_LENGTH);
   let userDebondInfo = await commonFetch(url).catch(() => {});
   return userDebondInfo;
 }
@@ -135,7 +135,7 @@ export async function getUserDebondInfo(address) {
  * @returns
  */
 export async function getNodeStakeList() {
-  let url = "/validator/list?pageSize=" + MAX_LENGTH;
+  let url = "/validator/list?pageSize=" + encodeURIComponent(MAX_LENGTH);
   let validatorList = await commonFetch(url).catch(() => []);
   return validatorList;
 }
@@ -146,7 +146,7 @@ export async function getNodeStakeList() {
  * @returns
  */
 export async function getSubmitStatus(txhash) {
-  let url = "/chain/transaction/" + txhash;
+  let url = "/chain/transaction/" + encodeURIComponent(txhash);
   let txStatus = await commonFetch(url).catch(() => {});
   if (txStatus && txStatus.code === 0) {
     return txStatus.data;
@@ -202,7 +202,7 @@ export async function getRpcRuntimeList() {
  * @returns
  */
 export async function getRuntimeTxDetail(txhash, runtimeId) {
-  let url = `/runtime/transaction/info?id=${runtimeId}&hash=${txhash}`;
+  let url = `/runtime/transaction/info?id=${encodeURIComponent(runtimeId)}&hash=${encodeURIComponent(txhash)}`;
   let txDetail = await commonFetch(url).catch(() => {});
   if (txDetail && txDetail.code === 0) {
     return txDetail.data;
