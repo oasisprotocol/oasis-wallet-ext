@@ -23,6 +23,7 @@ const emerald_config = {
     ],
     decimals: 18,
     accountType:RUNTIME_ACCOUNT_TYPE.EVM,
+    indexesTransactions: true,
 }
 /**
  * cipher-paratime config
@@ -41,6 +42,7 @@ const cipher_config = {
     ],
     decimals: 9,
     accountType:RUNTIME_ACCOUNT_TYPE.OASIS,
+    indexesTransactions: false,
 }
 const sapphire_config = {
     runtimeName:"Sapphire",
@@ -52,6 +54,7 @@ const sapphire_config = {
     ],
     decimals: 18,
     accountType:RUNTIME_ACCOUNT_TYPE.EVM,
+    indexesTransactions: false,
 }
 
 
