@@ -218,25 +218,7 @@ export function getPrettyAddress(address) {
  * @returns
  */
 export function getQueryStringArgs(url) {
-    let qs = url || ""
-    let paramSplit = qs.split("?")
-    let paramStr = ''
-    if (paramSplit.length > 1) {
-        paramStr = paramSplit[1]
-    }
-    var args = {};
-    var items = paramStr.length > 0 ? paramStr.split("&") : [],
-        item = null, name = null, value = null;
-    var len = items.length;
-    for (var i = 0; i < len; i++) {
-        item = items[i].split("=");
-        name = decodeURIComponent(item[0]);
-        value = decodeURIComponent(item[1]);
-        if (name.length > 0) {
-            args[name] = value
-        }
-    }
-    return args;
+    return Object.fromEntries(new URLSearchParams(url.split('?')[1]))
 }
 
 export function getOriginFromUrl(url) {
