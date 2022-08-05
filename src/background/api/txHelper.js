@@ -57,17 +57,17 @@ export async function getTxFee(tw, publicKey, retryTime) {
             const oasisClient = getOasisClient()
             let gasResult = await tw.estimateGas(oasisClient, publicKey)
             resolve(gasResult)
-        } catch (error) {
+        } catch (errorOnFirstTry) {
             if (retryTime > 0) {
                 setTimeout(async () => {
                     try {
                         resolve(await getTxFee(tw, publicKey, retryTime))
-                    } catch (error) {
-                        reject(error)
+                    } catch (errorOnRetry) {
+                        reject(errorOnFirstTry)
                     }
                 }, RETRY_DELAY);
             } else {
-                reject(error)
+                reject(errorOnFirstTry)
             }
         }
     })
@@ -88,17 +88,17 @@ export async function getChainContext(retryTime) {
                 const oasisClient = getOasisClient()
                 let chainContext = await oasisClient.consensusGetChainContext()
                 resolve(chainContext)
-            } catch (error) {
+            } catch (errorOnFirstTry) {
                 if (retryTime > 0) {
                     setTimeout(async () => {
                         try {
                             resolve(await getChainContext(retryTime))
-                        } catch (error) {
-                            reject(error)
+                        } catch (errorOnRetry) {
+                            reject(errorOnFirstTry)
                         }
                     }, RETRY_DELAY);
                 } else {
-                    reject(error)
+                    reject(errorOnFirstTry)
                 }
             }
         })
@@ -121,17 +121,17 @@ export async function submitTx(tw, retryTime) {
                 const oasisClient = getOasisClient()
                 let signSubmit = await tw.submit(oasisClient)
                 resolve(signSubmit)
-            } catch (error) {
+            } catch (errorOnFirstTry) {
                 if (retryTime > 0) {
                     setTimeout(async () => {
                         try {
                             resolve(await submitTx(tw, retryTime))
-                        } catch (err) {
-                            reject(err)
+                        } catch (errorOnRetry) {
+                            reject(errorOnFirstTry)
                         }
                     }, RETRY_DELAY);
                 } else {
-                    reject(error)
+                    reject(errorOnFirstTry)
                 }
             }
         })
@@ -254,17 +254,17 @@ function getRuntimeNonce(accountsWrapper,address,retryTime){
             const oasisClient = getOasisClient()
             let nonceResult = await accountsWrapper.queryNonce().setArgs({ address: address }).query(oasisClient);
             resolve(nonceResult)
-        } catch (error) {
+        } catch (errorOnFirstTry) {
             if (retryTime > 0) {
                 setTimeout(async () => {
                     try {
                         resolve(await getRuntimeNonce(accountsWrapper,address,retryTime))
-                    } catch (error) {
-                        reject(error)
+                    } catch (errorOnRetry) {
+                        reject(errorOnFirstTry)
                     }
                 }, RETRY_DELAY);
             } else {
-                reject(error)
+                reject(errorOnFirstTry)
             }
         }
     })
