@@ -83,7 +83,7 @@ class MyStaking extends React.Component {
     getStakePercent = (total_balance, delegations_balance) => {
         let percent = "0"
         if (new BigNumber(total_balance).gt(0)) {
-            percent = new BigNumber(delegations_balance).dividedBy(total_balance).multipliedBy(100).toFixed(4, 1).toString()
+            percent = new BigNumber(delegations_balance).dividedBy(total_balance).multipliedBy(100).toFixed(4, 1)
         }
         percent = percent + "%"
         return percent

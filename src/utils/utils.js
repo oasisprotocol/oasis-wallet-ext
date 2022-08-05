@@ -59,7 +59,7 @@ export function getDisplayAmount(number, fixed = 4) {
     if (isNaN(parseFloat(number)) || number === 0) {
         return '0.00';
     }
-    let showAmount = new BigNumber(number).toFixed(fixed, 1).toString()
+    let showAmount = new BigNumber(number).toFixed(fixed, 1)
     return toNonExponential(showAmount)
 }
 

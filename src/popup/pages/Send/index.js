@@ -696,8 +696,7 @@ class SendPage extends React.Component {
     let accountInfo = this.props.accountInfo
 
     let shares = this.state.reclaimShare
-    let amount = new BigNumber(this.state.amount).toString()
-    amount = toNonExponential(amount)
+    let amount = new BigNumber(this.state.amount).toFixed()
     let toAddress = this.getToAddress()
 
     let nonce = trimSpace(this.state.nonce) || accountInfo.nonce
