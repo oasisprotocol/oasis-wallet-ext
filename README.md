@@ -5,9 +5,10 @@
 [github-ci-lint-badge]: https://github.com/oasisprotocol/oasis-wallet-ext/workflows/ci-lint/badge.svg
 [github-ci-lint-link]: https://github.com/oasisprotocol/oasis-wallet-ext/actions?query=workflow:ci-lint+branch:master
 
-The official non-custodial browser extension wallet for the [Oasis Network].
+The official non-custodial [browser extension] wallet for the [Oasis Network].
 
 [Oasis Network]: https://docs.oasis.dev/general/oasis-network/overview
+[browser extension]: https://chrome.google.com/webstore/detail/oasis-wallet/ppdadbejkmjnefldpcdjhnkpbjkikoip
 
 ## Introduction
 
