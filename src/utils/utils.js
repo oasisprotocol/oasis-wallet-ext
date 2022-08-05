@@ -87,7 +87,7 @@ export function getAmountForUI(rawAmount, decimal = cointypes.decimals) {
  * @param {string} str
  */
 export function trimSpace(str) {
-    return str.replace(/(^\s*)|(\s*$)/g, "").replace(/[\r\n]/g, "")
+    return str.trim().replace(/[\r\n]/g, "")
 }
 
 /**
