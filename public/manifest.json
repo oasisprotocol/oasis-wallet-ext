@@ -37,7 +37,6 @@
     "scripts": ["common.js", "background.js"],
     "persistent": true
   },
-  "web_accessible_resources": [
-    "oasis-xu-frame.html"
-    ]
+  "web_accessible_resources": ["oasis-xu-frame.html"],
+  "externally_connectable": { "ids": [] }
 }

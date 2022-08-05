@@ -59,7 +59,7 @@ export function getDisplayAmount(number, fixed = 4) {
     if (isNaN(parseFloat(number)) || number === 0) {
         return '0.00';
     }
-    let showAmount = new BigNumber(number).toFixed(fixed, 1).toString()
+    let showAmount = new BigNumber(number).toFixed(fixed, 1)
     return toNonExponential(showAmount)
 }
 
@@ -87,7 +87,7 @@ export function getAmountForUI(rawAmount, decimal = cointypes.decimals) {
  * @param {string} str
  */
 export function trimSpace(str) {
-    return str.replace(/(^\s*)|(\s*$)/g, "").replace(/[\r\n]/g, "")
+    return str.trim().replace(/[\r\n]/g, "")
 }
 
 /**
@@ -164,14 +164,7 @@ export function copyText(text) {
  */
 export function getNumberDecimals(number) {
     if (isNumber(number)) {
-        let newNumber = new BigNumber(number).minus(new BigNumber(number).toFixed(0, 1).toString()).toString()
-        let splitList = newNumber.split('.');
-        if (splitList.length > 1) {
-            let littleNumber = splitList[1]
-            return littleNumber.length
-        } else {
-            return 0
-        }
+        return new BigNumber(number).decimalPlaces()
     } else {
         return 0
     }
@@ -218,25 +211,7 @@ export function getPrettyAddress(address) {
  * @returns
  */
 export function getQueryStringArgs(url) {
-    let qs = url || ""
-    let paramSplit = qs.split("?")
-    let paramStr = ''
-    if (paramSplit.length > 1) {
-        paramStr = paramSplit[1]
-    }
-    var args = {};
-    var items = paramStr.length > 0 ? paramStr.split("&") : [],
-        item = null, name = null, value = null;
-    var len = items.length;
-    for (var i = 0; i < len; i++) {
-        item = items[i].split("=");
-        name = decodeURIComponent(item[0]);
-        value = decodeURIComponent(item[1]);
-        if (name.length > 0) {
-            args[name] = value
-        }
-    }
-    return args;
+    return Object.fromEntries(new URLSearchParams(url.split('?')[1]))
 }
 
 export function getOriginFromUrl(url) {

@@ -755,7 +755,9 @@ class APIService {
                 const tw = oasis.staking.allowWrapper()
                 params.method = TRANSACTION_TYPE.StakingAllow
                 params.toAddress = oasis.staking.addressToBech32(await oasis.staking.addressFromRuntimeID(oasis.misc.fromHex(params.runtimeId)))
-                let result = await this.submitTxBody(params, tw,true,(data)=>this.depositToParatimeAccount(params,resolve,reject,data)).catch(err=>err)
+                let result = await this.submitTxBody(params, tw, true, (data) => {
+                    this.depositToParatimeAccount(params, resolve, reject, data)
+                }).catch(err=>err)
                 if(result&&result.error){
                     reject({error:result.error})
                 }

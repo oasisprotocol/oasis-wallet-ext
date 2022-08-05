@@ -93,7 +93,7 @@ class StakeNode extends React.Component {
   renderNodeItem = (item, index) => {
     let showAddress = addressSlice(item.entityAddress, 8)
     let statusText = item.commission || 0
-    statusText = new BigNumber(statusText).multipliedBy(100).toFixed(1, 1).toString() + "%"
+    statusText = new BigNumber(statusText).multipliedBy(100).toFixed(1, 1) + "%"
     let validatorName = item.name || showAddress
     let icon = item.icon || DEFAULT_VALIDATOR_ICON
     let delegators = item.delegators

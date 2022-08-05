@@ -97,7 +97,7 @@ class StakeNodeDetail extends React.Component {
         let entityId = addressSlice(this.state.entityId)
         let validatorName = nodeDetail.validatorName || nodeDetail.name || addressSlice(address, 6)
         let statusText = nodeDetail.commission || this.state.commission || 0
-        statusText = new BigNumber(statusText).multipliedBy(100).toFixed(1, 1).toString() + "%"
+        statusText = new BigNumber(statusText).multipliedBy(100).toFixed(1, 1) + "%"
         let icon = nodeDetail.icon || DEFAULT_VALIDATOR_ICON
         return (
             <div className={"node-detail-top-detail"}>
