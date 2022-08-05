@@ -164,14 +164,7 @@ export function copyText(text) {
  */
 export function getNumberDecimals(number) {
     if (isNumber(number)) {
-        let newNumber = new BigNumber(number).minus(new BigNumber(number).toFixed(0, 1).toString()).toString()
-        let splitList = newNumber.split('.');
-        if (splitList.length > 1) {
-            let littleNumber = splitList[1]
-            return littleNumber.length
-        } else {
-            return 0
-        }
+        return new BigNumber(number).decimalPlaces()
     } else {
         return 0
     }
