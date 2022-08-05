@@ -148,11 +148,11 @@ export async function buildTxBody(params, tw) {
         let decimal = new BigNumber(10).pow(cointypes.decimals)
         let amount
         if (params.method === TRANSACTION_TYPE.ReclaimEscrow) {
-            amount = new BigNumber(params.shares).multipliedBy(decimal).toString()
+            amount = new BigNumber(params.shares).multipliedBy(decimal).toFixed(0)
         } else if (params.method === TRANSACTION_TYPE.StakingAllow){
-            amount = new BigNumber(params.allowance).multipliedBy(decimal).toString()
+            amount = new BigNumber(params.allowance).multipliedBy(decimal).toFixed(0)
         } else {
-            amount = new BigNumber(params.amount).multipliedBy(decimal).toString()
+            amount = new BigNumber(params.amount).multipliedBy(decimal).toFixed(0)
         }
 
         let toAddress = params.toAddress
