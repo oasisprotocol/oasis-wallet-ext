@@ -808,7 +808,7 @@ class APIService {
             let u8Hash = await oasis.hash.hash(oasis.misc.toCBOR(txWrapper.unverifiedTransaction))
             let hash = oasis.misc.toHex(u8Hash)
             let config =  getRuntimeConfig(params.runtimeId)
-            if (hash && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
+            if (hash && config.indexesTransactions) {
                 this.createNotificationAfterRuntimeTxSucceeds(hash,params.runtimeId)
                 return {
                     code:0,
@@ -852,7 +852,7 @@ class APIService {
             let u8Hash = await oasis.hash.hash(oasis.misc.toCBOR(txWrapper.unverifiedTransaction))
             let hash = oasis.misc.toHex(u8Hash)
             let config =  getRuntimeConfig(params.runtimeId)
-            if (hash && config.accountType === RUNTIME_ACCOUNT_TYPE.EVM) {
+            if (hash && config.indexesTransactions) {
                 this.createNotificationAfterRuntimeTxSucceeds(hash,params.runtimeId)
                 return {
                     code:0,

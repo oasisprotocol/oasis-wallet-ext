@@ -146,26 +146,26 @@ const initState = {
     evmRuntimeList:[],
 };
 
-const setRuntimeName=(currentAccount,runtimeList)=>{
+const getRuntimesListWithConfigs=(currentAccount,runtimeList)=>{
     let allRuntimeList = []
     let evmShowList = []
-    let isEvm = !!currentAccount.evmAddress
+    let isEvmAccount = !!currentAccount.evmAddress
     for (let index = 0; index < runtimeList.length; index++) {
         let runtime = runtimeList[index];
         let runtimeConfig = getRuntimeConfig(runtime.runtimeId)
         if (!runtimeConfig) continue // Only keep runtimes from PARATIME_CONFIG
-        let isEmerald = runtimeConfig.accountType === RUNTIME_ACCOUNT_TYPE.EVM
+        let isEvmRuntime = runtimeConfig.accountType === RUNTIME_ACCOUNT_TYPE.EVM
         let config = {
             ...runtime,
             name:runtimeConfig.runtimeName,
             decimals: runtimeConfig.decimals,
             accountType:runtimeConfig.accountType,
-            // Prevent use of non-secp256k1eth accounts on emerald.
-            disableToConsensus: !isEvm && isEmerald,
-            disableToParatime: isEvm,
+            // Prevent use of non-secp256k1eth accounts on emerald and sapphire.
+            disableToConsensus: !isEvmAccount && isEvmRuntime,
+            disableToParatime: isEvmAccount,
         }
         allRuntimeList.push(config)
-        if(isEmerald){
+        if(isEvmRuntime){
             evmShowList.push(config)
         }
     }
@@ -253,7 +253,7 @@ const accountInfo = (state = initState, action) => {
                 nonce: action.nonce
             }
         case UPDATE_ACCOUNT_RUNTIME_LIST:
-            let runtime =  setRuntimeName(state.currentAccount,action.list)
+            let runtime =  getRuntimesListWithConfigs(state.currentAccount,action.list)
             return {
                 ...state,
                 runtimeList: runtime.allRuntimeList,

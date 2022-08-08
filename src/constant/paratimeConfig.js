@@ -23,6 +23,7 @@ const emerald_config = {
     ],
     decimals: 18,
     accountType:RUNTIME_ACCOUNT_TYPE.EVM,
+    indexesTransactions: true,
 }
 /**
  * cipher-paratime config
@@ -41,12 +42,26 @@ const cipher_config = {
     ],
     decimals: 9,
     accountType:RUNTIME_ACCOUNT_TYPE.OASIS,
+    indexesTransactions: false,
+}
+const sapphire_config = {
+    runtimeName:"Sapphire",
+    runtimeIdList:[
+        {
+            type:"TEST",
+            runtimeId:"000000000000000000000000000000000000000000000000a6d1e3ebf60dff6c"
+        },
+    ],
+    decimals: 18,
+    accountType:RUNTIME_ACCOUNT_TYPE.EVM,
+    indexesTransactions: false,
 }
 
 
 export const PARATIME_CONFIG=[
     emerald_config,
-    cipher_config
+    cipher_config,
+    sapphire_config,
 ]
 
 const allRuntimeIdsInParatimes = PARATIME_CONFIG.flatMap(paratime => paratime.runtimeIdList.map(runtime => runtime.runtimeId))
