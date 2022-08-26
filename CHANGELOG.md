@@ -1,26 +1,52 @@
 # Change Log
 
+## 1.8.0
+
+Spotlight change:
+
+- Add support for Sapphire ParaTime on Testnet
+  ([#279](https://github.com/oasisprotocol/oasis-wallet-ext/pull/279)).
+
+Little things:
+
+- Improve numeric precision in reclaim escrow
+  ([#281](https://github.com/oasisprotocol/oasis-wallet-ext/pull/281)).
+- Propagate error from first attempt if retrying fails since it would often fail
+  with "invalid nonce" which would in turn mask the original problem
+  ([#282](https://github.com/oasisprotocol/oasis-wallet-ext/pull/282)).
+
+Internal:
+
+- Use `encodeURIComponent()` everywhere
+  ([#280](https://github.com/oasisprotocol/oasis-wallet-ext/pull/280)).
+- Refactor `notification` in APIService
+  ([#280](https://github.com/oasisprotocol/oasis-wallet-ext/pull/280)).
+- Add extensionizer types
+  ([#280](https://github.com/oasisprotocol/oasis-wallet-ext/pull/280)).
+- Simplify `getQueryStringArgs()`, `getNumberDecimals()`, `trimSpace()` utils
+  ([#282](https://github.com/oasisprotocol/oasis-wallet-ext/pull/282)).
+
 ## 1.7.0
 
 Spotlight change:
 
 - Disable the confirm button on warnings for dangerous transactions
-  ([#271](https://github.com/oasisprotocol/oasis-wallet-ext/pull/271))
+  ([#271](https://github.com/oasisprotocol/oasis-wallet-ext/pull/271)).
 
 Little things:
 
 - Fix signing transactions with accounts created from short private key "seeds"
-  ([#273](https://github.com/oasisprotocol/oasis-wallet-ext/pull/273))
+  ([#273](https://github.com/oasisprotocol/oasis-wallet-ext/pull/273)).
 
 - Display more informative errors than only "Transaction broadcast failed"
-  ([#272](https://github.com/oasisprotocol/oasis-wallet-ext/pull/272))
+  ([#272](https://github.com/oasisprotocol/oasis-wallet-ext/pull/272)).
 
 ## 1.6.0
 
 Spotlight change:
 
 - Only show paratimes Emerald and Cipher
-  ([#267](https://github.com/oasisprotocol/oasis-wallet-ext/pull/267))
+  ([#267](https://github.com/oasisprotocol/oasis-wallet-ext/pull/267)).
 
 Little things:
 
@@ -64,7 +90,7 @@ Little things:
 
 Little things:
 
-- Properly set 1.3.0 release heading in the Change Log
+- Properly set 1.3.0 release heading in the Change Log.
 
 ## 1.3.0
 
