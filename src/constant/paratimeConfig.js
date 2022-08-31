@@ -54,7 +54,7 @@ const sapphire_config = {
     ],
     decimals: 18,
     accountType:RUNTIME_ACCOUNT_TYPE.EVM,
-    indexesTransactions: false,
+    indexesTransactions: true,
 }
 
 
