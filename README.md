@@ -7,7 +7,7 @@
 
 The official non-custodial browser extension wallet for the [Oasis Network].
 
-[Oasis Network]: https://docs.oasis.dev/general/oasis-network/overview
+[Oasis Network]: https://docs.oasis.io/general/oasis-network/
 
 ## Introduction
 
