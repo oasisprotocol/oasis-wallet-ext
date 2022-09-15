@@ -88,7 +88,7 @@ Extension's build output is placed in `/dist`, and you can check out [this page]
 
 ### dapp-connect test
 
-* open [oasis-test-dapp](https://bitcat365.github.io/oasis-test-dapp)
+* open [oasis-test-dapp](https://lukaw3d.github.io/oasis-test-dapp)
 * click connect and other button to communicate with wallet
 
 ## CI pipelines (Coming soon)
