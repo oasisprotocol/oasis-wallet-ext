@@ -112,11 +112,15 @@ class ExtDappService {
         reject(error)
       }
     })
-
   }
   async getWebIcon(origin) {
+    // For getActiveTab to work user needs to activate the extension. But most
+    // users will just interact with ext popup after dapp opens it with
+    // oasis-xu-frame, so fallback to domain-level favicon from duckduckgo.
     let tabs = await getActiveTab(QUERY_TAB_TYPE.GET_ACTIVE_TAB_BY_URL, { origin })
-    let webIcon = tabs[0]?.favIconUrl
+    let webIcon =
+      tabs[0]?.favIconUrl ||
+      `https://icons.duckduckgo.com/ip3/${new URL(origin).hostname}.ico`
     return webIcon
   }
   async getApproveAccountPublicKey(origin) {
