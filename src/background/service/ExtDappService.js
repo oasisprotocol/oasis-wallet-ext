@@ -102,11 +102,9 @@ class ExtDappService {
         }
         extension.runtime.onMessage.addListener(onMessage)
         let isUnlocked = await this.getAppLockStatus()
-        isUnlocked = isUnlocked ? 1 : 0
-        let siteUrl = origin
         let icon = await this.getWebIcon(origin)
-        this.popupId = await this.dappOpenPopWindow('./popup.html#/approve_page?isUnlocked=' + encodeURIComponent(isUnlocked)
-          + "&siteUrl=" + encodeURIComponent(siteUrl)
+        this.popupId = await this.dappOpenPopWindow('./popup.html#/approve_page?isUnlocked=' + encodeURIComponent(isUnlocked ? 1 : 0)
+          + "&siteUrl=" + encodeURIComponent(origin)
           + "&siteIcon=" + encodeURIComponent(icon),
           windowId.approve_page, "dapp")
         this.setBadgeContent("approve_page", BADGE_ADD)
@@ -118,13 +116,8 @@ class ExtDappService {
   }
   async getWebIcon(origin) {
     let tabs = await getActiveTab(QUERY_TAB_TYPE.GET_ACTIVE_TAB_BY_URL, { origin })
-    if (tabs.length > 0) {
-      let tab = tabs[0]
-      let webIcon = tab?.favIconUrl || ""
-      return webIcon
-    }
-    return ""
-
+    let webIcon = tabs[0]?.favIconUrl
+    return webIcon
   }
   async getApproveAccountPublicKey(origin) {
     return new Promise(async (resolve, reject) => {
