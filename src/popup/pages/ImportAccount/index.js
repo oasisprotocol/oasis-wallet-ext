@@ -98,7 +98,9 @@ class ImportAccount extends React.Component {
           className={"text-area-input"}
           placeholder={getLanguage('inputPrivateKey')}
           value={this.state.privateKey}
-          onChange={this.handleTextareaChange} />
+          onChange={this.handleTextareaChange}
+          autoComplete="off"
+        />
       </div>
     )
   }
@@ -124,15 +126,20 @@ class ImportAccount extends React.Component {
       <p className={"import-title"}>{content}</p>
     </div>)
   }
+  onSubmit = (event) => {
+    event.preventDefault();
+  }
   render() {
     return (
       <CustomView
         title={getLanguage('importAccount_1')}
         history={this.props.history}>
-        <div className="import-account-container">
-          {this.renderInput()}
-        </div>
-        {this.renderBottom()}
+        <form onSubmit={this.onSubmit} autoComplete="off">
+          <div className="import-account-container">
+            {this.renderInput()}
+          </div>
+          {this.renderBottom()}
+        </form>
       </CustomView>
     )
   }

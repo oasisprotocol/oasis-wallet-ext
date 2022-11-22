@@ -89,7 +89,9 @@ class RestoreAccount extends React.Component {
       <textarea
         className={"text-area-input"}
         value={this.state.privateKey}
-        onChange={this.onMneInput} />
+        onChange={this.onMneInput}
+        autoComplete="off"
+      />
     )
   }
   renderBottom = () => {
@@ -103,17 +105,23 @@ class RestoreAccount extends React.Component {
       </div>
     )
   }
+  onSubmit = (event) => {
+    event.preventDefault();
+  }
   render() {
     return (
       <CustomView
         propsClassName={"create-route-container"}
-        history={this.props.history}>
-        <div className="import-container">
-          <p className={'desc-title'}>{getLanguage('restoreWallet')}</p>
-          <p className={"import-title"}>{getLanguage("inputSeed")}</p>
-          {this.renderInput()}
-        </div>
-        {this.renderBottom()}
+        history={this.props.history}
+      >
+        <form onSubmit={this.onSubmit} autoComplete="off">
+          <div className="import-container">
+            <p className={'desc-title'}>{getLanguage('restoreWallet')}</p>
+            <p className={"import-title"}>{getLanguage("inputSeed")}</p>
+            {this.renderInput()}
+          </div>
+          {this.renderBottom()}
+        </form>
       </CustomView>
     )
   }

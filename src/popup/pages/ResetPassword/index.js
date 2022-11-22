@@ -183,10 +183,12 @@ class Reset extends React.Component {
             <CustomView
                 title={getLanguage('changeSecPassword')}
                 history={this.props.history}>
-                <div className="reset_container">
-                    {this.renderPasswordContent()}
-                </div>
-                {this.renderBottomBtn()}
+                <form onSubmit={this.onSubmit} autoComplete="off">
+                    <div className="reset_container">
+                        {this.renderPasswordContent()}
+                    </div>
+                    {this.renderBottomBtn()}
+                </form>
             </CustomView>
         )
     }
