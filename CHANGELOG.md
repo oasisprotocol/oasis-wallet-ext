@@ -1,5 +1,23 @@
 # Change Log
 
+## 1.8.1
+
+Spotlight change:
+
+- Prevent browsers from writing sensitive form inputs to user data
+  ([#288](https://github.com/oasisprotocol/oasis-wallet-ext/pull/288)).
+
+Little things:
+
+- Start polling for sapphire transaction statuses
+  ([#285](https://github.com/oasisprotocol/oasis-wallet-ext/pull/285)).
+
+Internal:
+
+- Update links in README
+  ([#286](https://github.com/oasisprotocol/oasis-wallet-ext/pull/286),
+  [#287](https://github.com/oasisprotocol/oasis-wallet-ext/pull/287)).
+
 ## 1.8.0
 
 Spotlight change:

@@ -95,6 +95,7 @@ export default class TextInput extends Component {
                         spellCheck={false}
                         onFocus={this.onFocus}
                         onBlur={this.onBlur}
+                        autoComplete="off"
                     />
                     <img className="pwd-show-status click-cursor" onClick={this.onClickEye} src={imgSrc}></img>
                 </div>
