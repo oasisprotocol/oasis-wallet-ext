@@ -91,6 +91,9 @@ class RestoreAccount extends React.Component {
         value={this.state.privateKey}
         onChange={this.onMneInput}
         autoComplete="off"
+        autoCapitalize="off"
+        autoCorrect="off"
+        spellCheck={false}
       />
     )
   }
@@ -114,7 +117,7 @@ class RestoreAccount extends React.Component {
         propsClassName={"create-route-container"}
         history={this.props.history}
       >
-        <form onSubmit={this.onSubmit} autoComplete="off">
+        <form onSubmit={this.onSubmit} autoComplete="off" autoCapitalize="off" autoCorrect="off" spellCheck={false}>
           <div className="import-container">
             <p className={'desc-title'}>{getLanguage('restoreWallet')}</p>
             <p className={"import-title"}>{getLanguage("inputSeed")}</p>

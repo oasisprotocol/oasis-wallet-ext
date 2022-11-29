@@ -105,7 +105,7 @@ export default class SecurityPwd extends React.Component {
   }
   render() {
     return (
-      <form onSubmit={this.onSubmit} autoComplete="off">
+      <form onSubmit={this.onSubmit} autoComplete="off" autoCapitalize="off" autoCorrect="off" spellCheck={false}>
           <div className={'common-container'}>
             {this.renderInput()}
           </div>

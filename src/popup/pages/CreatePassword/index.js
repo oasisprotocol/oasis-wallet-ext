@@ -143,7 +143,7 @@ class CreatePassword extends React.Component {
       <CustomView
         propsClassName={"create-route-container"}
         history={this.props.history}>
-        <form onSubmit={this.onSubmit} autoComplete="off">
+        <form onSubmit={this.onSubmit} autoComplete="off" autoCapitalize="off" autoCorrect="off" spellCheck={false}>
           <div className={"common-container"}>
             <p className={'desc-title'}>{getLanguage('createPassword')}</p>
             <div className="create_container">
