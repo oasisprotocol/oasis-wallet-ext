@@ -92,10 +92,12 @@ export default class TextInput extends Component {
                         onChange={this.onInput}
                         placeholder={this.props.placeholder}
                         value={"" || this.props.value}
-                        spellCheck={false}
                         onFocus={this.onFocus}
                         onBlur={this.onBlur}
                         autoComplete="off"
+                        autoCapitalize="off"
+                        autoCorrect="off"
+                        spellCheck={false}
                     />
                     <img className="pwd-show-status click-cursor" onClick={this.onClickEye} src={imgSrc}></img>
                 </div>

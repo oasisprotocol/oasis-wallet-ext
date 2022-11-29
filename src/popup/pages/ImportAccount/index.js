@@ -100,6 +100,9 @@ class ImportAccount extends React.Component {
           value={this.state.privateKey}
           onChange={this.handleTextareaChange}
           autoComplete="off"
+          autoCapitalize="off"
+          autoCorrect="off"
+          spellCheck={false}
         />
       </div>
     )
@@ -134,7 +137,7 @@ class ImportAccount extends React.Component {
       <CustomView
         title={getLanguage('importAccount_1')}
         history={this.props.history}>
-        <form onSubmit={this.onSubmit} autoComplete="off">
+        <form onSubmit={this.onSubmit} autoComplete="off" autoCapitalize="off" autoCorrect="off" spellCheck={false}>
           <div className="import-account-container">
             {this.renderInput()}
           </div>

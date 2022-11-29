@@ -92,7 +92,7 @@ class LockPage extends React.Component {
     }
     renderPwdInput = () => {
         return (
-            <form onSubmit={this.onSubmit} autoComplete="off">
+            <form onSubmit={this.onSubmit} autoComplete="off" autoCapitalize="off" autoCorrect="off" spellCheck={false}>
                 <div className={"lock-inner-container"}>
                     {this.renderWelcome()}
                     <TextInput
