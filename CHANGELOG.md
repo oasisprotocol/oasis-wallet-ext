@@ -7,6 +7,13 @@ Spotlight change:
 - Prevent browsers from sending sensitive form inputs to spell-checking API
   ([#289](https://github.com/oasisprotocol/oasis-wallet-ext/pull/289)).
 
+Internal:
+
+- Bump decode-uri-component from 0.2.0 to 0.2.2
+  ([#291](https://github.com/oasisprotocol/oasis-wallet-ext/pull/291)).
+- Bump express from 4.17.1 to 4.18.2
+  ([#292](https://github.com/oasisprotocol/oasis-wallet-ext/pull/292)).
+
 ## 1.8.1
 
 Spotlight change:
