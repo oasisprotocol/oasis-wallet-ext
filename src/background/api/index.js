@@ -186,6 +186,7 @@ export async function getRpcRuntimeList() {
     .map(runtimeId => ({ runtimeId, runtimeConfig: getRuntimeConfig(runtimeId) }))
     // Only keep runtimes from PARATIME_CONFIG
     .filter(({ runtimeConfig }) => runtimeConfig)
+    .sort((a, b) => a.runtimeConfig.displayOrder - b.runtimeConfig.displayOrder)
     .map(({ runtimeId }) => ({
       name: "unknown",
       runtimeId: runtimeId,
