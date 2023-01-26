@@ -184,8 +184,10 @@ class SendPage extends React.Component {
             toAddressCanInputDefaultValue = currentAccount.address
             sendAction = WALLET_SEND_RUNTIME_WITHDRAW
           }
+          // TODO: make it paratime specific: Emerald 100 nano ROSE, Cipher 5
           const minimumGasPrice = 100n
-          const overestimateGas = 15_000n
+          // TODO: make it paratime specific: Emerald 15k, Cipher 500k
+          const overestimateGas = 500_000n
           // A wild guess: the minimum gas price times the default loose
           // overestimate of the gas.
           defaultFeeAmount = (minimumGasPrice * overestimateGas).toString()
