@@ -181,18 +181,16 @@ export async function getRpcRuntimeList() {
   let runtimeList = await oasisClient
     .registryGetRuntimes({ height: height, include_suspended })
     .catch((err) => err);
-  let list = [];
-  for (let index = 0; index < runtimeList.length; index++) {
-    const runtime = runtimeList[index];
-    let id = runtime.id;
-    let runtimeId = oasis.misc.toHex(id);
-    let runtimeConfig = getRuntimeConfig(runtimeId);
-    if (!runtimeConfig) continue; // Only keep runtimes from PARATIME_CONFIG
-    list.push({
+  const list = runtimeList
+    .map(runtime => oasis.misc.toHex(runtime.id))
+    .map(runtimeId => ({ runtimeId, runtimeConfig: getRuntimeConfig(runtimeId) }))
+    // Only keep runtimes from PARATIME_CONFIG
+    .filter(({ runtimeConfig }) => runtimeConfig)
+    .sort((a, b) => a.runtimeConfig.displayOrder - b.runtimeConfig.displayOrder)
+    .map(({ runtimeId }) => ({
       name: "unknown",
       runtimeId: runtimeId,
-    });
-  }
+    }))
   return list;
 }
 
