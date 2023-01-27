@@ -61,6 +61,10 @@ const sapphire_config = {
             type:"TEST",
             runtimeId:"000000000000000000000000000000000000000000000000a6d1e3ebf60dff6c"
         },
+        {
+            type:"MAIN",
+            runtimeId:"000000000000000000000000000000000000000000000000f80306c9858e7279"
+        },
     ],
     decimals: 18,
     accountType:RUNTIME_ACCOUNT_TYPE.EVM,
