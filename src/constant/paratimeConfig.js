@@ -25,6 +25,10 @@ const emerald_config = {
     accountType:RUNTIME_ACCOUNT_TYPE.EVM,
     indexesTransactions: true,
     displayOrder: 1,
+    defaultFees: {
+        gasPrice: 100n,
+        feeGas: 15_000n,
+    },
 }
 /**
  * cipher-paratime config
@@ -45,6 +49,10 @@ const cipher_config = {
     accountType:RUNTIME_ACCOUNT_TYPE.OASIS,
     indexesTransactions: false,
     displayOrder: 3,
+    defaultFees: {
+        gasPrice: 5n,
+        feeGas: 500_000n,
+    },
 }
 const sapphire_config = {
     runtimeName:"Sapphire",
@@ -58,6 +66,10 @@ const sapphire_config = {
     accountType:RUNTIME_ACCOUNT_TYPE.EVM,
     indexesTransactions: true,
     displayOrder: 2,
+    defaultFees: {
+        gasPrice: 100n,
+        feeGas: 15_000n,
+    },
 }
 
 

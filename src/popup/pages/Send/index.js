@@ -18,7 +18,7 @@ import { updateAddressBookFrom, updateNetConfigRequest } from "../../../reducers
 import { updateNetConfigList } from "../../../reducers/network";
 import { sendMsg } from "../../../utils/commonMsg";
 import { checkLedgerConnect } from "../../../utils/ledger";
-import { addressSlice, amountDecimals, getDisplayAmount, getNumberDecimals, isNumber, isTrueNumber, toNonExponential, trimSpace } from "../../../utils/utils";
+import { addressSlice, amountDecimals, getDisplayAmount, getNumberDecimals, getRuntimeConfig, isNumber, isTrueNumber, toNonExponential, trimSpace } from "../../../utils/utils";
 import { addressValid, evmAddressValid } from "../../../utils/validator";
 import AccountIcon from "../../component/AccountIcon";
 import Button from "../../component/Button";
@@ -99,6 +99,7 @@ class SendPage extends React.Component {
     let toAddressCanInputDefaultValue = ""
 
     let runtimeId = params.runtimeId||""
+    let runtimeConfig = params.runtimeId ? getRuntimeConfig(params.runtimeId) : undefined
     let currentAllowance = params.allowance|| 0
     let runtimeType = params.accountType||""
     let runtimeDecimals = params.decimals||cointypes.decimals
@@ -174,6 +175,7 @@ class SendPage extends React.Component {
       case SEND_PAGE_TYPE_RUNTIME_WITHDRAW:
         maxCanUseAmount = 0
         if(runtimeId){
+          if (!runtimeConfig) throw new Error('Missing paratime configuration')
           if(runtimeType === RUNTIME_ACCOUNT_TYPE.EVM){
             toAddressPlaceHolder = "oasis..."
             toAddressCanInput = true
@@ -184,13 +186,9 @@ class SendPage extends React.Component {
             toAddressCanInputDefaultValue = currentAccount.address
             sendAction = WALLET_SEND_RUNTIME_WITHDRAW
           }
-          // TODO: make it paratime specific: Emerald 100 nano ROSE, Cipher 5
-          const minimumGasPrice = 100n
-          // TODO: make it paratime specific: Emerald 15k, Cipher 500k
-          const overestimateGas = 500_000n
           // A wild guess: the minimum gas price times the default loose
           // overestimate of the gas.
-          defaultFeeAmount = (minimumGasPrice * overestimateGas).toString()
+          defaultFeeAmount = (runtimeConfig.defaultFees.gasPrice * runtimeConfig.defaultFees.feeGas).toString()
         }
 
         pageTitle = getLanguage('send')
