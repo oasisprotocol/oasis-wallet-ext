@@ -302,7 +302,8 @@ export async function buildParatimeTxBody(params, txWrapper) {
     const feeAmount  = BigInt(new BigNumber(params.feeAmount||0).multipliedBy(decimal).dividedBy(feeAmountDecimal).toFixed())
 
     // Use default if feeGas is "" or 0 (0 is illegal in send page)
-    const feeGas = BigInt(params.feeGas||15000)
+    const feeGas = BigInt(params.feeGas||runtimeConfig?.defaultFees.feeGas)
+
     const consensusChainContext = await getChainContext(RETRY_TIME)
 
     let targetAddress = ""
