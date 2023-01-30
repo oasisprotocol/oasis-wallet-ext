@@ -14,7 +14,7 @@ lint-targets := lint-spell lint-git
 # NOTE: Keep this in sync with the patterns in ci-lint GitHub Actions workflow.
 lint-spell:
 	@$(ECHO) "$(CYAN)*** Running cspell...$(OFF)"
-	@npx cspell "src/**" "docs/**" "public/**" "README.md" "package.json"
+	@npx cspell "src/**" "docs/**" "public/**" "README.md" "CHANGELOG.md" "package.json"
 
 lint-git:
 	@$(CHECK_GITLINT)

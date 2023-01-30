@@ -94,7 +94,7 @@ Little things:
 
 Spotlight change:
 
-- Only show paratimes Emerald and Cipher
+- Only show ParaTimes Emerald and Cipher
   ([#267](https://github.com/oasisprotocol/oasis-wallet-ext/pull/267)).
 
 Little things:
