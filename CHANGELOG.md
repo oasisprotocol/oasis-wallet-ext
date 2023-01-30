@@ -1,5 +1,22 @@
 # Change Log
 
+## 1.9.0
+
+Spotlight change:
+
+- Enable Sapphire ParaTime on Mainnet
+  ([#298](https://github.com/oasisprotocol/oasis-wallet-ext/pull/298)).
+
+Bug fixes:
+
+- Change default gas for Cipher ParaTime to fix withdrawals
+  ([#296](https://github.com/oasisprotocol/oasis-wallet-ext/pull/296)).
+
+Internal:
+
+- Bump json5 from 1.0.1 to 1.0.2
+  ([#294](https://github.com/oasisprotocol/oasis-wallet-ext/pull/294)).
+
 ## 1.8.2
 
 Spotlight change:
@@ -77,7 +94,7 @@ Little things:
 
 Spotlight change:
 
-- Only show paratimes Emerald and Cipher
+- Only show ParaTimes Emerald and Cipher
   ([#267](https://github.com/oasisprotocol/oasis-wallet-ext/pull/267)).
 
 Little things:

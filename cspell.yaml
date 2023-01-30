@@ -54,12 +54,16 @@ words:
   - undelegate
 
   # ParaTime-related terms.
-  - paratime
-  - paratimes
+  - ParaTime
+  - ParaTimes
   - runtimes
-  - emerald
+  - Emerald
 
 # List of words to be always considered incorrect.
 flagWords:
   - witch
   - singer
+
+languageSettings:
+  - languageId: markdown
+    caseSensitive: true
