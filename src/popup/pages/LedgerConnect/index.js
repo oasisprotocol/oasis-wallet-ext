@@ -127,12 +127,6 @@ class LedgerConnect extends React.Component {
         bool: this.state.opened,
         img: ledger_open_little
       },
-      {
-        title: getLanguage("step4"),
-        content: getLanguage('pleaseConfirmPendingReview'),
-        bool: this.state.opened,
-        img: ledger_confirm_little
-      }
     ]
     return (
       <>
