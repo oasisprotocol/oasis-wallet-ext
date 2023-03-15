@@ -13,8 +13,8 @@
 .App-header {
   display: flex;
   flex-direction: column;
-  width: $app-width;
-  height:$app-height;
+  min-width: $app-width;
+  min-height:$app-height;
 }
 body {
   margin: 0;

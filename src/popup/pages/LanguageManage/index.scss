@@ -31,6 +31,6 @@
     background: #f3f6ff;
     width: 100%;
     padding-top: 10px;
-    height: $app-height;
+    min-height: 100vh;
     overflow: scroll;
 }
