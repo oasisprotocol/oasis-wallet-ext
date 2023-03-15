@@ -25,7 +25,14 @@ function initLedgerWindowListener() {
   })
 }
 async function openLedgerWindow() {
-  openPopupWindow('./popup.html#/ledger_connect', 'ledger')
+  openPopupWindow('./popup.html#/ledger_connect', 'ledger', undefined, {
+    // Override type:popup because Chrome no longer shows permissions dialog in popups
+    // Mentioned in https://bugs.chromium.org/p/chromium/issues/detail?id=1415183#c14
+    // Maybe related to https://bugs.chromium.org/p/chromium/issues/detail?id=1360960
+    type: 'normal',
+    width: 650,
+    height: 800,
+  })
   await initLedgerWindowListener()
   Toast.info(getLanguage('ledgerConnectSuccess'))
   return { connected: true }
