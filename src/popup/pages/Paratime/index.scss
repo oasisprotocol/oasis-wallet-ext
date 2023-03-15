@@ -1,7 +1,7 @@
 @import "../../common.scss";
 .paratime-outer-container {
     background: #f3f6ff;
-    height: 550px;
+    min-height: 100vh;
     width: 100%;
 
     .runtime-item-container {
@@ -37,7 +37,7 @@
             justify-content: space-between;
             margin-top: 10px;
           }
-          
+
     }
     .noParatimeContainer {
         margin-top: 120px;

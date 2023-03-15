@@ -39,13 +39,7 @@ class HomePage extends React.Component {
     let { tabRoute } = this.props
     const { isEvm } = this.state
     return (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          position: "relative",
-        }}
-      >
+      <div>
         <Tabs currentActiveIndex={tabRoute.homePageRouteIndex} onChangeIndex={this.onChangeRouteIndex}>
           <div label={getLanguage('wallet')}
             activeSource={home_active}
