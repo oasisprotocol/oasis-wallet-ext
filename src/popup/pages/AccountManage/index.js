@@ -15,6 +15,7 @@ import CustomView from "../../component/CustomView";
 import Toast from "../../component/Toast";
 import AccountItem from "./AccountItem";
 import "./index.scss";
+import { checkLedgerConnect } from "../../../utils/ledger";
 
 class AccountManagePage extends React.Component {
   constructor(props) {
@@ -74,15 +75,16 @@ class AccountManagePage extends React.Component {
       pathname: "/import_page",
     });
   }
-  goAddLedger = () => {
+  goAddLedger = async () => {
     const isLedgerCapable = (!window || window && !window.USB)
     if (isLedgerCapable) {
       Toast.info(getLanguage("ledgerNotSupport"))
       return
     }
-    this.props.updateAccountType(ACCOUNT_NAME_FROM_TYPE.LEDGER)
+    const ledgerConnection = await checkLedgerConnect();
+    this.props.updateAccountType(ACCOUNT_NAME_FROM_TYPE.LEDGER);
     this.props.history.push({
-      pathname: "/account_name",
+      pathname: ledgerConnection ? "/account_name" : "/ledger_import",
     });
   }
   onClickAccount = (item) => {

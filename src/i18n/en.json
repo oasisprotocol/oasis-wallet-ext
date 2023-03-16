@@ -128,7 +128,6 @@
     "pleaseCloseLedgerLive": "Close Ledger Live app on the computer",
     "pleaseOpenInLedger":"Open the Oasis app on your Ledger device",
     "back2extension": "Please continue the operation in the wallet app.",
-    "dontCloseWindow": "And <bold>do not close</bold> this window.",
     "ledgerConnect":"Connect Ledger" ,
     "inputFeeError":"Please enter a valid fee",
     "inputNonceError":"Please enter a valid nonce",

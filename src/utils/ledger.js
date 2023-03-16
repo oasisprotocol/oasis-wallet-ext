@@ -6,8 +6,8 @@ import { LEDGER_CONNECTED_SUCCESSFULLY } from "../constant/types";
 import { getLanguage } from "../i18n";
 import Loading from "../popup/component/Loading";
 import Toast from "../popup/component/Toast";
-import { closePopupWindow, openPopupWindow } from "./popup";
 import { publicKeyToAddress, uint2hex } from "./utils";
+import { openTab } from './commonMsg';
 
 function initLedgerWindowListener() {
   return new Promise((resolve) => {
@@ -25,7 +25,10 @@ function initLedgerWindowListener() {
   })
 }
 async function openLedgerWindow() {
-  openPopupWindow('./popup.html#/ledger_connect', 'ledger')
+  // Using tabs because Chrome no longer shows permissions dialog in popups
+  // Mentioned in https://bugs.chromium.org/p/chromium/issues/detail?id=1415183#c14
+  // Maybe related to https://bugs.chromium.org/p/chromium/issues/detail?id=1360960
+  openTab('./popup.html#/ledger_connect')
   await initLedgerWindowListener()
   Toast.info(getLanguage('ledgerConnectSuccess'))
   return { connected: true }
@@ -77,9 +80,7 @@ export async function getApp() {
     await openLedgerWindow()
     return { manualConnected: true, app: null }
   }
-  if (app) {
-    closePopupWindow('ledger')
-  }
+
   return { app }
 }
 
