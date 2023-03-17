@@ -1,5 +1,25 @@
 # Change Log
 
+## 1.10.0
+
+Spotlight change:
+
+- Fix crash when connecting Ledger hardware wallet in Chrome 110+.
+  It is no longer possible to ask for WebUSB permissions from the
+  extension's popup window. As an alternative, open the extension in a
+  tab when the WebUSB permissions are missing
+  ([#301](https://github.com/oasisprotocol/oasis-wallet-ext/pull/301)).
+
+Little things:
+
+- Refactor CSS to allow UI to resize
+  ([#303](https://github.com/oasisprotocol/oasis-wallet-ext/pull/303)).
+
+Internal:
+
+- Add work-around to ensure building works with Node.js 16+
+  ([#305](https://github.com/oasisprotocol/oasis-wallet-ext/pull/305)).
+
 ## 1.9.0
 
 Spotlight change:
