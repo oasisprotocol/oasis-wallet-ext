@@ -7,7 +7,7 @@
 }
 .account-list-container {
     overflow-y: scroll;
-    height: 570px;
+    height: 100%;
     padding-bottom: 80px;
     padding-top: 20px;
 }
@@ -79,8 +79,8 @@
 }
 .account-btn-container {
     display: flex;
-    position: absolute;
-    bottom: 0px;
+    position: fixed;
+    bottom: 0;
     width: 100%;
     justify-content: space-between;
     padding: 15px 15px;
