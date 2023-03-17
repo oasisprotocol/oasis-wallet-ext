@@ -3,9 +3,9 @@
   "version": "1.9.0",
   "private": true,
   "scripts": {
-    "build": "webpack --mode production",
-    "buildProd": "webpack --mode production",
-    "dev": "webpack --mode development --progress --watch",
+    "build": "env NODE_OPTIONS=--openssl-legacy-provider webpack --mode production",
+    "buildProd": "env NODE_OPTIONS=--openssl-legacy-provider webpack --mode production",
+    "dev": "env NODE_OPTIONS=--openssl-legacy-provider webpack --mode development --progress --watch",
     "lint": "yarn run eslint src",
     "test": "jest"
   },
