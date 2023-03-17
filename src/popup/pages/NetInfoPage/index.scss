@@ -45,7 +45,7 @@
     justify-content: space-between;
 }
 .network-container {
-    height: 550px;
+    min-height: 100vh;
     overflow-y: scroll;
     padding-bottom: 90px;
     background-color: #f3f6ff;

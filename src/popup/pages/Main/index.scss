@@ -3,7 +3,7 @@
 $top-bar-height: 50px;
 
 .wallet-page-container {
-  height: $app-height;
+  min-height: 100vh;
   overflow: scroll;
   padding-bottom: 50px;
   background: rgba(243, 246, 255, 1);

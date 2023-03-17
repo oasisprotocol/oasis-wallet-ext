@@ -1,13 +1,10 @@
 @import "../../common.scss";
 
 .account-manage-container {
-    width: 100%;
-    height: 100%;
     background-color: #f3f6ff;
 }
 .account-list-container {
     overflow-y: scroll;
-    height: 570px;
     padding-bottom: 80px;
     padding-top: 20px;
 }
@@ -79,7 +76,7 @@
 }
 .account-btn-container {
     display: flex;
-    position: absolute;
+    position: fixed;
     bottom: 0px;
     width: 100%;
     justify-content: space-between;

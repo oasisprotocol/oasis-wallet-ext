@@ -13,9 +13,8 @@
 .App-header {
   display: flex;
   flex-direction: column;
-  width: $app-width;
-  height:$app-height;
-  margin: 0 auto;
+  min-width: $app-width;
+  min-height: $app-height;
 }
 body {
   margin: 0;
