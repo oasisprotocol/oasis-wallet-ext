@@ -1,5 +1,5 @@
 {
-  "name": "oasis-wallet",
+  "name": "@oasisprotocol/oasis-wallet",
   "version": "1.10.0",
   "private": true,
   "scripts": {
