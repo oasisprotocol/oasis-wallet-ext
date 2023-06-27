@@ -11,6 +11,8 @@ import Clock from "../../component/Clock";
 import "./index.scss";
 import loadingCommon from "../../../assets/images/loadingCommon.gif";
 import noHistory from "../../../assets/images/noHistory.png";
+import shuffle from 'lodash/shuffle';
+
 class StakeNode extends React.Component {
   constructor(props) {
     super(props);
@@ -42,9 +44,9 @@ class StakeNode extends React.Component {
     getNodeStakeList().then((data) => {
       this.isRequest = false
       if (data && data.code === 0) {
-        let realData = data.data
-        this.props.updateValidatorList(realData.list)
-        let currentList = this.nodeFilter("active", realData.list)
+        let realData = shuffle(data.data.list)
+        this.props.updateValidatorList(realData)
+        let currentList = this.nodeFilter("active", realData)
         this.props.updateCurrentValidatorList(currentList)
       } else {
         this.props.updateValidatorList([])
