@@ -30,13 +30,7 @@ class AddressBook extends React.Component {
         this.isUnMounted = false;
     }
     componentDidMount() {
-        let list = getLocal(ADDRESS_BOOK_CONFIG)
-
-        if (list) {
-            list = JSON.parse(list)
-        } else {
-            list = []
-        }
+        let list = JSON.parse(getLocal(ADDRESS_BOOK_CONFIG) || '[]')
         this.callSetState({
             addressList: list
         })
@@ -87,12 +81,7 @@ class AddressBook extends React.Component {
         this.onClickDelete(item)
     }
     onClickDelete = (item) => {
-        let list = getLocal(ADDRESS_BOOK_CONFIG)
-        if (list) {
-            list = JSON.parse(list)
-        } else {
-            list = []
-        }
+        let list = JSON.parse(getLocal(ADDRESS_BOOK_CONFIG) || '[]')
         let address = item.address
         list = list.filter((innerItem, index) => {
             return innerItem.address.toLowerCase() !== address.toLowerCase()

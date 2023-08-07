@@ -9,7 +9,6 @@ export function saveLocal(key, value) {
 
 /**
  * Get the local stored value
- * @param {*} value
  */
 export function getLocal(key) {
     return localStorage.getItem(key);
@@ -17,7 +16,6 @@ export function getLocal(key) {
 
 /**
  * Remove local stored value
- * @param {*} value
  */
 export function removeLocal(key) {
     localStorage.removeItem(key);

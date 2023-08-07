@@ -86,7 +86,6 @@ export function setAccountInfo(info) {
 }
 /**
  * Update the next level routing of the welcome screen
- * @param {*} info
  */
 export function setWelcomeNextRoute(nextRoute) {
     return {
@@ -100,7 +99,7 @@ export function setWelcomeNextRoute(nextRoute) {
  * @param {*} fromType
  * @returns
  */
-export function updateAccountType(fromType,accountType) {
+export function updateAccountType(fromType, accountType) {
     return {
         type: UPDATE_ACCOUNT_TYPE_FROM,
         fromType,
@@ -236,7 +235,7 @@ export function updateDAppOpenWindow(dappWindow) {
 
 /**
  * update current active tab url by activeTab permission
- * @param {*} dappWindow
+ * @param {string} url
  * @returns
  */
  export function updateCurrentActiveTab(url) {

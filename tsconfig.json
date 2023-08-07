@@ -9,7 +9,6 @@
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
-    "importsNotUsedAsValues": "error",
     "lib": ["esnext", "dom"],
     "moduleResolution": "node",
     "sourceMap": false,

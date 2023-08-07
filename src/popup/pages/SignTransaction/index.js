@@ -97,7 +97,7 @@ class SignTransaction extends React.Component {
         }
 
         if (this.state.sendAction === oasis.staking.METHOD_ADD_ESCROW) {
-          if (!isNumber(amount) || (parseInt(amount) < parseInt(STAKE_MIN_AMOUNT))) {
+          if (!isNumber(amount) || (parseInt(amount) < STAKE_MIN_AMOUNT)) {
             Toast.info(getLanguage('minStakeAmount') + " " + STAKE_MIN_AMOUNT)
             return
           }
@@ -118,8 +118,7 @@ class SignTransaction extends React.Component {
         let winParams = this.getParams()
 
         let context = winParams.context
-        let message = winParams.message
-        message = hex2uint(message)
+        let message = hex2uint(winParams.message)
         let address = winParams.address
         const signature = await signer.sign(context, message);
         let signatureHex = uint2hex(signature)
@@ -401,7 +400,7 @@ class SignTransaction extends React.Component {
       <div className={'sign-page-container'}>
         {this.renderAccountInfo()}
         {this.renderWebInfo(winParams)}
-        {this.renderSendContent(winParams)}
+        {this.renderSendContent()}
         {this.renderActionBtn()}
       </div>)
 

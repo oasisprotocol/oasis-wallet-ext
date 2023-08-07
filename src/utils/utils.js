@@ -52,11 +52,10 @@ export function amountToNoDecimals(amount, decimal = cointypes.decimals) {
 
 /**
  * Impression amount conversion. Default 4 decimal places
- * @param {*} number
- * @param {*} fixed
+ * @param {string} number
  */
 export function getDisplayAmount(number, fixed = 4) {
-    if (isNaN(parseFloat(number)) || number === 0) {
+    if (isNaN(parseFloat(number)) || parseFloat(number) === 0) {
         return '0.00';
     }
     let showAmount = new BigNumber(number).toFixed(fixed, 1)
@@ -118,7 +117,6 @@ export function isNumber(n, includeE = false) {
 /**
  * Check whether it is an integer greater than 0
  * @param {*} n
- * @param {*} includeE
  * @returns
  */
 export function isTrueNumber(n) {
@@ -174,8 +172,7 @@ export function getExplorerUrl() {
     let localNetConfig = getLocal(NETWORK_CONFIG)
     let config = {}
     if (localNetConfig) {
-        localNetConfig = JSON.parse(localNetConfig)
-        let currentList = localNetConfig.currentNetList
+        let currentList = JSON.parse(localNetConfig).currentNetList
         currentList = currentList.filter((item, index) => {
             return item.isSelect
         })

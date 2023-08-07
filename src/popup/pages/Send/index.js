@@ -67,7 +67,7 @@ class SendPage extends React.Component {
       },
       reclaimShare:"",
       pageTitle:pageConfig.pageTitle,
-      maxWithdrawAmount:0,
+      maxWithdrawAmount: '0',
       /** @type {undefined | string} */
       warningTextBeforeSending: undefined,
     };
@@ -342,7 +342,7 @@ class SendPage extends React.Component {
     let amount = await getRuntimeBalance(address,runtimeId,runtimeDecimals)
     if(isNumber(amount)){
       this.callSetState({
-        maxWithdrawAmount:amount
+        maxWithdrawAmount: amount
       })
     }
     this.isRequest = false
@@ -569,7 +569,7 @@ class SendPage extends React.Component {
   }
   checkBalanceEnough=(amount,payFee)=>{
     const { maxCanUseAmount,isWithdraw } = this.pageConfig
-    let maxAmount = isWithdraw ? this.state.maxWithdrawAmount:maxCanUseAmount
+    let maxAmount = isWithdraw ? this.state.maxWithdrawAmount : maxCanUseAmount
 
     let checkStatus = true
     let inputAmount = new BigNumber(amount).plus(payFee).toNumber()
@@ -634,7 +634,7 @@ class SendPage extends React.Component {
     }
 
     feeAmount = feeAmount || this.pageConfig.defaultFeeAmount
-    feeGas = feeGas || 0
+    feeGas = feeGas || '0'
     let payFee = new BigNumber(amountDecimals(feeAmount)).toString()
 
 

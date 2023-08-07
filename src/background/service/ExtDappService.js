@@ -21,7 +21,7 @@ class ExtDappService {
   constructor() {
     this.dappStore = new ObservableStore({
       approveList: {},
-      currentOpenWindow: {}
+      currentOpenWindow: /** @type {{url: string, channel: string} | {}} */ ({})
     })
   }
   checkWalletStatus() {

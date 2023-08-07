@@ -16,7 +16,7 @@ function initLedgerWindowListener() {
       switch (action) {
         case LEDGER_CONNECTED_SUCCESSFULLY:
           extension.runtime.onMessage.removeListener(onMessage)
-          resolve()
+          resolve(undefined)
           sendResponse && sendResponse()
           break
       }
@@ -85,13 +85,14 @@ export async function getApp() {
 }
 
 export async function checkLedgerConnect() {
-  let timer = setTimeout(() => {
+  /** @type {number | null} */
+  let timer = window.setTimeout(() => {
     timer = null;
     Loading.show()
   }, 1000)
   const { app } = await getApp()
   if (timer) {
-    clearTimeout(timer)
+    window.clearTimeout(timer)
   } else {
     Loading.hide()
   }
