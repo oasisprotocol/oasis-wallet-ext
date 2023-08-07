@@ -207,11 +207,10 @@ class LockPage extends React.Component {
     }
     onClickRestore = () => {
         let title = getLanguage('prompt')
-        let content = ""
         let cancelText = getLanguage('cancelReset')
         let confirmText = getLanguage('confirmReset')
         let tipImgSrc = txFailed
-        content = [
+        let content = [
             getLanguage('reset_tip_1'),
             getLanguage('reset_tip_2'),]
         ConfirmModal.show({

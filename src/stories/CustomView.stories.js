@@ -24,7 +24,6 @@ export const Default = () => {
             children={() => {
                 <div>Content</div>
             }}
-            title={text("title", "title")}>
-        </CustomView>
+            title={text("title", "title")} />
     )
 }

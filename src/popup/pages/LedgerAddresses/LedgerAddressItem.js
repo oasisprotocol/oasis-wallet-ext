@@ -47,7 +47,6 @@ class LedgerAddressItem extends Component {
                     balance: account.total
                 })
                 this.props.updateLedgerBalanceList({
-                    address: account.address,
                     ...account
                 })
             }

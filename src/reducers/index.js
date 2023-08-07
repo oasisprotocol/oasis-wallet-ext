@@ -9,10 +9,6 @@ import tabRouteConfig from './tabRouteReducer';
 
 export const RESET_DATA = "RESET_DATA"
 
-/**
- * Change network configuration
- * @param {*} data
- */
 export function resetWallet() {
     return {
         type: RESET_DATA,

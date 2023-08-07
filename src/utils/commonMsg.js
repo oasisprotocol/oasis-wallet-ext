@@ -40,7 +40,7 @@ export function getActiveTab(type, params) {
     // 1. 获取当前活跃tab URL 直接调用
     // 2. 获取所以tab
     // 3，根据windowId 查询tab
-    let queryParams = {}
+    let queryParams
     switch (type) {
       case QUERY_TAB_TYPE.GET_CURRENT_ACTIVE_TAB:
         queryParams = {
@@ -51,13 +51,13 @@ export function getActiveTab(type, params) {
       case QUERY_TAB_TYPE.GET_ACTIVE_TAB_BY_URL:
         queryParams = {
           active: true,
-        }
-        if (params && params.origin) {
-          queryParams.url = params.origin + "/*"
+          url: params?.origin ? params.origin + "/*" : undefined,
         }
         break
       case QUERY_TAB_TYPE.GET_TAB_BY_WINDOW_ID:
-        queryParams.windowId = params.windowId
+        queryParams = {
+          windowId: params.windowId
+        }
         break
       default:
         break;

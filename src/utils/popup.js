@@ -85,7 +85,7 @@ export async function openPopupWindow(
     width: PopupSize.width,
     height: PopupSize.height,
     url: url,
-    type: "popup",
+    type: /** @type {const} */ ("popup"),
   }, options);
 
   if (lastWindowIds[channel] !== undefined) {

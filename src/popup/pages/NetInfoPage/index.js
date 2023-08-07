@@ -79,14 +79,14 @@ class NetInfoPage extends React.Component {
     let isDefault = nodeType === NET_CONFIG_DEFAULT
     return (
       <div className={'network-item-container click-cursor'}
-        onClick={() => this.onSelect(netItem, index)} key={index + ""}>
+        onClick={() => this.onSelect(netItem)} key={index + ""}>
         <div className={"network-item-container-left"}>
-          {imgUrl && <img onClick={() => this.onSelect(netItem, index)} className={"network-option-img click-cursor"} src={imgUrl} />}
+          {imgUrl && <img onClick={() => this.onSelect(netItem)} className={"network-option-img click-cursor"} src={imgUrl} />}
           <p className={cx("network-item-content", {
             "network-item-content-common": !isSelect
           })}>{grpc}</p>
         </div>
-        {!isDefault && <p className={"network-right-delete click-cursor"} onClick={(e) => this.onDelete(e, netItem, index)}>{getLanguage("netDelete")}</p>}
+        {!isDefault && <p className={"network-right-delete click-cursor"} onClick={(e) => this.onDelete(e, netItem)}>{getLanguage("netDelete")}</p>}
       </div>)
   }
   renderDefaultNode = () => {

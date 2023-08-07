@@ -58,7 +58,6 @@ export function updateNetAccount(account) {
 }
 /**
  * Update my pledge information
- * @param {*} delegationList
  * @returns
  */
 export function updateDelegationList(stakeList, debondList) {
