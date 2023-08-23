@@ -1,5 +1,22 @@
 # Change Log
 
+## 1.11.0
+
+Spotlight change:
+
+- Encourage decentralization by shuffling validators on every load
+  ([#309](https://github.com/oasisprotocol/oasis-wallet-ext/pull/309)).
+
+Internal:
+
+- Miscellaneous improvements
+  ([#307](https://github.com/oasisprotocol/oasis-wallet-ext/pull/307),
+  [#308](https://github.com/oasisprotocol/oasis-wallet-ext/pull/308),
+  [#313](https://github.com/oasisprotocol/oasis-wallet-ext/pull/313)).
+- Dependency updates
+  ([#310](https://github.com/oasisprotocol/oasis-wallet-ext/pull/310),
+  [#311](https://github.com/oasisprotocol/oasis-wallet-ext/pull/311)).
+
 ## 1.10.0
 
 Spotlight change:
