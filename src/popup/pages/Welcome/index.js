@@ -10,7 +10,7 @@ import {
   getLanguage,
   languageOption
 } from "../../../i18n";
-import { setLanguage } from "../../../reducers/appReducer";
+import { setLanguage, hideNewExtensionWarning } from "../../../reducers/appReducer";
 import { setWelcomeNextRoute } from "../../../reducers/cache";
 import { openCurrentRouteInPersistentPopup } from '../../../utils/popup';
 import Button from "../../component/Button";
@@ -83,7 +83,7 @@ class Welcome extends React.Component {
 
   render() {
     return (<div className="welcome_container">
-      <NewExtensionWarning />
+      {this.props.showNewExtensionWarning &&  <NewExtensionWarning handleClick={this.props.hideNewExtensionWarning} />}
       <div className={"welcome-top-container"}>
         <img src={home_logo} className={"welcome-logo"} />
         <p className={"welcome-wallet-name"}>{"Oasis Wallet"}</p>
@@ -110,6 +110,7 @@ class Welcome extends React.Component {
 
 const mapStateToProps = (state) => ({
   language: state.appReducer.language,
+  showNewExtensionWarning: state.appReducer.showNewExtensionWarning,
 });
 
 function mapDispatchToProps(dispatch) {
@@ -119,6 +120,9 @@ function mapDispatchToProps(dispatch) {
     },
     setWelcomeNextRoute: (nextRoute) => {
       dispatch(setWelcomeNextRoute(nextRoute))
+    },
+    hideNewExtensionWarning: () => {
+      dispatch(hideNewExtensionWarning());
     },
   };
 }

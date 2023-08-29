@@ -9,6 +9,7 @@ import { NETWORK_CONFIG } from "../../../constant/storageKey";
 import { RESET_WALLET, WALLET_APP_SUBMIT_PWD } from "../../../constant/types";
 import { getLanguage } from "../../../i18n";
 import { resetWallet } from "../../../reducers";
+import { hideNewExtensionWarning } from "../../../reducers/appReducer";
 import { updateCurrentAccount } from "../../../reducers/accountReducer";
 import { updateNetConfigList } from "../../../reducers/network";
 import { sendMsg } from "../../../utils/commonMsg";
@@ -231,9 +232,11 @@ class LockPage extends React.Component {
             isReceive={true}
             history={this.props.history}>
             <div className={"lock-container"}>
-                <div style={{ marginBottom: '20px', marginTop: '-70px'}}>
-                    <NewExtensionWarning />
-                </div>
+                {this.props.showNewExtensionWarning && (
+                    <div style={{ marginBottom: '20px', marginTop: '-70px'}}>
+                        <NewExtensionWarning handleClick={this.props.hideNewExtensionWarning} />
+                    </div>
+                )}
                 <div className={"lock-logo-container"}>
                     <img className={"lock-home-logo"} src={home_logo} />
                 </div>
@@ -250,6 +253,7 @@ class LockPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+    showNewExtensionWarning: state.appReducer.showNewExtensionWarning,
 });
 
 function mapDispatchToProps(dispatch) {
@@ -263,7 +267,9 @@ function mapDispatchToProps(dispatch) {
         updateNetConfigList: (config) => {
             dispatch(updateNetConfigList(config))
         },
-
+        hideNewExtensionWarning: () => {
+            dispatch(hideNewExtensionWarning());
+        },
     };
 }
 

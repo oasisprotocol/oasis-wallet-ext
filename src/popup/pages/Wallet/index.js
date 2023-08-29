@@ -14,6 +14,7 @@ import { getBalance, getRpcNonce, getTransactionList } from "../../../background
 import { DAPP_ACCOUNT_CONNECT_SITE, DAPP_CHANGE_CONNECTING_ADDRESS, DAPP_DISCONNECT_SITE, DAPP_GET_ALL_APPROVE_ACCOUNT, SEND_PAGE_TYPE_SEND, WALLET_CHANGE_CURRENT_ACCOUNT, WALLET_SEND_RUNTIME_EVM_WITHDRAW } from "../../../constant/types";
 import { ACCOUNT_TYPE, TRANSACTION_TYPE } from '../../../constant/walletType';
 import { getLanguage } from "../../../i18n";
+import { hideNewExtensionWarning } from "../../../reducers/appReducer";
 import { updateAccountTx, updateCurrentAccount, updateNetAccount, updateRpcNonce } from "../../../reducers/accountReducer";
 import { setAccountInfo, updateDappConnectList, updateNetConfigRequest, updateSendPageType } from "../../../reducers/cache";
 import { updateNetConfigList } from "../../../reducers/network";
@@ -651,9 +652,11 @@ class Wallet extends React.Component {
         <div className={"home-wallet-top-container"}>
           <WalletBar history={this.props.params.history} />
         </div>
-        <div style={{ marginTop: '12px'}}>
-            <NewExtensionWarning />
-        </div>
+        {this.props.showNewExtensionWarning && (
+          <div style={{ marginTop: '12px'}}>
+              <NewExtensionWarning handleClick={this.props.hideNewExtensionWarning} />
+          </div>
+        )}
         {infoAndHistory}
         {this.renderChangeModal()}
         <Clock schemeEvent={() => { this.fetchData(this.props.currentAccount.address) }} />
@@ -674,6 +677,7 @@ const mapStateToProps = (state) => ({
   dappConnectAccountList: state.cache.dappConnectAccountList,
   dappConnectAddressList: state.cache.dappConnectAddressList,
   currentActiveTabUrl: state.cache.currentActiveTabUrl,
+  showNewExtensionWarning: state.appReducer.showNewExtensionWarning,
 });
 
 function mapDispatchToProps(dispatch) {
@@ -707,6 +711,9 @@ function mapDispatchToProps(dispatch) {
     },
     updateHomeIndex: (index) => {
       dispatch(updateHomeIndex(index));
+    },
+    hideNewExtensionWarning: () => {
+      dispatch(hideNewExtensionWarning());
     },
   };
 }

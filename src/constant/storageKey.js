@@ -18,3 +18,9 @@ export const LANGUAGE_CONFIG = "LANGUAGE_CONFIG"
  */
 export const ADDRESS_BOOK_CONFIG = "ADDRESS_BOOK_CONFIG"
 
+
+
+/**
+ * store user decision whether to display the new extension warning
+ */
+export const NEW_EXTENSION_WARNING_DISMISSED = "NEW_EXTENSION_WARNING_DISMISSED"
