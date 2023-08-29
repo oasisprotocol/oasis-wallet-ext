@@ -20,6 +20,7 @@ import CustomView from "../../component/CustomView";
 import TestModal from "../../component/TestModal";
 import TextInput from "../../component/TextInput";
 import Toast from "../../component/Toast";
+import { NewExtensionWarning } from "../../component/NewExtensionWarning"
 import "./index.scss";
 class LockPage extends React.Component {
     constructor(props) {
@@ -230,6 +231,9 @@ class LockPage extends React.Component {
             isReceive={true}
             history={this.props.history}>
             <div className={"lock-container"}>
+                <div style={{ marginBottom: '20px', marginTop: '-70px'}}>
+                    <NewExtensionWarning />
+                </div>
                 <div className={"lock-logo-container"}>
                     <img className={"lock-home-logo"} src={home_logo} />
                 </div>

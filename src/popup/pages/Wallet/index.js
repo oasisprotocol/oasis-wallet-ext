@@ -24,6 +24,7 @@ import Clock from "../../component/Clock";
 import TestModal from "../../component/TestModal";
 import Toast from "../../component/Toast";
 import WalletBar from "../../component/WalletBar";
+import { NewExtensionWarning } from "../../component/NewExtensionWarning"
 import "./index.scss";
 import oasisIcon from "../../../assets/images/oasisIcon.svg";
 import evmIcon from "../../../assets/images/evmIcon.svg";
@@ -649,6 +650,9 @@ class Wallet extends React.Component {
       <div className="wallet-page-container">
         <div className={"home-wallet-top-container"}>
           <WalletBar history={this.props.params.history} />
+        </div>
+        <div style={{ marginTop: '12px'}}>
+            <NewExtensionWarning />
         </div>
         {infoAndHistory}
         {this.renderChangeModal()}

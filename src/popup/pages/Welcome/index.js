@@ -15,6 +15,7 @@ import { setWelcomeNextRoute } from "../../../reducers/cache";
 import { openCurrentRouteInPersistentPopup } from '../../../utils/popup';
 import Button from "../../component/Button";
 import Select from "../../component/Select";
+import { NewExtensionWarning } from "../../component/NewExtensionWarning"
 import "./index.scss";
 class Welcome extends React.Component {
   constructor(props) {
@@ -82,6 +83,7 @@ class Welcome extends React.Component {
 
   render() {
     return (<div className="welcome_container">
+      <NewExtensionWarning />
       <div className={"welcome-top-container"}>
         <img src={home_logo} className={"welcome-logo"} />
         <p className={"welcome-wallet-name"}>{"Oasis Wallet"}</p>
