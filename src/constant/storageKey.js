@@ -21,6 +21,6 @@ export const ADDRESS_BOOK_CONFIG = "ADDRESS_BOOK_CONFIG"
 
 
 /**
- * store user decision whether to display the new extension warning
+ * Date when the user decides to dismiss the new extension warning.
  */
-export const NEW_EXTENSION_WARNING_DISMISSED = "NEW_EXTENSION_WARNING_DISMISSED"
+export const DISMISSED_NEW_EXTENSION_WARNING = "DISMISSED_NEW_EXTENSION_WARNING"
