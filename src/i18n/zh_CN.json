@@ -279,6 +279,9 @@
 
   "withdrawTitle":"提现",
   "withdrawToAddress":"提现地址",
-  "withdrawInfo":"提现信息"
+  "withdrawInfo":"提现信息",
 
+  "warning": "警告",
+  "newExtensionNotice": "您的助记词将不再存储在新版本的钱包扩展中。在我们停止存储助记词之前，您可以再次备份助记词。",
+  "remindMe": "稍后提醒我"
 }
