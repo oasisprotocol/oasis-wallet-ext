@@ -99,3 +99,8 @@ export const network_config = [
   },
 ]
 
+/**
+ * Update when release date of new extension is known.
+ * format: YYYY-MM-DD
+ */
+export const NEW_EXTENSION_RELEASE_DATE = undefined

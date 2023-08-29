@@ -1,4 +1,4 @@
-import { DEFAULT_LANGUAGE } from "../../config";
+import { DEFAULT_LANGUAGE,  } from "../../config";
 import { NEW_EXTENSION_WARNING_DISMISSED } from "../constant/storageKey";
 import { getLocal } from "../background/storage/localStorage";
 
