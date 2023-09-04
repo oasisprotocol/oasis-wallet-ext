@@ -287,5 +287,9 @@
 
     "withdrawTitle":"Withdraw",
     "withdrawToAddress":"Withdraw Address",
-    "withdrawInfo":"Withdraw Info"
+    "withdrawInfo":"Withdraw Info",
+
+    "warning": "Warning",
+    "newExtensionNotice": "Your mnemonic will no longer be stored in the new version of the wallet extension. You'll be able to backup your mnemonic again before we stop storing it.",
+    "remindMe": "Remind me later"
 }

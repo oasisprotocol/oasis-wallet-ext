@@ -9,6 +9,7 @@ import { NETWORK_CONFIG } from "../../../constant/storageKey";
 import { RESET_WALLET, WALLET_APP_SUBMIT_PWD } from "../../../constant/types";
 import { getLanguage } from "../../../i18n";
 import { resetWallet } from "../../../reducers";
+import { hideNewExtensionWarning } from "../../../reducers/appReducer";
 import { updateCurrentAccount } from "../../../reducers/accountReducer";
 import { updateNetConfigList } from "../../../reducers/network";
 import { sendMsg } from "../../../utils/commonMsg";
@@ -20,6 +21,7 @@ import CustomView from "../../component/CustomView";
 import TestModal from "../../component/TestModal";
 import TextInput from "../../component/TextInput";
 import Toast from "../../component/Toast";
+import { NewExtensionWarning } from "../../component/NewExtensionWarning"
 import "./index.scss";
 class LockPage extends React.Component {
     constructor(props) {
@@ -230,6 +232,11 @@ class LockPage extends React.Component {
             isReceive={true}
             history={this.props.history}>
             <div className={"lock-container"}>
+                {this.props.showNewExtensionWarning && (
+                    <div style={{ marginBottom: '20px', marginTop: '-70px'}}>
+                        <NewExtensionWarning handleClick={this.props.hideNewExtensionWarning} />
+                    </div>
+                )}
                 <div className={"lock-logo-container"}>
                     <img className={"lock-home-logo"} src={home_logo} />
                 </div>
@@ -246,6 +253,7 @@ class LockPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+    showNewExtensionWarning: state.appReducer.showNewExtensionWarning,
 });
 
 function mapDispatchToProps(dispatch) {
@@ -259,7 +267,9 @@ function mapDispatchToProps(dispatch) {
         updateNetConfigList: (config) => {
             dispatch(updateNetConfigList(config))
         },
-
+        hideNewExtensionWarning: () => {
+            dispatch(hideNewExtensionWarning());
+        },
     };
 }
 
