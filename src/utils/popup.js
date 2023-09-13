@@ -81,12 +81,19 @@ export async function openPopupWindow(
       ...dappOption
     }
   }
-  const option = Object.assign({
+  let option = Object.assign({
     width: PopupSize.width,
     height: PopupSize.height,
     url: url,
     type: /** @type {const} */ ("popup"),
   }, options);
+
+  if (option.left && option.width && option.left + option.width > screen.width) {
+    option.left = screen.width - option.width
+  }
+  if (option.top && option.height && option.top + option.height > screen.height) {
+    option.top = screen.height - option.height
+  }
 
   if (lastWindowIds[channel] !== undefined) {
     try {

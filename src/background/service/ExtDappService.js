@@ -262,10 +262,9 @@ class ExtDappService {
   }
   async dappOpenPopWindow(url,
     channel = "default",
-    windowType = "",
-    options = {}) {
+    windowType = "") {
     let that = this
-    let popupWindowId = await openPopupWindow(url, channel, windowType, options)//获取到windowId
+    let popupWindowId = await openPopupWindow(url, channel, windowType, {})//获取到windowId
     this.setCurrentOpenWindow(url, channel)
     let listener = extension.tabs.onRemoved.addListener(function (tabInfo, changeInfo) {
       if (popupWindowId === changeInfo.windowId) {
