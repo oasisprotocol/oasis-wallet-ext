@@ -1,6 +1,6 @@
 {
   "name": "@oasisprotocol/oasis-wallet",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "private": true,
   "scripts": {
     "build": "env NODE_OPTIONS=--openssl-legacy-provider webpack --mode production",
