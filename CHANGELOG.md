@@ -1,5 +1,17 @@
 # Change Log
 
+## 1.12.0
+
+Spotlight change:
+
+- Warn about not storing mnemonic in a future version
+  ([#316](https://github.com/oasisprotocol/oasis-wallet-ext/pull/316)).
+
+Bug fixes:
+
+- Fixed opening initial popup in recent Chrome versions
+  ([#317](https://github.com/oasisprotocol/oasis-wallet-ext/pull/317)).
+
 ## 1.11.0
 
 Spotlight change:
