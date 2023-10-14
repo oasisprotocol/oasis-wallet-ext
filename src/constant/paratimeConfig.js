@@ -27,7 +27,7 @@ const emerald_config = {
     displayOrder: 1,
     defaultFees: {
         gasPrice: 100n,
-        feeGas: 15_000n,
+        feeGas: 70_000n,
     },
 }
 /**
@@ -72,7 +72,7 @@ const sapphire_config = {
     displayOrder: 2,
     defaultFees: {
         gasPrice: 100n,
-        feeGas: 15_000n,
+        feeGas: 70_000n,
     },
 }
 
