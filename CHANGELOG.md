@@ -5,7 +5,7 @@
 Spotlight change:
 
 - Fix ParaTime deposits to Sapphire (and future Emerald) by increasing gas fee
-  ([#318](https://github.com/oasisprotocol/oasis-wallet-ext/pull/318)).
+  ([#320](https://github.com/oasisprotocol/oasis-wallet-ext/pull/320)).
 
 ## 1.12.0
 
