@@ -3,6 +3,7 @@ const extensionStorage = extension.storage && extension.storage.local
 
 /**
  * Stored in local storage
+ * @param {{keyringData: EncryptedData}} value
  */
 export function save(value) {
     return extensionStorage.set(value, () => {
@@ -16,15 +17,17 @@ export function save(value) {
 
 /**
  * Get the local stored value
- * @param {*} value
+ * @param {'keyringData'} key
+ * @returns {Promise<{keyringData: EncryptedData}>}
  */
-export function get(value) {
+export function get(key) {
     return new Promise((resolve, reject) => {
-        extensionStorage.get(value, items => {
+        extensionStorage.get(key, items => {
             let error = extension.runtime.lastError
             if (error) {
                 reject(error);
             }
+            // @ts-expect-error Forcefully extending encrypted string type
             resolve(items);
         });
     });
@@ -32,10 +35,10 @@ export function get(value) {
 
 /**
  * Remove local stored value
- * @param {*} value
+ * @param {'keyringData'} key
  */
-export function removeValue(value) {
-    return extensionStorage.remove(value, () => {
+export function removeValue(key) {
+    return extensionStorage.remove(key, () => {
         let error = extension.runtime.lastError
         if (error) {
             throw error;
