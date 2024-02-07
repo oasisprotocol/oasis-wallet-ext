@@ -53,6 +53,11 @@ class LedgerAddresses extends React.Component {
       })
     }
   }
+  /**
+   * @template {{address: string, isSelect: boolean, isExist: boolean}} T
+   * @param {T[]} list
+   * @returns T[]
+   */
   addressFilter = (list) => {
     let newList = []
     let selectList = this.state.selectList.map((item) => {

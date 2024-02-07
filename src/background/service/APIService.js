@@ -23,16 +23,7 @@ const encryptUtils = require('@metamask/browser-passworder')
 const RETRY_TIME = 4
 
 /**
- * @typedef {{
- *   address: string;
- *   evmAddress?: string;
- *   privateKey?: string;
- *   publicKey: string;
- *   type: keyof typeof ACCOUNT_TYPE;
- *   hdPath: number;
- *   accountName: string;
- *   typeIndex: number;
- * }} Account
+ * @typedef {EncryptedData['encryptedType'][number]['accounts'][number]} Account
  * @typedef {{
  *   accounts: {
  *     commonList: Account[],
@@ -54,6 +45,13 @@ class APIService {
         this.memStore = new ObservableStore(this.initLockedState())
         this.statusTimer = {}
         this.runtimeStatusTimer = {}
+        /**
+         * @type {{
+         *   encrypt<T>(password: string, data: T): Promise<EncryptedString<T>>
+         *   decrypt<T>(password: string, encrypted: EncryptedString<T>): Promise<T>
+         * }}
+         */
+        // @ts-expect-error Forcefully extending encrypted string type
         this.encryptor = encryptUtils
     }
     getStore = () => {
@@ -124,11 +122,7 @@ class APIService {
         return {
           isUnlocked: false,
           /**
-           * @type { Array<{
-           *   mnemonic: string;
-           *     accounts: Account[];
-           *     currentAddress: string;
-           *  }> }
+           * @type { EncryptedData['encryptedType'] }
            */
           data: /** @type {any} */ (undefined),
           password: '',
@@ -258,6 +252,7 @@ class APIService {
         return wallet
     }
 
+    /** @param {string} accountName */
     addHDNewAccount = async (accountName) => {
         let data = this.getStore().data
         let accounts = data[0].accounts
@@ -365,7 +360,8 @@ class APIService {
         }
     }
     /**
-     *  import wallet by private key
+     * import wallet by private key
+     * @param {typeof ACCOUNT_TYPE.WALLET_OUTSIDE | typeof ACCOUNT_TYPE.WALLET_OUTSIDE_SECP256K1} accountType
      */
     addImportAccount = async (privateKey, accountName,accountType) => {
         try {
@@ -400,16 +396,21 @@ class APIService {
 
             let privKeyEncrypt = await this.encryptor.encrypt(this.getStore().password, wallet.privKey_hex)
             /** @type {Account} */
-            let account = {
+            let account = currentAccountType === ACCOUNT_TYPE.WALLET_OUTSIDE_SECP256K1 ? {
+                address: wallet.address,
+                evmAddress: wallet.evmAddress,
+                privateKey: privKeyEncrypt,
+                publicKey: wallet.publicKey,
+                type: currentAccountType,
+                accountName,
+                typeIndex
+            } : {
                 address: wallet.address,
                 privateKey: privKeyEncrypt,
                 publicKey: wallet.publicKey,
                 type: currentAccountType,
                 accountName,
                 typeIndex
-            }
-            if(wallet.evmAddress){
-                account.evmAddress = wallet.evmAddress
             }
             data[0].currentAddress = account.address
             data[0].accounts.push(account)
@@ -426,6 +427,13 @@ class APIService {
     }
     /**
      * import ledger wallet
+     * @param {Array<{
+     *   ledgerHdIndex: number;
+     *   path: number[];
+     *   publicKey: string;
+     *   address: string;
+     * }>} addressList
+     * @param {string} accountName
      */
     addLedgerAccount = async (addressList, accountName) => {
         try {
@@ -611,13 +619,13 @@ class APIService {
                 let newAccounts = []
                 for (let index = 0; index < accounts.length; index++) {
                     const account = accounts[index];
-                    let privateKeyEn = account.privateKey
-                    if (privateKeyEn) {
+                    if ('privateKey' in account && account.privateKey) {
+                        const privateKeyEn = account.privateKey
                         let privateKey = await this.encryptor.decrypt(oldPwd, privateKeyEn)
-                        privateKey = await this.encryptor.encrypt(pwd, privateKey)
+                        const newPrivateKeyEn = await this.encryptor.encrypt(pwd, privateKey)
                         newAccounts.push({
                             ...account,
-                            privateKey,
+                            privateKey: newPrivateKeyEn,
                         })
                     } else {
                         newAccounts.push({
