@@ -16,21 +16,5 @@ export const NewExtensionWarning = (props) => {
     props.handleClick();
   };
 
-  return (
-    <div className="indicator">
-      <div>
-        <img src={warningIconSrc} alt={getLanguage('warning')} />
-      </div>
-      <div className="indicator-content">
-        {getLanguage('newExtensionNotice')}
-        {canDismiss && (
-          <div>
-            <button className="indicator-reminder" onClick={handleClick}>
-              {getLanguage('remindMe')}
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  return null
 };
