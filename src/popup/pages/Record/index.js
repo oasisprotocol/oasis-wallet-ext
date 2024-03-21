@@ -65,23 +65,7 @@ class Record extends React.Component {
     }
   }
   startListener = () => {
-    extension.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-      const { type, action, data } = message;
-      if (type === FROM_BACK_TO_RECORD && action === TX_SUCCESS && data.txHash === this.state.txDetail.txHash) {
-        if(data.runtimeId){
-          this.callSetState({
-            txStatus: data.result,
-            evmTxDetail:data.ctx ? data : {}
-          })
-        }else{
-          this.callSetState({
-            txStatus: data.status
-          })
-        }
-        sendResponse();
-      }
-      return true;
-    });
+
   }
 
   onCopy = (title, content) => {

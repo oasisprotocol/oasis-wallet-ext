@@ -60,35 +60,7 @@ function getLocalNetConfig(store) {
   }
 }
 async function getLocalStatus(store) {
-  sendMsg({
-    action: WALLET_GET_CURRENT_ACCOUNT,
-  },
-    async (currentAccount) => {
-      if (currentAccount && currentAccount.localAccount && currentAccount.localAccount.keyringData) {
-        if (currentAccount.isUnlocked) {
-          store.dispatch(updateCurrentAccount(currentAccount))
-          sendMsg({
-            action: DAPP_GET_CURRENT_OPEN_WINDOW,
-          },
-            async (window) => {
-              if(window && window.channel){
-                store.dispatch(updateDAppOpenWindow(window))
-                if(window.channel === windowId.request_sign){
-                  store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.DAPP_SIGN_PAGE))
-                }else if(window.channel === windowId.approve_page){
-                  store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.DAPP_APPROVE_PAGE))
-                }
-              }else{
-                store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.HOME_PAGE))
-              }
-            })
-        } else {
-          store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.LOCK_PAGE))
-        }
-      } else {
-        store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.WELCOME))
-      }
-    })
+  store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.WELCOME))
 }
 
 async function appOpenListener(store){

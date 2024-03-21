@@ -161,29 +161,4 @@ export function fitPopupWindow() {
 // Opens current page in a popup window, so that it doesn't close when switching
 // to other windows (e.g. password manager).
 export function openCurrentRouteInPersistentPopup() {
-  const url = new URL(window.location.href);
-  if (!url.searchParams.has('persistentPopup')) {
-    url.searchParams.set('persistentPopup', '1');
-
-    // Added random number because images were disappearing after
-    // opening Welcome page popup twice, after window.close().
-    url.searchParams.set('fixImagesDisappearing', '' + Math.random());
-
-    // Add slight delay so `window.screenLeft` returns popup's position, not extension's icon position
-    setTimeout(() => {
-      // Call openPopupWindow through background script, so lastWindowIds isn't
-      // lost, and popup is reused if called multiple times.
-      sendMsg({
-        action: WALLET_OPEN_ROUTE_IN_PERSISTENT_POPUP,
-        payload: {
-          left: window.screenLeft,
-          top: window.screenTop,
-          route: url.pathname + url.search + url.hash,
-        },
-      }, () => {});
-      window.close();
-    }, 100)
-  } else {
-    fitPopupWindow();
-  }
 }

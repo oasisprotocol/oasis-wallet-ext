@@ -68,33 +68,6 @@ class Wallet extends React.Component {
     this.getDappConnect()
   }
   getDappConnect() {
-    let { currentAccount, currentActiveTabUrl } = this.props
-    let address = currentAccount.address
-    sendMsg({
-      action: DAPP_GET_ALL_APPROVE_ACCOUNT,
-      payload: {
-        siteUrl: currentActiveTabUrl,
-      }
-    }, (accountList) => {
-      this.dappConnectCount = accountList.length
-      if (accountList.length === 0) {
-        this.props.updateDappConnectList([])
-      } else {
-        let newAccountList = this.dappAccountSort(accountList, address)
-        let keysList = newAccountList.map((item, index) => {
-          return item.address
-        })
-        if (keysList.indexOf(address) !== -1) {
-          this.props.updateDappConnectList(newAccountList)
-        } else {
-          let current = connectAccountDataFilter(currentAccount)
-          this.props.updateDappConnectList([
-            current,
-            ...newAccountList
-          ])
-        }
-      }
-    })
   }
 
   dappAccountSort = (list, address) => {

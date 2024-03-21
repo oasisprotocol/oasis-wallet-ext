@@ -31,18 +31,6 @@ class AccountManagePage extends React.Component {
   }
 
   componentDidMount() {
-    sendMsg({
-      action: WALLET_GET_ALL_ACCOUNT,
-    }, (account) => {
-      let list = account.accounts
-      let allList = [...list.commonList,...list.evmList]
-      this.props.updateAccountList(allList)
-      this.callSetState({
-        commonAccountList: list.commonList,
-        evmAccountList:list.evmList,
-        currentAddress: account.currentAddress
-      })
-    })
   }
   componentWillUnmount() {
     this.isUnMounted = true;

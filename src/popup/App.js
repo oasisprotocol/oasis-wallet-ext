@@ -5,9 +5,6 @@ import './App.scss';
 import { getAllRouter as AllRouter } from './router';
 
 function setLastActiveTime() {
-  sendMsg({
-    action: WALLET_RESET_LAST_ACTIVE_TIME,
-  }, () => { })
 }
 
 function App() {

@@ -45,12 +45,8 @@ class Welcome extends React.Component {
   }
 
   initLocal = () => {
-    get(null).then(dataObj => {
-      if (dataObj && !dataObj.keyringData) {
-        this.callSetState({
-          newAccount: true
-        })
-      }
+    this.callSetState({
+      newAccount: true
     })
   }
   handleChange = (item) => {

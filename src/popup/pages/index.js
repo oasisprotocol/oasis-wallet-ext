@@ -20,33 +20,6 @@ class MainRouter extends React.Component {
     this.startListener()
   }
   startListener = () => {
-    extension.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-      const { type, action } = message;
-      if (type === FROM_BACK_TO_RECORD) {
-        switch (action) {
-          case SET_LOCK:
-            this.props.updateEntryWhichRoute(ENTRY_WHICH_ROUTE.LOCK_PAGE)
-            this.props.history.push({
-              pathname: "/",
-            });
-            sendResponse();
-            break;
-          case DAPP_CLOSE_POPUP_WINDOW:
-            if(this.props.entryWhichRoute === ENTRY_WHICH_ROUTE.DAPP_APPROVE_PAGE
-              || this.props.entryWhichRoute === ENTRY_WHICH_ROUTE.DAPP_SIGN_PAGE){
-                this.props.updateEntryWhichRoute(ENTRY_WHICH_ROUTE.HOME_PAGE)
-                this.props.history.push({
-                  pathname: "/",
-                });
-                sendResponse();
-              }
-              break;
-          default:
-            break;
-        }
-      }
-      return true;
-    });
   }
   render() {
     switch (this.props.entryWhichRoute) {
