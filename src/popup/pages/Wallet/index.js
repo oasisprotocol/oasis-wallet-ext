@@ -153,9 +153,10 @@ class Wallet extends React.Component {
   }
 
   renderAccountItemInfo = (title, content) => {
+    let symbol = this.props.netConfig.currentSymbol
     return (<div className={"account-info-item-container"}>
       <p className={"wallet-info-title"}>{title}</p>
-      <p className={"wallet-info-content"}>{content}</p>
+      <p className={"wallet-info-content"}>{content} <span>{symbol}</span></p>
     </div>)
   }
   onMouseEnter = (grpc) => {
@@ -592,8 +593,9 @@ class Wallet extends React.Component {
         return <div key={index}/>
     }
     showAddress = addressSlice(showAddress, 8)
+    let symbol = this.props.netConfig.currentSymbol
     let amount = item.amount
-    amount = isReceive ? "+" + amount : "-" + amount
+    amount = isReceive ? "+" + amount + " " + symbol : "-" + amount + " " + symbol
 
     let status = item.status
     let statusText = status ? getLanguage('backup_success_title') : getLanguage('txFailed')
