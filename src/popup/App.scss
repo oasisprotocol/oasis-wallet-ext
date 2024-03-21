@@ -1,8 +1,6 @@
 @import "./common.scss";
 
 .App {
-  user-select: none;
-  -webkit-user-drag: none;
   *,
   *::before,
   *::after {
@@ -25,7 +23,6 @@ body {
 p {
   margin: 0;
   padding: 0;
-  user-select: none;
 }
 
 input,
