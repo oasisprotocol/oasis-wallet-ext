@@ -61,6 +61,18 @@ function getLocalNetConfig(store) {
 }
 async function getLocalStatus(store) {
   store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.WELCOME))
+  store.dispatch(updateCurrentAccount({
+    "address": "oasis1qz78ap0456g2rk7j6rmtvasc9v2kjhz2s58qgj90",
+    "privateKey": "<<redacted>>",
+    "publicKey": "ad4bca4ab8759f2a6f71db08a913599df6f63a2bae5a7c48f637be325861a51c",
+    "type": "WALLET_OUTSIDE",
+    "accountName": "Account 1",
+    "typeIndex": 2,
+    "localAccount": {
+        "keyringData": "keyringData"
+    },
+    "isUnlocked": true
+  }))
 }
 
 async function appOpenListener(store){

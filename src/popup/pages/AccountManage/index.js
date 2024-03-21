@@ -31,6 +31,34 @@ class AccountManagePage extends React.Component {
   }
 
   componentDidMount() {
+    this.props.updateAccountList([{
+      "address": "oasis1qz78ap0456g2rk7j6rmtvasc9v2kjhz2s58qgj90",
+      "privateKey": "<<redacted>>",
+      "publicKey": "ad4bca4ab8759f2a6f71db08a913599df6f63a2bae5a7c48f637be325861a51c",
+      "type": "WALLET_OUTSIDE",
+      "accountName": "Account 1",
+      "typeIndex": 2,
+      "localAccount": {
+          "keyringData": "keyringData"
+      },
+      "isUnlocked": true
+    }])
+    this.callSetState({
+      commonAccountList: [{
+        "address": "oasis1qz78ap0456g2rk7j6rmtvasc9v2kjhz2s58qgj90",
+        "privateKey": "<<redacted>>",
+        "publicKey": "ad4bca4ab8759f2a6f71db08a913599df6f63a2bae5a7c48f637be325861a51c",
+        "type": "WALLET_OUTSIDE",
+        "accountName": "Account 1",
+        "typeIndex": 2,
+        "localAccount": {
+            "keyringData": "keyringData"
+        },
+        "isUnlocked": true
+      }],
+      evmAccountList: [],
+      currentAddress: "oasis1qz78ap0456g2rk7j6rmtvasc9v2kjhz2s58qgj90",
+    })
   }
   componentWillUnmount() {
     this.isUnMounted = true;
