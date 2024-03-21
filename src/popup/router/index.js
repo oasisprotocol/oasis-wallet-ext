@@ -39,12 +39,14 @@ import SignTransaction from "../pages/SignTransaction";
 import LedgerAddresses from '../pages/LedgerAddresses';
 
 import ApprovePage from '../pages/ApprovePage';
+import Welcome from '../pages/Welcome';
 
 export function getAllRouter() {
   return (
     <HashRouter useHistory={useHistory} >
       <Switch>
         <Route path="/" exact component={MainRouter} />
+        <Route path="/welcome" component={Welcome} />
         <Route path="/create_password" component={CreatePassword} />
         <Route path="/show_mnemonic" component={ShowMnemonic} />
         <Route path="/backup_mnemonic" component={BackupMnemonics} />
