@@ -82,7 +82,7 @@ class Welcome extends React.Component {
       {this.props.showNewExtensionWarning &&  <NewExtensionWarning handleClick={this.props.hideNewExtensionWarning} />}
       <div className={"welcome-top-container"}>
         <img src={home_logo} className={"welcome-logo"} />
-        <p className={"welcome-wallet-name"}>{"Oasis Wallet"}</p>
+        <p className={"welcome-wallet-name"}>{getLanguage('walletName')}</p>
         {this.renderLanMenu()}
       </div>
       <div className={'welcome-button-container'}>
