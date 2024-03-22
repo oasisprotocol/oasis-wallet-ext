@@ -8,7 +8,7 @@
 }
 
 .welcome-button-container {
-  margin-top: 150px;
+  margin-top: 20px;
   width: 100%;
   text-align: center;
 }
@@ -21,6 +21,13 @@
   line-height: 24px;
   margin-top: 6px;
   margin-bottom: 15px;
+}
+.welcome-wallet-intro {
+  margin-top: 110px;
+  font-size: $font-size-content;
+  font-weight: 400;
+  color: #7080b5;
+  line-height: 18px;
 }
 .welcome-top-container {
   display: flex;
