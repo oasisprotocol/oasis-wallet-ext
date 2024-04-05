@@ -107,7 +107,7 @@ COMMIT=`git rev-parse --short HEAD`
 rm -rf dist/
 yarn install --frozen-lockfile
 yarn buildProd
-zip -r oasis-wallet-$VERSION-$COMMIT.zip dist/
+zip -r rose-wallet-$VERSION-$COMMIT.zip dist/
 ```
 
 If you're actually making a new release, follow the applicable steps in the

@@ -63,7 +63,7 @@ VERSION=`cat public/manifest.json | jq .version -r`
 rm -rf dist/
 yarn install --frozen-lockfile
 yarn buildProd
-zip -r oasis-wallet-$VERSION.zip dist/
+zip -r rose-wallet-$VERSION.zip dist/
 ```
 
 Note: The zip file has no Git commit hash.
