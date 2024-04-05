@@ -153,9 +153,10 @@ class Wallet extends React.Component {
   }
 
   renderAccountItemInfo = (title, content) => {
+    let symbol = this.props.netConfig.currentSymbol
     return (<div className={"account-info-item-container"}>
       <p className={"wallet-info-title"}>{title}</p>
-      <p className={"wallet-info-content"}>{content}</p>
+      <p className={"wallet-info-content"}>{content} <span className="ticker">{symbol}</span></p>
     </div>)
   }
   onMouseEnter = (grpc) => {
@@ -535,7 +536,7 @@ class Wallet extends React.Component {
     let statusColor = this.getEvmStatusColor(item)
     return this.renderCommonTxItem({item,index,amount,showAddress,imgSource,time,statusText,statusColor})
   }
-  renderCommonTxItem=({item,index,showAddress,amount="",imgSource,time,statusText,statusColor})=>{
+  renderCommonTxItem=({item,index,showAddress,amount,imgSource,time,statusText,statusColor})=>{
     return (
       <div key={index + ""} className={"tx-item-container click-cursor"} onClick={() => { this.onClickItem(item) }}>
         <div className={"tx-detail-container"}>
@@ -592,8 +593,8 @@ class Wallet extends React.Component {
         return <div key={index}/>
     }
     showAddress = addressSlice(showAddress, 8)
-    let amount = item.amount
-    amount = isReceive ? "+" + amount : "-" + amount
+    let symbol = this.props.netConfig.currentSymbol
+    let amount = <>{isReceive ? "+" : "-"}{item.amount} <span className="ticker">{symbol}</span></>
 
     let status = item.status
     let statusText = status ? getLanguage('backup_success_title') : getLanguage('txFailed')
