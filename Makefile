@@ -5,7 +5,7 @@ all: build
 
 # Build.
 build:
-	@$(ECHO) "$(MAGENTA)*** Building Oasis Wallet Browser Extension...$(OFF)"
+	@$(ECHO) "$(MAGENTA)*** Building ROSE Wallet Browser Extension...$(OFF)"
 	@yarn buildProd
 
 # Lint code, commits and documentation.

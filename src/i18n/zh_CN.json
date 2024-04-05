@@ -237,7 +237,7 @@
   "dappDisconnect":"未连接",
   "disconnectSuccess":"断开连接成功",
   "followConnect":"您有 {{number}} 个账户连接到了该网站。",
-  "needConnectTip":"Oasis Wallet 没有连接到这个网站。要连接到此网站请在网站中找到连接按钮。",
+  "needConnectTip":"ROSE Wallet 没有连接到这个网站。要连接到此网站请在网站中找到连接按钮。",
   "selectFirst":"请先选择需要连接的地址",
   "connectSuccess":"连接成功",
   "changeToAccount":"切换至该账户",

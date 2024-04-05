@@ -63,7 +63,7 @@ VERSION=`cat public/manifest.json | jq .version -r`
 rm -rf dist/
 yarn install --frozen-lockfile
 yarn buildProd
-zip -r oasis-wallet-$VERSION.zip dist/
+zip -r rose-wallet-$VERSION.zip dist/
 ```
 
 Note: The zip file has no Git commit hash.
@@ -72,7 +72,7 @@ Note: The zip file has no Git commit hash.
 Create a tag and create a
 [new release](https://github.com/oasisprotocol/oasis-wallet-ext/releases/new) on GitHub.
 
-Enter `Oasis Wallet <VERSION> Release Candidate` for the title.
+Enter `ROSE Wallet <VERSION> Release Candidate` for the title.
 
 Our Change Log is a file under version control, so all we do is put the link in the description:
 
@@ -92,7 +92,7 @@ _This step is for our web store account admins._
 _Contact an admin if you don't have access._
 
 Go to [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole/),
-browse to the _Oasis Wallet_ item,
+browse to the _ROSE Wallet_ item,
 select _Package_ in the side bar and
 choose _Upload new package_.
 
@@ -100,8 +100,8 @@ choose _Upload new package_.
 Change the title:
 
 ```diff
--Oasis Wallet <VERSION> Release Candidate
-+Oasis Wallet <VERSION>
+-ROSE Wallet <VERSION> Release Candidate
++ROSE Wallet <VERSION>
 ```
 
 Change the description:
