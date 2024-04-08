@@ -91,6 +91,7 @@ async function appOpenListener(store){
 
 export const applicationEntry = {
   async run() {
+    // window.history.pushState(null, '', '#/')
     this.createReduxStore();
     this.appInit(this.reduxStore)
     this.render();
