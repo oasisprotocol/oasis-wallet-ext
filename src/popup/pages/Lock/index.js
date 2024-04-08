@@ -1,7 +1,7 @@
 import cx from "classnames";
 import React from "react";
 import { connect } from "react-redux";
-import home_logo from "../../../assets/images/home_logo.png";
+import logo from "../../../assets/images/Rose Wallet Logo Blue cropped.svg";
 import txFailed from "../../../assets/images/txFailed.png";
 import { clearLocalExcept, getLocal } from "../../../background/storage/localStorage";
 import { clearStorage } from "../../../background/storage/storageService";
@@ -238,7 +238,7 @@ class LockPage extends React.Component {
                     </div>
                 )}
                 <div className={"lock-logo-container"}>
-                    <img className={"lock-home-logo"} src={home_logo} />
+                    <img className={"lock-home-logo"} src={logo} />
                 </div>
                 {this.renderPwdInput()}
             </div>

@@ -2,7 +2,7 @@ import qrCode from 'qrcode-generator';
 import React from "react";
 import { connect } from "react-redux";
 import copy_address from "../../../assets/images/copy_address.png";
-import home_logo from "../../../assets/images/home_logo.png";
+import logo from "../../../assets/images/Rose Wallet Logo Blue cropped.svg";
 import { getLanguage } from "../../../i18n";
 import { copyText, getPrettyAddress } from '../../../utils/utils';
 import CustomView from "../../component/CustomView";
@@ -61,7 +61,7 @@ class ReceivePage extends React.Component {
         propsClassName={'receive-background'}
         history={this.props.history}>
         <div className={"receive-container"}>
-          <img className={'receive-home-logo'} src={home_logo} />
+          <img className={'receive-home-logo'} src={logo} />
           <div className={"receive-content-container"}>
             {this.renderQrTip()}
             {this.renderQrView()}
