@@ -14,14 +14,11 @@ $font-size-desc: 12px;
 
 $font-size-small: 10px;
 
-
 $page-margin-top: 0px;
-
 
 $modal-width: 290px;
 
 $bigger-btn-width: 315px;
-
 
 $app-height: 600px;
 
@@ -30,25 +27,25 @@ $app-width: 450px;
 $color-danger: #ff2a7f;
 
 .click-cursor {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .click-cursor-disable {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 .mne-item {
-    display: inline-block;
-    padding: 8px 15px;
-    margin: 5px 10px 5px 0;
+  display: inline-block;
+  padding: 8px 15px;
+  margin: 5px 10px 5px 0;
 
-    background: rgba(34, 109, 255, 0.1);
-    border-radius: 5px;
-    font-size: $font-size-content;
-    line-height: 13px;
-    font-weight: 400;
+  background: rgba(34, 109, 255, 0.1);
+  border-radius: 5px;
+  font-size: $font-size-content;
+  line-height: 13px;
+  font-weight: 400;
 }
 
 .ticker {
-    color: #0092F6;
+  color: #0500e2;
 }

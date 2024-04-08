@@ -89,7 +89,7 @@
   position: relative;
 }
 .stake-percent-progress-actual {
-  background: #226dff;
+  background: #0500e2;
   border-radius: 3px;
   height: 7px;
   position: absolute;
@@ -160,7 +160,7 @@
 }
 .stake-validator-active {
   background: rgba(34, 109, 255, 0.1);
-  border: 1px solid #226dff;
+  border: 1px solid #0500e2;
 }
 .stake-validator-inactive {
   background: rgba(255, 146, 0, 0.1);
@@ -171,7 +171,7 @@
   font-weight: 400;
 }
 .stake-validator-status-text-active {
-  color: #226dff;
+  color: #0500e2;
 }
 .stake-validator-status-text-inactive {
   color: rgba(255, 146, 0, 1);
@@ -347,7 +347,7 @@
   line-height: 18px;
 }
 .stake-item-escrow {
-  background: #226dff;
+  background: #0500e2;
   border-radius: 4px;
   padding: 2px 13px;
 
