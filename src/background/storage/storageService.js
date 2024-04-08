@@ -1,16 +1,12 @@
 import extension from '../../mockWebextension';
-const extensionStorage = extension.storage && extension.storage.local
 
 /**
  * Stored in local storage
  */
 export function save(value) {
-    return extensionStorage.set(value, () => {
-        let error = extension.runtime.lastError
-        if (error) {
-            throw error;
-        }
-    });
+    Object.entries(value).forEach(([k, v]) => {
+        localStorage.setItem(k, JSON.stringify(v))
+    })
 }
 
 
@@ -20,13 +16,9 @@ export function save(value) {
  */
 export function get(value) {
     return new Promise((resolve, reject) => {
-        extensionStorage.get(value, items => {
-            let error = extension.runtime.lastError
-            if (error) {
-                reject(error);
-            }
-            resolve(items);
-        });
+        resolve({
+            [value]: JSON.parse(localStorage.getItem(value))
+        })
     });
 }
 
@@ -35,17 +27,5 @@ export function get(value) {
  * @param {*} value
  */
 export function removeValue(value) {
-    return extensionStorage.remove(value, () => {
-        let error = extension.runtime.lastError
-        if (error) {
-            throw error;
-        }
-    });
-}
-
-/**
- * Remove all storage
- */
-export function clearStorage() {
-    extensionStorage.clear();
+    return window.localStorage.removeItem(value);
 }
