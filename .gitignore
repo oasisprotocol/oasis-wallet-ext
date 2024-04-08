@@ -32,3 +32,5 @@ __pycache__/
 # Ignore build releases.
 oasis-wallet-*.zip
 rose-wallet-*.zip
+
+.parcel-cache
