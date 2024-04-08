@@ -3,7 +3,7 @@ import * as oasisRT from '@oasisprotocol/client-rt';
 import { decode } from 'base64-arraybuffer';
 import BigNumber from 'bignumber.js';
 import * as bip39 from 'bip39';
-import extension from 'extensionizer';
+import extension from './../../mockWebextension';
 import { Buffer } from 'safe-buffer';
 import nacl from 'tweetnacl';
 import { cointypes, LOCK_TIME } from '../../../config';
@@ -142,8 +142,8 @@ class APIService {
         if (!status) {
             this.memStore.putState(this.initLockedState())
             extension.runtime.sendMessage({
-                type: FROM_BACK_TO_RECORD,
                 action: SET_LOCK,
+                type: FROM_BACK_TO_RECORD,
             });
         }else{
             this.memStore.updateState({ isUnlocked: status })
@@ -933,18 +933,14 @@ class APIService {
             ? getExplorerUrl() + "paratimes/transactions/" + encodeURIComponent(hash) + "?runtime=" + encodeURIComponent(runtimeId)
             : getExplorerUrl() + "transactions/" + encodeURIComponent(hash)
 
-        const notificationListener = (clickedNotificationId) => {
-            if(notificationLinkAsId !== clickedNotificationId) return
-            extension.notifications.onClicked.removeListener(notificationListener)
-            openTab(notificationLinkAsId)
-        }
-        extension.notifications.onClicked.addListener(notificationListener)
-        extension.notifications.create(notificationLinkAsId, {
-            title: getLanguage('notificationTitle'),
-            message: getLanguage('notificationContent'),
-            iconUrl: '/img/oasis.png',
-            type: 'basic'
+
+        Notification.requestPermission().then((permission) => {
+            if (permission === 'granted') {
+                const notification = new Notification(getLanguage('notificationTitle'), { body: getLanguage('notificationContent'), icon: '/img/oasis.png' });
+                notification.addEventListener('click', () => openTab(notificationLinkAsId))
+            }
         });
+
         return
     }
     checkTxStatus = (hash,hideNotify,callback) => {

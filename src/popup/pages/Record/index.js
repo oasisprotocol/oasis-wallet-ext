@@ -1,6 +1,5 @@
 import BigNumber from "bignumber.js";
 import cx from "classnames";
-import extension from 'extensionizer';
 import React from "react";
 import { connect } from "react-redux";
 import { cointypes } from '../../../../config';
@@ -18,6 +17,7 @@ import CustomView from "../../component/CustomView";
 import Toast from "../../component/Toast";
 import "./index.scss";
 import Loading from "../../component/Loading";
+import extension from "src/mockWebextension";
 
 const DECIMALS = cointypes.decimals
 class Record extends React.Component {

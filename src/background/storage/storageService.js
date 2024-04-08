@@ -1,4 +1,4 @@
-import extension from 'extensionizer';
+import extension from '../../mockWebextension';
 const extensionStorage = extension.storage && extension.storage.local
 
 /**

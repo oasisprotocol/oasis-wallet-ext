@@ -33,10 +33,8 @@ import {
   DAPP_CHANGE_CONNECTING_ADDRESS, DAPP_GET_CURRENT_OPEN_WINDOW, GET_APP_LOCK_STATUS,
   FRAME_GET_APPROVE_ACCOUNT, FRAME_GET_ACCOUNT_PUBLIC_KEY, FRAME_GET_ACCOUNT_SIGNER, FRAME_SEND_TRANSFER, RESET_WALLET, WALLET_SEND_RUNTIME_WITHDRAW, WALLET_SEND_RUNTIME_DEPOSIT, WALLET_SEND_RUNTIME_EVM_WITHDRAW
 } from "../constant/types";
-import extension from 'extensionizer'
+import extension from './../mockWebextension'
 import apiService from "./service/APIService";
-import extDappService from "./service/ExtDappService";
-import { openPopupWindow } from '../utils/popup';
 
 function internalMessageListener(message, sender, sendResponseSerializable) {
   const sendResponse = (response) => {
@@ -56,10 +54,7 @@ function internalMessageListener(message, sender, sendResponseSerializable) {
     return sendResponseSerializable(response)
   }
 
-  const { messageSource, action, payload } = message;
-  if (messageSource) {
-    return false
-  }
+  const { action, payload } = message;
   switch (action) {
     case WALLET_CREATE_PWD:
       sendResponse(apiService.createPwd(payload.pwd));
@@ -189,72 +184,8 @@ function internalMessageListener(message, sender, sendResponseSerializable) {
     case WALLET_RESET_LAST_ACTIVE_TIME:
       sendResponse(apiService.setLastActiveTime())
       break
-    case WALLET_OPEN_ROUTE_IN_PERSISTENT_POPUP:
-      openPopupWindow(extension.extension.getURL(payload.route), 'persistentPopup', undefined, {
-        left: payload.left,
-        top: payload.top,
-      }).then((result) => {
-        sendResponse(result);
-      });
-      break
     case GET_APP_LOCK_STATUS:
       sendResponse(apiService.getLockStatus())
-      break
-    case FRAME_GET_APPROVE_ACCOUNT:
-      extDappService.requestAccounts(payload.origin).then((account) => {
-        sendResponse(account);
-      }).catch((err)=>{
-        sendResponse(err)
-      })
-        break
-
-    case FRAME_GET_ACCOUNT_PUBLIC_KEY:
-        extDappService.getApproveAccountPublicKey(payload.origin).then((account) => {
-          sendResponse(account);
-        }).catch((err)=>{
-          sendResponse(err)
-        })
-          break
-
-    case FRAME_GET_ACCOUNT_SIGNER:
-        extDappService.getApproveAccountSigner(payload).then((account) => {
-          sendResponse(account);
-        }).catch((err)=>sendResponse(err))
-          break
-    case FRAME_SEND_TRANSFER:
-        extDappService.signTransaction(payload.params,payload.origin).then((account) => {
-          sendResponse(account);
-        }).catch((err)=>sendResponse(err))
-        break
-    case GET_SIGN_PARAMS:
-      sendResponse(extDappService.getSignParams())
-      break
-    case DAPP_GET_APPROVE_ACCOUNT:
-      extDappService.getCurrentApproveAccount(payload.siteUrl,payload.address).then((account)=>{
-        sendResponse(account)
-      })
-      break
-    case DAPP_GET_ALL_APPROVE_ACCOUNT:
-      sendResponse(extDappService.getAllApproveAccount(payload.siteUrl))
-      break
-    case DAPP_GET_CONNECT_STATUS:
-      sendResponse(extDappService.getConnectedStatus(payload.siteUrl,payload.address))
-      break
-    case DAPP_DISCONNECT_SITE:
-      sendResponse(extDappService.disconnectDapp(payload.siteUrl,payload.address,payload.currentAddress))
-      break
-
-    case DAPP_ACCOUNT_CONNECT_SITE:
-      sendResponse(extDappService.setDAppCurrentConnect(payload.siteUrl,payload.account))
-      break
-    case DAPP_DELETE_ACCOUNT_CONNECT_HIS:
-      sendResponse(extDappService.deleteDAppConnect(payload.address,payload.currentAddress))
-      break
-    case DAPP_CHANGE_CONNECTING_ADDRESS:
-      sendResponse(extDappService.changeCurrentConnecting(payload.address))
-      break
-    case DAPP_GET_CURRENT_OPEN_WINDOW:
-      sendResponse(extDappService.getCurrentOpenWindow())
       break
     case RESET_WALLET:
       sendResponse(apiService.resetWallet())
