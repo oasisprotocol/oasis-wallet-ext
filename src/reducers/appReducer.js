@@ -21,7 +21,7 @@ export function hideNewExtensionWarning() {
 }
 
 function shouldShowNewExtensionWarning() {
-    const dismissed = getLocal(DISMISSED_NEW_EXTENSION_WARNING);
+    const dismissed = true;
     if (!dismissed || !NEW_EXTENSION_RELEASE_DATE) {
         return !dismissed;
     }
