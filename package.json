@@ -3,8 +3,8 @@
   "version": "1.15.0",
   "private": true,
   "scripts": {
-    "build": "env NODE_OPTIONS=--openssl-legacy-provider webpack --mode production",
-    "buildProd": "env NODE_OPTIONS=--openssl-legacy-provider webpack --mode production",
+    "build": "yarn parcel build ./public/static/popup.html",
+    "buildProd": "yarn build",
     "dev": "yarn parcel ./public/static/popup.html",
     "lint": "yarn run eslint src",
     "test": "jest"
