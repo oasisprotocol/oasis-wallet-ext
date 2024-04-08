@@ -34,11 +34,9 @@ import AddressBook from "../pages/AddressBook"
 import LedgerConnect from '../pages/LedgerConnect';
 import LedgerImport from '../pages/LedgerImport';
 import NetInfoPage from '../pages/NetInfoPage';
-import SignTransaction from "../pages/SignTransaction";
 
 import LedgerAddresses from '../pages/LedgerAddresses';
 
-import ApprovePage from '../pages/ApprovePage';
 
 export function getAllRouter() {
   return (
@@ -83,9 +81,6 @@ export function getAllRouter() {
         <Route path="/ledger_connect" component={LedgerConnect} />
         <Route path="/ledger_import" component={LedgerImport} />
         <Route path="/net_info_page" component={NetInfoPage} />
-
-        <Route path="/request_sign" component={SignTransaction} />
-        <Route path="/approve_page" component={ApprovePage} />
 
         <Route path="/ledger_address_page" component={LedgerAddresses} />
       </Switch>

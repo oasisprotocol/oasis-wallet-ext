@@ -12,7 +12,6 @@ import {
 } from "../../../i18n";
 import { setLanguage, hideNewExtensionWarning } from "../../../reducers/appReducer";
 import { setWelcomeNextRoute } from "../../../reducers/cache";
-import { openCurrentRouteInPersistentPopup } from '../../../utils/popup';
 import Button from "../../component/Button";
 import Select from "../../component/Select";
 import { NewExtensionWarning } from "../../component/NewExtensionWarning"
@@ -28,7 +27,6 @@ class Welcome extends React.Component {
   }
 
   componentDidMount() {
-    openCurrentRouteInPersistentPopup();
     this.initLocal()
   }
   componentWillUnmount() {

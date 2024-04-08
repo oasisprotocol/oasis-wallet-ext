@@ -1,10 +1,10 @@
+import './background/index'
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import extension from 'extensionizer';
+import extension from './mockWebextension';
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { network_config } from "../config";
-import { windowId } from "./background/service/ExtDappService";
 import { getLocal, saveLocal } from "./background/storage/localStorage";
 import { QUERY_TAB_TYPE } from "./constant/specifyType";
 import { NETWORK_CONFIG } from "./constant/storageKey";
@@ -67,21 +67,7 @@ async function getLocalStatus(store) {
       if (currentAccount && currentAccount.localAccount && currentAccount.localAccount.keyringData) {
         if (currentAccount.isUnlocked) {
           store.dispatch(updateCurrentAccount(currentAccount))
-          sendMsg({
-            action: DAPP_GET_CURRENT_OPEN_WINDOW,
-          },
-            async (window) => {
-              if(window && window.channel){
-                store.dispatch(updateDAppOpenWindow(window))
-                if(window.channel === windowId.request_sign){
-                  store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.DAPP_SIGN_PAGE))
-                }else if(window.channel === windowId.approve_page){
-                  store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.DAPP_APPROVE_PAGE))
-                }
-              }else{
-                store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.HOME_PAGE))
-              }
-            })
+          store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.HOME_PAGE))
         } else {
           store.dispatch(updateEntryWhichRoute(ENTRY_WHICH_ROUTE.LOCK_PAGE))
         }
