@@ -938,13 +938,13 @@ class APIService {
             if (permission === 'granted') {
                 const notification = new Notification(getLanguage('notificationTitle'), { body: getLanguage('notificationContent'), icon: '/img/oasis.png' });
                 notification.addEventListener('click', () => openTab(notificationLinkAsId))
-                //test
             }
         });
 
         return
     }
     checkTxStatus = (hash,hideNotify,callback) => {
+        Notification.requestPermission().then((permission) => {})
         this.fetchTransactionStatus(hash,hideNotify,callback)
     }
     onSuccess=(data,hash,hideNotify,callback)=>{
@@ -985,6 +985,7 @@ class APIService {
         })
     }
     createNotificationAfterRuntimeTxSucceeds = (hash,runtimeId) => {
+        Notification.requestPermission().then((permission) => {})
         this.fetchRuntimeTxStatus(hash,runtimeId)
     }
     fetchRuntimeTxStatus = (hash,runtimeId) => {
