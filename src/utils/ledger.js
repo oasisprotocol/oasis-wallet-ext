@@ -29,7 +29,6 @@ async function openLedgerWindow() {
   // Mentioned in https://bugs.chromium.org/p/chromium/issues/detail?id=1415183#c14
   // Maybe related to https://bugs.chromium.org/p/chromium/issues/detail?id=1360960
   openTab('./popup.html#/ledger_connect')
-  // test
   await initLedgerWindowListener()
   Toast.info(getLanguage('ledgerConnectSuccess'))
   return { connected: true }
