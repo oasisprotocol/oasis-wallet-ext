@@ -26,7 +26,7 @@
     "inputValidSeed": "Please enter a valid mnemonic phrase",
     "seedLengthError": "The length of mnemonic phrase does not match",
     "confirm": "Confirm",
-    "wallet": "Oasis ROSE Wallet",
+    "wallet": "Wallet",
     "staking": "Staking",
     "setting": "Settings",
     "stakingStatus_1": "Delegated",
