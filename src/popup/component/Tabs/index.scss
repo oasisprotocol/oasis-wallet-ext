@@ -1,6 +1,7 @@
 @import "../../common.scss";
 .tab_title_wrap {
   width: 100%;
+  max-width: $app-width;
   display: flex;
   position: fixed;
   bottom: 0%;
