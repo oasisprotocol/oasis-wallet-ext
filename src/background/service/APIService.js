@@ -938,6 +938,7 @@ class APIService {
             if (permission === 'granted') {
                 const notification = new Notification(getLanguage('notificationTitle'), { body: getLanguage('notificationContent'), icon: '/img/oasis.png' });
                 notification.addEventListener('click', () => openTab(notificationLinkAsId))
+                //test
             }
         });
 
