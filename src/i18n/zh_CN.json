@@ -161,6 +161,7 @@
   "reclaim":"解除",
   "nodeDetail":"节点详情",
   "qrTip":"扫描二维码，转入",
+  "tokens": "代币",
   "getDetailInExplorer":"去浏览器查看详细信息",
   "inputToAddress":"请输入您的接收地址",
   "observeAccountTip":"该地址为观察地址",

@@ -46,7 +46,7 @@ class ReceivePage extends React.Component {
   renderQrTip = () => {
     let symbol =  this.props.netConfig.currentSymbol
     return (<div className={"qr-tip-margin"}>
-      <p className={"receive-qr-tip"}>{getLanguage('qrTip')}{symbol}</p>
+      <p className={"receive-qr-tip"}>{getLanguage('qrTip')}{symbol} {getLanguage('tokens')}</p>
     </div>)
   }
   renderAddressTip = () => {
