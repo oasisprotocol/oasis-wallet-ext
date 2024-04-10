@@ -1,4 +1,4 @@
-# ROSE Wallet - Browser Extension
+# Oasis ROSE Wallet - Browser Extension
 
 [![CI lint status][github-ci-lint-badge]][github-ci-lint-link]
 
@@ -11,7 +11,7 @@ The official non-custodial browser extension wallet for the [Oasis Network].
 
 ## Introduction
 
-ROSE Wallet - Browser Extension provides a complete solution for managing your
+Oasis ROSE Wallet - Browser Extension provides a complete solution for managing your
 ROSE tokens, including everything for convenient staking of your ROSE tokens.
 
 ## Features
@@ -24,7 +24,7 @@ ROSE tokens, including everything for convenient staking of your ROSE tokens.
 - Import accounts directly from their private keys
 - Watch 3rd-party accounts
 - Address book of your saved accounts
-- Easily switch between different Oasis wallets that use the same [ADR 0008]
+- Easily switch between different Oasis ROSE wallets that use the same [ADR 0008]
   standard account key generation process.
 
 ### Transactions
@@ -49,32 +49,29 @@ ROSE tokens, including everything for convenient staking of your ROSE tokens.
 The extension is roughly laid out this way:
 
 - background - the extension's background page
-    - APIService (wallet info storage, in-memory transaction signing, transaction submission)
-    - ExtDAppService (DApp interface, handles requests from xu-frame)
+  - APIService (wallet info storage, in-memory transaction signing, transaction submission)
+  - ExtDAppService (DApp interface, handles requests from xu-frame)
 
 - service-data - connections to the network and block explorer
-    - OASISSCAN (provided by [oasisscan](https://api.oasisscan.com/mainnet))
-    - Oasis gRPC-web (provided by [oasisscan-grpc](https://grpc-mainnet.oasisscan.com))
+  - OASISSCAN (provided by [oasisscan](https://api.oasisscan.com/mainnet))
+  - Oasis gRPC-web (provided by [oasisscan-grpc](https://grpc-mainnet.oasisscan.com))
 
 - popup - interactive parts
-    - pages (UI, Ledger transaction signing)
-    - actions (reducer action)
-    - reducer
+  - pages (UI, Ledger transaction signing)
+  - actions (reducer action)
+  - reducer
 
 - xu-frame - a page that DApps can load in an iframe to communicate with this extension
-    - code for this page is in background/ExtUtils.js
-    - Oasis SDK ext-utils handlers
+  - code for this page is in background/ExtUtils.js
+  - Oasis SDK ext-utils handlers
 
 [![Architecture Diagram](./docs/oasis-nomnoml.png)][1]
-
-
-
 
 ## Getting started
 
 ### build extension
 
-ROSE Wallet extension repo uses git-secret to encrypt the endpoints and the api keys. So, you can't build this without creating your own config file. You should create your own `config.js` file in the folder. Refer to the `config.example.js` sample file to create your own configuration.
+Oasis ROSE Wallet extension repo uses git-secret to encrypt the endpoints and the api keys. So, you can't build this without creating your own config file. You should create your own `config.js` file in the folder. Refer to the `config.example.js` sample file to create your own configuration.
 
 ```sh
 yarn install
@@ -85,11 +82,10 @@ yarn dev
 
 Extension's build output is placed in `/dist`, and you can check out [this page](https://developer.chrome.com/extensions/getstarted) for installing the developing extension.
 
-
 ### dapp-connect test
 
-* open [oasis-test-dapp](https://lukaw3d.github.io/oasis-test-dapp)
-* click connect and other button to communicate with wallet
+- open [oasis-test-dapp](https://lukaw3d.github.io/oasis-test-dapp)
+- click connect and other button to communicate with wallet
 
 ## CI pipelines (Coming soon)
 
@@ -107,7 +103,7 @@ COMMIT=`git rev-parse --short HEAD`
 rm -rf dist/
 yarn install --frozen-lockfile
 yarn buildProd
-zip -r rose-wallet-$VERSION-$COMMIT.zip dist/
+zip -r oasis-rose-wallet-$VERSION-$COMMIT.zip dist/
 ```
 
 If you're actually making a new release, follow the applicable steps in the

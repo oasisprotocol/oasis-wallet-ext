@@ -2,7 +2,7 @@ import cx from "classnames";
 import React from "react";
 import { connect } from "react-redux";
 import { VERSION_CONFIG } from "../../../../config";
-import home_logo from "../../../assets/images/home_logo.png";
+import logo from "../../../assets/images/Rose Wallet Logo Blue cropped.svg";
 import record_arrow from "../../../assets/images/record_arrow.png";
 import { getLanguage } from "../../../i18n";
 import { openTab } from "../../../utils/commonMsg";
@@ -35,8 +35,7 @@ class AboutUs extends React.Component {
 
   renderTopInfo = () => {
     return (<div className={'about-top-container'}>
-      <img src={home_logo} className={"about-home-logo"} />
-      <p className={"about-wallet-name"}>{getLanguage('walletName')}</p>
+      <img src={logo} className={"about-home-logo"} />
       <p className={"about-wallet-version"}>{VERSION_CONFIG}</p>
     </div>)
   }

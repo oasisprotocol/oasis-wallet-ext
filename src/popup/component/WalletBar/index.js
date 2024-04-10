@@ -1,7 +1,7 @@
 import cx from "classnames";
 import React from "react";
 import { connect } from "react-redux";
-import home_logo from "../../../assets/images/home_logo.png";
+import logo from "../../../assets/images/Rose Wallet Logo Blue cropped.svg";
 import { saveLocal } from "../../../background/storage/localStorage";
 import { NETWORK_CONFIG } from "../../../constant/storageKey";
 import { updateNetConfigRequest } from "../../../reducers/cache";
@@ -117,7 +117,7 @@ class WalletBar extends React.Component {
         const { disableAccountSelect } = this.props
         return (
             <div className={"wallet-top-container"}>
-                <img className="wallet-home-left-logo" src={home_logo} />
+                <img className="wallet-home-left-logo" src={logo} />
                 {this.renderNetMenu()}
                 <div className={cx("wallet-home-wallet", {
                     "click-cursor": !disableAccountSelect

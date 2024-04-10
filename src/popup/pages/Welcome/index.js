@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import home_logo from "../../../assets/images/home_logo.png";
+import logo from "../../../assets/images/Rose Wallet Logo Blue cropped.svg";
 import { get } from "../../../background/storage/storageService";
 import {
   changeLanguage,
@@ -85,8 +85,7 @@ class Welcome extends React.Component {
     return (<div className="welcome_container">
       {this.props.showNewExtensionWarning &&  <NewExtensionWarning handleClick={this.props.hideNewExtensionWarning} />}
       <div className={"welcome-top-container"}>
-        <img src={home_logo} className={"welcome-logo"} />
-        <p className={"welcome-wallet-name"}>{getLanguage('walletName')}</p>
+        <img src={logo} className={"welcome-logo"} />
         {this.renderLanMenu()}
         <p className="welcome-wallet-intro">{getLanguage('walletIntro')}</p>
       </div>

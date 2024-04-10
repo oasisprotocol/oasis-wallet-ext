@@ -1,5 +1,5 @@
 /**
- * ROSE Wallet - Browser Extension's configuration.
+ * Oasis ROSE Wallet - Browser Extension's configuration.
  *
  * NOTE: If you intend to build a custom version of the extension, edit this
  * file appropriately and rebuild the extension.
