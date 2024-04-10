@@ -1,6 +1,6 @@
 {
   "name": "@oasisprotocol/oasis-rose-wallet-ext",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "private": true,
   "scripts": {
     "build": "env NODE_OPTIONS=--openssl-legacy-provider webpack --mode production",

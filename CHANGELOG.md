@@ -1,5 +1,21 @@
 # Change Log
 
+## 1.14.0
+
+Spotlight change:
+
+- New Oasis branding
+  ([#335](https://github.com/oasisprotocol/oasis-wallet-ext/pull/335),
+  [#332](https://github.com/oasisprotocol/oasis-wallet-ext/pull/332)).
+
+- Display tickers next to amounts
+  ([#333](https://github.com/oasisprotocol/oasis-wallet-ext/pull/333)).
+
+Internal:
+
+- Ignore specific line length rules for Dependabot commits in gitlint
+  ([#325](https://github.com/oasisprotocol/oasis-wallet-ext/pull/325)).
+
 ## 1.13.0
 
 Spotlight change:
