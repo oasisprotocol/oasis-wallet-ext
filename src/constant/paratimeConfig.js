@@ -51,7 +51,7 @@ const cipher_config = {
     displayOrder: 3,
     defaultFees: {
         gasPrice: 5n,
-        feeGas: 500_000n,
+        feeGas: 5_000_000n,
     },
 }
 const sapphire_config = {
