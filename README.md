@@ -1,4 +1,4 @@
-# Oasis ROSE Wallet - Browser Extension
+# ROSE Wallet - Browser Extension
 
 [![CI lint status][github-ci-lint-badge]][github-ci-lint-link]
 
@@ -11,7 +11,7 @@ The official non-custodial browser extension wallet for the [Oasis Network].
 
 ## Introduction
 
-Oasis ROSE Wallet - Browser Extension provides a complete solution for managing your
+ROSE Wallet - Browser Extension provides a complete solution for managing your
 ROSE tokens, including everything for convenient staking of your ROSE tokens.
 
 ## Features
@@ -24,7 +24,7 @@ ROSE tokens, including everything for convenient staking of your ROSE tokens.
 - Import accounts directly from their private keys
 - Watch 3rd-party accounts
 - Address book of your saved accounts
-- Easily switch between different Oasis ROSE wallets that use the same [ADR 0008]
+- Easily switch between different ROSE wallets that use the same [ADR 0008]
   standard account key generation process.
 
 ### Transactions
@@ -71,7 +71,7 @@ The extension is roughly laid out this way:
 
 ### build extension
 
-Oasis ROSE Wallet extension repo uses git-secret to encrypt the endpoints and the api keys. So, you can't build this without creating your own config file. You should create your own `config.js` file in the folder. Refer to the `config.example.js` sample file to create your own configuration.
+ROSE Wallet extension repo uses git-secret to encrypt the endpoints and the api keys. So, you can't build this without creating your own config file. You should create your own `config.js` file in the folder. Refer to the `config.example.js` sample file to create your own configuration.
 
 ```sh
 yarn install
@@ -103,7 +103,7 @@ COMMIT=`git rev-parse --short HEAD`
 rm -rf dist/
 yarn install --frozen-lockfile
 yarn buildProd
-zip -r oasis-rose-wallet-$VERSION-$COMMIT.zip dist/
+zip -r rose-wallet-$VERSION-$COMMIT.zip dist/
 ```
 
 If you're actually making a new release, follow the applicable steps in the

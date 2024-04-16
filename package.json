@@ -1,5 +1,5 @@
 {
-  "name": "@oasisprotocol/oasis-rose-wallet-ext",
+  "name": "@oasisprotocol/rose-wallet-ext",
   "version": "1.14.0",
   "private": true,
   "scripts": {
