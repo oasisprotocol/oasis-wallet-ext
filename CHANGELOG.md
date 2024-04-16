@@ -1,5 +1,17 @@
 # Change Log
 
+## 1.15.0
+
+Spotlight change:
+
+- Further refinement of Oasis branding
+  ([#339](https://github.com/oasisprotocol/oasis-wallet-ext/pull/339)).
+
+Internal:
+
+- Add encrypted data type
+  ([#324](https://github.com/oasisprotocol/oasis-wallet-ext/pull/324)).
+
 ## 1.14.0
 
 Spotlight change:
