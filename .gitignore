@@ -30,4 +30,4 @@ yarn-error.log*
 __pycache__/
 
 # Ignore build releases.
-oasis-rose-wallet-*.zip
+rose-wallet-*.zip

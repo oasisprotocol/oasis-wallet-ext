@@ -24,7 +24,7 @@
       "128": "img/oasis.png",
       "512": "img/oasis.png"
 		},
-    "default_title": "Oasis ROSE Wallet",
+    "default_title": "ROSE Wallet",
     "default_popup": "popup.html"
   },
   "permissions": [
