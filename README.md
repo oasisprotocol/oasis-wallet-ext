@@ -14,6 +14,10 @@ The official non-custodial browser extension wallet for the [Oasis Network].
 ROSE Wallet - Browser Extension provides a complete solution for managing your
 ROSE tokens, including everything for convenient staking of your ROSE tokens.
 
+|     |     |     |     |     |
+| --- | --- | --- | --- | --- |
+| ![screenshot](./docs/chrome-web-store-screenshots/1.png) | ![screenshot](./docs/chrome-web-store-screenshots/2.png) | ![screenshot](./docs/chrome-web-store-screenshots/3.png) | ![screenshot](./docs/chrome-web-store-screenshots/4.png) | ![screenshot](./docs/chrome-web-store-screenshots/5.png) |
+
 ## Features
 
 ### Wallet and Accounts
