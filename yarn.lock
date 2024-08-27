@@ -3162,8 +3162,8 @@
 
 "@metamask/browser-passworder@3.0.0":
   version "3.0.0"
-  resolved "https://registry.nlark.com/@metamask/browser-passworder/download/@metamask/browser-passworder-3.0.0.tgz#c06744e66a968ffa13f70cc71a7d3b15d86b0ee7"
-  integrity sha1-wGdE5mqWj/oT9wzHGn07FdhrDuc=
+  resolved "https://registry.yarnpkg.com/@metamask/browser-passworder/-/browser-passworder-3.0.0.tgz#c06744e66a968ffa13f70cc71a7d3b15d86b0ee7"
+  integrity sha512-hD10mgvhcDkZX8wnauw8udp1K2MzcbZfrN7Yon9sQ+OqVK9kiQ4VhZAyZNZTy9KJLtfoVD9Y2F6L4gEese7hDA==
 
 "@metamask/jazzicon@2.0.0":
   version "2.0.0"
@@ -3224,7 +3224,7 @@
 
 "@oasisprotocol/client-rt@0.2.0-alpha10":
   version "0.2.0-alpha10"
-  resolved "https://registry.npmmirror.com/@oasisprotocol/client-rt/download/@oasisprotocol/client-rt-0.2.0-alpha10.tgz#72092a4676ecb2517fd0c64065def410868da1b1"
+  resolved "https://registry.yarnpkg.com/@oasisprotocol/client-rt/-/client-rt-0.2.0-alpha10.tgz#72092a4676ecb2517fd0c64065def410868da1b1"
   integrity sha512-Rl2UnqH4gehoZcfobUjzd96eDVRhWPuPBA5ewF6n9Q0jASUVvRd0d+HlvJFGn+6rcm5IwLLr33049OzCLG5YtA==
   dependencies:
     "@oasisprotocol/client" "^0.1.0-alpha7"
