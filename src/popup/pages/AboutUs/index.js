@@ -40,10 +40,6 @@ class AboutUs extends React.Component {
     </div>)
   }
 
-  onClick = (url) => {
-    openTab(url)
-  }
-
   renderWalletItem = (title, callback) => {
     return (
       <div onClick={() => {

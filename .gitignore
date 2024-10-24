@@ -31,3 +31,5 @@ __pycache__/
 
 # Ignore build releases.
 rose-wallet-*.zip
+
+.parcel-cache

@@ -15,9 +15,14 @@
   flex-direction: column;
   min-width: $app-width;
   min-height: $app-height;
+  max-width: $app-width;
+  max-height: $app-height;
 }
 body {
   margin: 0;
+  font-family: Ubuntu, Arial, sans-serif;
+  max-width: $app-width;
+  max-height: $app-height;
 }
 p {
   margin: 0;

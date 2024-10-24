@@ -1,6 +1,5 @@
 import Transport from "@ledgerhq/hw-transport-webusb";
 import OasisApp from '@oasisprotocol/ledger';
-import extension from 'extensionizer';
 
 import { LEDGER_CONNECTED_SUCCESSFULLY } from "../constant/types";
 import { getLanguage } from "../i18n";
@@ -8,6 +7,7 @@ import Loading from "../popup/component/Loading";
 import Toast from "../popup/component/Toast";
 import { publicKeyToAddress, uint2hex } from "./utils";
 import { openTab } from './commonMsg';
+import extension from "src/mockWebextension";
 
 function initLedgerWindowListener() {
   return new Promise((resolve) => {

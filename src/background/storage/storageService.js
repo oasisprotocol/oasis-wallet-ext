@@ -1,17 +1,13 @@
-import extension from 'extensionizer';
-const extensionStorage = extension.storage && extension.storage.local
+import extension from '../../mockWebextension';
 
 /**
  * Stored in local storage
  * @param {{keyringData: EncryptedData}} value
  */
 export function save(value) {
-    return extensionStorage.set(value, () => {
-        let error = extension.runtime.lastError
-        if (error) {
-            throw error;
-        }
-    });
+    Object.entries(value).forEach(([k, v]) => {
+        localStorage.setItem(k, JSON.stringify(v))
+    })
 }
 
 
@@ -22,14 +18,10 @@ export function save(value) {
  */
 export function get(key) {
     return new Promise((resolve, reject) => {
-        extensionStorage.get(key, items => {
-            let error = extension.runtime.lastError
-            if (error) {
-                reject(error);
-            }
+        resolve({
             // @ts-expect-error Forcefully extending encrypted string type
-            resolve(items);
-        });
+            [key]: JSON.parse(localStorage.getItem(key))
+        })
     });
 }
 
@@ -38,17 +30,5 @@ export function get(key) {
  * @param {'keyringData'} key
  */
 export function removeValue(key) {
-    return extensionStorage.remove(key, () => {
-        let error = extension.runtime.lastError
-        if (error) {
-            throw error;
-        }
-    });
-}
-
-/**
- * Remove all storage
- */
-export function clearStorage() {
-    extensionStorage.clear();
+    return window.localStorage.removeItem(key);
 }

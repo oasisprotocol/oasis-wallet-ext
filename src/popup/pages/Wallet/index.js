@@ -65,45 +65,6 @@ class Wallet extends React.Component {
     if(!currentAccount.evmAddress){
       this.fetchData(address, true)
     }
-    this.getDappConnect()
-  }
-  getDappConnect() {
-    let { currentAccount, currentActiveTabUrl } = this.props
-    let address = currentAccount.address
-    sendMsg({
-      action: DAPP_GET_ALL_APPROVE_ACCOUNT,
-      payload: {
-        siteUrl: currentActiveTabUrl,
-      }
-    }, (accountList) => {
-      this.dappConnectCount = accountList.length
-      if (accountList.length === 0) {
-        this.props.updateDappConnectList([])
-      } else {
-        let newAccountList = this.dappAccountSort(accountList, address)
-        let keysList = newAccountList.map((item, index) => {
-          return item.address
-        })
-        if (keysList.indexOf(address) !== -1) {
-          this.props.updateDappConnectList(newAccountList)
-        } else {
-          let current = connectAccountDataFilter(currentAccount)
-          this.props.updateDappConnectList([
-            current,
-            ...newAccountList
-          ])
-        }
-      }
-    })
-  }
-
-  dappAccountSort = (list, address) => {
-    list.map((item, index) => {
-      if (item.address === address) {
-        list.unshift(list.splice(index, 1)[0]);
-      }
-    })
-    return list
   }
 
   fetchData = async (address, firstRequest = false) => {
@@ -177,41 +138,6 @@ class Wallet extends React.Component {
       </p>
     </div>)
   }
-  renderAccountConnectStatus = (account) => {
-    let { currentAccount } = this.props
-    let address = currentAccount.address
-    let currentDappConnect = getLanguage('changeToAccount')
-    if (account.type === ACCOUNT_TYPE.WALLET_OBSERVE) {
-      currentDappConnect = getLanguage('observeAccount')
-      return (
-        <div className={"dapp-connect-current-dis"} >
-          <p className={"dapp-connect-dis-content"}>{currentDappConnect}</p>
-        </div>
-      )
-    }
-    if (account.address === address) {
-      if (account.isConnected) {
-        currentDappConnect = getLanguage("currentAccount")
-        return (
-          <p className={"dapp-connect-current"}>{currentDappConnect}</p>
-        )
-      } else {
-        currentDappConnect = getLanguage('dappDisconnect')
-        return (
-          <div className={"dapp-connect-current-dis"} >
-            <p className={"dapp-connect-dis-content"}>{currentDappConnect}</p>
-          </div>
-        )
-      }
-    } else {
-      return (
-        <div className={'click-cursor'} onClick={() => this.onClickChangeAccount(account)}>
-          <p className={"dapp-connect-item-change"}>{currentDappConnect}</p>
-        </div>
-      )
-    }
-
-  }
   /**
    * change current account
    * @param {*} account
@@ -223,50 +149,10 @@ class Wallet extends React.Component {
     }, (account) => {
       if (account.accountList && account.accountList.length > 0) {
         this.props.updateCurrentAccount(account.currentAccount)
-        sendMsg({
-          action: DAPP_CHANGE_CONNECTING_ADDRESS,
-          payload: {
-            address: account.currentAccount.address
-          }
-        }, (status) => {
-          this.getDappConnect()
-        })
-
       }
     })
   }
-  /**
-   * change account connect status
-   * @param {*} account
-   */
-  onClickConnect = (account) => {
-    let { currentAccount, currentActiveTabUrl } = this.props
-    if (account.isConnected) {
-      let address = account.address
-      sendMsg({
-        action: DAPP_DISCONNECT_SITE,
-        payload: {
-          siteUrl: currentActiveTabUrl,
-          address,
-          currentAddress: currentAccount.address
-        }
-      }, (status) => {
-        this.getDappConnect()
-        Toast.info(getLanguage('disconnectSuccess'))
-      })
-    } else {
-      sendMsg({
-        action: DAPP_ACCOUNT_CONNECT_SITE,
-        payload: {
-          siteUrl: currentActiveTabUrl,
-          account
-        }
-      }, (status) => {
-        this.getDappConnect()
-        Toast.info(getLanguage('connectSuccess'))
-      })
-    }
-  }
+
   renderDAppAccount = (account, index) => {
     let accountName = account.accountName
     let address = addressSlice(account.address, 6)
@@ -280,15 +166,8 @@ class Wallet extends React.Component {
           <div className={"dapp-connect-item-top-inner"}>
             <p className={"dapp-connect-item-name"}>{accountName}</p>
             <p className={"dapp-connect-item-address"}>{showAddress}</p>
-            {showDApp && <div className={"dapp-connect-account-container"}>
-              <p className={"dapp-connect-item-account"}>DApp</p>
-            </div>}
           </div>
-          {!isWatchAccount && <div className={"click-cursor"} onClick={() => this.onClickConnect(account)}>
-            <p className={"dapp-connect-item-status"}>{statusText}</p>
-          </div>}
         </div>
-        {this.renderAccountConnectStatus(account)}
       </div>
     )
   }

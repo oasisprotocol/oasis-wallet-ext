@@ -222,13 +222,6 @@ class AccountInfo extends React.Component {
             Toast.info(currentAccount.error)
           }
         } else {
-          sendMsg({
-            action: DAPP_DELETE_ACCOUNT_CONNECT_HIS,
-            payload: {
-              address: this.state.account.address,
-              currentAddress: currentAccount.address
-            }
-          }, (status) => { })
           Toast.info(getLanguage("deleteSuccess"))
           this.props.updateCurrentAccount(currentAccount)
           this.props.history.goBack()
