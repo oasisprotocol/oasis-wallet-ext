@@ -1,4 +1,12 @@
-# ROSE Wallet - Browser Extension
+# 🚨 Retired Project 🚨
+
+This project is no longer maintained or actively developed.
+
+[ROSE Wallet - Extension](https://chromewebstore.google.com/detail/rose-wallet/ppdadbejkmjnefldpcdjhnkpbjkikoip)
+is now built from the same [GitHub repo](https://github.com/oasisprotocol/wallet)
+as [ROSE Wallet - Web](https://wallet.oasis.io/).
+
+# Historical README
 
 [![CI lint status][github-ci-lint-badge]][github-ci-lint-link]
 
