@@ -13,7 +13,7 @@
     "moduleResolution": "node",
     "sourceMap": false,
     "strict": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "module": "es2020",
     "target": "es2020"
   }

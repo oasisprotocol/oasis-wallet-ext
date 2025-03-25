@@ -79,6 +79,7 @@
     position: fixed;
     bottom: 0px;
     width: 100%;
+    max-width: $app-width;
     justify-content: space-between;
     padding: 15px 15px;
     background-color: #f3f6ff;

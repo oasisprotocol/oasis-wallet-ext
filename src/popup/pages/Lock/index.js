@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import logo from "../../../assets/images/Rose Wallet Logo Blue cropped.svg";
 import txFailed from "../../../assets/images/txFailed.png";
 import { clearLocalExcept, getLocal } from "../../../background/storage/localStorage";
-import { clearStorage } from "../../../background/storage/storageService";
 import { NETWORK_CONFIG } from "../../../constant/storageKey";
 import { RESET_WALLET, WALLET_APP_SUBMIT_PWD } from "../../../constant/types";
 import { getLanguage } from "../../../i18n";
@@ -186,7 +185,6 @@ class LockPage extends React.Component {
                 action: RESET_WALLET,
             }, () => {
                 //1, delete extension storage
-                clearStorage()
                 //2, delete local storage except net-config
                 clearLocalExcept(NETWORK_CONFIG)
                 //3, clear all redux

@@ -1,4 +1,4 @@
-import extension from 'extensionizer'
+import extension from 'src/mockWebextension';
 import { QUERY_TAB_TYPE } from '../constant/specifyType';
 /**
  * Encapsulation class for sending messages
@@ -6,15 +6,10 @@ import { QUERY_TAB_TYPE } from '../constant/specifyType';
  * @param {*} sendResponse
  */
 export function sendMsg(message, sendResponse) {
-  const { messageSource, action, payload } = message
-  extension.runtime.sendMessage(
-    {
-      messageSource, action, payload
-    },
-    async (params) => {
-      sendResponse && sendResponse(params)
-    }
-  );
+  const { action, payload } = message
+  extension.runtime.sendMessage({ action, payload }, async (params) => {
+    sendResponse && sendResponse(params)
+  });
 }
 
 
@@ -23,9 +18,7 @@ export function sendMsg(message, sendResponse) {
  * @param {*} url
  */
 export function openTab(url) {
-  extension.tabs.create({
-    url: url,
-  });
+  open(url, '_blank')
 }
 
 
@@ -37,35 +30,6 @@ export function openTab(url) {
 
 export function getActiveTab(type, params) {
   return new Promise((resolve, reject) => {
-    // 1. 获取当前活跃tab URL 直接调用
-    // 2. 获取所以tab
-    // 3，根据windowId 查询tab
-    let queryParams
-    switch (type) {
-      case QUERY_TAB_TYPE.GET_CURRENT_ACTIVE_TAB:
-        queryParams = {
-          active: true,
-          currentWindow: true
-        }
-        break;
-      case QUERY_TAB_TYPE.GET_ACTIVE_TAB_BY_URL:
-        queryParams = {
-          active: true,
-          url: params?.origin ? params.origin + "/*" : undefined,
-        }
-        break
-      case QUERY_TAB_TYPE.GET_TAB_BY_WINDOW_ID:
-        queryParams = {
-          windowId: params.windowId
-        }
-        break
-      default:
-        break;
-    }
-    extension.tabs.query({
-      ...queryParams
-    }, function (tabs) {
-      resolve(tabs)
-    })
+    resolve([])
   })
 }

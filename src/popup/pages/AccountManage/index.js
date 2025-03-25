@@ -102,12 +102,6 @@ class AccountManagePage extends React.Component {
             evmAccountList:list.evmList,
             currentAddress: item.address
           })
-          sendMsg({
-            action: DAPP_CHANGE_CONNECTING_ADDRESS,
-            payload: {
-              address: account.currentAccount.address
-            }
-          }, (status) => {})
         }
       })
     }
